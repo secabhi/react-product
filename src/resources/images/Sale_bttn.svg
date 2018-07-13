@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #613b8c;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-3, .cls-6 {
+        stroke-width: 1.5px;
+      }
+
+      .cls-3, .cls-6 {
+        stroke-linecap: round;
+      }
+
+      .cls-4 {
+        stroke-width: 0.8px;
+      }
+
+      .cls-5 {
+        stroke-width: 1.2px;
+      }
+
+      .cls-6 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Sale_bttn" transform="translate(-368 -319)">
+    <ellipse id="Sale_bttn-2" data-name="Sale_bttn" class="cls-1" cx="75" cy="75" rx="75" ry="75" transform="translate(368 319)"/>
+    <path id="Path_3727" data-name="Path 3727" class="cls-2" d="M501.009,313.231l-3.974-27.514a2.652,2.652,0,0,0-.306-.713.6.6,0,0,0-.611-.2H456.579a1.006,1.006,0,0,0-.611.2,2.65,2.65,0,0,0-.306.713L447,345.126a1.283,1.283,0,0,0,.1.815c.2.306.815.2.815.2h56.658s.611,0,.815-.2a.825.825,0,0,0,.1-.815l-1.529-10.394" transform="translate(-39.156 74.757)"/>
+    <path id="Path_3728" data-name="Path 3728" class="cls-3" d="M486.18,292.3v7.439c-.1,3.77-.51,10.6-10.19,10.6s-10.088-6.827-10.19-10.6V292.3" transform="translate(-38.798 74.9)"/>
+    <path id="Path_3729" data-name="Path 3729" class="cls-2" d="M494.8,314.159l22.113-2.955s2.14-.408,2.649-.1c.408.306.611,1.732.611,1.732l2.038,16.2a3.178,3.178,0,0,1-.2,1.529c-.306.408-1.427.611-1.427.611l-23.641,2.955" transform="translate(-38.246 75.255)"/>
+    <line id="Line_431" data-name="Line 431" class="cls-4" y1="2.548" x2="20.279" transform="translate(457.369 390.739)"/>
+    <line id="Line_432" data-name="Line 432" class="cls-4" y1="2.242" x2="18.342" transform="translate(457.776 394.612)"/>
+    <path id="Path_3730" data-name="Path 3730" class="cls-5" d="M515.026,327.165l-4.789.611a1.8,1.8,0,0,1-1.936-1.529h0a1.8,1.8,0,0,1,1.529-1.936l4.789-.611a1.8,1.8,0,0,1,1.936,1.529h0A1.8,1.8,0,0,1,515.026,327.165Z" transform="translate(-37.99 75.497)"/>
+    <path id="Path_3731" data-name="Path 3731" class="cls-6" d="M494.668,310.1l-3.668.306,3.159,28.329,4.586-.509" transform="translate(-38.319 75.239)"/>
+  </g>
+</svg>

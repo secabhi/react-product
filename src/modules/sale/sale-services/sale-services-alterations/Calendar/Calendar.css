@@ -1,0 +1,114 @@
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 650px;
+    background-color: #fafafa;
+}
+
+.calendar-header {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+    color: white;
+    background-color: #4b2b6f;
+    width: 500px;
+    height: 90px;
+    font-size: 38px;
+    
+}
+
+/* .calendar-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    height: 120px;
+    justify-content: center;
+} */
+
+.calendar-btn-container {
+    display: flex;
+    font-size: 24px;
+    margin: 40px 0 0 63px;
+}
+
+.calendar-btn-ok {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 60px;
+    color: white;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+}
+
+.calendar-btn-cancel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    height: 60px;
+    color:  #4b2b6f;
+    border: solid 2px #613b8c;
+    text-align: center;
+    margin-right: 40px;
+}
+
+
+@media only screen and (max-width: 1080px)  {
+    .calendar-container {
+        display: flex;
+        flex-direction: column;
+        width: 800px;
+        height: 1210px;
+        background-color: #fafafa;
+        box-shadow: 0 19px 38px 0 rgba(0, 0, 0, 0.5);
+        margin: auto !important;
+    }
+
+    .calendar-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 90px;
+        color: white;
+        background-color: #4b2b6f;
+        width: 800px;
+        height: 180px;
+        font-size: 68px;
+        font-weight: 300;  
+    }
+
+    .calendar-footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* width: auto;
+        height: auto; */
+    }
+    
+    .calendar-btn-container {
+        display: flex;
+        font-size: 44px;
+    }
+    
+    .calendar-btn-ok {
+        width: 304px;
+        height: 120px;
+        color: white;
+        background-color: #4b2b6f;
+        border: solid 2px #4b2b6f;
+    }
+    
+    .calendar-btn-cancel {
+        width: 375px;
+        height: 120px;
+        color: #4b2b6f;
+        border: solid 2px #613b8c;
+        text-align: center;
+        margin-right: 40px;
+    }
+
+}

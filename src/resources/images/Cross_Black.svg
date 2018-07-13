@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.95 26.95">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #828282;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 3.5px;
+      }
+    </style>
+  </defs>
+  <g id="Cross_Black" transform="translate(-1050.525 -829.525)">
+    <line id="Line_604" data-name="Line 604" class="cls-1" x2="22" y2="22" transform="translate(1053 832)"/>
+    <line id="Line_605" data-name="Line 605" class="cls-1" x1="22" y2="22" transform="translate(1053 832)"/>
+  </g>
+</svg>

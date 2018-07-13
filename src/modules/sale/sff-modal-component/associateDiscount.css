@@ -1,0 +1,63 @@
+.associateDiscount-sff {
+    margin-left: 80px;
+    margin-top: 10px;
+    font-family: Roboto;
+}
+
+.associateDiscount-title {
+    font-size: 60px;
+    font-weight: 300px;
+}
+
+associateDiscount-input {
+    font-size: 48px;
+}
+
+.associate-label {
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.asd-show-label {
+  visibility: visible;
+}
+
+.asd-hide-label {
+  visibility: hidden;
+}
+
+.asd-buttons-container {
+    margin: 0, auto;
+}
+
+.asd-cancel-btn-flex {
+    display: flex;
+    width: 375px;
+    height: 120px;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    color: white;
+    font-size: 44px;
+}
+  
+.asd-cancel-text {
+  font-size: 44px;
+  font-weight: normal;
+}
+
+.asd-ok-btn-flex {
+  width: 304px;
+  height: 120px;
+  background-color: #4b2b6f;
+}
+
+.asd-ok-text {
+    font-size: 44px;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.asd-cancel-img {
+    height: 47.3px;
+    width: 47.3;
+}

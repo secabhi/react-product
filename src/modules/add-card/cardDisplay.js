@@ -1,0 +1,37 @@
+import React from 'react';
+import addcardselected from '../../resources/images/Add_Card_Selected.svg';
+import cardblack from '../../resources/images/Add_Card_Black.svg';
+import deletepurple from '../../resources/images/Delete_Purple.svg';
+import visa from '../../resources/images/Visa.svg';
+import mastercard from '../../resources/images/Mastercard.svg';
+import cards from '../../resources/images/Add_Card.svg';
+import deletebutton from '../../resources/images/Delete_Purple.svg'
+import './addCard.css'
+
+export default(props) => {
+    const {cardNumber, firstName, lastName, cardType} = props;
+    const cardImagePaths = {
+        visa,
+        mastercard
+    }
+    return (
+        <div className="card-layout-main">
+            <div className="card-layout-details">
+                <div className="card-icon-div">
+                    <img src={visa} className="card-icon"/>
+                </div>
+                <div className="card-layout-text">
+                    <label className="card-cust-name-text">{firstName}</label>
+                    <div className="card-cust-number">
+                        <div className="card-number-star-text">****</div>
+                        <div className="card-number-text">{cardNumber}</div>
+                    </div>
+                </div>
+            </div>
+            {/* commented out because delete card is not in scope for phase 1  */}
+            {/* <div className="card-layout-delete">
+                      <img src={deletebutton} className="delete-icon"/>
+                  </div> */}
+        </div>
+    )
+}

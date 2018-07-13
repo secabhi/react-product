@@ -1,0 +1,633 @@
+.common-header {
+  width: 1920px;
+  height: 70px;
+  background-color: #ffffff;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.common-footer {
+  width: 1920px;
+  height: 125px;
+  background-color: #ffffff;
+  box-shadow: 0 -4px 6px 0 #d3d3d3;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+
+/*----------SERVICES MODALS---------- */
+
+/* ALTERATION MODALS */
+.contact-modal-icon,
+.alteration-modal-icon, 
+.customer-modal-icon,
+.alteration-succes-modal-icon,
+.options-modal-icon,
+.message-prompt-icon,
+.giftwrap-message-icon {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  margin-top: 80px;
+  margin-bottom: 25px;
+}
+
+.contact-modal-label,
+.alteration-modal-label, 
+.customer-modal-label {
+  width: 294px;
+  height: 43px;
+  font-family: Roboto;
+  font-size: 38px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.34;
+  letter-spacing: normal;
+  text-align: center;
+  color: #333333;
+  margin: 0 auto;
+  margin-bottom: 62px;
+}
+
+.contact-modal-textfield,
+.alteration-modal-textfield {
+  width: 620px !important;
+  margin: 0px 52px 40px 52px !important;
+}
+
+.scan-item-img {
+  width: 60px;
+  height: 55px;
+  z-index: 0;
+  position: absolute;
+  top: 350px;
+  left: 610px;
+}
+
+.contact-modal-button-container,
+.alteration-modal-button-container,
+.customer-modal-button-container,
+.options-modal-button-container,
+.message-modal-button-container,
+.message-modal-button-container,
+.giftwrap-modal-button-container {
+  display: flex;
+  text-transform: uppercase;
+}
+
+.contact-modal-button-container {
+  margin-top: 100px;
+}
+
+.contact-modal-button-cancel,
+.contact-modal-button-ok,
+.alteration-modal-button-cancel,
+.alteration-modal-button-ok,
+.giftwrap-modal-button-cancel,
+.giftwrap-modal-button-ok,
+.customer-modal-button-no,
+.customer-modal-button-yes,
+.options-modal-button-no,
+.options-modal-button-yes,
+.message-modal-button-no,
+.message-modal-button-yes {
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-modal-button-cancel,
+.alteration-modal-button-cancel,
+.giftwrap-modal-button-cancel {
+  width: 180px;
+  color: #613b8c;
+  border: solid 2px #613b8c;
+  margin-left: 170px;  
+  background-color: #ffffff;
+}
+
+.contact-modal-button-ok,
+.alteration-modal-button-ok,
+.giftwrap-modal-button-ok {
+  width: 155px;
+  color: #fff;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px; 
+}
+
+.calendar-img {
+  width: 60px;
+  height: 55px;
+  z-index: 0;
+  position: absolute;
+  top: 615px;
+  left: 610px;
+}
+
+/* CUSTOMER DETAILS MODAL */
+
+.customer-modal-textfield {
+  width: 620px !important;
+  margin: -15px 52px 40px 52px !important;
+}
+
+.customer-modal-button-no {
+  width: 155px;
+  color: #613b8c;
+  border: solid 2px #613b8c;  
+  margin-left: 192px;
+}
+
+.customer-modal-button-yes {
+  width: 155px;
+  color: #fff;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px;
+}
+
+/* ALTERATION SUCCESS MODAL */
+ 
+.alteration-success-label {
+  width: 378px;
+  height: 85px;
+  font-family: Roboto;
+  font-size: 30px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: center;
+  color: #333333;
+  margin-left: 173px;
+}
+
+.alteration-success-link {
+  /* width: 200px; */
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #613b8c;
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin: 30px 0 20px 510px;  
+}
+
+.alteration-success-button-container {
+  width: 725px;
+  height: 54px;
+  background-color: #4b2b6f;
+  border: solid 1px #a87ed6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.alteration-success-ok {
+  width: 32px;
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  color: #ffffff;
+}
+
+/* ----------GIFT WRAP MODALS---------- */
+
+.options-modal-label {
+  width: 380px;
+  height: 43px;
+  font-family: Roboto;
+  font-size: 38px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.34;
+  letter-spacing: normal;
+  text-align: center;
+  color: #3a3a3a;
+  margin: 0 auto;
+  margin-top: 70px;
+  margin-bottom: 123px;
+}
+
+.options-modal-button-no,
+.message-modal-button-no  {
+  width: 155px;
+  color: #613b8c;
+  border: solid 2px #613b8c;  
+  margin-left:192px;
+}
+
+.options-modal-button-yes,
+.message-modal-button-yes {
+  width: 155px;
+  color: #fff;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px;
+}
+
+/* MESSAGE PROMPT MODAL */
+
+.message-prompt-label {
+  width: 390px;
+  height: 102px;
+  font-family: Roboto;
+  font-size: 38px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.37;
+  letter-spacing: normal;
+  text-align: center;
+  color: #3a3a3a;
+  margin: 50px auto 88px auto;
+}
+
+/* GIFT WRAP MESSAGE MODAL */
+
+.giftwrap-message-label {
+  width: 191px;
+  height: 43px;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.34;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  margin: 0 auto 37px auto;
+}
+
+.giftwrap-modal-maxchar {
+  /* width: 323px; */
+  height: 37px;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.32;
+  text-align: left;
+  color: #333333;
+  margin: 0 0 50px 58px;
+}
+
+.giftwrap-message-textarea {
+  width: 620px !important;
+  margin: 0px 0px 10px 25px !important;
+  border: solid 1px #707070;
+}
+
+
+  input[type="date"]:focus::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none !important;
+     display: none !important;
+}
+
+/* ----------SMALL FORM FACTOR---------- */
+
+@media only screen and (max-width: 1080px) {
+  .common-header {
+    width: 1080px;
+    height: 160px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between  
+  }  
+  
+  .common-footer {
+    width: 1080px;
+    height: 200px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  /* ALTERATION MODALS */
+  .contact-modal-icon,
+  .alteration-modal-icon, 
+  .customer-modal-icon ,
+  .options-modal-icon,
+  .message-prompt-icon,
+  .giftwrap-message-icon {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 140px;
+    margin-bottom: 25px;
+  }
+
+  .contact-modal-label,
+  .alteration-modal-label, 
+  .customer-modal-label,
+  .giftwrap-message-label,
+  .message-prompt-label {
+    width: 574px;
+    height: 98px;
+    font-family: Roboto;
+    font-size: 74px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin: 0 auto;
+    margin-bottom: 62px;
+  }
+
+  .contact-modal-textfield,
+  .alteration-modal-textfield {
+    width: 738px !important;
+    margin: 0px 75px 40px 75px !important;
+  }
+
+  .scan-item-img {
+    width: 100px;
+    height: 90px;
+    z-index: 0;
+    position: absolute;
+    top: 635px;
+    left: 704px;
+  }
+
+  .alteration-modal-textfield {
+    width: 738px !important;
+    margin: 0px 52px 40px 52px;
+  }
+
+  .contact-modal-button-container,
+  .alteration-modal-button-container,
+  .customer-modal-button-container {
+    display: flex;
+    text-transform: uppercase;
+  }
+  
+
+  .contact-modal-button-cancel,
+  .contact-modal-button-ok,
+  .alteration-modal-button-cancel,
+  .alteration-modal-button-ok,
+  .customer-modal-button-no,
+  .customer-modal-button-yes,
+  .giftwrap-modal-button-cancel,
+  .giftwrap-modal-button-ok,
+  .customer-modal-button-no,
+  .customer-modal-button-yes,
+  .options-modal-button-no,
+  .options-modal-button-yes,
+  .message-modal-button-no,
+  .message-modal-button-yes,
+  .giftwrap-modal-button-ok,
+  .giftwrap-modal-button-cancel {
+    height: 120px;
+    font-size: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-modal-button-cancel,
+  .alteration-modal-button-cancel {
+    width: 375px;
+    color: #613b8c;
+    border: solid 2px #613b8c;
+    margin: 60px 0 0 80px;  
+  }
+
+  .contact-modal-button-ok,
+  .alteration-modal-button-ok {
+    width: 304px;
+    color: #fff;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    margin: 60px 0 0 50px; 
+  }
+
+  .calendar-img {
+    width: 100px;
+    height: 90px;
+    z-index: 1;
+    position: absolute;
+    top: 970px;
+    left: 690px;
+  }
+
+
+/* CUSTOMER DETAILS MODAL */
+
+  .customer-modal-textfield {
+    width: 738px !important;
+    margin: 50px 72px 40px 72px !important;
+  }
+
+  .customer-modal-button-no {
+    width: 310px;
+    color: #613b8c;
+    border: solid 2px #613b8c;  
+    margin: 60px 0 0 95px;
+  }
+
+  .customer-modal-button-yes {
+    width: 310px;
+    color: #fff;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    margin: 60px 0 0 80px;
+  }
+
+/* ALTERATION SUCCESS MODAL */
+
+  .alteration-succes-modal-icon {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 343px;
+    margin-bottom: 120px;
+  }
+
+  .alteration-success-label {
+    width: 741px;
+    height: 183px;
+    font-family: Roboto;
+    font-size: 60px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-left: 75px;
+}
+
+  .alteration-success-link {
+    width: 400px;
+    height: 63px;
+    font-family: Roboto;
+    font-size: 48px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c; 
+    margin: 80px 0 168px 260px;
+  }
+  .alteration-success-button-container {
+    width: 890px;
+    height: 170px;
+    background-color: #4b2b6f;
+    border: solid 1px #a87ed6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .alteration-success-ok {
+    width: 74px;
+    height: 74px;
+    font-family: Roboto;
+    font-size: 56px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #ffffff;
+  }
+
+  /* ----------GIFT WRAP MODAL---------- */
+
+  /* OPTIONS MODAL */
+
+  .options-modal-label {
+    width: 548px;
+    height: 79px;
+    font-family: Roboto;
+    font-size: 60px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #3a3a3a;
+    margin-top: 200px;
+  }
+
+  .options-modal-button-container {
+    display: flex;
+    text-transform: uppercase;
+    margin-top: 100px;
+  }
+
+  .options-modal-button-no,
+  .message-modal-button-no  {
+    width: 310px;
+    color: #613b8c;
+    border: solid 2px #613b8c;  
+    margin-left: 95px;
+  }
+
+  .options-modal-button-yes,
+  .message-modal-button-yes {
+    width: 310px;
+    color: #ffffff;
+    border: solid 2px #613b8c;  
+    margin-right: 95px;
+  }
+
+  /* MESSAGE PROMO MODAL */
+  .message-prompt-label {
+    width: 616px;
+    height: 161px;
+    font-family: Roboto;
+    font-size: 60px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-top: 150px;
+  }
+
+  .message-modal-button-container {
+    display: flex;
+    text-transform: uppercase;
+    margin-top: 150px;
+  }
+
+  /* GIFT MESSAGE  MODAL */
+  .giftwrap-message-textfield {
+    width: 728px !important;
+    height: 435px !important;
+    margin: 0px 80px 10px 80px !important;
+    border: solid 1px #707070;
+  }
+
+  .giftwrap-message-textarea {
+    width: 728px !important;
+    margin: 0px 0px 10px 50px !important;
+    /* border: solid 1px #707070; */
+  }
+
+  .giftwrap-modal-maxchar {
+    width: 500px;
+    height: 37px;
+    font-family: Roboto;
+    font-size: 40px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    text-align: left;
+    color: #333333;
+    margin: 0 0 92px 80px;
+  }
+
+  .giftwrap-modal-button-cancel {
+    width: 375px;
+    color: #613b8c;
+    border: solid 2px #613b8c;
+    margin: 30px 0 0 80px;  
+  }
+
+  .giftwrap-modal-button-ok {
+    width: 304px;
+    color: #fff;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    margin: 30px 0 0 50px; 
+  }
+
+}

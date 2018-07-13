@@ -1,0 +1,20 @@
+{
+    "transactionId":"0005",
+    "originalTranId":"0004",
+    "response_code":0,
+    "response_text":"PV_SUCCESS",
+    "TenderInfo":[
+       {
+          "TenderType":1,
+          "TenderAmount":44152,
+          "AurusTransactionIdentifier":"",
+          "Aurus_WhizTicketNum":""
+       },
+       {
+          "TenderType":2,
+          "TenderAmount":27014,
+          "AurusTransactionIdentifier":"",
+          "Aurus_WhizTicketNum":""
+       }
+    ]
+ }

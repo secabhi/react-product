@@ -1,0 +1,453 @@
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.sale-item-gift-receipt-container {
+    padding: 0px !important;
+    height: 575px !important;
+    width: 725px !important;
+    margin: auto;
+    /* margin-top: -32px; */
+    display: flex;
+    flex-direction: column;
+}
+
+.sale-item-gift-receipt-remove-container {
+    padding: 0px !important;
+    height: 575px !important;
+    width: 725px !important;
+    margin: auto;
+    /* margin-top: -32px; */
+    display: flex;
+    flex-direction: column;
+}
+
+.sale-item-gift-receipt-icon {
+    width: 120px;
+    height: 120px;
+    margin-top: 80px;
+    margin-left: 302px;
+    margin-right: 303px;
+}
+.sale-item-gift-receipt-remove-icon {
+    width: 101px;
+    height: 90px;
+    margin-top: 96px;
+    margin-left: 312px;
+}
+.sale-item-gift-receipt-label {
+    width: 169px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 275px;
+    margin-right: 281px;
+    margin-top: 25px;
+}
+
+.sale-item-gift-receipt-remove-label {
+    width: 169px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 275px;
+    margin-right: 281px;
+    margin-top: 25px;
+}
+
+.sale-item-gift-receipt-content {
+    width: 462px;
+    height: 86px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    text-align: center;
+    color: #707070;
+    margin-left: 131px;
+    margin-right: 132px;
+    margin-top: 55px;
+}
+
+.sale-item-gift-receipt-remove-content {
+    width: 462px;
+    height: 129px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    text-align: center;
+    color: #707070;
+    margin-left: 131px;
+    margin-right: 132px;
+    margin-top: 34px;
+}
+
+/*.sale-item-gift-receipt-remove-label {
+
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    margin-top: 106px;
+    text-align: center;
+    color: #333333;
+}*/
+
+.Cancel_Purple_SFF {
+    padding: 13px;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    float: left;
+}
+
+.sale-item-gift-receipt-cancel {
+    position: fixed;
+    margin: 75px 0px 0px 160px;
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+}
+.sale-item-gift-receipt-remove-cancel {
+    position: fixed;
+    margin: 75px 0px 0px 160px;
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    display: flex;
+    
+
+}
+
+.sale-item-gift-receipt-cancel-btn {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+    margin-top: 14px;
+}
+
+.sale-item-gift-receipt-remove-cancel-btn {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    /*letter-spacing: 4px;*/
+    text-align: left;
+    color: #613b8c;
+    margin-top: 14px;
+}
+
+.sale-item-gift-receipt-ok {
+    margin: 76px 160px 0px;
+    width: 180px;
+    height: 65px;
+    background: #613b8c;
+    border: solid 2px #613b8c;
+    float: right;
+    color: #fff;
+    font-size: 24px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+}
+
+.sale-item-gift-receipt-remove-ok {
+    margin: 76px 160px 0px;
+    width: 180px;
+    height: 65px;
+    background: #613b8c;
+    border: solid 2px #613b8c;
+    float: right;
+    color: #fff;
+    font-size: 24px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+}
+
+
+
+
+.sale-item-gift-receipt-remove-ok {
+    margin: 120px 160px 0px;
+    width:155px;
+    height: 60px;
+    background: #613b8c;
+    border: solid 2px #613b8c;
+    float: right;
+    color: #fff;
+    font-size: 24px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+}
+
+
+
+
+.sale-item-gift-receipt-buttons-lff {
+    margin-left: 175px !important;
+    display: flex;
+    margin-top: 56px;
+}
+
+.sale-item-gift-receipt-remove-buttons-lff {
+    margin-left: 175px !important;
+    display: flex;
+    margin-top: 34px;
+}
+
+.sale-item-gift-receipt-buttons-lff .sale-item-gift-receipt-cancel {
+    margin: 0;
+    margin-right: 40px !important;
+    position: initial;
+    margin-right: 40px;
+
+}
+
+.sale-item-gift-receipt-remove-buttons-lff .sale-item-gift-receipt-remove-cancel {
+    margin: 0;
+    margin-right: 40px !important;
+    position: initial;
+    margin-right: 40px;
+
+}
+
+.sale-item-gift-receipt-ok
+{
+    margin: 0 !important;
+    width:155px !important;
+    
+}
+
+.sale-item-gift-receipt-remove-ok
+{
+    margin: 0 !important;
+    width:155px !important;
+    
+}
+@media only screen and (width: 1080px) {
+    
+    .sale-item-gift-receipt-buttons.trans-modify-buttons-sfff {
+        margin-top: 530px !important;
+    }
+    .sale-item-gift-receipt-container-remove .sale-item-gift-receipt-buttons.trans-modify-buttons-sfff
+    {
+        margin-top: 480px !important;
+    }
+   /* .sff-receipt
+    {
+        padding-left: 41px !important;
+    }*/
+    img.gift-receipt-scan {
+        width: 98px !important;
+        height: 88px !important;
+        bottom: 0 !important;
+        top: 91px;
+    }
+    .sale-item-gift-receipt-label {
+        width: 682px;
+        height: 79px;
+        font-family: Roboto;
+        font-size: 60px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #505050;
+        margin-left: 30px !important;
+        margin-top: 0px !important;
+        /*margin-right: 281px;*/
+        /*margin-top: 50px !important;*/
+    }
+    .sale-item-gift-receipt-content
+    {
+        width: 794px !important;
+        height: 120px !important;
+    font-family: Roboto;
+    font-size: 46px !important;
+    font-weight: normal !important;
+    text-align: center !important;
+    color: #707070;
+    margin-left: 93px !important;
+    margin-right: 132px !important;
+    margin-top: 256px !important;
+    }
+    .sale-item-gift-receipt-container {
+        padding: 50px !important;
+        height: auto !important;
+        width: auto !important;
+        margin: auto;
+        /* margin-top: -32px; */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .sale-item-gift-receipt-content-remove
+    {
+        width: 904px !important;
+    font-family: Roboto;
+    font-size: 46px !important;
+    font-weight: normal !important;
+    text-align: center !important;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    margin-left: 38px !important;
+    margin-right: 132px !important;
+    margin-top: 256px !important;
+    }
+    .sale-item-gift-receipt-container-remove {
+        padding: 50px !important;
+        height: auto !important;
+        width: auto !important;
+        margin: auto;
+        /* margin-top: -32px; */
+        color: #707070;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Cancel_Purple_SFF {
+        padding: 13px;
+        width: 47.3px;
+        height: 47.3px;
+        -o-object-fit: contain;
+        object-fit: contain;
+        float: left;
+        margin-left: 44px;
+        margin-top: 25px;
+    }
+    .SaleitemDetails {
+        width: auto;
+        height: 316px;
+        box-shadow: 0 0 6px 0 #613b8c;
+        background-color: rgba(168, 126, 214, 0.02);
+        border: solid 5px #a87ed6;
+        display: flex;
+    }
+    .sale-item-gift-receipt-canceldiv {
+        width: 375px;
+        height: 120px;
+        border: solid 4px #612e9b;
+        margin-left:10%;
+    }
+    .sale-item-gift-receipt-cancel-btn {
+        width: 165px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        /* text-align: left; */
+        color: #612e9b;
+        margin-top: 31px;
+        /* margin-left: 71px; */
+        margin-right: 66px;
+        float: right;
+    }
+    .sale-item-gift-receipt-ok-btn {
+        width: 304px;
+        height: 120px;
+        background: #613b8c;
+        border: solid 2px #613b8c;
+        float: right;
+        color: #fff;
+        font-size: 44px;
+        font-family: Roboto;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        margin-left: 50px;
+    }
+    .sale-item-gift-receipt-ok-btn:disabled {
+        width: 304px;
+        height: 129px;
+        border: 2px solid #4b2b6f;
+        background-color: #4b2b6f;
+        color: #fff;
+        font-size: 52px;
+    }
+    .sale-item-gift-receipt-buttons {
+        box-shadow: 0 -2px 15px 0 #656565;
+        background-color: #ffffff;
+        background-color: var(--white);
+        padding: 60px;
+        display: -ms-flexbox;
+        display: flex;
+        margin-top: 461px !important;
+        margin-left: -54px;
+        width: 100%;
+    }
+    .sale-item-gift-receipt-error {
+        position: fixed;
+        font-family: Roboto;
+        font-size: 45px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        text-align: right;
+        color: #d53560;
+        margin-left: 13%;
+        margin-top: 20px;
+    }
+    #sale-item-gift-receipt-error{
+        display:none;
+    }
+}
+.sale-sff-item-modify-container .item-index {
+    background-color: #a87ed6;
+    border: solid 2px #ededed;
+}
+img.gift-receipt-scan {
+    width: 50px;
+    position: relative;
+    right: 46px;
+    float: right;
+    bottom: 69px;
+}

@@ -1,0 +1,42 @@
+.recommendSlide {
+    width: 167px !important;
+    height: 249px !important;
+    border : 1px solid black;
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 18px;
+  }
+  
+  .recommendSlide .img {
+    width: 137px;
+    height: 166px;
+    margin: auto;
+    margin-top: 15px;
+  }
+
+  .recommendSlide .img-details {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: normal;
+  width: 137px;
+  height: 42px;
+  text-align: center;
+  margin: auto;
+}
+
+.img-details .brand {
+  font-weight: 500;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+ .reccomendSlide .descrip {
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

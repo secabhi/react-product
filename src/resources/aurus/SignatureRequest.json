@@ -1,0 +1,13 @@
+{
+  "SignatureRequest": {
+    "POSID": "005402",
+    "APPID": "402",
+    "CCTID": "402",
+    "TransactionIdentifier": "",
+    "SignUploadFlag": "Y",
+    "SignatureData": "",
+    "HeaderLine": "Please Sign Here",
+    "CustomDisplay1": "CustomDisplayMessage1",
+    "CustomDisplay2": "CustomDisplayMessage2"
+  }
+}

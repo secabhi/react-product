@@ -1,0 +1,390 @@
+/* -------------- FORM-OUT SECTION ------------- */
+.update-cust-editprofile{
+    max-height: 150px;
+    display: flex;
+}
+.update-customer-international{
+    width: 1820px;
+    height: 860px;
+    box-shadow: 0 3px 6px 0 #aaaaaa;
+    background-color: #ffffff;
+    border: solid 1px #d3d3d3;
+    margin-left: 50.5px;
+    overflow: hidden;
+  
+}
+.selectDropDownSvgIcon
+{
+    fill: none;
+    stroke: #505050;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-miterlimit: 10;
+    stroke-width: 1.5px;
+    width: 20.3px;
+    margin-left: 10px;
+  height: 10.1px;
+}
+.update-intcust-customertext-correction{
+    width: 360px;
+    height: 61px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+    margin-top:30px;
+    margin-bottom: 30px;
+    margin-left: 40.5px;
+    
+}
+.update-custint-inputarea{
+    display: flex;
+    flex-direction: column;
+}
+.update-custint-row1{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    margin-top: 55.5px;
+    margin-left: 30px;
+}
+.update-custint-row1 .field1 {
+    flex: 1;
+    max-width: 145px;
+    width: 145px;
+    margin-top: 15px;
+}
+
+.update-custint-row1 .field2 {
+    flex: 1;
+    margin-left: 50px;
+    max-width:360px;
+    width: 360px;
+}
+
+.update-custint-row1 .field3 {
+    flex: 1;
+    margin-left: 50px;
+    max-width:553px;
+    width:553px;
+}
+
+.update-custint-row1 .field4 {
+    flex: 1;
+    margin-left: 50px;
+    max-width: 553px;
+}
+field3.zip_field {
+    width: 283px;
+    max-width: 283px;
+}
+.update-custint-row2{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    padding-top: 56.5px;
+}
+.update-custint-row2 .field1 {
+    flex: 1;
+    margin-left: 30px;
+    max-width:553px;
+    width:553px;
+}
+
+.update-custint-row2 .field2 {
+    flex: 1;
+    margin-left: 50px;
+    max-width:553px;
+    width:553px;
+}
+.update-custint-row2 .field3 {
+    flex: 1;
+    margin-left: 50px;
+    max-width:553px;
+    width:553px;
+}
+.update-custint-row3{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    padding-top: 57.5px;
+}
+.update-custint-row3 .field1 {
+    flex: 1;
+    margin-left: 30px;
+    max-width:553px;
+    width:553px;
+}
+.update-custint-row3 .field2 {
+    flex: 1;
+    margin-left: 50px;
+    max-width:151px;
+    width:151px;
+    margin-top: 15px;
+}
+.update-custint-row3 .field3 {
+    flex: 1;
+    margin-left: 50px;
+    max-width:252px;
+    width: 252px;
+}
+.update-custint-row3 .field4 {
+    flex: 1;
+    margin-left: 151px;
+    max-width:553px;
+    width:553px;
+}
+/* -------------- FOOTER BUTTON SECTION ------------- */
+.update-custint-buttonfooter{
+    position: fixed;
+    bottom: 145px;
+    width: 94%;
+}
+.update-custint-verifybtn-div{
+    float: right;
+    margin-right: 10px;
+}
+.update-custint-reset-div{
+    float: right;
+    margin-right: 40px;
+}
+.update-custint-verifybtn{
+    width: 165px;
+    display: flex;
+    height: 60px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    text-align: left;
+    justify-content: space-evenly;
+    color: #fff;
+    background-color: #4b2b6f;
+}
+.update-custint-resetbtn{
+    display: flex;
+    width: 208px;
+    height: 60px;
+    color: #612e9b;
+    background-color: #fff;
+    border: 2px solid #612e9b;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    justify-content: space-evenly;
+    line-height: 1.21;
+    text-align: left;
+    color: #612e9b;
+}
+.update-custint-clearicon{
+    width: 27px;
+    height: 26.3px;
+}
+.update-custint-reseticon{
+    width: 27px;
+    height: 26.3px;
+}
+.update-intcust-editHeader{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
+.update-intcust-backiconCls{
+    width: 20px;
+    margin-left: 50.5px;
+    height: 40px;
+}
+/* ------------ GENERAL - INPUT AREA -----------------*/
+
+input[type=text],
+input[type=number] {    
+    border: none;
+    border-bottom: 0.8px solid #828282;
+    width: 100%;
+    font-size: 16px;
+    color: #505050;
+}
+
+.label-area {
+    font-size: 12px;
+    color: #828282;
+    flex:1;
+    display: flex;
+    height: 35px;
+    max-height: 35px;
+}
+
+.input-area {
+    font-size: 16px;
+    height: 35px;
+    max-height: 35px;    
+    flex:1;
+    display: flex;
+}
+
+
+input:focus { 
+    border:none;
+    outline: none;
+    border-bottom: 0.8px solid royalblue;  
+}
+
+.add-dom-cust-modal-ok-btn {
+    width: 725px;
+    height: 54px;
+    /* margin-top: 30.5px; */
+    cursor: pointer;
+    background-color: #4b2b6f;
+    border: solid 1px #a87ed6;
+    text-align: center;
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+.addr-email-modal {
+    padding: 0 !important;
+    height: 428px !important;
+}
+span.add-dom-cust-modal-ok-btn-label {
+    width: 32px;
+    height: 28px;
+    /* padding-top: 82px; */
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    text-align: center;
+    /* margin-top: 44.5px; */
+    /* display: flex; */
+    color: #ffffff;
+}
+.addr-email-modal .add-dom-cust-modal-icon {
+    margin-top: 81px !important;
+    margin-bottom: 27px;
+}
+.add-domcust-addr-email-modal-message-area {
+    /* width: 472px; */
+    /* height: 142px; */
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    /* text-align: center; */
+    text-align: center !important;
+    color: #333333;
+    display: flex;
+    justify-content: center;
+}
+.add-domcust-addr-email-modal-message-text
+{
+    width: 472px;
+    height: 142px;
+
+}
+
+/*----------css by manjunath for dropdown styles----------*/
+span.select-field-menu-item
+{
+    padding: 15px 0px !important;
+    height : 60px !important;
+}
+span.select-field-menu-item:hover {
+    background: #613b8c !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+span.select-field-menu-item:active {
+    background: #613b8c !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+/*-------------css for dropdown styles closed-------------*/
+
+/*----------------tooltip styles----------------------*/
+.__react_component_tooltip.place-top{
+    font-size:28px !important;
+}
+
+.tooltipCls{
+    background-color: white !important;
+    box-shadow: 0 1px 6px 0 #D9CCE7;
+    color:  #333333 !important;
+    font-family: Roboto;
+    font-weight:normal;
+    font-size: 30px;
+    margin-top: -24px !important;
+    padding: 15px;
+}
+
+.cust-email-tooltip {
+    display: flex;
+}
+.tooltip-info-icon
+{
+    width: 50px;
+    height: 50px;
+    margin-top:53px;
+    padding-right:50px;
+}
+/*--------------------------custom tooltip styles------------------**/
+.cust-email-tooltip .__react_component_tooltip.place-top {
+    position: absolute;
+    left: 30px !important;
+    right: 30px !important;
+    top: 108px !important;
+    opacity:1;
+    padding-top: 40px;
+    padding-left: 30px;
+    padding-right: 30px;
+    margin-top: 51px !important;
+    width: 603px;
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 3px 25px 0 rgba(0, 0, 0, 0.5);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    padding-bottom: 40px;
+}
+
+.cust-email-tooltip .__react_component_tooltip.place-top:after {
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    bottom: -30px;
+    box-shadow: 4px 4px 6px 0px #d9cce7;
+    display: inline-block;
+    padding: 0px;
+    -webkit-transform: rotate(-44deg);
+    -ms-transform: rotate(-44deg);
+    transform: rotate(-44deg);
+    -webkit-transform: rotate(44deg);
+    position: absolute;
+    top: 100px;
+    left: 166px;
+    background: white;
+    left: initial !important;
+    right: 4%;
+    border-top-color: #fff !important;
+    border-top-style: solid;
+    border-top-width: 6px !important;
+    border-top: 31px solid #fff !important;
+}

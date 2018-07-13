@@ -1,0 +1,55 @@
+.historySlide {
+  position: relative;
+  width: 230px !important;
+  height: 239px !important;
+  border: 1px solid black;
+  text-align: center;
+  margin-top: 10px;
+
+}
+
+.indicator {
+  position: absolute;
+  width: 0;
+	height: 0;
+}
+
+.purchase {
+  border-top: 30px solid teal;
+  border-right:30px solid transparent;
+}
+
+.refund {
+  border-top: 30px solid #a23652;
+  border-right: 30px solid transparent;
+}
+
+.image {
+  width: 128px;
+  height: 160px;
+  margin: auto;
+  margin-top: 10px;
+
+}
+
+.image-details {
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: normal;
+  width: 229px;
+  height: 42px;
+  text-align: center;
+  margin: auto;
+}
+
+.brand {
+  font-weight: 500;
+}
+
+.descrip {
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,14 @@
+{
+  "CancelLastTransRequest": {
+    "POSID": "01",
+    "APPID": "04",
+    "CCTID": "06",
+    "TransactionType": "01",
+    "AurusPayTicketNum": "1234",
+    "TransactionIdentifier": "67",
+    "Date": "08041986",
+    "Time": "080102",
+    "MidVoidReason": "Reason",
+    "ClerkID": "111"
+  }
+}

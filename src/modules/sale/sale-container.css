@@ -1,0 +1,314 @@
+/* MODAL STYLING */
+
+.key-sku-modal {
+    width: 725px !important;
+    height: 568px !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.58) !important;
+    border: solid 1px rgba(0, 0, 0, 0.5) !important;
+    margin:auto;
+    padding: 0px !important;
+}
+    .sale-errorModal{
+        width: 725px;
+        height: 325px;
+    }
+
+    .sale-errorModal-container{
+        display: flex;
+        flex-direction: column;
+        height: 345px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sale-errorModal-icon{
+        width: 101px;
+        height: 90px;
+        margin-top: 51px;
+    }
+
+    .sale-errorModal-text{
+        height: 100px;
+        margin-top: 42px;
+        font-family: Roboto;
+        font-size: 30px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.17;
+        letter-spacing: normal;
+        text-align: center;
+        color: #070707;
+    }
+
+    .sale-errorModal-button{
+        width: 765px;
+        height: 54px;
+        background-color: #4b2b6f;
+        border: solid 1px #a87ed6;
+    }
+
+    .sale-errorModal-button-text{
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: lighter;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.17;
+        text-align: center;
+        letter-spacing: 2px;
+        color: #ffffff;
+    }
+
+@media only screen and (width:1080px){
+
+
+
+    .key-sku-modal {
+        width: 826px !important;
+        height: 930px !important;
+        box-shadow: 0 3px 30px 0 rgba(0, 0, 0, 0.58) !important;
+        background-color: #ffffff !important;
+        border: solid 1px rgba(0, 0, 0, 0.5) !important;
+        margin:auto;
+        padding: 0px !important;
+    }
+    .daysText{
+        width: 250px;
+        margin-left: 22px;
+        margin-top: -15px;
+    }
+    .errorLabelSFF{
+        width: 663px;
+        height: 53px;
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #d53560;
+        margin-left: 90px;
+    }
+    .enterdaystextsection .__react_component_tooltip {
+        font-size: 40px !important;
+        width: 663px;
+        height: 110px;
+        font-family: Roboto;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.43;
+        letter-spacing: normal;
+        text-align: left;
+        color: #070707 !important;
+    }
+    .replunishmentHeader-sff{
+        width: 330px;
+        height: 79px;
+        font-family: Roboto;
+        font-size: 60px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #505050;
+        margin-top: 50px;
+        margin-left: 80px;
+    }
+    .gift-registry-numbertext-sff{
+        margin-left: 91px;
+        margin-top: 45px;
+    }
+    .giftregistry-footer-sff{
+        width: 1079.7px;
+        margin-top: 1040px;
+        height: 240px;
+        position:fixed;
+        box-shadow: 0 -2px 15px 0 #656565;
+        background-color: #ffffff;
+        border: solid 1px #969696;
+        border: 1px #AAA solid;
+        display: inline-block;
+        text-align: center;
+        border-radius: 5px;
+        vertical-align: middle;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .giftregistry-footer-sff .cancelbtn{
+        width: 375px;
+        height: 120px;
+        border: solid 4px #612e9b;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #612e9b;
+        background-color: #fff;
+        margin-top:60px;
+        display: flex;
+        justify-content: center;
+    }
+    .giftregistry-footer-sff .okbtn{
+        width: 304px;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        margin-left: 50px;
+        opacity: 0.4;
+        margin-top:60px;
+        background-color: #4b2b6f;
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff;
+    }
+}
+
+/* MODAL STYLING */
+
+
+
+.sale-container {
+    width: 1920px;
+    height: 900px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+    display: flex;
+    flex-direction: row;
+}
+ 
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (width:1080px){
+
+    .sale-container {
+        width: 1080px;
+        height: 1450px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+        display: flex;
+        align-items: stretch;
+        /* flex-direction: row; */
+        /* flex-wrap: nowrap; */
+        /* justify-content: center; */
+    }   
+
+    .item-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+}
+
+.void-line-confirm-modal-container {
+    position: fixed ! important;
+    top: 313px;
+    left: 598px;
+    height: 575px;
+    width: 725px;
+}
+
+.modify-price-modal-container {
+    position: fixed ! important;
+    top: 317px;
+    left: 598px;
+    height: 567px;
+    width: 725px;
+}
+
+.split-commission-modal-container {
+    position: fixed ! important;
+    top: 245px;
+    left: 598px;
+    height: 710px;
+    width: 725px;
+}
+
+.manager-approval-modal-container {
+    position: fixed ! important;
+    top: 317px;
+    left: 598px;
+    height: 567px;
+    width: 725px;
+}
+
+.modify-price-error-modal-container {
+    position: fixed ! important;
+    top: 437px;
+    left: 598px;
+    height: 325px;
+    width: 725px;
+    padding: 0px ! important;
+}
+
+@media only screen and (max-width: 1900px){    
+
+    .void-line-confirm-modal-container {
+        position: fixed ! important;
+        top: 360px;
+        left: 95px;
+        height: 1200px;
+        width: 890px;
+    }
+
+    .modify-price-error-modal-container {
+        position: fixed ! important;
+        top: 247px;
+        left: 95px;
+        height: 1426px;
+        width: 890px;
+        max-width: 890px ! important;
+        padding: 0px ! important;
+    }
+
+    .manager-approval-modal-container {
+        position: fixed ! important;
+        top: 305px;
+        left: 95px;
+        height: 1200px;
+        width: 890px;
+        max-width: 890px ! important;
+        padding: 0px ! important;
+    }
+}
+
+.sale-sff-item-modify-container {
+    display: none;
+}
+
+@media only screen and (max-width: 1900px){ 
+    .sale-sff-item-modify-container {
+        display: none;
+        height: 1290px;
+        max-height: 1290px;
+    }
+}
+
+
+
+
+.search-field-style {
+    height: 85px ! important;
+    max-height: 85px ! important;
+}

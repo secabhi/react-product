@@ -1,0 +1,76 @@
+{
+    "response_code":0,
+    "response_text":"AC_SUCCESS",
+    "transactionId":"0028",
+    "cartItems":{
+       "items":[
+          {
+             "itemNumber":"0000000000000043",
+             "pim_SKU_ID":"0000401023029077",
+             "itemDesc":"Xmas Decor                              ",
+             "style":"PINECO",
+             "color":"NO ",
+             "size":"NO SI",
+             "taxCode":"\u0000",
+             "itemPrice":50,
+             "salePrice":7.5,
+             "taxPercent":10.5,
+             "quantity":1,
+             "itemsPrice":50,
+             "totalPrice":55.25,
+             "itemsTax":5.25,
+             "itemTax":5.25,
+             "department":"002022",
+             "class":"000708",
+             "subClass":"0",
+             "itemType":"",
+             "priceType":"",
+             "currencyCode":"",
+             "unitOfMeasure":"",
+             "imgLink":"",
+             "presaleFlag":false,
+             "lineNumber":"1",
+             "itemStatus":"1",
+             "flag_1":0,
+             "eventNumber":"",
+             "eventDescription":"",
+             "replenishQty":0,
+             "replenishDays":0,
+             "gift_reg":"000000000000",
+             "promisedDate":"      ",
+             "alterationID":"0000000000",
+             "salesId":"0",
+             "assistId":"209289",
+             "egcAccountNum":"00000000000000000000000000000000",
+             "discounts":[
+                {
+                   "discounttype":"Mkd New Price Off",
+                   "discountValue":50,
+                   "newPrice":50,
+                   "oldPrice":7.5,
+                   "discountAmount":5000
+                },
+                {
+                   "discounttype":"Omni Dollar Off",
+                   "discountValue":10,
+                   "newPrice":40,
+                   "oldPrice":50,
+                   "discountAmount":1000
+                }
+             ],
+             "comment":[
+ 
+             ]
+          }
+       ],
+       "associateDiscount":null,
+       "totalTax":4.2,
+       "subTotal":40,
+       "total":44.2
+    },
+    "totalTax":4.2,
+    "subTotal":40,
+    "total":44.2,
+    "taxExemptID":null,
+    "customerInfo":null
+ }

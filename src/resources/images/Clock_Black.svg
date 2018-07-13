@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.9 19.9">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #505050;
+        stroke-width: 1.5px;
+      }
+
+      .cls-1 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Clock_Black" transform="translate(-3362.25 -659.25)">
+    <line id="Line_26_1_" class="cls-1" y1="6.7" transform="translate(3372.1 662.5)"/>
+    <line id="Line_27_1_" class="cls-1" x2="7" transform="translate(3372.1 669.3)"/>
+    <circle id="Ellipse_414" data-name="Ellipse 414" class="cls-2" cx="9.2" cy="9.2" r="9.2" transform="translate(3363 660)"/>
+  </g>
+</svg>

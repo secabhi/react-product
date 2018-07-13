@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4b2b6f;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+        stroke-width: 1.5px;
+      }
+
+      .cls-2, .cls-3, .cls-5 {
+        stroke: #fff;
+      }
+
+      .cls-2, .cls-5 {
+        stroke-linecap: round;
+      }
+
+      .cls-2 {
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4 {
+        stroke: #010101;
+      }
+    </style>
+  </defs>
+  <g id="Add_Customer_Selected" transform="translate(-258.401 -156.39)">
+    <path id="Path_2021_53_" class="cls-1" d="M1874.891,360.583a39.99,39.99,0,1,1,15.575-3.157h0A39.624,39.624,0,0,1,1874.891,360.583Z" transform="translate(-1576.499 -124.192)"/>
+    <path id="Path_460_3_" class="cls-2" d="M1878.454,306.7c0,5.472-3.262,11.471-7.367,11.471s-7.788-6-7.788-11.471,3.578-8,7.788-8C1875.192,298.595,1878.454,301.121,1878.454,306.7Z" transform="translate(-1575.011 -123.243)"/>
+    <path id="Path_461_3_" class="cls-2" d="M1868.371,316.3a4.823,4.823,0,0,1-3.052,4.736c-3.473,1.684-6.314,1.263-8.63,4-1.473,1.789-1.789,4.631-1.789,6.42a2.464,2.464,0,0,0,1.789,2.315c2.21.631,6.63,1.368,14.628,1.263" transform="translate(-1575.451 -122.321)"/>
+    <path id="Path_3773" data-name="Path 3773" class="cls-2" d="M1878.809,333.8c-.316,0-5.788.421-8.209.316" transform="translate(-1574.629 -121.404)"/>
+    <path id="Path_3774" data-name="Path 3774" class="cls-2" d="M1873.5,316.3a4.823,4.823,0,0,0,3.052,4.736c2.631,1.263,4.841,1.368,6.841,2.526" transform="translate(-1574.477 -122.321)"/>
+    <path id="Path_3021_3_" class="cls-3" d="M1886.614,322.9a8.314,8.314,0,1,1-8.314,8.314,8.331,8.331,0,0,1,8.314-8.314Z" transform="translate(-1574.225 -121.975)"/>
+    <path id="Path_486_47_" class="cls-4" d="M1883.3,330.4" transform="translate(-1573.963 -121.582)"/>
+    <line id="Line_498" data-name="Line 498" class="cls-5" y2="7.156" transform="translate(312.494 205.661)"/>
+    <line id="Line_499" data-name="Line 499" class="cls-5" x2="7.262" transform="translate(308.916 209.239)"/>
+  </g>
+</svg>

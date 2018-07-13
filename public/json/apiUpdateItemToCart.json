@@ -1,0 +1,64 @@
+{
+    "response_code": 0,
+    "response_text": "AC_SUCCESS",
+    "TransactionId": "0044",
+    "CartItems": {
+        "Items": [
+            {
+                "ItemNumber": "401000448670",
+                "Pim_SKU_ID": "401000448670",
+                "ItemDesc": "Jackets",
+                "Style": "IVRY DJ",
+                "Color": "IVORY",
+                "Size": "50R EU (39/40 US)",
+                "TaxCode": "1012",
+                "ItemPrice": 808,
+                "SalePrice": 807.85,
+                "TaxPercent": 10.5,
+                "Quantity": 1,
+                "ItemsPrice": 807.85,
+                "TotalPrice": 892.6742,
+                "ItemsTax": 84.82425,
+                "ItemTax": 84.82425,
+                "Department": 4468,
+                "Class": 3,
+                "SubClass": 3,
+                "ItemType": 0,
+                "PriceType": 2,
+                "CurrencyCode": "USD",
+                "UnitOfMeasure": "EA",
+                "ImgLink": "",
+                "PresaleFlag": false,
+                "LineNumber": "1",
+                "ItemStatus": "1",
+                "EventNumber": "",
+                "EventDescription": "",
+                "ReplenishQty": 0,
+                "ReplenishDays": 0,
+                "Discounts": [
+                    {
+                        "Discounttype": "Mkd Percentage Off",
+                        "DiscountValue": "5",
+                        "NewPrice": "807.9",
+                        "OldPrice": "808"
+                    },
+                    {
+                        "Discounttype": "Mkd Percentage Off",
+                        "DiscountValue": "10",
+                        "NewPrice": "807.8",
+                        "OldPrice": "807.9"
+                    },
+                    {
+                        "Discounttype": "",
+                        "DiscountValue": "",
+                        "NewPrice": "",
+                        "OldPrice": ""
+                    }
+                ]
+            }
+        ]
+    },
+    "TotalTax": 339.344238,
+    "SubTotal": 3231.85,
+    "Total": 3571.19385
+}

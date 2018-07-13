@@ -1,0 +1,359 @@
+.changePswrdModal {
+    background-color: #ffffff;
+    position: absolute;
+    width: 719.5px;
+    height: 574.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+.changePassword-warning-icon {
+    width: 28px;
+    height: 28px;
+    margin: 15px 25px;
+}
+
+.errorIcon{
+    width: 28px;
+    height: 28px;
+     position: absolute; 
+    margin-left: -345px; 
+    margin-top: 11px;
+}
+
+.errorText{
+    position: absolute;
+    top: 15px;
+    left: 60px;
+}
+
+.errorBanner{
+     position: absolute; 
+     z-index: 2;      
+    width: 719.5px;
+    height: 49.7px;
+    background-color: #a31818;
+    color: #ffffff;
+    font-size: 20px;
+    margin-bottom: 50px;
+    top: -10px;
+
+}
+
+.changePassword-backdrop {
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.logoChangePassword {
+    /* padding-top: 60.5px; */
+    margin-top: 50.5px;
+    width: 100%;
+    height: 120px;
+}
+
+.changePassForm{
+    width: 719.5px;
+    height: 574.5px;
+}
+
+.passwrdTitle {
+    /* font-family: HelveticaNeue; */
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #505050;
+    margin-top: 20.5px;
+    width: 100%;
+    display: inline-block;
+}
+
+.passwrdSubtitle {
+    /* font-family: Helvetica; */
+    width: 268px;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    text-align: center;
+    color: #505050;
+    margin-top: 11.2px;
+    margin-bottom: 15px;
+    width: 100%;
+    display: inline-block;
+}
+
+.submitButton {
+    width: 719.5px;
+    height: 48.5px;
+    border: 0;
+    background-color: #612e9b;
+    /* font-family: HelveticaNeue; */
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 60.5px; 
+}
+
+.spacing {
+    margin-top: 65px;
+}
+
+
+
+.closeModalChangePass {
+    position: absolute;
+    top: 15px;
+    right: 19.8px;
+    width: 24.7px;
+    height: 24.7px;
+}
+
+.closeModalErrorBannerChgPass {
+    position: absolute;
+    top: 15px;
+    right: 19.8px;
+    width: 24.7px;
+    height: 24.7px;
+}
+
+input[id=newPass] {
+    width: 619px;
+    padding: 10px 10px;
+    padding-top: 50px;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 0.5px solid #b4b4b4;
+    color: #b4b4b4;
+    font-size: 21px;
+}
+
+input[id=confirmPass] {
+    width: 619px;
+    padding: 10px 10px; 
+    padding-top: 75px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 0.5px solid #b4b4b4;
+    color: #b4b4b4;
+    font-size: 21px;
+}
+
+.close-icon-change-pass-modal {
+    width: 24.7px;
+    height: 24.7px;
+}
+
+.inputsMarginChangePass {
+    margin-left: 53px;
+    margin-right: 52.5px;
+    margin-top: 17.5px;
+}
+
+.passInputsMarginChangePass {
+    margin-top: 35px;
+    margin-left: 53px;
+    margin-right: 52.5px;
+}
+
+@media only screen and (max-width: 1900px) {
+    .changePswrdModal {
+        width: 890px;
+        height: 1426px;
+    }
+
+    .closeModalChangePass {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .close-icon-change-pass-modal {
+        width: 60px;
+        height: 60px;
+        z-index: 100;
+    }
+
+    .changePassword-backdrop {
+        height: 1920px !important;
+        width: 1080px !important;
+    }
+
+    .logoChangePassword {
+        /* padding-top: 60.5px; */
+        margin-top: 140px;
+        height: 300px;
+        width: 100%;
+    }
+
+    .changePassForm {
+        width: 100%;
+        height: 100%;
+    }
+
+    .passwrdTitle {
+        margin-top: 42px;
+        height: 98px;
+        font-family: Roboto;
+        font-size: 74px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #505050;
+    }
+
+    .passwrdSubtitle {
+        height: 68px;
+        font-size: 58px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.17;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+        width: 100%;
+        display: inline-block;
+        margin-top: 30px;
+        margin-bottom: 40px;
+    }
+
+    .submitButton {
+        width: 890px;
+        height: 170px;
+        border: 0;
+        background-color: #4b2b6f;
+        font-family: Roboto;
+        margin-top: 150px;
+        border: solid 1px #a87ed6;
+        font-size: 56px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #faf7f7;
+    }
+
+    .inputsMarginChangePass {
+        margin-left: 76px;
+        margin-right: 76px;
+        margin-top: 60px;
+    }
+    
+    .passInputsMarginChangePass {
+        margin-left: 76px;
+        margin-right: 76px;
+        margin-top: 62px;
+    }
+
+    input[id=newPass] {
+        width: 738px;
+        padding: 0px;
+        padding-top: 50px;
+        display: inline-block;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 0.5px solid #b4b4b4;
+        color: #b4b4b4;
+        font-size: 60px;
+    }
+    
+    input[id=confirmPass] {
+        width: 738px;
+        padding: 0px; 
+        padding-top: 75px;
+        margin: 0px;
+        display: inline-block;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 0.5px solid #b4b4b4;
+        color: #b4b4b4;
+        font-size: 60px;
+    }
+
+    .errorIcon{
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        margin: 0px;
+    }
+    
+    .errorText{
+        position: absolute;
+        top: 36px;
+        left: 110px;
+        height: 60px;
+        font-family: 'Roboto';
+        font-size: 32px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.17;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff;        
+        width: 700px;
+        max-width: 700px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    
+    .errorBanner{
+        position: absolute; 
+        z-index: 2;      
+        width: 890px;
+        height: 110px;
+        background-color: #a31818;
+        color: #ffffff;
+        font-size: 21px;
+        top: 0px;
+        margin:0px;
+    
+    }
+
+    .closeModalErrorBannerChgPass {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        width: 60px;
+        height: 60px;
+    }
+  }   

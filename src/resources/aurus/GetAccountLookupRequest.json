@@ -1,0 +1,22 @@
+{
+  "GetAccountLookupRequest": {
+    "POSID": "",
+    "APPID": "",
+    "CCTID": "",
+    "Header": "",
+    "MessageLine1": "",
+    "MessageLine2": "",
+    "LookUpFlag": "",
+    "LookupType": "",
+    "TokenValidateFlag": "",
+    "LookupPhone": "",
+    "LookupZIP": "",
+    "LookupSSN": "",
+    "LookupAccount": "",
+    "TransactionDate": "",
+    "TransactionTime": "",
+    "ShowResponse": "",
+    "ClerkID": "",
+    "TimeOut": ""
+  }
+}

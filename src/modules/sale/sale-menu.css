@@ -1,0 +1,141 @@
+.sidenav {
+    height: 900px;
+    width: 343px;
+    overflow-y: scroll;
+}
+
+.option-list {
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b;
+    margin: 30px 0 10px 50px;
+}
+
+.close-button {
+    width: 200px;
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b;
+}
+
+.saleMenu-overlay{
+    display: none;
+}
+
+.icon-modify, .icon-services, .icon-trans-modify, .icon-followup, .icon-send, .icon-gift-card {
+    width: 70px;
+    height: 70px;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+@media only screen and (width:1080px){
+
+    .sidenav{
+        display: none;
+    }
+
+    .saleMenu-overlay{
+        /* display: block; */
+        width: 1080px;
+        height: 1458px;
+        position: fixed; 
+        z-index: 2;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+        -webkit-animation-name: fadeIn; /* Fade in the background */
+        -webkit-animation-duration: 0.4s;
+    }
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+        from {left: -300px; opacity: 0} 
+        to {left: 0px; opacity: 1}
+    }
+
+    @keyframes slideIn {
+        from {left: -300px; opacity: 0}
+        to {left: 0px; opacity: 1}
+    }
+
+    @-webkit-keyframes fadeIn {
+    from {opacity: 0} 
+    to {opacity: 1}
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0} 
+        to {opacity: 1}
+    }
+    
+    .sidenav-small{
+        width: 758px;
+        height: 1448px;
+        margin-top: 358px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: white;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        -webkit-animation-name: slideIn; /* Fade in the background */
+        -webkit-animation-duration: 0.4s;
+    }
+
+    .option-list {
+        width: 100%;
+        font-family: Roboto;
+        font-size: 48px;
+        padding-top: 33px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.31;
+        letter-spacing: normal;
+        text-align: left;
+        color: #51515b;
+    }
+
+
+    .option-list-closeButton {
+        width: 100%;
+        margin-left: 50px;
+        margin-top: 49px;
+        font-family: Roboto;
+        font-size: 60px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.31;
+        letter-spacing: normal;
+        text-align: left;
+        color: #51515b;
+        
+    }
+
+    .icon-modify, .icon-services, .icon-trans-modify, .icon-followup, .icon-send, .icon-gift-card {
+        width: 120px;
+        height: 120px;
+        vertical-align: middle;
+        margin-right: 20px;
+    }
+
+    .close-button {
+        width: 50px;
+        height: 50px;
+        margin-left: 417px;
+    }
+}
+

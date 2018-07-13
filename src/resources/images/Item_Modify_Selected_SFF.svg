@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120.007">
+    <defs>
+        <style>
+            .cls-1{fill:#4b2b6f}.cls-2{fill:none;stroke:#fff;stroke-width:3px}
+        </style>
+    </defs>
+    <g id="Item_Modify_Selected_SFF" transform="translate(-4272 -413)">
+        <path id="Path_2021_1_" d="M60.741 120.9a59.993 59.993 0 1 1 23.352-4.67 54.859 54.859 0 0 1-23.352 4.67z" class="cls-1" transform="translate(4271.11 412.092)"/>
+        <g id="Group_6838" data-name="Group 6838">
+            <circle id="Ellipse_560" cx="4.132" cy="4.132" r="4.132" class="cls-2" data-name="Ellipse 560" transform="translate(4311.912 452.697)"/>
+            <path id="Path_4808" d="M1124.392 1250.7a.844.844 0 0 0-.793.792v26.673c0 .264 0 .528.264.528l34.067 34.331a3.2 3.2 0 0 0 4.754 0l22.975-23.24a3.932 3.932 0 0 0 1.057-2.377 3.347 3.347 0 0 0-1.057-2.377l-34.067-34.067c-.264-.264-.264-.264-.528-.264zm1.056 1.585h25.616l33.8 33.8a1.454 1.454 0 0 1 .528 1.32c0 .528-.264.792-.528 1.32l-23.24 23.24a2.018 2.018 0 0 1-1.32.528c-.528 0-.792-.264-1.32-.528l-33.8-34.067v-25.616z" class="cls-2" data-name="Path 4808" transform="translate(3179.728 -807.16)"/>
+        </g>
+    </g>
+</svg>

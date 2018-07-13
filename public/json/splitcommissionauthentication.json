@@ -1,0 +1,58 @@
+{
+    "response_code":0,
+    "response_text":"SC_SUCCESS",
+    "transactionId":"0005",
+    "cartItems":{
+       "items":[
+          {
+             "itemNumber":"0000000000000094",
+             "pim_SKU_ID":"0000401023029994",
+             "itemDesc":"Xmas Decor ",
+             "style":"SLEIGH",
+             "color":"NO ",
+             "size":"NO SI",
+             "taxCode":"\u0000",
+             "itemPrice":2,
+             "salePrice":2,
+             "taxPercent":10.5,
+             "quantity":1,
+             "itemsPrice":2,
+             "totalPrice":2.21,
+             "itemsTax":0.21,
+             "itemTax":0.21,
+             "department":"002022",
+             "class":"000708",
+             "subClass":"0",
+             "itemType":"",
+             "priceType":"",
+             "currencyCode":"",
+             "unitOfMeasure":"",
+             "imgLink":"",
+             "presaleFlag":false,
+             "lineNumber":"1",
+             "itemStatus":"1",
+             "flag_1":0,
+             "eventNumber":"",
+             "eventDescription":"",
+             "replenishQty":0,
+             "replenishDays":0,
+             "gift_reg":"000000000000",
+             "salesId":"243004",
+             "assistId":"415000",
+             "discounts":[
+ 
+             ],
+             "comment":[
+ 
+             ]
+          }
+       ],
+       "associateDiscount":null,
+       "totalTax":0.21,
+       "subTotal":2,
+       "total":2.21
+    },
+    "totalTax":0.21,
+    "subTotal":2,
+    "total":2.21
+ }

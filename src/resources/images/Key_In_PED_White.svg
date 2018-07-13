@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.122 20.918">
+  <defs>
+    <style>
+      .cls-1, .cls-4 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2 {
+        stroke: #fff;
+      }
+
+      .cls-1 {
+        stroke-width: 1.5px;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Key_In_PED_White" transform="translate(-932 -737)">
+    <g id="Ellipse_137" data-name="Ellipse 137" class="cls-1" transform="translate(932 737)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_140" data-name="Ellipse 140" class="cls-1" transform="translate(932 744.969)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_143" data-name="Ellipse 143" class="cls-1" transform="translate(932 752.938)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_138" data-name="Ellipse 138" class="cls-1" transform="translate(939.969 737)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_141" data-name="Ellipse 141" class="cls-1" transform="translate(939.969 744.969)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_144" data-name="Ellipse 144" class="cls-1" transform="translate(939.969 752.938)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_139" data-name="Ellipse 139" class="cls-1" transform="translate(947.938 737)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_142" data-name="Ellipse 142" class="cls-1" transform="translate(947.938 744.969)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <g id="Ellipse_145" data-name="Ellipse 145" class="cls-1" transform="translate(947.938 752.938)">
+      <circle class="cls-3" cx="2.49" cy="2.49" r="2.49"/>
+      <circle class="cls-4" cx="2.49" cy="2.49" r="1.74"/>
+    </g>
+    <path id="Path_3260" data-name="Path 3260" class="cls-2" d="M0,3.663A.448.448,0,0,1,.109,3.4L3.193.12A.386.386,0,0,1,3.739.1.4.4,0,0,1,3.754.65L1.278,3.278h10.29a.386.386,0,1,1,0,.771H1.278L3.754,6.676a.4.4,0,0,1-.015.545.386.386,0,0,1-.545-.015L.109,3.928A.343.343,0,0,1,0,3.663Z" transform="translate(962.621 744.969) rotate(90)"/>
+  </g>
+</svg>

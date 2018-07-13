@@ -1,0 +1,45 @@
+{
+	"TicketProductData": {
+		"TicketCount": "",
+		"Tickets": {
+			"Ticket": {
+				"TicketNumber": "",
+				"ProductCount": "",
+				"Products": {
+					"Product": {
+						"ProductID": "",
+						"ProductName": "",
+						"ProductTypeIndicator": "",
+						"ProductDataType": "",
+						"ServiceLevel": "",
+						"ProductCode": "",
+						"ProductShortDescription": "",
+						"ProductStatementDescriptor": "",
+						"UnitOfMeasure": "",
+						"ProductUnitPrice": "",
+						"ProductShipDate": "",
+						"ProductCommodityCode": "",
+						"ProductCreditDebitIndicator": "",
+						"ProductDiscountFlag": "",
+						"DiscountPercentage": "",
+						"ProductDiscount": "",
+						"DepartmentID": "",
+						"DepartmentName": "",
+						"Quantity": "",
+						"Price": "",
+						"Tax": "",
+						"ProductTaxRate": "",
+						"ProductTypeFlag": "",
+						"ProductNetGrossIndicator": "",
+						"SubscriptionEvery": "",
+						"SubscriptionEveryPeriod": "",
+						"ProductQuantityDecimal": "",
+						"LineProductTotal": "",
+						"ReservedField1": "",
+						"ReservedField2": ""
+					}
+				}
+			}
+		}
+	}
+}

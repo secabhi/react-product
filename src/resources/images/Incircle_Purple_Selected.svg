@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.1 80">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4b2b6f;
+      }
+
+      .cls-2, .cls-5, .cls-6, .cls-7, .cls-8 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke: #010101;
+      }
+
+      .cls-2, .cls-5 {
+        stroke-width: 1.5px;
+      }
+
+      .cls-3 {
+        fill: #603b8b;
+      }
+
+      .cls-3, .cls-5, .cls-6, .cls-7, .cls-8 {
+        stroke: #fff;
+      }
+
+      .cls-3, .cls-4 {
+        stroke-width: 0.5px;
+      }
+
+      .cls-4 {
+        fill: #613b8c;
+        stroke: #613b8c;
+      }
+
+      .cls-5 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-6 {
+        stroke-width: 1.7px;
+      }
+
+      .cls-7 {
+        stroke-width: 0.9px;
+      }
+
+      .cls-8 {
+        stroke-width: 1.3px;
+      }
+    </style>
+  </defs>
+  <g id="Incircle_Purple_Selected" transform="translate(-1567.401 -372.069)">
+    <path id="Path_2021_47_" class="cls-1" d="M1870.929,1055.254a39.91,39.91,0,1,1,15.668-3.112h0A37.843,37.843,0,0,1,1870.929,1055.254Z" transform="translate(-263.499 -603.192)"/>
+    <path id="Path_486_41_" class="cls-2" d="M1878.6,1024.3" transform="translate(-260.009 -599.604)"/>
+    <path id="Path_2743_23_" class="cls-3" d="M1873.37,997.122a21.244,21.244,0,0,0-1.932,42.39c.644,0,1.4.107,2.039.107a21.188,21.188,0,0,0,1.932-42.283,11.89,11.89,0,0,0-2.039-.215Zm.107,42.927a12.988,12.988,0,0,1-2.039-.107,21.617,21.617,0,0,1,1.932-43.141,13,13,0,0,1,2.039.107,21.616,21.616,0,0,1-1.932,43.141Z" transform="translate(-261.969 -601.617)"/>
+    <path id="Path_2744_23_" class="cls-4" d="M1873.485,989.044a21.141,21.141,0,1,0,21.141,21.141,21.028,21.028,0,0,0-21.141-21.141Zm0,42.927a21.785,21.785,0,1,1,21.786-21.785,22.059,22.059,0,0,1-7.834,16.849A23.477,23.477,0,0,1,1873.485,1031.971Z" transform="translate(-261.977 -602.231)"/>
+    <path id="Path_1290_4_" class="cls-5" d="M1873.036,1007.085c0,2.79-1.61,5.9-3.863,5.9-2.146,0-3.971-3.112-3.971-5.9a3.849,3.849,0,0,1,3.434-4.185h.537C1871.426,1002.9,1873.036,1004.188,1873.036,1007.085Z" transform="translate(-260.991 -601.17)"/>
+    <path id="Path_1291_4_" class="cls-5" d="M1867.963,1011.9a2.458,2.458,0,0,1-1.5,2.468c-1.717.859-3.327.644-4.4,2.039a5.185,5.185,0,0,0-.859,3.327,1.163,1.163,0,0,0,.859,1.18,29.652,29.652,0,0,0,7.512.644" transform="translate(-261.284 -600.512)"/>
+    <path id="Path_1292_4_" class="cls-5" d="M1870.517,1011.9a2.458,2.458,0,0,0,1.5,2.468c1.717.859,3.327.644,4.4,2.039a5.185,5.185,0,0,1,.859,3.327,1.15,1.15,0,0,1-.966,1.18,35.676,35.676,0,0,1-7.512.751" transform="translate(-260.726 -600.512)"/>
+    <circle id="Ellipse_269" data-name="Ellipse 269" class="cls-6" cx="21.463" cy="21.463" r="21.463" transform="translate(1581.245 388.637)"/>
+    <circle id="Ellipse_270" data-name="Ellipse 270" class="cls-7" cx="21.463" cy="21.463" r="21.463" transform="translate(1590.045 395.291)"/>
+    <circle id="Ellipse_271" data-name="Ellipse 271" class="cls-8" cx="21.463" cy="21.463" r="21.463" transform="translate(1590.045 386.491)"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 62">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2px}.cls-2{fill:#fff}
+        </style>
+    </defs>
+    <g id="Line_Void" transform="translate(-1102 -427)">
+        <path id="Line_790" d="M0 0h30.35" class="cls-1" data-name="Line 790" transform="translate(1117.801 449.95)"/>
+        <path id="Path_4525" d="M61.2 44.7l-2.9 25.65H41.35L37.8 44.7" class="cls-1" data-name="Path 4525" transform="translate(1083.7 405.25)"/>
+        <path id="Line_791" d="M0 0l1.1 25.65" class="cls-1" data-name="Line 791" transform="translate(1129 449.95)"/>
+        <path id="Line_792" d="M1.1 0L0 25.65" class="cls-1" data-name="Line 792" transform="translate(1136.75 449.95)"/>
+        <path id="Path_4526" d="M63.021 35.43h-9.633a4.591 4.591 0 0 0-9.02 0H34.235a.835.835 0 0 0 0 1.67h28.73a.856.856 0 0 0 .835-.835.809.809 0 0 0-.779-.835z" class="cls-2" data-name="Path 4526" transform="translate(1084.35 410.199)"/>
+        <circle id="Ellipse_594" cx="30" cy="30" r="30" class="cls-1" data-name="Ellipse 594" transform="translate(1103 428)"/>
+    </g>
+</svg>

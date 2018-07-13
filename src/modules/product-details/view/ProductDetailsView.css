@@ -1,0 +1,238 @@
+/* CONTAINER */
+.product-details-container {
+
+}
+
+/* HEADER */
+.product-details-header {
+  width: 100%;
+  height: 65px;
+  background-color: #4b2b6f;
+  padding: 31px 0px 33px 51.5px;
+  display: flex;
+  flex-direction: row;
+  color: #ffffff;
+}
+
+.product-details-back {
+  width: 20px;
+  height: 40px;
+  border: solid 3px #ffffff;
+  border: solid 3px var(--white);
+  padding-right: 60.5px;
+}
+
+.product-details-header-name {
+  width: 244px;
+  height: 52px;
+  font-family: "Roboto";
+  font-size: 44px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.18;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  color: var(--white);
+  padding: 5px 42.5px 0px 0px;
+  border-right: solid 1px #ffffff;
+}
+
+.product-details-sub-name {
+  font-family: "Roboto";
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.42;
+  letter-spacing: normal;
+  text-align: left;
+  padding: 0px 35.5px 0px 48.5px;
+  border-right: solid 1px #ffffff;
+}
+
+.product-details-meta {
+  padding: 0px 10px 0px 38.5px;
+  font-family: "Roboto";
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.42;
+  letter-spacing: normal;
+  text-align: left;
+}
+
+.product-details-checkout {
+  width: 100px;
+  right: 0;
+  position: absolute;
+  font-family: "Roboto";
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+}
+
+/* DETAILS */
+.product-details-info {
+  padding-top: 46px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* IMAGES */
+.product-details-images {
+  padding-left: 80px;
+  padding-bottom: 51.2px;
+  width: 40%;
+}
+
+.detail-images {
+  display: flex;
+  flex-direction: row;
+}
+
+.thumbnail-images {
+  background-color: #ffffff;
+}
+
+.thumbnail-image-each {
+  border-radius: 9px;
+  background-color: #ffffff;
+  border: solid 1px #cfcfcf;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.thumbnail-full-image {
+  width: 619.3px;
+  height: 720px;
+  border-radius: 9px;
+  background-color: #ffffff;
+  border: solid 1px #cfcfcf;
+  padding: 10px 85.4px;
+  margin-left: 20px;
+}
+
+.thumbnail-full-image img {
+  width: 448px;
+  height: 701.7px;
+}
+
+/* ROWS */
+.product-details-rows {
+  padding: 0px 22px;
+  width: 60%;
+}
+
+.product-details-rows-content{
+
+}
+
+.rows-main-content {
+  font-family: "Roboto";
+  font-size: 32px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  border-bottom: solid 1px #bfbfbf;
+  padding-bottom: 10px;
+}
+
+.rows-main-content-price {
+
+}
+
+.rows-description {
+  font-family: "Roboto";
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  padding: 30px 10px;
+  border-bottom: solid 1px #bfbfbf;
+}
+
+.rows-size-desc {
+  padding: 30px 10px;
+  border-bottom: solid 1px #bfbfbf;
+}
+
+.rows-size-title {
+  font-family: "Helvetica";
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  text-align: left;
+  color: #333333;
+}
+
+.rows-size-alt {
+  width: 61px;
+  margin: 25px 10px 0px 10px;
+  padding: 15px 0px;
+  border-radius: 50px;
+  border: solid 1px #bfbfbf;
+  font-family: "Roboto";
+  font-size: 22px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.14;
+  text-align: center;
+  color: #000000;
+}
+
+.rows-color {
+
+}
+
+.rows-color-title {
+  font-family: "Helvetica";
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  text-align: left;
+  color: #333333;
+}
+
+.rows-color-alt {
+  width: 61px;
+  margin: 25px 10px 0px 10px;
+  padding: 15px 0px;
+  border-radius: 50px;
+  border: solid 1px #bfbfbf;
+  font-family: "Roboto";
+  font-size: 22px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.14;
+  text-align: center;
+  color: #000000;
+}
+
+.rows-other {
+
+}
+
+.rows-print {
+
+}

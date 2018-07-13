@@ -1,0 +1,279 @@
+/* .headerMainCls{
+    font-family: Roboto;
+    display: flex;
+    flex:1;
+    flex-direction: row;
+    align-items: center;
+    width: 1920px;
+    height: 100px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+} */
+
+   /* HEADER SECTION */
+.landingPageHeaderSection{
+    margin-left: 50px;
+      display: flex;
+      padding: 10px;
+  }
+  
+  /* HEADER SECTION - NAV LINKS */
+  .navigationLinks{
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .navLink
+  {
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .navLink-print{
+    margin-right: 20px;
+    display: flex;
+  }
+  .navLink-post{
+    margin-left: 30px; 
+    display: flex;
+  }
+  .navLink-suspend{
+    margin-left: 50px;
+    display: flex;
+  }
+  .headericonCls{
+    width: 26.9px;
+    height: 30px;
+    margin-right: 10px;
+  }
+  
+  /* HEADER SECTION - BATTERY ICONS */
+  .print-label{
+    width: 189px;
+    height: 24px;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+  }
+  .post-label{
+
+    width: 92px;
+    height: 21px;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+  }
+  .suspend-label{
+    width: 179px;
+    height: 24px;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+  }
+  .pinpadBatterySection 
+  {
+    flex:0.1;
+  }
+  .pinpadIcon
+  {
+    width: 39.2px;
+      height: 15px;
+      margin-top: 4px;
+  }
+  .ipadIcon
+  {
+    width: 39.2px;
+      height: 15px;
+      margin-top: 4px;
+  }
+  
+  /* HEADER SECTION - TIME */
+  .headerTime
+  {
+    flex: 0.5;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 94px;
+    height: 21px;
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.22;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+  }
+  .clockIcon
+  {
+    height:20px;
+    width: 20px;
+  }
+  .timeText
+  {
+    padding: 10px;
+  }
+  .neimanlogo-width{
+    margin-left: 700px;
+  }
+
+
+@media only screen and (max-width: 1920px) and (min-width: 1920px) {
+
+  
+     /* HEADER SECTION */
+  .landingPageHeaderSection{
+      margin-left: 50px;
+        display: flex;
+        padding: 10px;
+        width: inherit;
+    }
+    
+    /* HEADER SECTION - NAV LINKS */
+    .navigationLinks{
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    .navLink
+    {
+      flex:1;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+    .navLink-print{
+      margin-right: 20px;
+      display: flex;
+    }
+    .navLink-post{
+      margin-left: 30px; 
+      display: flex;
+    }
+    .navLink-suspend{
+      margin-left: 50px;
+      display: flex;
+    }
+    .headericonCls{
+      width: 38.5px;
+      height: 38.6px;
+      object-fit:contain;
+      margin-right: 10px;
+    }
+    
+    /* HEADER SECTION - BATTERY ICONS */
+    .print-label{
+      width: 212px;
+      height: 28px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      text-align: left;
+      color: #505050;
+      margin-top: 6px;
+    }
+    .post-label{
+      width: 103px;
+      height: 28px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      text-align: left;
+      color: #505050;
+      margin-top: 6px;
+    }
+    .suspend-label{
+      width: 87px;
+      height: 28px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      text-align: left;
+      color: #505050;
+      margin-top: 6px;
+    }
+    .pinpadBatterySection 
+    {
+      flex:0.1;
+    }
+    .pinpadIcon
+    {
+      width: 39.2px;
+        height: 15px;
+        margin-top: 4px;
+    }
+    .ipadIcon
+    {
+      width: 39.2px;
+        height: 15px;
+        margin-top: 4px;
+    }
+    
+    /* HEADER SECTION - TIME */
+    .headerTime
+    {
+      flex: 0.5;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 94px;
+      height: 21px;
+      font-size: 18px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.22;
+      letter-spacing: normal;
+      text-align: left;
+      color: #505050;
+    }
+    .clockIcon
+    {
+      height:20px;
+      width: 20px;
+    }
+    .timeText
+    {
+      padding: 10px;
+    }
+    .neimanlogo-width{
+      margin-left: 700px;
+    }
+  }
+  
+  

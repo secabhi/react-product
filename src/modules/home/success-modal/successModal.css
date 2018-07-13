@@ -1,0 +1,186 @@
+.successModal {
+    background-color: #ffffff;
+    position: absolute;
+    width: 724.5px;
+    height: 283.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+.backdrop {
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+}
+
+.successImg {
+    /* padding-top: 60.5px; */
+     display: inline-block; 
+    margin-top: 80.2px;
+    width: 80.7px;
+    height: 80.7px;
+    margin-left: 332.2px;
+}
+
+.successTitle {
+     font-family: Roboto; 
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #505050;
+    margin-top: 20px; 
+}
+
+.successSubTitle{
+     font-family: Roboto; 
+    width: 268px;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.43;
+    letter-spacing: normal;
+    text-align: center;
+    color: #505050;
+    margin-top: 20.2px;
+    width: 100%;
+    display: inline-block;
+}
+
+
+.successDismissButton {
+    width:724.5px;
+    height: 48.5px;
+    border: 0;
+    background-color: #612e9b;
+     font-family: Roboto; 
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 42.5px;
+}
+
+
+.closeModal {
+    position: absolute;
+    top: 15px;
+    right: 19.8px;
+    width: 24.7px;
+    height: 24.7px;
+}
+
+@media only screen and (max-width: 1900px) {
+    .successModal {
+        background-color: #ffffff;
+        position: absolute;
+        width: 890px;
+        height: 1426px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+    }
+    
+    .backdrop {
+        background-color: rgba(0,0,0,0.5);
+        position: absolute;
+        height: 1920px !important;
+        width: 1080px !important;
+        top: 0;
+        left: 0; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99;
+    }
+    
+    .successImg {
+        /* padding-top: 60.5px; */
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        top: 343px;
+        left: 295px;
+        margin: 0px;
+    }
+    
+    .successTitle {
+        font-family: 'Roboto';
+        font-size: 74px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.18;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+        position: absolute;
+        top: 771px;
+        margin: 0px;
+    }
+    
+    .successSubTitle{
+        font-family: 'Roboto'; 
+        width: 641px;
+        height: 127px;
+        font-size: 48px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.19;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+        margin-top: 21px;
+        display: inline-block;
+    }
+    
+    
+    .successDismissButton {
+        width:890px;
+        height: 170px;
+        border: 0;
+        background-color: #612e9b;
+        border: solid 1px #a87ed6;
+        font-family: 'Roboto'; 
+        font-size: 56px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.18;
+        letter-spacing: normal;
+        text-align: center;
+        color: #faf7f7;
+    }
+
+    .successDismissButtonContainer {
+        margin-top: 1216px;
+    }
+    
+    
+    .closeModal {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 60px;
+        height: 60px;
+    }
+}   

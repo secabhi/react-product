@@ -1,0 +1,28 @@
+
+
+.frame {
+
+   position: fixed; /* Stay in place */
+   z-index: 200; /* Sit on top */
+   left: 50%;
+   top: 50%;
+   width: 725px;/* Full width */
+   height: 450px; /* Full height */
+   background-color: white;
+   border: 2px solid black;
+   transform: translate(-50%, -50%);
+   margin-left: 140px;
+   margin-top: 30px;
+   -webkit-transition: opacity 0.5s ease-in;
+   -moz-transition: opacity 0.5s ease-in;
+   -o-transition: opacity 0.5s ease-in;
+}
+
+.cancelAddCard{
+  margin-left: 140px;
+  margin-top: 30px;
+}
+
+.sendAddCard{
+   margin-left: 10px;
+}

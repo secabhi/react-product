@@ -1,0 +1,469 @@
+.giftwrap-next-disabled {
+        opacity: .60;
+        pointer-events: none;
+        width: 155px;
+        height: 60px;
+        background-color: #4b2b6f;
+        margin: 0 50px 0 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+.giftwrap-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.giftwrap-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.giftwrap-header-arrow {
+    width: 14px;
+    height: 28px;
+    margin: 0 27px 0 50px;
+}
+
+.giftwrap-header-divider {
+    max-width: 0px;
+    width: 0px;
+    height: 38px;
+    border: solid 1px #707070;
+    margin-right: 16px;
+}
+
+.giftwrap-header-text {
+    width: 305px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    color: #51515b;
+}
+
+.giftwrap-content-text {
+    width: 510px;
+    height: 66px;
+    font-family: Roboto;
+    font-size: 50px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    text-align: left;
+    color: #51515b;
+    margin: 80px 0 33px 80px;
+}
+
+.giftwrap-content-container {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap; 
+    justify-content: flex-start;
+    margin-left: 170px;
+}
+
+.giftwrap-items {
+    /* margin: 0 !important; */
+    width: 90% !important;
+    background-color: yellow;
+
+}
+
+.giftwrap-content {
+    width: 1920px;
+    height: 705px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+    overflow-y: auto;
+}
+
+.giftwrap-options {
+    width: 290px;
+    height: 375px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    border: solid 1px #ededed;
+    margin: 0 20px 20px 0;
+}
+
+.giftwrap-options-img {
+    margin: 26px 0 30px 0;
+    display: inline-block;
+    width: 290px;
+    height: 195px;
+    background-color: rgba(168, 126, 214, 0.2);
+}
+
+.giftwrap-options-description {
+    width: 290px;
+    height: 28px;
+    font-family: Roboto;
+    font-size: 21px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+    text-transform: lowercase;
+    margin-left: 15px;
+}
+
+.giftwrap-options-number {
+    width: 82px;
+    height: 24px;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+    margin: 0 0 0 15px;
+}
+
+.giftwrap-options-price {
+    width: 81px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+    margin: 15px 0 0 15px;
+}
+
+.giftwrap-cancel {
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.giftwrap-cancel-text {
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #613b8c;
+    text-transform: uppercase;
+}
+
+.giftwrap-next {
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin: 0 50px 0 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.giftwrap-next-text {
+    width: 62px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.giftwrap-options-modal {
+    width: 725px !important;
+    height: 575px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6) ;
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-prompt-modal {
+    width: 725px !important;
+    height: 575px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6) ;
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.giftwrap-message-modal {
+    width: 727px !important;
+    height: 820px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6) ;
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+@media only screen and (max-width: 1080px) {
+
+    /* HEADER */
+    .giftwrap-header-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .giftwrap-header-arrow {
+        width: 27px;
+        height: 53px;
+        margin: 0 40px 0 40px;
+    }
+    
+    .giftwrap-header-divider {
+        max-width: 0px;
+        width: 0px;
+        height: 85px;
+        border: solid 1px #707070;
+        margin-right: 40px;
+    }
+
+    .giftwrap-header-text {
+        width: 694px;
+        height: 99px;
+        font-family: Roboto;
+        font-size: 75px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #333333;
+        margin-top: 30px; 
+    }
+    
+    /* MAIN CONTENT */
+    .giftwrap-content {
+        width: 1080px;
+        height: 1095px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+        overflow: scroll;  
+        display: flex;
+        flex-direction: column;
+    }
+
+    .giftwrap-content-text {
+        width: 900px;
+        height: 99px;
+        font-family: Roboto;
+        font-size: 75px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #333333;
+        margin-top: 80px !important;
+        margin-left: 80px !important;
+    }
+
+    /* MODALS */
+    .giftwrap-options-modal {
+        width: 890px !important;
+        height: 1200px !important;
+        box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6) ;
+        background-color: #ffffff;
+        border: solid 1px #bfbfbf;
+        margin: auto !important;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message-prompt-modal {
+        width: 890px !important;
+        height: 1200px !important;
+        box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6) ;
+        background-color: #ffffff;
+        border: solid 1px #bfbfbf;
+        margin: auto !important;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .giftwrap-message-modal {
+        width: 890px !important;
+        height: 1426px !important;
+        box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6) ;
+        background-color: #ffffff;
+        /* border: solid 1px #bfbfbf; */
+        margin: auto !important;
+        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* FOOTER BUTTONS */
+    .giftwrap-cancel {
+        width: 375px;
+        height: 120px;
+        border: solid 4px #612e9b;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .giftwrap-cancel-text {
+        width: 165px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        color: #613b8c;
+        text-transform: uppercase;
+    }
+    
+    .giftwrap-next {
+        width: 304px;
+        height: 120px;
+        background-color: #4b2b6f;
+        margin: 0 50px 0 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 175px;
+    }
+
+    .giftwrap-next-disabled {
+        opacity: .60;
+        pointer-events: none;
+        width: 304px;
+        height: 120px;
+        background-color: #4b2b6f;
+        margin: 0 50px 0 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 175px;
+    }
+    
+    .giftwrap-next-text {
+        width: 112px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        color: #ffffff;
+        text-transform: uppercase;
+    }
+
+    .giftwrap-options {
+        width: 1080px;
+        height: 316px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        background-color: #ffffff;
+        border: solid 1px #ededed;
+        margin: 0 0 20px -170px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+
+    .giftwrap-options-values {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-evenly; */
+    }
+    
+    .giftwrap-options-img {
+        margin: 26px 0 30px 0;
+        display: inline-block;
+        width: 358px;
+        height: 240px;
+        background-color: rgba(168, 126, 214, 0.2);
+    }
+    
+    .giftwrap-options-description {
+        width: 500px;
+        height: 28px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #505050;
+        text-transform: lowercase !important;
+        margin-top: 36px;
+    }
+    
+    .giftwrap-options-number {
+        width: 82px;
+        height: 24px;
+        font-family: Roboto;
+        font-size: 42px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #505050;
+        margin-top: 40px;
+    }
+    
+    .giftwrap-options-price {
+        width: 81px;
+        height: 32px;
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #505050;
+        margin-top: 40px;
+    }
+
+  }

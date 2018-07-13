@@ -1,0 +1,55 @@
+.freq-shipped-address-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 45px;
+    width: 1828px;
+    max-height: 560px;
+    margin-top: 50px;
+    /* border: 2px solid blue; */
+}
+
+.freqShipped-Addcustomer-container{
+    display: flex;
+}
+
+.freqShipped-AddCustomer-button{
+    height: 80px;
+    width: 80px;
+    margin-top: 10px;
+}
+
+.freqshipped-AddCustomer-text{
+    width: 211px;
+    height: 37px;
+    margin-top: 30px;
+    margin-left: 10px;
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #613b8c;
+}
+
+@media only screen and (width:1080px){
+    .freq-shipped-address-container{
+        display: flex;
+        flex-direction: column;
+        margin-left: initial;
+        width: 1080px;
+        max-height: 560px;
+        margin-top: 50px;
+        /* border: 2px solid blue; */
+    }
+
+    .freqShipped-AddCustomer-button{
+        height: 120px;
+        width: 120px;
+        margin-top: initial;
+    }
+
+.freqshipped-AddCustomer-text{
+    display: none;
+    }
+}

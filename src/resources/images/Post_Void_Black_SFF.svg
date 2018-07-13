@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+    <defs>
+        <style>
+            .cls-1,.cls-2,.cls-3,.cls-5{fill:none}.cls-1,.cls-2,.cls-3{stroke:#505050;stroke-linecap:round;stroke-width:5px}.cls-1,.cls-2{stroke-linejoin:round}.cls-1,.cls-3{stroke-miterlimit:10}.cls-4{stroke:none}
+        </style>
+    </defs>
+    <g id="Post_Void_Black_SFF" transform="translate(-390 -512.999)">
+        <g id="Group_6673" data-name="Group 6673" transform="translate(0 8)">
+            <g id="SVGID_33_" class="cls-1" transform="translate(390 504.999)">
+                <ellipse cx="150" cy="150" class="cls-4" rx="150" ry="150"/>
+                <ellipse cx="150" cy="150" class="cls-5" rx="147.5" ry="147.5"/>
+            </g>
+        </g>
+        <g id="Resume" transform="translate(469.25 593.26)">
+            <g id="post_void" transform="translate(10.75 9.74)">
+                <path id="Path_3941" d="M7.94 51.959l14.367-3.927-3.989-14.772" class="cls-2" data-name="Path 3941" transform="translate(14.505 68.051)"/>
+                <g id="Group_5060" data-name="Group 5060" transform="translate(42.641 42.408)">
+                    <path id="Line_597" d="M0 0l34.781 35.186" class="cls-2" data-name="Line 597"/>
+                    <path id="Line_598" d="M34.781 0L0 35.186" class="cls-2" data-name="Line 598"/>
+                </g>
+                <path id="Path_4782" d="M87.447 114.468a59.994 59.994 0 1 0-53.418 0" class="cls-3" data-name="Path 4782" transform="translate(-.738 -.753)"/>
+            </g>
+        </g>
+    </g>
+</svg>

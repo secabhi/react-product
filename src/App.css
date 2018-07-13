@@ -1,0 +1,58 @@
+/* @import url('https://fonts.googleapis.com/css?family=Roboto'); */
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    font-style: normal;
+    src: url('./resources/fonts/Roboto-Regular.ttf') format('truetype');
+
+}
+@font-face {
+    font-family: 'Roboto-Light';
+    font-style: normal;
+    src: url('./resources/fonts/Roboto-Light.ttf') format('truetype');
+
+}
+@font-face {
+    font-family: 'Roboto-Medium';
+    font-style: normal;
+    src: url('./resources/fonts/Roboto-Medium.ttf') format('truetype');
+
+}
+@font-face {
+    font-family: 'Roboto-Thin';
+    font-style: normal;
+    src: url('./resources/fonts/Roboto-Thin.ttf') format('truetype');
+
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    src: url('./resources/fonts/Roboto-Light.ttf') format('truetype');
+
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: url('./resources/fonts/Roboto-Medium.ttf') format('truetype');
+
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: normal;
+    src: url('./resources/fonts/Roboto-Regular.ttf') format('truetype');
+
+}
+
+body {
+    font-family: 'Roboto'
+}
+
+html, body, body>div, .routerContainer {
+    height: 100%
+}

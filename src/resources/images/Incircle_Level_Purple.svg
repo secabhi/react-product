@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 69.1 69.003">
+  <defs>
+    <style>
+      .cls-1, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #010101;
+        stroke-width: 1.5px;
+      }
+
+      .cls-2 {
+        fill: #603b8b;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke: #613b8c;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-width: 0.5px;
+      }
+
+      .cls-3 {
+        fill: #613b8c;
+      }
+
+      .cls-4 {
+        stroke-width: 1.7px;
+      }
+
+      .cls-5 {
+        stroke-width: 1.3px;
+      }
+    </style>
+  </defs>
+  <g id="Incircle_Level_Purple" transform="translate(-2065.25 -284.25)">
+    <path id="Path_486_39_" class="cls-1" d="M2114.7,334.7" transform="translate(0.288 0.297)"/>
+    <path id="Path_2743_22_" class="cls-2" d="M2105.566,296.8a27.723,27.723,0,0,0-2.515,55.326,24.516,24.516,0,0,0,2.716.1,27.775,27.775,0,0,0,2.515-55.426,24.443,24.443,0,0,1-2.716,0Zm.1,56.13c-.905,0-1.811-.1-2.716-.1a28.276,28.276,0,0,1,2.615-56.432c.905,0,1.811.1,2.716.1a28.281,28.281,0,0,1-2.615,56.432Z" transform="translate(0.066 0.07)"/>
+    <path id="Path_2744_22_" class="cls-3" d="M2105.568,285.506a27.689,27.689,0,1,0,21.225,10.059A27.2,27.2,0,0,0,2105.568,285.506Zm0,56.03a28.572,28.572,0,1,1,18.207-6.639A28.19,28.19,0,0,1,2105.568,341.536Z" transform="translate(0.065)"/>
+    <circle id="Ellipse_272" data-name="Ellipse 272" class="cls-4" cx="28.065" cy="28.065" r="28.065" transform="translate(2066.1 287.92)"/>
+    <circle id="Ellipse_273" data-name="Ellipse 273" class="cls-5" cx="28.065" cy="28.065" r="28.065" transform="translate(2077.567 285.003)"/>
+  </g>
+</svg>

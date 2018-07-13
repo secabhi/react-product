@@ -1,0 +1,108 @@
+.address-card-container{
+    display: flex;
+    justify-content: space-between;
+    width: 1828px;
+    height: 130px;
+    box-shadow: 0 3px 6px 0 #d3d3d3;
+    background-color: #ffffff;
+    background-color: var(--white);
+    /* border: solid 0.5px #a87ed6; */
+}
+
+.address-card-container-data{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    color: #333333;
+}
+
+.data-name{
+    width: 421px;
+    height: 130px;
+    /* border: 2px solid green; */
+}
+
+.data-phoneNumber{
+    width: 417px;
+    height: 130px;
+    /* border: 2px solid orange; */
+}
+
+.data-email{
+    width: 494px;
+    height: 130px;
+    /* border: 2px solid red; */
+}
+
+.data-address{
+    width: 290px;
+    height: 130px;
+    /* border: 2px solid red; */
+}
+
+@media only screen and (width:1080px){
+    .address-card-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 1080px;
+        height: 406px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        background-color: #ffffff;
+        background-color: var(--white);
+        border: solid 0.5px #ededed;
+    }
+
+    .address-card-container-data{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        color: #333333;
+        margin-left: 80px;
+    }
+
+    .data-name{
+        /* width: 421px; */
+        height: 130px;
+        /* border: 2px solid green; */
+        justify-content: flex-start;
+        order: 1;
+    }
+
+    .data-phoneNumber{
+        position: absolute;
+        right: 50px;
+        width: 330px;
+        height: 130px;
+        /* border: 2px solid orange; */
+        order: 2;
+    }
+
+    .data-email{
+        width: 500px;
+        max-width: 600px;
+        height: 130px;
+        /* border: 2px solid red; */
+        justify-content: flex-start;
+        order: 4;
+    }
+
+    .data-address{
+        width: 455px;
+        max-width: 600px;
+        height: 130px;
+        /* border: 2px solid red; */
+        justify-content: flex-start;
+        order: 3;
+    }
+}

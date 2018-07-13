@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.4 21.233">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #505050;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1 {
+        stroke-linecap: round;
+        stroke-width: 1.4px;
+      }
+    </style>
+  </defs>
+  <g id="Resume" transform="translate(-1791.3 -734.712)">
+    <path id="Path_3936" data-name="Path 3936" class="cls-1" d="M3.7,141V129.2a3.132,3.132,0,0,1,.5-1.7c.4-.5,1.6-.4,1.6-.4H28.3" transform="translate(1791.3 608.328)"/>
+    <path id="Path_3937" data-name="Path 3937" class="cls-2" d="M6.4,138.4" transform="translate(1791.3 608.328)"/>
+    <path id="Path_3938" data-name="Path 3938" class="cls-1" d="M.7,138.4l3,2.8,2.7-2.8" transform="translate(1791.3 608.328)"/>
+    <path id="Path_3939" data-name="Path 3939" class="cls-1" d="M27.7,133v11.8a3.132,3.132,0,0,1-.5,1.7c-.4.5-1.6.4-1.6.4H3" transform="translate(1791.3 608.328)"/>
+    <path id="Path_3940" data-name="Path 3940" class="cls-1" d="M30.7,135.6l-3-2.8L25,135.6" transform="translate(1791.3 608.328)"/>
+  </g>
+</svg>

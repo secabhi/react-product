@@ -1,0 +1,21 @@
+.modal-frame {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.55); /* Black w/ opacity */
+}
+
+.model-content {
+    position: relative;
+    z-index: 1;
+
+}
+
+.model-content-absolute {
+    z-index: 1;
+    position: absolute;
+}

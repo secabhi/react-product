@@ -1,0 +1,20 @@
+{
+    "Salutation": [
+        {
+            "Value":"Mr",
+            "label":"Mr"
+        },
+        {
+            "Value":"Mrs",
+            "label":"Mrs"
+        },
+        {
+            "Value":"Ms",
+            "label":"Ms"
+        },
+        {
+            "Value":"Dr",
+            "label":"Dr"
+        }  
+    ]
+}

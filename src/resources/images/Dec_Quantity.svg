@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60.447 60.447">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #613b8c;
+        stroke-width: 1.5px;
+      }
+
+      .cls-3 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Dec_Quantity" transform="translate(-475.476 -814.776)">
+    <circle id="Ellipse_428" data-name="Ellipse 428" class="cls-1" cx="30" cy="30" r="30" transform="translate(475.699 815)"/>
+    <circle id="Ellipse_429" data-name="Ellipse 429" class="cls-2" cx="29.474" cy="29.474" r="29.474" transform="translate(476.226 815.526)"/>
+    <path id="Path_3329_2_" class="cls-3" d="M1230.621,284.137,1216.2,270.453l14.421-13.053" transform="translate(-719.658 573.495)"/>
+  </g>
+</svg>

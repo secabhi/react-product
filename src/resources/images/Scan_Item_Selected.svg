@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.107 80">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #4b2b6f;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="Scan_Item_Selected" transform="translate(-2582.401 -383.069)">
+    <path id="Path_2021_37_" class="cls-1" d="M1867.933,1739.261a39.914,39.914,0,1,1,15.67-3.113h0A41.629,41.629,0,0,1,1867.933,1739.261Z" transform="translate(754.501 -1276.192)"/>
+    <g id="Group_5002" data-name="Group 5002" transform="translate(2602.149 404.791)">
+      <path id="Path_2939_2_" class="cls-2" d="M1846.3,1687.005V1679.6h7.406" transform="translate(-1846.3 -1679.493)"/>
+      <path id="Path_2940_2_" class="cls-2" d="M1877.1,1679.5h7.406v7.406" transform="translate(-1844.043 -1679.5)"/>
+      <path id="Path_2941_2_" class="cls-2" d="M1884.605,1706.6v7.406H1877.2" transform="translate(-1844.036 -1677.515)"/>
+      <path id="Path_2942_2_" class="cls-2" d="M1853.706,1714.006H1846.3V1706.6" transform="translate(-1846.3 -1677.515)"/>
+      <line id="Line_49_2_" class="cls-2" y2="16.958" transform="translate(6.332 9.659)"/>
+      <line id="Line_50_2_" class="cls-2" y2="16.958" transform="translate(11.699 9.659)"/>
+      <line id="Line_51_2_" class="cls-2" y2="16.958" transform="translate(14.596 9.659)"/>
+      <line id="Line_52_2_" class="cls-2" y2="16.958" transform="translate(19.641 9.659)"/>
+      <line id="Line_53_2_" class="cls-2" y2="16.958" transform="translate(24.363 9.659)"/>
+      <line id="Line_54_2_" class="cls-2" y2="16.958" transform="translate(27.261 9.659)"/>
+      <line id="Line_55_2_" class="cls-2" y2="16.958" transform="translate(33.379 9.659)"/>
+    </g>
+  </g>
+</svg>

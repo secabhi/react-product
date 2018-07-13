@@ -1,0 +1,96 @@
+.verify-sale-customer-popup-sff {
+    z-index: 99;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    flex-direction: row;
+    position: fixed;
+    width: 1080px;
+  height: 1920px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  .verify-sale-customer-popup-inner {
+    width: 920px;
+    height: 1700px;
+    -webkit-box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 0;
+    margin-bottom: 89px;
+    background: white;
+  }
+  
+  .flex-sale-popup-header {
+    display: flex;
+  }
+  
+  .verify-sale-customer-popup-header {
+    display: flex;
+    background: #4b2b6f;
+    color: white;
+    padding-left: 50px;
+    padding-right: 50px;
+    height: 140px;
+    width: 820px;
+    max-height: 140px;
+  }
+  
+  .verify-sale-customer-popup-header .verify-sale-customer-popup-title {
+    height: 59px;
+    font-family: Roboto-Light;
+    font-size: 55px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    text-align: left;
+    color: #faf7f7;
+    padding-top: 38px;
+    padding-bottom: 38px;
+    width: 1000px;
+  }
+  
+  .verify-sale-customer-popup-header .verify-sale-customer-popup-spacer {
+    width: 414px;
+    max-width: 414px;
+  }
+  
+  .verify-sale-customer-popup-close {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding-top: 54px;
+    padding-bottom: 31px;
+    /* position: absolute; */
+  }
+  
+  .flex-sale-ng-popup-body {
+    background: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 40px;
+
+    height: 1509px;
+  }

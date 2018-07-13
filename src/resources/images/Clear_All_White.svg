@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+    <defs>
+        <style>
+            .cls-1{fill:#fff;fill-rule:evenodd}
+        </style>
+    </defs>
+    <g id="Clear_All_White" transform="translate(-1677 -529)">
+        <path id="Path_2223" d="M60 46a14 14 0 1 0-14 14 14 14 0 0 0 14-14zm-26.445 0A12.445 12.445 0 1 1 46 58.445 12.445 12.445 0 0 1 33.555 46zM47.1 46l4.117 4.117a.778.778 0 0 1-1.1 1.1L46 47.1l-4.12 4.117a.778.778 0 1 1-1.1-1.1L44.9 46l-4.114-4.12a.778.778 0 1 1 1.1-1.1L46 44.9l4.117-4.117a.778.778 0 1 1 1.1 1.1z" class="cls-1" data-name="Path 2223" transform="translate(1645 497)"/>
+    </g>
+</svg>

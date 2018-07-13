@@ -1,0 +1,138 @@
+{
+  "TransRequest": {
+    "POSID": "01",
+    "APPID": "04",
+    "CCTID": "06",
+    "CardToken": "411111XXXXXX1111",
+    "CustomerIdentifier": "",
+    "CardPresent": "Y",
+    "PurchaserPresent": "Y",
+    "EntrySource": "M",
+    "KeyedEntryAVSFlag": "N",
+    "GiftPurchaseAuthIndicator": "N",
+    "EcommerceIndicator": "N",
+    "EnableNFCReader": "Y",
+    "CardDataInfo": {
+      "CardDataSource": "6",
+      "EncryptionMode": "1"
+    },
+    "TransAmountDetails": {
+      "ServicesTotalAmount": "",
+      "ProductTotalAmount": "",
+      "TaxAmount": "",
+      "Discount": "",
+      "DutyTotalAmount": "",
+      "FreightTotalAmount": "",
+      "DonationAmount": "",
+      "TenderAmount": "",
+      "TransactionTotal": ""
+    },
+    "ECOMMInfo": {
+      "DomainId": "1",
+      "TemplateId": "1",
+      "URLType": "1"
+    },
+    "TransactionType": "",
+    "InvoiceNumber": "",
+    "ReceiptNumber": "",
+    "ReferenceNumber": "",
+    "TaxExemptFlag": "Y/N",
+    "POSIP": "10.93.248.223",
+    "POSClientName": "MPOS-DEV10",
+    "CustomerFirstName": "",
+    "CustomerLastName": "",
+    "BillingAddress": {
+      
+    },
+    "ShippingAddress": {
+      
+    },
+    "CheckInfo": {
+      
+    },
+    "FraudScoreInfo": {
+      
+    },
+    "ShowResponse": "1",
+    "CurrencyCode": "840",
+    "DCCExchangeRate": "",
+    "DCCFgnAmount": "",
+    "DCCOffered": "",
+    "ClerkID": "",
+    "TransactionDate": "",
+    "TransactionTime": "",
+    "TipEligible": "0",
+    "AmountNoBar": "1",
+    "BatchNumber": "",
+    "AllowknukleBuster": "0",
+    "TicketProductData": {
+      "TicketCount": "",
+      "Tickets": {
+        "Ticket": {
+          "TicketNumber": "",
+          "ProductCount": "",
+          "Products": {
+            "Product": [
+              {
+                "ProductID": "",
+                "ProductName": "",
+                "ProductShortDescription": "",
+                "DepartmentID": "",
+                "DepartmentName": "",
+                "Quantity": "",
+                "Price": ""
+              }
+            ]
+          }
+        }
+      }
+    },
+    "UPCDetails": {
+      "UPCCount": "",
+      "Items": {
+        "Item": [
+          {
+            "UPCIndicator": "",
+            "UPCPLUData": "",
+            "UPCQuantity": "",
+            "UnitofMeasure": ""
+          }
+        ]
+      }
+    },
+    "FleetData": {
+      "FleetProductCount": "",
+      "FleetProducts": {
+        "FleetProduct": [
+          {
+            "FleetProductSeqNo": "",
+            "FleetProductDataType": "",
+            "FleetServiceLevel": "",
+            "FleetNACSCode": "",
+            "FleetProductName": "",
+            "FleetUnitOfMeasure": "",
+            "FleetProductQuantity": "",
+            "FleetProductUnitPrice": "",
+            "FleetProductTotalAmount": ""
+          }
+        ]
+      }
+    },
+    "SignatureFlag": "Y",
+    "IsTokenizedTransaction": "0",
+    "AllowZipPrompt": "0",
+    "PartialAllowed": "1",
+    "AdditionalTags": {
+      "Tags": {
+        "Tag": [
+          {
+            
+          },
+          {
+            
+          }
+        ]
+      }
+    }
+  }
+}

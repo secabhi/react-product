@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 125">
+    <defs>
+        <style>
+            .cls-1{fill:#4b2b6f}.cls-2{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px}.cls-3{filter:url(#Path_2021_34_)}
+        </style>
+        <filter id="Path_2021_34_" width="125" height="125" x="0" y="0" filterUnits="userSpaceOnUse">
+            <feOffset dy="4"/>
+            <feGaussianBlur result="blur" stdDeviation="7.5"/>
+            <feFlood flood-opacity=".4"/>
+            <feComposite in2="blur" operator="in"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g id="Scroll_Up" transform="translate(-3243.901 -362.769)">
+        <g class="cls-3" transform="translate(3243.9 362.77)">
+            <path id="Path_2021_34_2" d="M1867.879 1989.461a39.892 39.892 0 1 1 15.649-3.113 41.519 41.519 0 0 1-15.649 3.113z" class="cls-1" data-name="Path_2021_34_" transform="translate(-1805.4 -1890.96)"/>
+        </g>
+        <g id="Group_5004" data-name="Group 5004" transform="translate(3291.803 400.282)">
+            <path id="Path_3826" d="M1851.6 1941.134l14.791-13.934 14.362 13.934" class="cls-2" data-name="Path 3826" transform="translate(-1851.6 -1927.2)"/>
+            <path id="Line_528" d="M0 41.801V0" class="cls-2" data-name="Line 528" transform="translate(14.791)"/>
+        </g>
+    </g>
+</svg>

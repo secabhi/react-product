@@ -1,0 +1,430 @@
+.footer-container {
+    display: flex;
+}
+
+.price-Details{
+    width: 1577px;
+    height: 130px;
+    background-color: #ffffff;
+    box-shadow: 0 -1px 6px 0 #d3d3d3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-subtotal, .item-taxed, .item-total {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: right;
+    color: #51515b;
+    margin-left: 50px; 
+}
+
+.item-subtotal-amount, .item-taxed-amount, .item-total-amount, .item-total-amount-align {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    text-align: left;
+    color: #333333;
+    margin-left: 20px;
+}
+
+/* 
+.item-subtotal-amount {
+    width: 147px;
+    height: 39px;
+}
+.item-tax-amount {
+    width: 122px;
+    height: 39px;
+}
+.item-total-amount {
+    width: 68px;
+    height: 39px;
+}
+.item-tax {
+    width: 48px;
+    height: 39px;
+}
+.item-total {
+    width: 68px;
+    height: 39px;
+} */
+
+/* .item-subtotal {
+    margin-left: 50px;
+
+} */
+
+.viewmore-link {
+    /* width: 114px;
+    height: 32px; */
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4b2b6f;
+}
+
+.viewmore-link-text {
+    color: #4b2b6f;
+}
+
+.payment-button {
+    width: 265px;
+    height: 60px;
+    border: none;
+    background-color: #0a6962;
+    margin-right: 50px;
+    align-items: center;
+}
+
+.payment-logo {
+    width: 35px;
+    height: 35px;
+    vertical-align: top;
+    margin-right: 15px;
+}
+.payment-text {
+    width: 187px;
+    height: 32px;
+    text-transform: uppercase;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #ffffff;
+}
+
+/* .viewmore-link-small{
+    display: none ;
+} */
+
+#viewLessLink, #total{
+    display: none;
+}
+
+.viewMoreClass{
+    height: 271px;
+    width: 1577px;
+    display: flex;
+}
+
+.viewMoreClass > .price-Details{
+    height: 271px;
+    width: 1577px;
+    margin-left: 641px;
+    margin-right: 46px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    box-shadow: none;  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.viewMoreClass > .viewMoreTotal{
+    width: 1000px;
+    margin-top: 200px;
+}
+
+.viewMoreClass .payment-button{
+    margin-right: 0px;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.viewMoreClass .item-total-amount-align{
+    margin-left: 0px;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    color: #333333;
+    margin-left: 150px;
+}
+
+.viewMoreClass .item-total{
+    font-weight: bold;
+}
+
+.viewMoreClass .item-subtotal-amount{
+    margin-left: 150px;
+    font-weight: normal;
+}
+
+
+.viewMoreClass .item-taxed-amount{
+     margin-left: 170px; 
+     font-weight: normal;
+}
+
+.viewless-link{
+     width: 200px; 
+     margin-left: 16px; 
+     margin-top: 2px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4b2b6f;
+}
+
+
+
+
+@media only screen and (width:1080px){
+
+
+    .footer-container {
+        width: 1080px;
+        height: 240px;
+        background-color: #ffffff;
+        box-shadow: 0 22px 10px 28px #51515b;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .item-subtotal, .item-taxed {
+        display: none;
+        font-family: Roboto;
+        font-size: 30px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.3;
+        letter-spacing: normal;
+        text-align: right;
+        color: #51515b;
+    }
+
+
+    .item-subtotal-amount, .item-taxed-amount, {
+        display: none;
+        font-family: Roboto;
+        font-size: 30px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.3;
+        text-align: left;
+        color: #333333;
+    }
+
+    .item-total{
+        position: absolute;
+        font-family: Roboto;
+        font-size: 48px;
+        margin-top: 50px;
+        margin-right: 100px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.3;
+        letter-spacing: normal;
+        text-align: right;
+        color: #000000;
+    }
+
+    .item-total-amount{
+        font-family: Roboto;
+        margin-bottom: 48px;
+        font-size: 48px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.3;
+        text-align: left;
+        color: #333333;
+    }
+
+    .item-total-amount-align{
+        font-size: 48px;
+    }
+
+    .viewmore-link {
+        display: block;
+        /* width: 189px; */
+        height: 53px;
+        margin-left: 41px;
+        margin-bottom: 149px;
+        margin-top: 38px; 
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: 500;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #613b8c;
+    }
+
+    .payment-button {
+        width: 522px;
+        height: 120px;
+        border: none;
+        background-color: #0a6962;
+        margin-right: 50px;
+        align-items: center;
+    }
+
+    .payment-text {
+        width: 187px;
+        height: 32px;
+        text-transform: uppercase;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        text-align: left;
+        color: #ffffff;
+    }
+
+    .price-Details{
+        box-shadow: none;
+    }
+
+    .payment-logo {
+        width: 60px;
+        height: 66.2px;
+        vertical-align: top;
+        margin-right: 15px;
+    }
+    .viewMoreClass{
+        width: 1080px;
+        height: 510px;
+        background-color: #ffffff;
+        box-shadow: 0 -1px 6px 0 #d3d3d3;
+        display: flex;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .viewMoreClass > .viewMoreTotal{
+        width: 100px;
+        /* height: 500px; */
+        flex-direction: column;
+        margin-top: 0px;  
+    }
+
+    .viewMoreClass > .viewMoreTotal #total-small{
+        width: 100px;
+        flex-direction: column;
+        margin-top: 300px; 
+        margin-left: 40px;
+    }
+
+    .viewMoreClass  .viewless-link{
+        width: 250px;
+        font-size: 42px;
+        flex-direction: column;
+        margin-left: 41px;
+        /* margin-top: 200px; */
+    }
+
+    .viewMoreClass .item-total-amount-align{
+         /* margin-left: 10px;  */
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: bold; 
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.3;
+        color: #333333;
+    }
+
+    .viewMoreClass .item-subtotal{
+         display:inline; 
+         font-size: 44px;
+         font-weight: normal; 
+    }
+
+    .viewMoreClass .item-taxed{
+         display:inline; 
+         font-size: 44px;
+    }
+
+    .viewMoreClass .item-subtotal-amount{
+        /* margin-left: 0px; */
+        font-size: 44px;
+        font-weight: normal; 
+    }
+
+
+    .viewMoreClass .item-taxed-amount{
+        /* margin-left: 0px;  */
+        font-size: 44px;
+    }
+
+    .viewMoreClass .item-total{
+        position: relative;
+        font-weight: bold;
+        margin-right: 0px;
+        margin-top: 0px;
+        font-size: 44px;
+        order: 1;
+    }
+
+    .viewMoreClass > .price-Details{
+        height: 510px;
+        width: 600px;
+        margin-left: 0px;
+        margin-right: 46px;
+         margin-top: 250px; 
+        background-color: #ffffff;
+        box-shadow: none;  
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    .viewMoreClass .payment-button{
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 49px;
+        /* margin-bottom: 55px; */
+        width: 522px;
+        height: 120px;
+        border: none;
+        background-color: #0a6962;
+        /* margin-right: 50px; */
+        align-items: center;
+        order: 2;
+    }
+
+    /* .viewmore-link-small #viewMoreLink{
+        display: none;
+        
+    } */
+}
+

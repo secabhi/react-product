@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.78 73.621">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #010101;
+        stroke-width: 2px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #613b8c;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-2 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Search" transform="translate(-3153.801 -470.608)">
+    <path id="Path_486_26_" class="cls-1" d="M1725.6,2201.3" transform="translate(1454.675 -1687.168)"/>
+    <ellipse id="SVGID_22_" class="cls-2" cx="28.456" cy="28.576" rx="28.456" ry="28.576" transform="translate(3155.301 472.108)"/>
+    <line id="Line_526" data-name="Line 526" class="cls-3" x2="21.012" y2="20.172" transform="translate(3203.448 521.936)"/>
+    <path id="Path_486_25_" class="cls-1" d="M1722.5,2214.2" transform="translate(1454.053 -1684.58)"/>
+  </g>
+</svg>

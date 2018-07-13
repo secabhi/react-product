@@ -1,0 +1,256 @@
+.WeightSend-options-container {
+    display: flex;
+    flex-direction: row;
+    width:auto;
+    justify-content: space-between;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+}
+.Weight-options-container
+{
+    width: 50%;
+}
+.Send-options-container
+{
+    width: 50%;
+}
+.WeightSend-options-list-large
+{
+    display: block
+}
+.WeightSend-options-list-small
+{
+    display: none
+}
+.Weight-options-text {
+    width: 297px;
+    height: 61px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b;
+    margin: 52px 0 51px 93px;
+}
+
+.Send-options-text{
+    width: 425px;
+  height: 61px;
+  font-family: Roboto;
+  font-size: 52px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #51515b;
+    margin: 52px 0 51px 93px;
+}
+
+.WeightSend-options-list {
+    display: flex;
+    flex-direction: column;
+    /* width: 800px; */
+    height: 38px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b; 
+}
+
+.WeightSend-option {
+    margin: 0 0 51px 176px; 
+    position: relative;
+    padding-left: 70px;  
+}
+
+.WeightSend-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+.WeightSend-radio-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+  
+    background-color: #ffffff;
+    border: solid 2px #707070;
+    border-radius: 50%;
+}
+
+.WeightSend-option input:checked ~ .radio-button {
+    background-color: #707070;
+}
+
+.WeightSend-radio-button:after {
+    content: "";
+    position: absolute;
+    display: none; 
+}
+.WeightSend-option input:checked ~ .radio-button:after {
+    display: block;
+}
+.WeightSend-option .radio-button:after {
+   top: 10px;
+   left: 10px;
+   width: 20px;
+   height: 20px;
+   background-color: #4b2b6f;
+   border-radius: 50%;
+}
+
+.WeightSend-options-price {
+    font-weight: 500;
+}
+
+
+
+@media only screen and (width:1080px){
+    .WeightSend-options-container {
+        display: flex;
+        flex-direction:  column;
+        justify-content: space-between;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+        overflow: scroll
+    }
+    .Weight-options-container
+    {
+        height:1095px !important;
+        width: 90%;
+        
+    }
+    .Send-options-container
+    {
+        width: 90%;
+    }
+    .Weight-options-text {
+        width: 430px;
+        height: 99px;
+        font-family: Roboto;
+        font-size: 75px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #333333;
+        margin: 50px 0 100px 80px;
+    }
+    
+    .Send-options-text{
+        width: 630px;
+        height: 99px;
+        font-family: Roboto;
+        font-size: 75px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-align: left;
+        color: #333333;
+        margin: 50px 0 100px 80px;
+    }
+
+    .WeightSend-options-list {
+        display: flex;
+        flex-direction: colum;
+        height: 126px !important;
+        font-family: Roboto;
+        font-size: 48px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.;
+        letter-spacing: normal;
+        text-align: left;
+        color: #51515b; 
+    }
+    
+    .WeightSend-option {
+        
+        margin: 0 0 85px 141px; 
+        position: relative;
+        padding-left: 90px;  
+    }
+    
+    .WeightSend-option input {
+        position: absolute;
+        opacity: 0;
+    }
+    
+    .WeightSend-radio-button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 61px;
+        height: 61px;
+      
+        background-color: #ffffff;
+        border: solid 2px #707070;
+        border-radius: 50%;
+    }
+    
+    .WeightSend-option input:checked ~ .radio-button {
+        background-color: #707070;
+    }
+    
+    .WeightSend-radio-button:after {
+        content: "";
+        position: absolute;
+        display: none; 
+    }
+    .WeightSend-option input:checked ~ .radio-button:after {
+        display: block;
+    }
+    .WeightSend-option .radio-button:after {
+       top: 10px;
+       left: 10px;
+       width: 20px;
+       height: 20px;
+       background-color: #4b2b6f;
+       border-radius: 50%;
+    }
+    
+    .WeightSend-options-price {
+        font-weight: 500;
+    }
+
+    .WeightSend-options-list-large
+    {
+        display: none
+    }
+    .WeightSend-options-list-small
+    {
+        display: block
+    }
+
+    .space-salecontainer{
+        height: 2000px
+    }
+    .footer-fixed{
+        display: flex;
+        bottom: 105px;
+        position: fixed;
+    }
+    .sale-content-scroll{
+        height:2100px
+    }
+
+    
+}

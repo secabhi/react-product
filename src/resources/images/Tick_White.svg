@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.898 16.252">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="Tick_White" transform="translate(1 1)">
+    <path id="Path_2611" data-name="Path 2611" class="cls-1" d="M0,0,6.4,5.778" transform="translate(0 8.474)"/>
+    <path id="Path_2610" data-name="Path 2610" class="cls-1" d="M0,14.252,11.5,0" transform="translate(6.398)"/>
+  </g>
+</svg>

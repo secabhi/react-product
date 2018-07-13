@@ -1,0 +1,11 @@
+{
+  "AESDKRegistrationRequest": {
+    "POSID": "M005402",
+    "CorpID": "4739",
+    "PrimaryUrl": "uat42.",
+    "SecondaryUrl": "uat42.",
+    "EnvironmentType": "123",
+    "CommunicationType": "123",
+    "ConfigFilePath": "str1234"
+  }
+}

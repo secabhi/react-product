@@ -1,0 +1,26 @@
+.dropDown-main-flex {
+    display: flex;
+    align-items: center;
+
+}
+
+.dropDown-icon {
+    width: 36px;
+    height: 17px;   
+    margin-left: 50px;
+}
+
+.dropdown-element-disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+/* large form factor */
+@media only screen and (min-width: 1901px) {
+    .dropDown-icon {
+        width: 22px;
+        height: 22px;   
+        margin-left: 13px;
+    }
+
+}

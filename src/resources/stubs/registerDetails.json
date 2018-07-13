@@ -1,0 +1,9 @@
+{
+  "storeNumber": "0010", 
+  "registerNumber":"0243",
+  "tranNumber":"2458",
+  "registerState": "READY", 
+  "appVersion": "V128.31", 
+  "connectivityStatus": "ONLINE", 
+  "storeServerStatus": "OPEN"
+}

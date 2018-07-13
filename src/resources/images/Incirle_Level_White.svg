@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 69.315 69.318">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #010101;
+        stroke-width: 1.5px;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 0.9px;
+      }
+
+      .cls-3 {
+        stroke-width: 1.7px;
+      }
+
+      .cls-4 {
+        stroke-width: 1.4px;
+      }
+    </style>
+  </defs>
+  <g id="Incirle_Level_White" transform="translate(-0.05)">
+    <path id="Path_486_1_" class="cls-1" d="M49.4,50.3" transform="translate(0.407 0.417)"/>
+    <path id="Path_3884" data-name="Path 3884" class="cls-2" d="M40.537,68.773c-.908,0-1.815-.1-2.723-.1A28.4,28.4,0,0,1,40.436,12c.908,0,1.815.1,2.723.1a28.4,28.4,0,0,1-2.622,56.672Z" transform="translate(0.094 0.095)"/>
+    <circle id="Ellipse_422" data-name="Ellipse 422" class="cls-3" cx="28.134" cy="28.134" r="28.134" transform="translate(0.9 3.624)"/>
+    <circle id="Ellipse_423" data-name="Ellipse 423" class="cls-4" cx="28.134" cy="28.134" r="28.134" transform="translate(12.396 0.7)"/>
+  </g>
+</svg>

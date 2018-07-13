@@ -1,0 +1,18 @@
+<svg id="Exit" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.8 38.322">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #505050;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8px;
+      }
+    </style>
+  </defs>
+  <g id="Group_5054" data-name="Group 5054" transform="translate(13.989 10.506)">
+    <path id="Path_3927" data-name="Path 3927" class="cls-1" d="M29.7,10l7.6,8.761-7.6,8.55" transform="translate(-12.389 -10)"/>
+    <line id="Line_593" data-name="Line 593" class="cls-1" x1="24.278" transform="translate(0 8.761)"/>
+  </g>
+  <path id="Path_3928" data-name="Path 3928" class="cls-1" d="M24.861,7.233V.9H.9V37.422H24.861V31.406"/>
+</svg>

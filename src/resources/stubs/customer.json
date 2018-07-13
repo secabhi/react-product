@@ -1,0 +1,22 @@
+
+
+    {
+        "firstName": "Barbara",
+        "lastName": "Jones",
+        "age": 42,
+        "streetAddress": "3120 Gary Drive",
+        "creditCardInfo": [{
+                "type": "visa",
+                "number": "4389374691823846"
+            },
+            {
+                "type": "mc",
+                "number": "5467908721626754"
+            },
+            {
+                "type": "mc",
+                "number": "5213923709875643"
+            }
+        ], 
+        "email":"barbjones@gmail.com"
+    }

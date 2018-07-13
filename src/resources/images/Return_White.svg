@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3513.895 -13390.699 28.4 28.684">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 1.4px;
+      }
+
+      .cls-1, .cls-3 {
+        stroke: #fff;
+        stroke-linecap: round;
+      }
+
+      .cls-2 {
+        stroke: #505050;
+      }
+
+      .cls-3 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Symbol_94_1" data-name="Symbol 94 – 1" transform="translate(11824 2126)">
+    <g id="Group_2625" data-name="Group 2625" transform="translate(-8309.405 -15515.999)">
+      <path id="Path_2428" data-name="Path 2428" class="cls-1" d="M19.9,85.772l3.2-1.189L21.938,81.3" transform="translate(-14.466 -58.489)"/>
+      <path id="Path_2429" data-name="Path 2429" class="cls-1" d="M9.162,26.709a13.484,13.484,0,1,1,9.17.34" transform="translate(-0.7 -0.7)"/>
+      <path id="Path_2430" data-name="Path 2430" class="cls-2" d="M48.4,96.1" transform="translate(-34.9 -69.1)"/>
+      <path id="Path_2431" data-name="Path 2431" class="cls-2" d="M63,93.8" transform="translate(-45.368 -67.451)"/>
+    </g>
+    <g id="Group_2626" data-name="Group 2626" transform="translate(-8299.896 -15506.32)">
+      <line id="Line_134" data-name="Line 134" class="cls-3" x2="7.953" y2="7.953"/>
+      <line id="Line_135" data-name="Line 135" class="cls-3" x1="7.953" y2="7.953"/>
+    </g>
+  </g>
+</svg>
