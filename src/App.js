@@ -104,10 +104,10 @@ class App extends Component {
 
                 <Route path="/payment" component={Payment} />
                 <Route path="/send" component={Send} />
-                {/* <Route path='/product-search' component = {ProductSearch}/> */}
+                 {/* <Route path='/product-search' component = {ProductSearch}/> */}
                  {/* <Route path='/postvoidtransactionmodel' component = {PostVoidTransaction}/>   */}
                  <Route path='/postvoiddetailsff' component = {PostVoidDetailssmallff}/>
-                 <Route path="/product-search/:type" component={ProductSearch}/>
+                 <Route path="/product-search/:type?" component={ProductSearch}/>
                  <Route path="/product-details/:pimskuId" component={ProductDetails}/>
 
 

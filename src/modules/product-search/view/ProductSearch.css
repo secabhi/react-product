@@ -10,6 +10,10 @@
     overflow: scroll;
 }
 
+.product-search-main .headerMainCls{
+    position: fixed;
+}
+
 .product-search-subheader-area-lff{
     height: 219.3px;
     width: 1920px;
@@ -851,6 +855,7 @@ div[role=presentation] {
 }
 
 .list-item-view {
+  margin:10.5px;
   width: 290px;
   height: 375px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
@@ -903,3 +908,38 @@ border: solid 1px #4b2b6f;
   padding: 5px 0px;
   color: #349815;
 }
+.product-search-result-not-found{
+    margin:150px 900px 0px 924px;
+    width: 60px;
+    height: 58.5px;
+    background-color: #613b8c;
+    background-color: var(--Aubergine1);
+    border: solid 0.5px #613b8c;
+    border: solid 0.5px var(--Aubergine1);
+  }
+.sorry-no-results-found {
+    margin:0px 75px 0px 75px;
+     height: 47px;
+      font-family: Roboto;
+      font-size: 40px;
+      font-weight: 500;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.18;
+      text-align: center;
+      color: #505050;
+      color: var(--Gray10);
+  }
+  .please-try-searching-with-another-criteria {
+      margin:0px 60px 0px 660px;
+      height: 38px;
+      font-family: Roboto;
+      font-size: 32px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.19;
+      text-align: left;
+      color: #757575;
+      color: var(--Gray9);
+  }

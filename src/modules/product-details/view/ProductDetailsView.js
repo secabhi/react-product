@@ -47,11 +47,13 @@ export default class ProductDetailsView extends Component{
 
     render() {
 
-      let { product } = this.props;
+      let { product, onGoBack } = this.props;
       return(
         <div className='product-details-container'>
           <div className='product-details-content'>
-            <ProductDetailsHeader product={product}/>
+            <ProductDetailsHeader 
+              product={product}
+              onGoBack={onGoBack}/>
             <div className="product-details-info">
               <div className="product-details-images">
                 <div>

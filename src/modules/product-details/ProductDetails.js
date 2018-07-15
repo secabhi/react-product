@@ -33,11 +33,17 @@ class ProductDetails extends Component {
       <div>
         <Header history={this.props.history}></Header>
         { product &&
-          <ProductDetailsView product={product}/>
+          <ProductDetailsView 
+            product={product}
+            onGoBack={this.goBack.bind(this)}/>
         }
         <Footer hideTransactionId={true}></Footer>
       </div>
     );
+  }
+  
+  goBack(){
+    this.props.history.goBack();
   }
 }
 

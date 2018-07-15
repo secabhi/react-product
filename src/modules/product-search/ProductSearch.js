@@ -42,6 +42,7 @@ import configFile from '../../resources/stubs/config.json';
             selectedCategory: "",
             selectedSubCategory: "",
             selectedDetail: "",
+            isSearchHit: false,
             //scanProductTab : true,
             scanProductShown: true,
             scanProductImage: scaniconSelected,
@@ -60,16 +61,18 @@ import configFile from '../../resources/stubs/config.json';
 
 
 
-componentDidMount = () => {
-    if(this.props.location.pathname == PORDUCT_SEARCH){
-      document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.add('product-search-tab-label-selected');
-        this.setState({
-            scanProductImage:scaniconSelected,
-            searchProductImage:searchicon,
-            browseProductImage:browseicon
-            });
+    componentDidMount = () => {
+        let searchType = this.props.match.params.type;
+    
+        if(searchType === "search") {
+            this.switchToSearchProduct();
+        } else if(searchType === "browse") {
+            this.switchToBrowseProduct();
+        } else {
+            this.switchToScanProduct();
+        }
     }
-}
+    
 
 componentWillReceiveProps = nextProps => {
 
@@ -238,6 +241,7 @@ clearAll = ()  => {
 
 handleApiInvoker = () => {
      this.props.startSpinner(true);
+     this.setState({ isSearchHit: true });
      this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
         this.props.history.push("/product-details/"+pimskuId);
       });
@@ -289,6 +293,7 @@ render() {
             {
                 searchType === "search" &&
                 <ProductSearchList
+                    isSearchHit={this.state.isSearchHit}
                     products={this.props.products}
                     onProductClick={this.onProductClick}/>
             }

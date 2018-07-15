@@ -517,8 +517,11 @@ button[disabled]{
     
 /* Customer Search- Large FF sub header */
 
+.customer-search-container .customer-search-subheader{
+    height: 113px;
+}
+
     .customer-search-subheader{
-        height: 102px;
         width: 1920px;
         display: flex;
         flex-direction: row;

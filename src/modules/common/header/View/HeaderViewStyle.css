@@ -260,7 +260,7 @@
     }
     .headerMainCls {
       z-index: 1;
-      position: fixed;
+      position: relative;
       top:0px;
       display: flex;
       flex: 1;

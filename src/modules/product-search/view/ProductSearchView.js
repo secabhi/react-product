@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route,Link } from 'react-router-dom'
+import { Switch, Route,Link,Redirect } from 'react-router-dom'
 //Header and Footer
 import Header from '../../common/header/header';
 import Footer from '../../common/footer/footer';
@@ -20,7 +20,7 @@ import ProductCardView from './productCardView';
 import './ProductSearch.css';
 
 export class ProductSearchView extends Component{
-  
+  debugger
     constructor(props) {
         super(props);
         this.state = {
@@ -110,11 +110,12 @@ export class ProductSearchView extends Component{
                           </div>
                      </div>
                      <div className={this.props.scanProductShown ? 'product-search-input-area-lff scanPageAdjust':'product-search-input-area-lff'}>
-                      <Switch>
-                          <Route exact path={PORDUCT_SEARCH +'/scan'} render={(props) => <ScanComponentView {...props} />} />
-                          <Route path={PORDUCT_SEARCH +'/search'} render={(props) => <SearchComponentView {...props} productSearchProps={ productSearchProps }/>} />
-                          <Route path={PORDUCT_SEARCH +'/browse'} render={(props) => <BrowseComponentView {...props} productBrowseprops={ productBrowseprops }/>} />
-                      </Switch>
+                     <Switch>
+                        <Route exact path={PORDUCT_SEARCH + '/scan'} render={(props) => <ScanComponentView {...props} />} />
+                        <Route exact path={PORDUCT_SEARCH + '/search'} render={(props) => <SearchComponentView {...props} productSearchProps={productSearchProps} />} />
+                        <Route exact path={PORDUCT_SEARCH + '/browse'} render={(props) => <BrowseComponentView {...props} productBrowseprops={productBrowseprops} />} />
+                        <Redirect from={PORDUCT_SEARCH} to={PORDUCT_SEARCH + '/scan'}/>
+                    </Switch>
                      </div>
                   <Footer hideTransactionId={true}></Footer>
                   </div>);
