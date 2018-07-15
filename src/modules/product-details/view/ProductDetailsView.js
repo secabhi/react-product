@@ -25,6 +25,10 @@ export default class ProductDetailsView extends Component{
         }
     }
 
+    componentDidMount(){
+
+    }
+
     handleTextFieldInput = (event) =>{
         document.getElementsByClassName('product-search-input-area-clear-btn')[0].style.opacity = "1";
         document.getElementsByClassName('product-search-input-area-search-btn')[0].style.opacity = "1";
