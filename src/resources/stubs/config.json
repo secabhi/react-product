@@ -38,6 +38,7 @@
         "getInCircleLevel": "https://servicestst.nmgapi.com/esb/services/mpos/customerInfo/getLoyalty",
         "getGiftCardDetails": "https://servicestst.nmgapi.com/esb/services/mpos/customerInfo/fetchGCDtls",
         "getProductSearchSKU":"https://servicestst.nmgapi.com/esb/services/mpos/productDetails/search",
+        "getProductFilterSKU":"https://servicestst.nmgapi.com/esb/services/mpos/productDetails/filter",
         "getCustomerDetail":"https://servicestst.nmgapi.com/esb/services/mpos/customerInfo/getProfile",
         "getSalesSummary":"http://nmcxapit001:2360/api/v2/customers",
         "getProductSearchSKU":"https://servicestst.nmgapi.com/esb/services/mpos/productDetails",

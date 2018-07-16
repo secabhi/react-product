@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { startSpinner } from '../common/loading/spinnerAction';
+import { startSpinner } from '../../../common/loading/spinnerAction';
 
-import { PRODUCT_FILTER_SEARCH_ITEM_SUCCESS } from '../common/constants/type';
-import { PRODUCT_FILTER_SEARCH_ITEM_FAIL } from '../common/constants/type';
+import { PRODUCT_FILTER_SEARCH_ITEM_SUCCESS } from '../../../common/constants/type';
+import { PRODUCT_FILTER_SEARCH_ITEM_FAIL } from '../../../common/constants/type';
 
 
 const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');

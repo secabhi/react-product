@@ -1,13 +1,32 @@
 import React, { Component } from "react";
 import ShowMore from "react-show-more";
+import { bindActionCreators } from 'redux';
+import { startSpinner } from '../../../../modules/common/loading/spinnerAction'; 
+import { connect } from 'react-redux';
+
 
 import AddtoBag from "../../../../resources/images/Add_to_Bag.svg";
 import PrintIcon from "../../../../resources/images/Print.svg";
 
-export default class ProductDetailsRows extends Component {
+import { productDetailAction } from '../../../../modules/product-details/ProductDetailsAction';
+
+class ProductDetailsRows extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      productFilterData: ''
+    }
+  }
+
+  componentDidMount() {
+    debugger;
+    if (this.props.product) {
+      let pimStyleId = this.props.product.pimstyleId;
+      this.props.startSpinner(true);
+      this.props.productSearhActionInvoker("filter_set", { pimStyleId }, () => {
+        //this.props.history.push("/product-details/"+pimskuId);
+      });
+    }
   }
 
   render() {
@@ -61,7 +80,7 @@ export default class ProductDetailsRows extends Component {
           <div className="rows-checkout-title"><em>On Hand in Store (3)</em></div>
           <div className="rows-checkout-check-availability"><a href="">Check Availablity</a></div>
           <div className="rows-checkout-inner">
-          <span className="rows-checkout-span-bag">
+            <span className="rows-checkout-span-bag">
               <img className="rows-checkout-inner-bag" src={AddtoBag} />
               <span className="rows-checkout-inner-text">ADD TO BAG</span>
             </span>
@@ -75,3 +94,20 @@ export default class ProductDetailsRows extends Component {
     );
   }
 }
+
+
+function mapStateToProps(state) {
+  debugger;
+  return { productsFilter: state.productDetails };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    startSpinner: startSpinner,
+    productSearhActionInvoker: productDetailAction
+  },
+    dispatch
+  )
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetailsRows)
