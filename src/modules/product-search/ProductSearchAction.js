@@ -63,6 +63,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             type: PRODUCT_SEARCH_KEYWORD_FAIL,
                             payload: data.data.products
                         });
+                        successCallback(data.data.totalCount)
                     }
                     dispatch(startSpinner(false));
 

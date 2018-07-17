@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import ShowMore from "react-show-more";
 import { bindActionCreators } from 'redux';
-import { startSpinner } from '../../../../modules/common/loading/spinnerAction'; 
+import { startSpinner } from '../../../../modules/common/loading/spinnerAction';
 import { connect } from 'react-redux';
 
 
 import AddtoBag from "../../../../resources/images/Add_to_Bag.svg";
 import PrintIcon from "../../../../resources/images/Print.svg";
 
-import { productDetailAction } from '../../../../modules/product-details/ProductDetailsAction';
+import { productRowAction } from '../../ProductRowAction';
+import { productDetailInfoAction } from '../../ProductDetailinfoAction';
+
+import { pluck, map, each } from 'underscore';
 
 class ProductDetailsRows extends Component {
   constructor(props) {
@@ -22,15 +25,28 @@ class ProductDetailsRows extends Component {
     debugger;
     if (this.props.product) {
       let pimStyleId = this.props.product.pimstyleId;
+      let pimskuId = this.props.product.pimskuId;
+      //let pimStyleId = 1713023;
       this.props.startSpinner(true);
       this.props.productSearhActionInvoker("filter_set", { pimStyleId }, () => {
         //this.props.history.push("/product-details/"+pimskuId);
       });
+
+      this.props.productDetailInfoInvoker("get_info", { pimskuId }, () => {
+        //this.props.history.push("/product-details/"+pimskuId);
+      });
+      
     }
+  }
+
+  updateSelection = (item) => {
+    debugger;
   }
 
   render() {
     let product = this.props.product;
+    let productFilterData = this.props.productsFilter;
+    debugger;
     return (
       <div className="product-details-rows-content">
         <div className="rows-main-content">
@@ -57,10 +73,9 @@ class ProductDetailsRows extends Component {
 
         <div className="rows-size-desc">
           <div className="rows-size-title">Size : {product.sizeDesc}</div>
-          <div className="rows-size-alt">XL</div>
-          <div className="rows-size-alt">XL</div>
-          <div className="rows-size-alt">XL</div>
-          <div className="rows-size-alt-selected">XL</div>
+          {map(productFilterData, (item, i) => {
+            return <div key={i} className="rows-size-alt">{item.sizeDesc.split('(')[0]}</div>
+          })}
           <div className="rows-size-alt-selected-size-guide">
             <a href="">Size Guide</a>
           </div>
@@ -68,11 +83,10 @@ class ProductDetailsRows extends Component {
         <div className="rows-color">
           <div className="rows-color-title">Color : {product.colorDesc}</div>
           <div className="rows-color-inner">
-            <div className="rows-color-inner-circle" />
-            <div className="rows-color-inner-circle" />
-            <div className="rows-color-inner-circle" />
-            <div className="rows-color-inner-circle" />
-            <div className="rows-color-inner-circle" />
+            {map(productFilterData, (item, i) => {
+              return <div key={i} className="rows-color-inner-circle" onClick={() => { this.updateSelection(item) }}
+                style={{ 'background': item.colorDesc }} />
+            })}
           </div>
           <div className="rows-other">Not Available</div>
         </div>
@@ -98,13 +112,17 @@ class ProductDetailsRows extends Component {
 
 function mapStateToProps(state) {
   debugger;
-  return { productsFilter: state.productDetails };
+  return {
+    productsFilter: state.productRow,
+    productDetailInfo: state.productDetailInfo
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     startSpinner: startSpinner,
-    productSearhActionInvoker: productDetailAction
+    productSearhActionInvoker: productRowAction,
+    productDetailInfoInvoker:productDetailInfoAction
   },
     dispatch
   )

@@ -25,6 +25,9 @@ import {PostVoidReducer} from '../../post-void/postVoidReducer';
 import {GiftWrapReducer} from '../../sale/sale-services/sale-services-gift-wrap/GiftWrapReducer';
 import {ProductSearchReducer} from '../../product-search/ProductSearchReducer';
 import { ProductDetailsReducer } from "../../product-details/ProductDetailsReducer";
+import { ProductRowReducer } from "../../product-details/ProductRowReducer";
+import { ProductDetailInfoReducer } from '../../product-details/ProductDetailinfoReducer';
+
 import {PostVoidTransDetailsReducer} from '../../post-void/postVoidReducer';
 import {PostVoidGetTransListReducer} from '../../post-void/postVoidReducer';
 import {ItemSelectorReducer} from '../cartRenderer/reducer';
@@ -64,6 +67,8 @@ const reducers = combineReducers({
     Incircle: incircleReducer,
     productSearch : ProductSearchReducer,
     productDetails: ProductDetailsReducer,
+    productDetailInfo:ProductDetailInfoReducer,
+    productRow:ProductRowReducer,
     giftWrap: GiftWrapReducer,
     sale: SaleReducer,
     alterationComplete: AlterationReducer,

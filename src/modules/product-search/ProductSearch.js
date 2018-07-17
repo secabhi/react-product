@@ -29,11 +29,11 @@ import browseiconSelected from '../../resources/images/Browse_Selected.svg';
 //API Address Import
 import configFile from '../../resources/stubs/config.json';
 
-   const APP_KEY = configFile.cxp.AppKey;
-   const URL = configFile.cxp.getProductSearchSKU;
+const APP_KEY = configFile.cxp.AppKey;
+const URL = configFile.cxp.getProductSearchSKU;
 
 
- class ProductSearch extends Component{
+class ProductSearch extends Component {
     constructor(props) {
         super(props);
         let params = new URLSearchParams(this.props.location.search);
@@ -50,12 +50,12 @@ import configFile from '../../resources/stubs/config.json';
             browseProductImage: browseicon,
             scannedSKU: "TWK25356431", //to be replaced when scanner is implimented.
             searchFields: {
-              search_keyword: params.get('keyword'),
-              search_pimsku: params.get('pimsku'),
-              search_upc: params.get('upc'),
-              search_style: params.get('style')
+                search_keyword: params.get('keyword'),
+                search_pimsku: params.get('pimsku'),
+                search_upc: params.get('upc'),
+                search_style: params.get('style')
             },
-            activeRadioBtn : '',
+            activeRadioBtn: '',
         }
     }
 
@@ -63,256 +63,266 @@ import configFile from '../../resources/stubs/config.json';
 
     componentDidMount = () => {
         let searchType = this.props.match.params.type;
-    
-        if(searchType === "search") {
+
+        if (searchType === "search") {
             this.switchToSearchProduct();
-        } else if(searchType === "browse") {
+        } else if (searchType === "browse") {
             this.switchToBrowseProduct();
         } else {
             this.switchToScanProduct();
         }
     }
-    
-
-componentWillReceiveProps = nextProps => {
-
-    console.log("nextProps",nextProps);
-}
 
 
-// Tab switching methods
-handleCategoryChange = (event, index, value) => {
-    this.setState({ selectedCategory: value, selectedSubCategory: '', selectedDetail: '' });
-}
+    componentWillReceiveProps = nextProps => {
 
-handleSubCategoryChange = (event, index, value) => {
-    this.setState({ selectedSubCategory: value });
-}
-
-handleDetailChange = (event, index, value) => {
-    this.setState({ selectedDetail: value });
-}
-
-resetProductSearch = () => {
-    if (this.state.selectedCategory && this.state.selectedSubCategory && this.state.selectedDetail) {
-        this.setState({ selectedCategory: '', selectedSubCategory: '', selectedDetail: '' });
+        console.log("nextProps", nextProps);
     }
-}
 
-clickProductSearch = () => {
-    if (this.state.selectedCategory && this.state.selectedSubCategory && this.state.selectedDetail) {
-        alert('Searching for the product');
+
+    // Tab switching methods
+    handleCategoryChange = (event, index, value) => {
+        this.setState({ selectedCategory: value, selectedSubCategory: '', selectedDetail: '' });
     }
-}
 
-switchToScanProduct = () => {
-    document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.add('product-search-tab-label-selected');
-    document.getElementsByClassName('product-serch-subheader-search-label')[0].classList.remove('product-search-tab-label-selected');
-    document.getElementsByClassName('product-serch-subheader-browse-label')[0].classList.remove('product-search-tab-label-selected');
-    // document.getElementsByClassName('product-scan-input-area-searchtab-content')[0].style.display = 'flex';
-    // document.getElementsByClassName('product-search-input-area-searchtab-content')[0].style.display = 'none';
+    handleSubCategoryChange = (event, index, value) => {
+        this.setState({ selectedSubCategory: value });
+    }
 
-    this.setState({
-        scanProductShown : true,
-        searchProductShown : false,
-        scanProductImage : scaniconSelected,
-        searchProductImage : searchicon,
-        browseProductImage : browseicon,
+    handleDetailChange = (event, index, value) => {
+        this.setState({ selectedDetail: value });
+    }
 
-    });
-}
+    resetProductSearch = () => {
+        if (this.state.selectedCategory && this.state.selectedSubCategory && this.state.selectedDetail) {
+            this.setState({ selectedCategory: '', selectedSubCategory: '', selectedDetail: '' });
+        }
+    }
 
+    clickProductSearch = () => {
+        if (this.state.selectedCategory && this.state.selectedSubCategory && this.state.selectedDetail) {
+            alert('Searching for the product');
+        }
+    }
 
-switchToSearchProduct = () => {
-    document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.remove('product-search-tab-label-selected');
-    document.getElementsByClassName('product-serch-subheader-search-label')[0].classList.add('product-search-tab-label-selected');
-    document.getElementsByClassName('product-serch-subheader-browse-label')[0].classList.remove('product-search-tab-label-selected');
-    // document.getElementsByClassName('product-scan-input-area-searchtab-content')[0].style.display = 'none';
-    //document.getElementsByClassName('product-search-input-area-searchtab-content')[0].style.display = 'flex';
+    switchToScanProduct = () => {
+        document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.add('product-search-tab-label-selected');
+        document.getElementsByClassName('product-serch-subheader-search-label')[0].classList.remove('product-search-tab-label-selected');
+        document.getElementsByClassName('product-serch-subheader-browse-label')[0].classList.remove('product-search-tab-label-selected');
+        // document.getElementsByClassName('product-scan-input-area-searchtab-content')[0].style.display = 'flex';
+        // document.getElementsByClassName('product-search-input-area-searchtab-content')[0].style.display = 'none';
 
-    this.setState({
-        scanProductShown : false,
-        searchProductShown : true,
-        scanProductImage : scanicon,
-        searchProductImage : searchiconSelected,
-        browseProductImage : browseicon,
-    });
-}
+        this.setState({
+            scanProductShown: true,
+            searchProductShown: false,
+            scanProductImage: scaniconSelected,
+            searchProductImage: searchicon,
+            browseProductImage: browseicon,
 
-switchToBrowseProduct = () => {
-    document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.remove('product-search-tab-label-selected');
-    document.getElementsByClassName('product-serch-subheader-search-label')[0].classList.remove('product-search-tab-label-selected');
-    document.getElementsByClassName('product-serch-subheader-browse-label')[0].classList.add('product-search-tab-label-selected');
+        });
+    }
 
 
-    this.setState({
-        scanProductShown : false,
-        searchProductShown : false,
-        scanProductImage : scanicon,
-        searchProductImage : searchicon,
-        browseProductImage : browseiconSelected,
+    switchToSearchProduct = () => {
+        document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.remove('product-search-tab-label-selected');
+        document.getElementsByClassName('product-serch-subheader-search-label')[0].classList.add('product-search-tab-label-selected');
+        document.getElementsByClassName('product-serch-subheader-browse-label')[0].classList.remove('product-search-tab-label-selected');
+        // document.getElementsByClassName('product-scan-input-area-searchtab-content')[0].style.display = 'none';
+        //document.getElementsByClassName('product-search-input-area-searchtab-content')[0].style.display = 'flex';
 
-    });
-}
+        this.setState({
+            scanProductShown: false,
+            searchProductShown: true,
+            scanProductImage: scanicon,
+            searchProductImage: searchiconSelected,
+            browseProductImage: browseicon,
+        });
+    }
+
+    switchToBrowseProduct = () => {
+        document.getElementsByClassName('product-serch-subheader-scan-label')[0].classList.remove('product-search-tab-label-selected');
+        document.getElementsByClassName('product-serch-subheader-search-label')[0].classList.remove('product-search-tab-label-selected');
+        document.getElementsByClassName('product-serch-subheader-browse-label')[0].classList.add('product-search-tab-label-selected');
+
+
+        this.setState({
+            scanProductShown: false,
+            searchProductShown: false,
+            scanProductImage: scanicon,
+            searchProductImage: searchicon,
+            browseProductImage: browseiconSelected,
+
+        });
+    }
 
 
     // Radio button content dispaly
 
-showRadioBtn1 = ({currentTarget}) => {
+    showRadioBtn1 = ({ currentTarget }) => {
 
-    document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'flex';
-    this.setState({
-        activeRadioBtn : currentTarget.id
-    }) ;
-}
-showRadioBtn2 = ({currentTarget}) => {
-    document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'flex';
-    this.setState({
-        activeRadioBtn : currentTarget.id
-    }) ;
-}
-showRadioBtn3 = ({currentTarget}) => {
-    document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'flex';
-    this.setState({
-        activeRadioBtn : currentTarget.id
-    }) ;
-}
-showRadioBtn4 = ({currentTarget}) => {
-    document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'flex';
-    this.setState({
-        activeRadioBtn : currentTarget.id
-    }) ;
-}
-showRadioBtn5 = ({currentTarget}) => {
-    document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
-    document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'flex';
-    this.setState({
-        activeRadioBtn : currentTarget.id
-    }) ;
-}
+        document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'flex';
+        this.setState({
+            activeRadioBtn: currentTarget.id
+        });
+    }
+    showRadioBtn2 = ({ currentTarget }) => {
+        document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'flex';
+        this.setState({
+            activeRadioBtn: currentTarget.id
+        });
+    }
+    showRadioBtn3 = ({ currentTarget }) => {
+        document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'flex';
+        this.setState({
+            activeRadioBtn: currentTarget.id
+        });
+    }
+    showRadioBtn4 = ({ currentTarget }) => {
+        document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'flex';
+        this.setState({
+            activeRadioBtn: currentTarget.id
+        });
+    }
+    showRadioBtn5 = ({ currentTarget }) => {
+        document.getElementsByClassName('product-search-input-area-section1-row3-keyword-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-pimsku-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-upc-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-style-search')[0].style.display = 'none';
+        document.getElementsByClassName('product-search-input-area-section1-row3-itemid-search')[0].style.display = 'flex';
+        this.setState({
+            activeRadioBtn: currentTarget.id
+        });
+    }
 
     // Handle change
 
-handleChange = (field,e) => {
-    document.getElementsByClassName('product-search-input-area-clear-btn')[0].style.opacity = "1";
-    document.getElementsByClassName('product-search-input-area-search-btn')[0].style.opacity = "1";
-    let searchFields = this.state.searchFields;
-    searchFields[field] = e.target.value;
-    this.setState({
-            searchFields : searchFields
-    });
-}
+    handleChange = (field, e) => {
+        document.getElementsByClassName('product-search-input-area-clear-btn')[0].style.opacity = "1";
+        document.getElementsByClassName('product-search-input-area-search-btn')[0].style.opacity = "1";
+        let searchFields = this.state.searchFields;
+        searchFields[field] = e.target.value;
+        this.setState({
+            searchFields: searchFields
+        });
+    }
 
 
-clearAll = ()  => {
-    document.getElementsByClassName('product-search-input-area-clear-btn')[0].style.opacity = ".4";
-    document.getElementsByClassName('product-search-input-area-search-btn')[0].style.opacity = ".4";
-    this.setState({
-        searchFields : {
-            search_keyword : '',
-            search_upc : '',
-            search_style : '',
-            search_catid : '',
-            search_itemid : '',
-            search_pimsku : ''
-        }
-    })
-}
-
-
-handleApiInvoker = () => {
-     this.props.startSpinner(true);
-     this.setState({ isSearchHit: true });
-     this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
-        this.props.history.push("/product-details/"+pimskuId);
-      });
-}
-
-
-
-
-onProductClick = (search_pimsku) => {
-    this.props.startSpinner(true);
-    this.props.productSearhActionInvoker("pimsku_search", { search_pimsku }, (pimskuId) => {
-        this.props.history.push("/product-details/"+pimskuId);
-    });
-}
-
-render() {
-    let searchType = this.props.match.params.type;
-    return(
-      <div className="product-search-main">
-            <ProductSearchView
-                history = {this.props.history}
-                scanProductImage = {this.state.scanProductImage}
-                searchProductImage = {this.state.searchProductImage}
-                browseProductImage = {this.state.browseProductImage}
-                switchToScanProduct = {this.switchToScanProduct}
-                switchToSearchProduct = {this.switchToSearchProduct}
-                switchToBrowseProduct = {this.switchToBrowseProduct}
-                showRadioBtn1 = {this.showRadioBtn1}
-                showRadioBtn2 = {this.showRadioBtn2}
-                showRadioBtn3 = {this.showRadioBtn3}
-                showRadioBtn4 = {this.showRadioBtn4}
-                showRadioBtn5 = {this.showRadioBtn5}
-                scanProductShown = {this.state.scanProductShown}
-                searchProductShown = {this.state.searchProductShown}
-                scannedSKU = {this.state.scannedSKU}
-                invokePimSKUAPI = {this.searchByPimSKU}
-                searchFields  = {this.state.searchFields}
-                handleChange = {this.handleChange}
-                clearAll = {this.clearAll}
-                handleCategoryChange = {this.handleCategoryChange}
-                handleSubCategoryChange = {this.handleSubCategoryChange}
-                handleDetailChange = {this.handleDetailChange}
-                resetProductSearch = {this.resetProductSearch}
-                clickProductSearch = {this.clickProductSearch}
-                handleApiInvoker = {this.handleApiInvoker}
-                productPimSKUResult = {this.props.products}
-            />
-
-            {
-                searchType === "search" &&
-                <ProductSearchList
-                    isSearchHit={this.state.isSearchHit}
-                    products={this.props.products}
-                    onProductClick={this.onProductClick}/>
+    clearAll = () => {
+        document.getElementsByClassName('product-search-input-area-clear-btn')[0].style.opacity = ".4";
+        document.getElementsByClassName('product-search-input-area-search-btn')[0].style.opacity = ".4";
+        this.setState({
+            searchFields: {
+                search_keyword: '',
+                search_upc: '',
+                search_style: '',
+                search_catid: '',
+                search_itemid: '',
+                search_pimsku: ''
             }
-      </div>
-    );
-}
+        })
+    }
+
+
+    handleApiInvoker = () => {
+        this.props.startSpinner(true);
+
+        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
+            if (this.props.products.length === 0) {
+                this.setState({ isSearchHit: true });
+            }
+            else {
+                this.setState({ isSearchHit: false });
+            }
+            //this.props.history.push("/product-details/"+pimskuId);
+
+        });
+    }
+
+
+
+
+    onProductClick = (search_pimsku) => {
+        debugger;
+        this.props.startSpinner(true);
+        this.props.productSearhActionInvoker("pimsku_search", { search_pimsku }, (pimskuId) => {
+            this.props.history.push("/product-details/" + pimskuId);
+        });
+    }
+
+    render() {
+        debugger;
+        let searchType = this.props.match.params.type;
+        return (
+            <div className="product-search-main">
+                <ProductSearchView
+                    history={this.props.history}
+                    scanProductImage={this.state.scanProductImage}
+                    searchProductImage={this.state.searchProductImage}
+                    browseProductImage={this.state.browseProductImage}
+                    switchToScanProduct={this.switchToScanProduct}
+                    switchToSearchProduct={this.switchToSearchProduct}
+                    switchToBrowseProduct={this.switchToBrowseProduct}
+                    showRadioBtn1={this.showRadioBtn1}
+                    showRadioBtn2={this.showRadioBtn2}
+                    showRadioBtn3={this.showRadioBtn3}
+                    showRadioBtn4={this.showRadioBtn4}
+                    showRadioBtn5={this.showRadioBtn5}
+                    scanProductShown={this.state.scanProductShown}
+                    searchProductShown={this.state.searchProductShown}
+                    scannedSKU={this.state.scannedSKU}
+                    invokePimSKUAPI={this.searchByPimSKU}
+                    searchFields={this.state.searchFields}
+                    handleChange={this.handleChange}
+                    clearAll={this.clearAll}
+                    handleCategoryChange={this.handleCategoryChange}
+                    handleSubCategoryChange={this.handleSubCategoryChange}
+                    handleDetailChange={this.handleDetailChange}
+                    resetProductSearch={this.resetProductSearch}
+                    clickProductSearch={this.clickProductSearch}
+                    handleApiInvoker={this.handleApiInvoker}
+                    productPimSKUResult={this.props.products}
+                />
+
+                {
+                    searchType === "search" &&
+                    <ProductSearchList
+                        isSearchHit={this.state.isSearchHit}
+                        products={this.props.products}
+                        onProductClick={this.onProductClick} />
+                }
+            </div>
+        );
+    }
 
 }
 
-function mapStateToProps({ productSearch }) {
-    return { products: productSearch };
+function mapStateToProps(state) {
+    return { products: state.productSearch };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-        startSpinner:startSpinner ,
-        productSearhActionInvoker : productSearchAction
-      },
-      dispatch
-    )}
+    return bindActionCreators({
+        startSpinner: startSpinner,
+        productSearhActionInvoker: productSearchAction
+    },
+        dispatch
+    )
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductSearch)

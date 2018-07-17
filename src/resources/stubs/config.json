@@ -41,6 +41,7 @@
         "getProductFilterSKU":"https://servicestst.nmgapi.com/esb/services/mpos/productDetails/filter",
         "getCustomerDetail":"https://servicestst.nmgapi.com/esb/services/mpos/customerInfo/getProfile",
         "getSalesSummary":"http://nmcxapit001:2360/api/v2/customers",
+        "getDetailInfo":"https://servicestst.nmgapi.com/esb/services/mpos/productInfo/getSKUDetail",
         "getProductSearchSKU":"https://servicestst.nmgapi.com/esb/services/mpos/productDetails",
         "getCartDetails":"https://servicestst.nmgapi.com/esb/services/mpos/universalCart/getCartDetails"
     },

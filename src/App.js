@@ -4,6 +4,7 @@ import {
   Route
 } from 'react-router-dom';
 
+
 import IdleTimer from 'react-idle-timer';
 import PostVoidDetails from './modules/post-void/postVoidDetails';
 import Home from './modules/home/Home';

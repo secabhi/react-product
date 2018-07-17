@@ -13,9 +13,6 @@ import { PRODUCT_SEARCH_STYLE_FAIL } from '../common/constants/type';
 import { PRODUCT_SEARCH_CATALOG_ITEM_SUCCESS } from '../common/constants/type';
 import { PRODUCT_SEARCH_CATALOG_ITEM_FAIL } from '../common/constants/type';
 
-import { PRODUCT_FILTER_SEARCH_ITEM_SUCCESS } from '../common/constants/type';
-import { PRODUCT_FILTER_SEARCH_ITEM_FAIL } from '../common/constants/type';
-
 const initialState = [];
 
 export function ProductSearchReducer(state = initialState, action) {
@@ -37,12 +34,6 @@ export function ProductSearchReducer(state = initialState, action) {
       return [...action.payload];
 
     case PRODUCT_SEARCH_CATALOG_ITEM_FAIL:
-      return [...action.payload];
-
-    case PRODUCT_FILTER_SEARCH_ITEM_SUCCESS:
-      return [...action.payload];
-
-    case PRODUCT_FILTER_SEARCH_ITEM_FAIL:
       return [...action.payload];
 
     default:
