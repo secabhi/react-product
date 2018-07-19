@@ -6,25 +6,25 @@
     </defs>
     <g id="Print" transform="translate(-3629 -289)">
         <g id="Rectangle_601" class="cls-1" data-name="Rectangle 601" transform="translate(3629 294.815)">
-            <rect width="35.761" height="17" class="cls-3" rx="3"/>
-            <rect width="34.261" height="15.5" x=".75" y=".75" class="cls-4" rx="2.25"/>
+            <rect width="35.761" height="17" class="cls-3" rx="3"></rect>
+            <rect width="34.261" height="15.5" x=".75" y=".75" class="cls-4" rx="2.25"></rect>
         </g>
         <g id="Rectangle_602" class="cls-1" data-name="Rectangle 602">
-            <path d="M0 0h20.544v7H0z" class="cls-3" transform="translate(3637 289)"/>
-            <path d="M.75.75h19.044v5.5H.75z" class="cls-4" transform="translate(3637 289)"/>
+            <path d="M0 0h20.544v7H0z" class="cls-3" transform="translate(3637 289)"></path>
+            <path d="M.75.75h19.044v5.5H.75z" class="cls-4" transform="translate(3637 289)"></path>
         </g>
         <g id="Group_9693" data-name="Group 9693" transform="translate(2243.402 -755.924)">
             <g id="Rectangle_600" class="cls-1" data-name="Rectangle 600">
-                <path d="M0 0h20.544v12H0z" class="cls-3" transform="translate(1393.598 1061)"/>
-                <path d="M.75.75h19.044v10.5H.75z" class="cls-4" transform="translate(1393.598 1061)"/>
+                <path d="M0 0h20.544v12H0z" class="cls-3" transform="translate(1393.598 1061)"></path>
+                <path d="M.75.75h19.044v10.5H.75z" class="cls-4" transform="translate(1393.598 1061)"></path>
             </g>
-            <path id="Path_2514" d="M0 .046h12.693" class="cls-2" data-name="Path 2514" transform="translate(1397.622 1064.567)"/>
-            <path id="Path_3490" d="M0 .046h12.693" class="cls-2" data-name="Path 3490" transform="translate(1397.622 1067.011)"/>
-            <path id="Path_3491" d="M0 .046h12.693" class="cls-2" data-name="Path 3491" transform="translate(1397.622 1069.454)"/>
+            <path id="Path_2514" d="M0 .046h12.693" class="cls-2" data-name="Path 2514" transform="translate(1397.622 1064.567)"></path>
+            <path id="Path_3490" d="M0 .046h12.693" class="cls-2" data-name="Path 3490" transform="translate(1397.622 1067.011)"></path>
+            <path id="Path_3491" d="M0 .046h12.693" class="cls-2" data-name="Path 3491" transform="translate(1397.622 1069.454)"></path>
         </g>
         <g id="Ellipse_165" class="cls-2" data-name="Ellipse 165" transform="translate(3659.185 298.081)">
-            <ellipse cx="1.141" cy="1.133" class="cls-3" rx="1.141" ry="1.133"/>
-            <ellipse cx="1.141" cy="1.133" class="cls-4" rx=".641" ry=".633"/>
+            <ellipse cx="1.141" cy="1.133" class="cls-3" rx="1.141" ry="1.133"></ellipse>
+            <ellipse cx="1.141" cy="1.133" class="cls-4" rx=".641" ry=".633"></ellipse>
         </g>
     </g>
 </svg>

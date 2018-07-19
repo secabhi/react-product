@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './customersearchsale.css';
 import TextField from 'material-ui/TextField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from 'react-responsive-modal';
 import InputMask from 'react-input-mask';
-
+import axios from 'axios';
 // Header and Footer
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -48,22 +49,38 @@ class CustomerSearch extends Component {
             modal_isell_cart: false,
             modal_isell_cart_scanner: false,
             customerDetailsList:{},
+            Salutations:''
         }
     }
 
+
+    componentDidUpdate() {
+        // ReactDOM.findDOMNode(this).scrollIntoView();
+    }
+
     componentDidMount() {
+        // ReactDOM.findDOMNode(this).scrollTop = 0
+        // ReactDOM.findDOMNode(this).scrollIntoView();
+        axios.post(`http://10.198.5.203:4060/api/Init/Salutations`)
+        .then(res => {
+          const Salutations = res.data;
+          this.setState({ Salutations:Salutations });
+        });
 
         (this.state.searchItem === '') ? (document.getElementsByClassName('customer-search-button-sff')[0].disabled) : ('');
+       console.log('customer searc props', this.props)
         if (this.props.customerSearch.data.customerList != undefined) {
             if (this.props.customerSearch.data.customerList.length > 0) {
                 const list = this.props.customerSearch.data.customerList;
                 this.setResults(list);
+                this.setStyling();
             }
             this.setState({ maxLimit_modal: false })
         }
         if (this.props.customerSearch.searchItem != null || this.props.customerSearch.searchItem != '') {
             this.setState({ searchItem: this.props.customerSearch.searchItem })
         }
+        // this.search_results_div.scrollTop(0,0);
 
 
     }
@@ -158,6 +175,23 @@ class CustomerSearch extends Component {
         this.setState({ searchItem: event.target.value });
     }
 
+    setStyling = () =>{
+        if (window.innerWidth > 1900) {
+            document.getElementsByClassName('add-customer-label-lff')[0].style.opacity = "1";
+            //document.getElementsByClassName('add-customer-icon')[0].style.opacity = "1";
+            document.getElementsByClassName('add-customer-icon')[0].classList.remove('button-disabler');
+            // document.getElementsByClassName('isellcart-label-lff')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].classList.add('button-disabler');
+            
+
+        } else {
+            //document.getElementsByClassName('add-customer-icon')[0].style.opacity = "1";
+            document.getElementsByClassName('add-customer-icon')[0].classList.remove('button-disabler');
+            // document.getElementsByClassName('isellcart-icon')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].classList.add('button-disabler');
+        }
+    }
     clearSearch = (field, e) => {
         this.setState({ searchItem: '', searchResult: '' });
         (window.innerWidth > 1900) ? (document.getElementsByClassName('customer-search-button-lff')[0].style.opacity = "0.4",
@@ -165,16 +199,21 @@ class CustomerSearch extends Component {
             document.getElementsByClassName('add-customer-label-lff')[0].style.opacity = "0.4",
             //document.getElementsByClassName('add-customer-icon')[0].style.opacity = "0.4",
             document.getElementsByClassName('add-customer-icon')[0].classList.add('button-disabler'),
-            document.getElementsByClassName('isellcart-label-lff')[0].style.opacity = "1",
-            document.getElementsByClassName('isellcart-icon')[0].style.opacity = "1",
-            document.getElementsByClassName('count-of-customers-lff')[0].style.display = "none") :
+            // document.getElementsByClassName('isellcart-label-lff')[0].style.opacity = "1",
+            // document.getElementsByClassName('isellcart-icon')[0].style.opacity = "1",
+            document.getElementsByClassName('count-of-customers-lff')[0].style.display = "none"
+            // document.getElementsByClassName('isellcart-icon')[0].classList.remove('button-disabler')
+        ):
+           
 
             (document.getElementsByClassName('customer-search-button-sff')[0].style.opacity = "0.4",
                 //document.getElementsByClassName('add-customer-icon')[0].style.opacity = "0.4",
                 document.getElementsByClassName('add-customer-icon')[0].classList.add('button-disabler'),
-                document.getElementsByClassName('isellcart-icon')[0].style.opacity = "1",
+                // document.getElementsByClassName('isellcart-icon')[0].style.opacity = "1",
                 document.getElementsByClassName('customer-search-clear-input-icon')[0].style.display = "none",
-                document.getElementsByClassName('customer-search-result-count-dispaly-label')[0].style.display = "none")
+                document.getElementsByClassName('customer-search-result-count-dispaly-label')[0].style.display = "none"
+                // document.getElementsByClassName('isellcart-icon')[0].classList.remove('button-disabler')
+            )
 
     }
 
@@ -190,8 +229,9 @@ class CustomerSearch extends Component {
             this.props.history.push('/view-edit-customer');
         }
         else {
+           //this.props.startSpinner(true);
             this.props.navigateToDomesticCustomerInvoker(data.cssId);
-            this.props.history.push('/customer-details/domestic');
+            this.props.history.push('/customer-details');
         }
         this.props.custIncircleInfoRequestInvoker(data.cssId);
         /* if(data.country === 'US') {
@@ -214,9 +254,11 @@ class CustomerSearch extends Component {
 
 
     navigateToSale = () => {
+       
         this.props.goToSalesPage(true, null);
-        this.props.history.push('/sale', { isClienteled: false });
-        this.setState({ isClienteled: false });
+        this.props.setClienteled(false);
+        this.props.history.push('/sale');
+        
     }
 
 
@@ -226,20 +268,25 @@ class CustomerSearch extends Component {
             document.getElementsByClassName('add-customer-label-lff')[0].style.opacity = "1";
             //document.getElementsByClassName('add-customer-icon')[0].style.opacity = "1";
             document.getElementsByClassName('add-customer-icon')[0].classList.remove('button-disabler');
-            document.getElementsByClassName('isellcart-label-lff')[0].style.opacity = "0.4";
-            document.getElementsByClassName('isellcart-icon')[0].style.opacity = "0.4";
-
+            // document.getElementsByClassName('isellcart-label-lff')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].classList.add('button-disabler')
+            
 
         } else {
             //document.getElementsByClassName('add-customer-icon')[0].style.opacity = "1";
             document.getElementsByClassName('add-customer-icon')[0].classList.remove('button-disabler');
-            document.getElementsByClassName('isellcart-icon')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].style.opacity = "0.4";
+            // document.getElementsByClassName('isellcart-icon')[0].classList.add('button-disabler')
         }
 
         if (this.state.searchItem != '') {
             this.props.setSearchItem(this.state.searchItem);
             this.displayCustomers();
         }
+       
+        
+        
     }
     getIsellCartUpdateAction = (getIsellCart) => {
         this.props.startSpinner(true);
@@ -250,7 +297,12 @@ class CustomerSearch extends Component {
     }
 
     openIsellcartScanner = () => {
-        this.showopenIsellcartScannerModal(true);
+        if (document.getElementsByClassName('isellcart-icon')[0].classList.contains('button-disabler'))
+        {
+        }
+        else
+        { this.showopenIsellcartScannerModal(true);
+        }
     }
     openIsellcart = () => {
         this.showOpenIsellcartModal(true);
@@ -267,49 +319,65 @@ class CustomerSearch extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('props', nextProps)
-        //console.log(this.state)
-        // Checks for existing response data
-        if ((nextProps.customerSearch.data.customerList) && (!nextProps.customerSearch.isSearchItemSet)) {
-            this.props.startSpinner(false);
+        console.log(nextProps.dataFrom)
+        if(nextProps.customerSearch.data != null)
+        {
+                if ((nextProps.customerSearch.data.customerList) && (!nextProps.customerSearch.isSearchItemSet)) {
+                    this.props.startSpinner(false);
 
-            const list = nextProps.customerSearch.data.customerList;
-            //const resultList = [];
+                    const list = nextProps.customerSearch.data.customerList;
+                    //const resultList = [];
 
-            this.setResults(list);
+                    this.setResults(list);
 
-        }
-        else if (nextProps.customerSearch.dataFrom === 'GET_ISELL_CART_REQUEST_UPDATE') {
-            console.log('GET_ISELL_CART_REQUEST_UPDATE');
-            // this.props.startSpinner(false);
-            if (nextProps.customerSearch.data.customerDetails.cssId !== "") {
-                // const cssId = nextProps.customerSearch.data.customerDetails.cssId;
-                // const customerFirstName = nextProps.customerSearch.data.customerDetails.customerFirstName;
-                // const customerLastName = nextProps.customerSearch.data.customerDetails.customerLastName;
-                // const email = nextProps.customerSearch.data.customerDetails.email;
-                var customerDetailsList = nextProps.customerSearch.data.customerDetails;
-                this.getCustomerDetailsClienteleApi(customerDetailsList);
-            }
-        }
-        else if (nextProps.customerSearch.dataFrom === 'GET_CLIENT_TELE_REQUEST_UPDATE') {
-            console.log('GET_CLIENT_TELE_REQUEST_UPDATE'+" " +nextProps.customerSearch.data.data.cSSNo);
-            this.props.startSpinner(false);
-            this.navigateSale();
+                }
+                else if (nextProps.customerSearch.dataFrom === 'GET_ISELL_CART_REQUEST_UPDATE') {
+                    console.log('GET_ISELL_CART_REQUEST_UPDATE');
+                    this.props.startSpinner(false);
+                
+                        if (nextProps.customerSearch.data.customerDetails.cssId !== "") {
+                            var customerDetailsList = nextProps.customerSearch.data.customerDetails;
+                            this.navigateToViewEditCustomer(customerDetailsList);
+                        }
+                        }
+                         
 
-            
-        }
+       }
+       else
+             this.props.startSpinner(false);
+        // else if (nextProps.customerSearch.dataFrom === 'GET_ISELL_CART_REQUEST_UPDATE') {
+        //         console.log('GET_ISELL_CART_REQUEST_UPDATE');
+        //         this.props.startSpinner(false);
+        //         if (nextProps.customerSearch.data.customerDetails.cssId !== "") {
+        //             var customerDetailsList = nextProps.customerSearch.data.customerDetails;
+        //             this.navigateVieweditCustomer(customerDetailsList);
+        //         }
+        //     }
+        // else if (nextProps.customerSearch.dataFrom === 'GET_CLIENT_TELE_REQUEST_UPDATE') {
+        //     console.log('GET_CLIENT_TELE_REQUEST_UPDATE'+" " +nextProps.customerSearch.data.data.cSSNo);
+        //     this.props.startSpinner(false);
+        //     this.navigateSale();
+        //     }
     }
-
+    navigateVieweditCustomer = () =>{
+        this.props.history.push('/view-edit-customer')
+    }
     navigateSale =() =>{
+
         this.props.history.push('/sale')
     }
 
     setResults = (list) => {
-
+console.log(this.state.Salutations);
         // debugger;
         const resultList = [];
         // Iterates through array of customer objects
 
         list.map((customer, i) => {
+
+           
+          
+        
             if (customer.personNames === null || customer.personNames.length < 1) {
                 customer.phoneNumbers = [""]
             }
@@ -322,7 +390,32 @@ class CustomerSearch extends Component {
             if (customer.addresses === null || customer.addresses.length < 1) {
                 customer.addresses = [""]
             }
+            
+            var phoneNumbers = [];
+           
+            var emails=[];
+            var addresses=[];
+            for (var j = 0; j < customer.phoneNumbers.length; j++) {
 
+                
+                if(j+1<=customer.phoneNumbers.length){
+                    phoneNumbers.push(<div className="customer-search-result-panel-phoneNumbers" style={{ marginBottom: '30' + 'px' }}><InputMask className="customer-search-result-phone" style={{ borderBottom: 'none' + '' }} mask="(999) 999-9999" maskChar="" onChange={this.navigateToViewEditCustomer.bind(this, customer)} value={customer.phoneNumbers[j+1]} /></div>);
+                }
+            }
+            for (var j = 0; j < customer.emails.length; j++) {
+
+                
+                if(j+1<=customer.emails.length){
+                    emails.push(<div className="customer-search-result-panel-email-inner email-ellipse" style={{ marginBottom: '30' + 'px' }}>{customer.emails[j+1]}</div>);
+                }
+            }
+            for (var j = 0; j < customer.addresses.length; j++) {
+
+                
+                if(j+1<=customer.addresses.length){
+                    addresses.push(<div className="customer-search-result-panel-address1" style={{ marginBottom: '30' + 'px' }}>{customer.addresses[j+1]}</div>);
+                }
+            }
             // push JSX to empty array
             resultList.push(
                 <div key={customer.cssId}>
@@ -334,7 +427,7 @@ class CustomerSearch extends Component {
                         <div className='customer-search-result-panel-content'>
                             <div className='customer-search-result-panel-custname' onClick={this.navigateToViewEditCustomer.bind(this, customer)}>{customer.personNames[0].firstName},&nbsp;{customer.personNames[0].lastName}{customer.personNames[0].salutation}</div>
                             <div className="customer-search-result-panel-phone"><InputMask className="customer-search-result-phone" style={{ borderBottom: 'none' + '' }} mask="(999) 999-9999" maskChar="" onChange={this.navigateToViewEditCustomer.bind(this, customer)} value={customer.phoneNumbers[0]} /></div>
-                            <div className="customer-search-result-panel-email" onClick={this.navigateToViewEditCustomer.bind(this, customer)}>{customer.emails[0]}</div>
+                            <div className="customer-search-result-panel-email" onClick={this.navigateToViewEditCustomer.bind(this, customer)}><div className="customer-search-result-panel-email-inner email-ellipse">{customer.emails[0]}</div></div>
                             <div className="customer-search-result-panel-address" onClick={this.navigateToViewEditCustomer.bind(this, customer)}>{customer.addresses[0]}</div>
                             <div className='customer-search-result-panel-custid' onClick={this.navigateToViewEditCustomer.bind(this, customer)}>{customer.cssId}</div>
                             <div className='customer-search-result-panel-accordion-btn'>
@@ -344,20 +437,22 @@ class CustomerSearch extends Component {
                         </div>
                     </div>
                     {
-                        (customer.emails.length > 1 || customer.addresses.length > 1 || customer.addresses.length === null) ?
-                            <div className='customer-search-result-accordion'>
+                        (customer.phoneNumbers.length > 1 || customer.emails.length > 1 || customer.addresses.length > 1 || customer.addresses.length === null) ?
+                            <div key={ i } className='customer-search-result-accordion'>
                                 <div className='customer-search-result-accordion-row1'>
                                     <div className='customer-search-result-accordion-spacer1'></div>
-                                    <div className='customer-search-result-accordion-spacer2'></div>
+
                                     <div className='row-seperator-accordion1'></div>
                                     <div className='row-seperator-accordion2'></div>
+                                    <div className='row-seperator-accordion3'></div>
                                     <div className='customer-search-result-accordion-spacer3'></div>
                                 </div>
                                 <div className='customer-search-result-accordion-row2'>
-                                    <div className='customer-search-result-accordion-spacer1'></div>
-                                    <div className='customer-search-result-accordion-spacer2'></div>
-                                    <div className="customer-search-result-panel-email">{customer.emails[1]}</div>
-                                    <div className="customer-search-result-panel-address">{customer.addresses[1]}</div>
+                                        <div className='customer-search-result-accordion-spacer1'></div>
+                                        
+                                    <div className="customer-search-result-panel-phone"> {phoneNumbers}</div>   
+                                    <div className="customer-search-result-panel-email">{emails}</div>
+                                    <div className="customer-search-result-panel-address">{addresses}</div>
                                     <div className='customer-search-result-accordion-spacer1'></div>
                                 </div>
                             </div> : null
@@ -386,7 +481,7 @@ class CustomerSearch extends Component {
     displayCustomers() {
         // REDUX CALL
         const query = this.state.searchItem;
-        const associatePin = 228697;
+        const associatePin = this.props.login.userpin;//228697;
 
         this.props.startSpinner(true);
 
@@ -432,7 +527,7 @@ class CustomerSearch extends Component {
                 <Header className="header-customer-search-lff" history={this.props.history}></Header>
                 <div className='customer-search-subheader'>
                     <div className='customersearch-subheader-label-container'>
-                        <span className='customersearch-subheader-label' onClick={() => this.displayCustomers()}>Customer Search</span>
+                        <span className='customersearch-subheader-label' onClick={() => this.searchForCustomer()}>Customer Search</span>
                     </div>
                     <div className='customersearch-subheader-icons-container'>
                         <div className="customersearch-subheader-icon-container-frst-part" onClick={() => this.openIsellcartScanner()}>
@@ -462,8 +557,8 @@ class CustomerSearch extends Component {
                                     (this.props.customerSearch.buttonId == '1') ? <div className="skip-to-sale-sff" onClick={this.navigateToSale.bind(this)}>SKIP TO SALE</div> : ''
                                 ) : (null)
                         }
-                        <div className="no-of-search-result-lff">Search Results for {this.state.searchItem}</div>
-                        <div className="count-of-customers-lff">{this.state.searchResult.length} customers found</div>
+                        <div className="no-of-search-result-lff">Search Results for "{this.state.searchItem}"</div>
+                        <div className="count-of-customers-lff">{this.state.searchResult.length} Customers found</div>
                     </div>
                     <div className='customer-search-input-area-row2'>
                         <TextField hintText={(window.innerWidth > 1900 )?"Search with last name, first name, phone or email":"Search with last name, first name, pho..."}
@@ -504,11 +599,13 @@ class CustomerSearch extends Component {
                         {/*(this.props.customerSearch.buttonId == '1') ? (<div className='customer-search-input-area-skip-label-lff' onClick={this.navigateToSale.bind(this)}>
                             SKIP TO SALE
                     </div>) : (<span></span>)*/}
-                        {(this.props.customerSearch.buttonId == '1') ?
+                            
                             <div className='customer-search-input-area-skip-label-lff' onClick={this.navigateToSale.bind(this)}>
                                 SKIP TO SALE
-                        </div> : ''}
+                        </div> 
                     </div>
+					
+                    
 
 
 
@@ -538,7 +635,7 @@ class CustomerSearch extends Component {
                                         <div className='customer-search-result-display-header-title5'>CSS ID</div>
                                         <div className='customer-search-result-display-header-title6'></div>
                                     </div>
-                                    <div className='customer-search-results-display-area'>
+                                    <div ref={(ref) => this.search_results_div= ref} className='customer-search-results-display-area'>
                                         {this.state.searchResult}
                                     </div>
                                 </div>
@@ -553,14 +650,14 @@ class CustomerSearch extends Component {
                             ) : null
                 }
 
-                {(this.state.searchResult.length >= 50 && window.innerWidth > 1919) ?
+                {(this.state.searchResult.length >= 50)  ?
                     <Modal classNames={{ modal: 'customer-limit-modal' }} open={this.state.maxLimit_modal} onClose={() => this.setState({ maxLimit_modal: false })} closeOnOverlayClick={false}>
                         <div className="customer-limit-modal-img">
                             <img src={warning}></img>
                         </div>
 
-                        <div className="customer-limit-modal-msg"> A max limit of 50 customers has returned. Please refine your search. </div>
-                        <div className="customer-limit-modal-btn" onClick={() => this.setState({ maxLimit_modal: false })}><span className="customer-limit-modal-txt">CLOSE</span></div>
+                        <div className="customer-limit-modal-msg"> Too many results. <br/> Please enter additional <br/> information and search again. </div>
+                        <div className="customer-limit-modal-btn" onClick={() => this.setState({ maxLimit_modal: false })}><span className="customer-limit-modal-txt">OK</span></div>
                     </Modal>
                     : null
                 }
@@ -600,8 +697,8 @@ class CustomerSearch extends Component {
     }
 }
 
-function mapStateToProps({ customerSearch }) {
-    return { customerSearch }
+function mapStateToProps({ customerSearch,login }) {
+    return { customerSearch,login }
 }
 
 function mapDispatchToProps(dispatch) {

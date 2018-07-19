@@ -24,6 +24,10 @@ export default class MainItemSmall extends Component{
         this.props.setCurrentItem(itemNumber,itemPrice,itemSku,selectedItem,index);
         }
     }
+
+    sendGiftReceipt = () =>{
+        this.props.showItemGiftReceiptModal(true,'itemreceipt');
+    }
     render(){
         let imageURL;
         if(this.props.obj.imgLink !== 'Image Not Found') {
@@ -59,17 +63,18 @@ export default class MainItemSmall extends Component{
                 },
                 {
                     text: <div>
-                        <div className="swipe-button-icon-container">
-                            <img className="swipe-button-icon-gift-receipt" src={require('../../../../resources/images/Gift_Receipt_Unchecked.svg')} />
+                        <div className="checkbox-icon-container">
+                        <input className="swipe-button-icon-gift-receipt" type="checkbox" onClick={this.sendGiftReceipt} name="radio" checked={this.props.isGiftRec?"checked":''}/>
+                         {/*<img className="swipe-button-icon-gift-receipt" src={require('../../../../resources/images/Gift_Receipt_Unchecked.svg')} />*/}
                         </div>
                         <div className="swipe-button-text">Gift</div>
                         <div className="swipe-button-text">Receipt</div>
                     </div>,
                     onPress: () => {
-                        this.props.showItemGiftReceiptModal(true,'item');
+                       
                     },
                     style: {
-                        backgroundColor: '#919191',
+                        backgroundColor: '#4b2b6f',
                         color: 'white',
                         height: '505px',
                         width: '250px',

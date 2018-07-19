@@ -13,7 +13,7 @@ const FILTER_URL_SKU = CONFIG_FILE_ADD.cxp.getProductFilterSKU;
 export function productRowAction(searchitem, searchfields, successCallback) {
     switch (searchitem) {
         case 'filter_set':
-        debugger;
+        //debugger;
             var filter_data;
             let getFilterByPimstyleId = FILTER_URL_SKU + `?version=v2&pimStyle=${searchfields.pimStyleId}&locationList=050&filterList=color,size`;
             var body = {

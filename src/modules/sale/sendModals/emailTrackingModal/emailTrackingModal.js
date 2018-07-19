@@ -1,6 +1,11 @@
 // Dependecies
 import React from 'react'
 
+// Redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {updateTracking} from '../emailTrackInfoActions';
+
 // UI components
 import Modal2 from '../../../../UI/modal-two/modal-two';
 
@@ -12,7 +17,8 @@ import '../sendModal.css';
 import { POINT_CONVERSION_UNCOMPRESSED } from 'constants';
 
 
-export default (props) => {
+const emailTracking = (props) => {
+    const isCliental = props.customerInfo.details;
 
     const LargeFormFactor = () => {
         return (
@@ -35,7 +41,7 @@ export default (props) => {
                          <div className='btn-no' onClick={() => props.openRecipientSender()}>NO</div>
                          <div 
                             className='btn-yes'
-                            onClick={() => props.openVerifyEmail()}
+                            onClick={() => {beginUpdateTracking(); props.openVerifyEmail()}}
                             >YES
                         </div>
                      </div>
@@ -62,12 +68,20 @@ export default (props) => {
                     <div style={{fontSize: '60px'}}> Email tracking information?</div>
                     <div className='btn-yes-no-wrapper-sff'> 
                         <div className='btn-no-sff'>NO</div>
-                        <div className='btn-yes-sff' onClick={() => props.openVerifyEmail()}>YES</div>
+                        <div className='btn-yes-sff' onClick={() => {beginUpdateTracking(); props.openVerifyEmail()}}>YES</div>
                     </div>
                 </div>
             </Modal2>
         )    
-    } 
+    }
+    
+    const beginUpdateTracking = () => {
+        if(isCliental) {
+            props.updateTracking('CLIENT', true)
+        } else {
+            props.updateTracking('NON_CLIENT', true)
+        }
+    }
 
     if(window.innerWidth < 1900) {
         return<SmallFormFactor />
@@ -77,3 +91,14 @@ export default (props) => {
         )  
     }
 }    
+
+
+const  mapStateToProps = ({sale}) => {
+    return { customerInfo: sale.otherPageData }
+  }
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators ({updateTracking},dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(emailTracking);

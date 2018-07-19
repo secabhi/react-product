@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import send from '../../../../resources/images/Send.svg';
+import {TextField} from 'material-ui';
 import send from '../../../../resources/images/Send_SFF.svg';
-import warning from '../../../../resources/images/Warning.svg'
+import warning from '../../../../resources/images/Warning.svg';
 import './option-seven.css';
 
 
@@ -51,7 +51,7 @@ export class InvalidStoreModal extends Component {
     }
 }
 
-export default class InsufficientQnty extends Component {
+export class InsufficientQnty extends Component {
     constructor(props) {
         super(props)
     }
@@ -66,14 +66,50 @@ export default class InsufficientQnty extends Component {
             <div  className="QtyPrice">PRICE<span className="PriceValue">120.00</span></div>
             <div className="insufficientQuntyButtons">
        
-            <div className='insufficientQunty-modal-no-btn' onClick={this.props.closeModal}><span className='insufficientQunty-modal-no-btn-label'>NO</span>
-                        </div>
-                        <div className='insufficientQunty-modal-yes-btn'> <span className='insufficientQunty-modal-yes-btn-label'>YES</span>
-                        </div>
+            <div className='insufficientQunty-modal-no-btn' onClick={this.props.closeModal}>
+                <span className='insufficientQunty-modal-no-btn-label'>NO</span>
+            </div>
+            <div className='insufficientQunty-modal-yes-btn'> 
+                <span className='insufficientQunty-modal-yes-btn-label'>YES</span>
+            </div>
 
-                    </div>
+            </div>
         </div>
       
         )
     }
 }
+
+
+export class OverrideCodeModal extends Component {
+  render() {
+    return (
+      <div className="override-code-modal">
+        <img className="override-code-icon" src={send} alt="send"/>
+        <div className="override-code-label">Override Code</div>
+        <TextField className="override-code-textfield"
+            type="number"
+          />
+        <div className="override-code-button-container">
+            <div className="override-code-cancel" 
+                onClick={() => {this.props.closeModal(); this.props.setObject()}}>Cancel
+            </div>
+            <div className="override-code-yes" 
+                onClick={this.props.closeModal}>Yes
+            </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+
+// export default class componentName extends Component {
+//     render() {
+//       return (
+//         <div>
+
+//         </div>
+//       )
+//     }
+//   };

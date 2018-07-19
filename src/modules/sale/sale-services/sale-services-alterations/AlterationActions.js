@@ -29,27 +29,28 @@ export function addAlterations(alterationsObj) {
                                 });
                                 break;
                             }
-                            case "AC_SUCCESS ":
-                            {
-                                dispatch({
-                                    type: 'AC_SUCCESS ',
-                                    payload: data
-                                });
-                                break;
-                            }
-                            case "AA_INVALIDALTERATIONTAG":
-                            {
-                                dispatch({
-                                    type: 'AA_INVALIDALTERATIONTAG',
-                                    payload: data
-                                });
-                                break;
-                            }
+                        case "AC_SUCCESS":
+                        {
+                            //debugger;
+                            dispatch({
+                                type: 'ALTERATION_SUCCESS',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "AA_INVALIDALTERATIONTAG":
+                        {
+                            dispatch({
+                                type: 'AA_INVALIDALTERATIONTAG',
+                                payload: data
+                            });
+                            break;
+                        }
     
                         default:
                             {
                                 dispatch({
-                                    type: 'ADD_ALTERATIONS_DEFAULT',
+                                    type: 'ALTERATION_FAILURE',
                                     payload: data
                                 });
                                 break;

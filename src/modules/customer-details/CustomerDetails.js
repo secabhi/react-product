@@ -12,7 +12,6 @@ import {navigateToEditCustomerIntAction} from '../update-customer/UpdateCustomer
 import { bindActionCreators } from 'redux';
 import { goToSalesPage } from '../sale/SaleAction.js'
 
-
 class CustomerDetails extends Component {
   constructor(props) {
     super(props);
@@ -83,12 +82,12 @@ class CustomerDetails extends Component {
           cust_dom_lname: (profile.names && profile.names.length > 0) ? profile.names[0].lastName : '',
           cust_dom_address1: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 0) ? profile.physicalAddresses[0].addressLines[0] : '',//'9303 Spring Hollow Dr',
           cust_dom_address2: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 1) ? profile.physicalAddresses[0].addressLines[1] : '',
-          cust_dom_mobile: (profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].id : '',
+          cust_dom_mobile: (profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].rawValue : '',
           cust_dom_email: (profile.emailAddresses && profile.emailAddresses.length > 0) ? profile.emailAddresses[0].id : '',
           cust_dom_otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].id : '',
           cust_dom_city: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].cityName : '', //"New york"
           cust_dom_state: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'NY'
-          cust_dom_country: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].countryCode : '', //'CANADA',
+          cust_dom_country: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].countryName : '', //'CANADA',
           cust_dom_postal: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '', //'78750',
           cust_dom_province: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'ON',
           cust_dom_zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '', //'78750',
@@ -129,6 +128,11 @@ class CustomerDetails extends Component {
     this.props.history.push('/sale');
   }
 
+  /*Navigate back to Product Search */
+    navigateToProductSearch = () => {
+    this.props.history.push('/product-search');
+  }
+
   /*Navigate back home*/
   navigateBack = () => {
     this.props.clearCustomerDetails();
@@ -167,6 +171,7 @@ class CustomerDetails extends Component {
         pointsToNextLvl={this.state.pointsToNextLvl}
         profileData={this.state.profileData}
         navigateToSale={this.navigateToSale}
+        navigateToProductSearch = {this.navigateToProductSearch}
         salesSummaryDetails = {this.state.salesSummaryDetails}
         toCamelCase={this.toCamelCase}
       />
@@ -178,7 +183,7 @@ class CustomerDetails extends Component {
   navigateToUpdateCustomer = () => {
     //this.props.history.push('/update-customer');
 
-    if(this.state.profileData.cust_dom_country == 'US')
+    if(this.state.profileData.cust_dom_country == 'UNITED STATES' || this.state.profileData.cust_dom_country == '' || this.state.profileData.cust_dom_country == null || this.state.profileData.cust_dom_country == undefined)
     {
       this.props.navigateToEditCustomer(this.state.profileData);
       this.props.history.push('/update-customer');
@@ -211,7 +216,7 @@ function mapDispatchToProps(dispatch) {
   navigateToEditCustomer : navigateToEditCustomerAction,
   navigateToEditCustomerInt : navigateToEditCustomerIntAction,
   getSalesSummaryCall : getSalesSummaryAction,
-  clearCustomerDetails :clearCustomerDetailsAction
+  clearCustomerDetails :clearCustomerDetailsAction,
   }, dispatch)
 }
 

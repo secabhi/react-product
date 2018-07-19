@@ -29,6 +29,8 @@ import NeimanMarcusLogo from '../../resources/images/Neiman_Marcus_logo.svg'
 import { getTransactionRequest, setButtonClick } from './HomeAction';
 import { getTransactionId } from './HomeSelector';
 import {clearCustomerDataAction} from '../customer-search-sale/actions';
+import {clearCart} from '../sale/SalesCartAction';
+import {itemSelectedAction} from '../common/cartRenderer/actions'
 
 import './home.css';
 
@@ -77,6 +79,8 @@ class Home extends Component {
     console.log("loggedIn: ",sessionStorage.getItem("loggedIn"));
     this.getTransactionIdInvoker();
     this.props.clearSearchData();
+    this.props.clearCart();
+    this.props.clearItemSelected("");
   }
 
   
@@ -363,7 +367,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return { dispatch, getTransactionIdInvoker: (data) => dispatch(getTransactionRequest(data)),
     openSelectInvoker :()=>dispatch(postVoidTransactionList()) ,setButtonClickInvoker: (buttonId) => dispatch(setButtonClick(buttonId)),
-    clearSearchData : ()=> dispatch(clearCustomerDataAction())};
+    clearSearchData : ()=> dispatch(clearCustomerDataAction()),
+    clearCart : ()=>dispatch(clearCart()),
+    clearItemSelected : (item)=>dispatch(itemSelectedAction(item))};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

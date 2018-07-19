@@ -75,7 +75,8 @@ class SaleServicesMenu extends Component {
     render() {
         console.log('MENU', this.props)
         return (
-            <div className={(this.props.currentItem !== '')?"services-enabled-style":"services-disabled-style"}>
+            <div className="services-enabled-style">
+            {/* <div className={(this.props.currentItem !== '')?"services-enabled-style":"services-disabled-style"}> */}
                 <div className="option-list services-menu">
                     <img onClick={this.handleDropDown} className="services-icon" src={this.state.dropDown?selectedServices:services} alt="services"/>
                     <div onClick={this.handleDropDown} className="services-text">Services</div>
@@ -85,11 +86,21 @@ class SaleServicesMenu extends Component {
                 {this.state.dropDown ? 
                     <div className="drop-menu">
 
-                        <div className="drop-menu-items" onClick={(e) => {this.renderGiftWrap(this.props); this.activeLink(e);}}>Gift Wrap</div>
+                        <div className={(this.props.currentItem !== '')?"drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
+                            if(this.props.currentItem !== '') {
+                                this.renderGiftWrap(this.props); 
+                                this.activeLink(e);
+                            }
+                        }}>Gift Wrap</div>
                       
                         <div className="drop-menu-items" onClick={this.activeLink}>Gift Wrap COM</div>
                     
-                        <div className="drop-menu-items" onClick={(e) => {this.renderAlterations(this.props.cart.data); this.activeLink(e);}}>Alterations</div>
+                        <div className={(this.props.currentItem !== '')?"drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
+                            if(this.props.currentItem !== '') {
+                                this.renderAlterations(this.props.cart.data); 
+                                this.activeLink(e);
+                            }
+                        }}>Alterations</div>
                     
                         <div className="drop-menu-items alterations-only" onClick={this.handleAltDropDown}>Alterations Only
                             <img onClick={this.handleAltDropDown} className="menu-dropdown" src={this.state.altDropDown?accordianOpen:accordianClose} alt="dropdown" />
@@ -124,3 +135,4 @@ function mapStateToProps({cart}) {
   }
   
   export default connect(mapStateToProps, mapDispatchToProps)(SaleServicesMenu);
+

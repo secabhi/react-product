@@ -1,6 +1,6 @@
 const initialState = {
     clientData : null,
-    aurusResponse : null,
+    aurusresponse: null
 };
 
 export function paymentReducer(state = initialState, action) {
@@ -40,6 +40,25 @@ export function paymentReducer(state = initialState, action) {
         return {
             ...state,
             aurusresponse: action.payload
+
+
+        }
+        //isell cart update reducers
+        case 'ISELL_SUCCESS' : 
+        console.log('ISELL_SUCCESS true');
+        return {
+            ...state,
+            data: action.payload,
+            type:'UPDATE_ISELL_SUCCESS'
+
+
+        }
+
+        case 'ISELL_FAILURE' : 
+        return {
+            ...state,
+            data: action.payload,
+            type : 'UPDATE_ISELL_FAILURE'
 
 
         }

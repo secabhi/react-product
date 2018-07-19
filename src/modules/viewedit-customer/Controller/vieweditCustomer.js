@@ -49,6 +49,7 @@ class ViewEditCustomer extends Component {
             succesModal: false,
             failModal: false,
             selectedCountry : '',
+            isClienteled:false,
             cust_text_opt: 'N',
             countryList:[],
             userType : '',
@@ -121,7 +122,9 @@ class ViewEditCustomer extends Component {
             otherMobile: this.state.changedAddress.cust_dom_otherMobile,
             });
         this.setState({succesModal:false});
-        this.props.history.push('/sale');
+        this.props.history.push('/sale', { isClienteled: true });
+        this.setState({ isClienteled: true });
+
     }
     componentWillReceiveProps = nextProps => {
         console.log('Update Customer: componentWillReceiveProps', nextProps);
@@ -151,7 +154,8 @@ class ViewEditCustomer extends Component {
         if (profile && JSON.stringify(profile) != "{}" && nextProps.viewEditCustomer.isProfileData == true) {
             var profileData = {
                 cust_cssId: profile.css_id,
-                cust_dom_salutation : (profile.names && profile.names.length > 0 && profile.names[0].salutation !== '') ? profile.names[0].salutation : '',
+                //cust_dom_salutation : (profile.names && profile.names.length > 0 && profile.names[0].salutation !== '') ? profile.names[0].salutation : '',
+                cust_dom_salutation : (profile.names && profile.names.length > 0 && profile.names[0].prefix !== undefined) ? this.toCamelCase(profile.names[0].prefix) : '',
                 cust_dom_fname : (profile.names && profile.names.length > 0) ? profile.names[0].firstName : '',
                 cust_dom_lname : (profile.names && profile.names.length > 0) ? profile.names[0].lastName : '',
                 cust_dom_address1 : (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 0) ? profile.physicalAddresses[0].addressLines[0] : '',//'9303 Spring Hollow Dr',

@@ -1,6 +1,10 @@
 import { ADD_ALTERATIONS, RESET_ALTERATION } from "../../../common/constants/type";
 
-export default (state = false, action) => {
+const initialStateAlterationReducer = {
+
+}
+
+export function AlterationReducer (state = initialStateAlterationReducer, action) {
   switch (action.type) {
     case ADD_ALTERATIONS:
         return true;
@@ -9,20 +13,21 @@ export default (state = false, action) => {
     case RESET_ALTERATION:
         return false;
         break;
-           
+    case 'ALTERATION_SUCCESS' : {
+        return {
+            ...state,
+            dataFrom: "ALTERATION_SUCCESS"
+        }
+    };
+    case 'ALTERATION_FAILURE' : {
+        return {
+            ...state,
+            ...action.payload,
+            dataFrom: "WEB_SERVICE_ERROR"
+        }
+    };   
     default:
         return state;
         break;
   }
-}   
-
-
-export const AlterationDetailsReducer = (state = undefined, action) => {
-    switch(action.type) {
-        case 'SET_ALTERATION_DETAILS':
-            return {
-                ...state,
-                payload: action.payload
-            }
-    }
 }

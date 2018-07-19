@@ -139,7 +139,8 @@ export class EmailReceiptModal extends Component {
                         style={emailtextFieldStyle}
                         className="lname-receipt-input"
                         onChange={(e)=>{this.handleLnameInput(e)}} 
-                        key={this.props.props.lname} defaultValue={this.props.props.lname}/>
+                        //key={this.props.props.lname} 
+                        defaultValue={this.props.props.lname}/>
                         {/*<span class="required">*</span>*/}
                         </div>
                         }
@@ -153,7 +154,8 @@ export class EmailReceiptModal extends Component {
                         underlineStyle={emailFieldUnderlineStyle}
                         style={emailtextFieldStyle}
                         onChange={(e)=>{this.handleFnameInput(e)}} 
-                        key={this.props.props.fname} defaultValue={this.props.props.fname} />
+                        //key={this.props.props.fname} 
+                        defaultValue={this.props.props.fname} />
                         {/*<span class="required">*</span>*/}
                         </div>}
                         
@@ -170,7 +172,8 @@ export class EmailReceiptModal extends Component {
                         style={emailtextFieldStyle}
                         errorText={this.props.props.error}
                         errorStyle ={errorStyle}
-                        key={this.props.props.email} defaultValue={this.props.props.email}/></div>
+                        //key={this.props.props.email}
+                        defaultValue={this.props.props.email}/></div>
 
 
                 <div className='add-dom-cust-modal-email-button-area'>

@@ -4,7 +4,7 @@ import Modal from 'react-responsive-modal';
 
 //Images
 import crossicon from '../../../../../resources/images/Cross_Purple.svg';
-var SignaturePad = require('react-signature-pad');
+import SignatureCanvas from 'react-signature-canvas'
 
 
 export class SignatureModal extends Component {
@@ -14,8 +14,6 @@ export class SignatureModal extends Component {
         this.state = {}
 
     }
-
-    componentDidMount() {}
 
     render() {
         var mySignature=null;
@@ -34,7 +32,7 @@ export class SignatureModal extends Component {
                         <span className="payment-signature-modal-labelText">${this.props.props.values[this.props.props.currentCard]}</span>
                     </div>
                     <div className="payment-signature-area-modal">
-                        <SignaturePad ref={(ref)=>{this.mySignature=ref}}/>
+                        <SignatureCanvas ref={(ref)=>{this.mySignature=ref}} />
                         <div className="enterSignatureLabel">Enter Signature</div>
                     </div>
                     <div className='payment-signature-modal-button-area'>

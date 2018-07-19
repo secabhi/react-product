@@ -930,6 +930,7 @@ button[disabled]{
     color: #505050;
     width: 480px;
     max-width: 480px;
+    margin-left: 78px;
    }
    .customer-search-result-display-header-title5{
      flex:1;

@@ -106,7 +106,7 @@ export class SaleItemModifyQuantity extends Component {
                     this.SaleItemModifyQuantitySubmit(e)}}>
                     <TextField
                         required
-                        type="number"
+                        type="tel"
                         floatingLabelText="Enter Quantity"
                         floatingLabelStyle={textFieldFloatingLabelStyle}
                         fullWidth={true}
@@ -228,7 +228,7 @@ export class SaleItemModifyQuantitySFF extends Component {
                 <TextField
                   id="quantityfield"
                   required
-                  type="number"
+                  type="tel"
                   floatingLabelText="Enter Quantity"
                   floatingLabelStyle={quantitytextFieldFloatingLabelStyle}
                   fullWidth={true}

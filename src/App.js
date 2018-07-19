@@ -3,7 +3,7 @@ import {
   HashRouter as Router,
   Route
 } from 'react-router-dom';
-
+import {HashRouter} from 'react-router-dom';
 
 import IdleTimer from 'react-idle-timer';
 import PostVoidDetails from './modules/post-void/postVoidDetails';
@@ -73,7 +73,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store} >
-        <Router ref='routerRoot'>
+        <HashRouter ref='routerRoot'>
           <IdleTimer
           ref="idleTimer"
           element={document}
@@ -105,7 +105,6 @@ class App extends Component {
 
                 <Route path="/payment" component={Payment} />
                 <Route path="/send" component={Send} />
-                 {/* <Route path='/product-search' component = {ProductSearch}/> */}
                  {/* <Route path='/postvoidtransactionmodel' component = {PostVoidTransaction}/>   */}
                  <Route path='/postvoiddetailsff' component = {PostVoidDetailssmallff}/>
                  <Route path="/product-search/:type?" component={ProductSearch}/>
@@ -115,7 +114,7 @@ class App extends Component {
               </div>
             </MuiThemeProvider>
           </IdleTimer>
-        </Router>
+        </HashRouter>
       </Provider>
     );
   }

@@ -32,6 +32,11 @@
     color: #613b8c;
 }
 
+.element-disabled{
+    pointer-events: none;
+    opacity: .50
+}
+
 @media only screen and (width:1080px){
     .freq-shipped-address-container{
         display: flex;

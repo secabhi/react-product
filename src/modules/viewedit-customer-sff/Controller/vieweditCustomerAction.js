@@ -16,7 +16,7 @@ export function viewCustomerAction(updateCustDomData) {
         request.then(({
                 data
             }) => {
-                switch (JSON.parse(data.Response_Code)) {
+                switch (JSON.parse(data.response_code)) {
 
                     case 0:
                         {

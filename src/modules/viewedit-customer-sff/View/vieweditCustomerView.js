@@ -60,7 +60,7 @@ export default class ViewEditCustomerView extends Component {
     render() {
         var selectFieldFloatingLabelStyle = {
             height: '28px',
-            fontSize: '30px',
+            fontSize: '48px',
             fontWeight: 'normal',
             fontStyle: 'normal',
             fontStretch: 'normal',
@@ -72,13 +72,13 @@ export default class ViewEditCustomerView extends Component {
         }
 
         var selectFieldStyle = {
-            height: '90px',
+            height: '139px',
             textOverflow: 'initial'
         }
         var selectFieldLabelStyle = {
-            height: '37px',
+            height: '50px',
             fontFamily: 'Roboto',
-            fontSize: '32px',
+            fontSize: '48px',
             fontWeight: 'normal',
             fontStyle: 'normal',
             fontStretch: 'normal',
@@ -89,13 +89,14 @@ export default class ViewEditCustomerView extends Component {
             color: '#505050',
             paddingTop: '20px',
             paddingBottom: '4.5px',
-            paddingLeft: '13px'
+            paddingLeft: '13px',
+            marginTop: '29px'
         }
 
         var selectFieldMenuItemStyle = {
-            height: '60px',
+            height: '100px',
             fontFamily: 'Roboto',
-            fontSize: '32px',
+            fontSize: '48px',
             fontWeight: 'normal',
             fontStyle: 'normal',
             textOverflow: 'initial',
@@ -114,7 +115,8 @@ export default class ViewEditCustomerView extends Component {
         var selectFieldIconStyle = {
             fontSize: '40px',
             marginLeft: '10px',
-            right: '-9px'
+            right: '-9px',
+            marginTop: '29px'
 
         }
         var menuStyle = {
@@ -122,7 +124,7 @@ export default class ViewEditCustomerView extends Component {
         }
         var textFieldFloatingLabelStyle = {
             height: '28px',
-            fontSize: '30px',
+            fontSize: '52px',
             fontWeight: '300',
             fontFamily: 'Roboto',
             fontStyle: 'normal',
@@ -134,23 +136,22 @@ export default class ViewEditCustomerView extends Component {
         }
 
         var textFieldStyle = {
-            height: '61px',
+            height: '110px',
             paddingTop: '31px'
         }
 
         var textFieldInputStyle = {
             height: '37px',
             fontFamily: 'Roboto',
-            fontSize: '32px',
+            fontSize: '48px',
             lineHeight: '1.19',
             fontWeight: 'normal',
             fontStyle: 'normal',
             fontStretch: 'normal',
             letterSpacing: '2px',
             textAlign: 'left',
-            color: '#505050',
-            paddingBottom: '4.5px',
-            paddingLeft: '13px'
+            color: '#000',
+            marginTop:'44px'
         }
 
         var errorStyle = {
@@ -278,7 +279,7 @@ export default class ViewEditCustomerView extends Component {
                                 <div className='row1-fields fields2'>
                                     <div className='field1 first-name-field'>
                                         <SelectField
-                                            floatingLabelText="Sal..."
+                                            floatingLabelText="Salutation"
                                             refs="cust_dom_salutation"
                                             dropDownMenuProps={{
 

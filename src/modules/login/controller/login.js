@@ -77,6 +77,7 @@ class Login extends Component {
     handleSubmit(e,params){
         e.preventDefault();
         console.log('SUBMITING');
+        this.errorPresent = false;   
         this.props.startSpinner(true);
         this.props.loginRequest(params);  
         
@@ -153,6 +154,7 @@ class Login extends Component {
             this.props.handleHide();
             this.props.showPass();
         }else if(this.props.login.response.Output.Response_Code === "PW_GENERALERROR" && this.errorPresent == false) {
+            
             this.props.startSpinner(false);
             console.log("error in state", this.state.errorText)
             this.errorPresent = true;

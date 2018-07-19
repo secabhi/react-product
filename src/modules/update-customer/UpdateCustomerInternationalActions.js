@@ -38,10 +38,10 @@ export function getCountryList() {
 
 export function updateInternationalApi(updateCustDomData) {
     const CONFIG_FILE = require('../../resources/stubs/config.json');
-    var URL = CONFIG_FILE.apiAddressAdd;
+    var URL = CONFIG_FILE.apiAddressUpdate;
     var functionalityId = CONFIG_FILE.updateCustomerFuncID;
     var params = updateCustDomData;
-    const apiAddressAddURL = path+'apiAddressAdd.json';
+    const apiAddressAddURL = path+'apiAddressUpdate.json';
 
     var body = {
         "FunctionalityId" : functionalityId,
@@ -68,7 +68,7 @@ export function updateInternationalApi(updateCustDomData) {
 
                         {
                             dispatch({
-                                type: 'CS_INVALID_EMAIL',
+                                type: 'UPDATE_INT_CUST_DOM_INVALID_EMAIL',
                                 payload: data
                             });
                             break;
@@ -77,7 +77,7 @@ export function updateInternationalApi(updateCustDomData) {
 
                         {
                             dispatch({
-                                type: 'CS_GENERALERROR',
+                                type: 'UPDATE_CUST_DOM_GENERAL_ERROR',
                                 payload: data
                             });
                             break;
@@ -99,10 +99,19 @@ export function updateInternationalApi(updateCustDomData) {
                             break;
                         }
 
+                        case 1:
+                        {
+                            dispatch({
+                                type: 'UPDATE_INT_CUST_EMAIL_OR_ADDR',
+                                payload: data
+                            });
+                            break;
+                        }
+
                     case "CS_INVALIDPHONE":
                         {
                             dispatch({
-                                type: 'CS__INVALID_PHONE',
+                                type: 'UPDATE_INT_CUST_DOM_INVALID_PHONE',
                                 payload: data
                             });
                             break;
@@ -120,7 +129,7 @@ export function updateInternationalApi(updateCustDomData) {
                     case "CS_INVALIDZIP":
                         {
                             dispatch({
-                                type: 'CS__INVALID_ZIP',
+                                type: 'UPDATE_INT_CUST_DOM_INVALID_ZIP',
                                 payload: data
                             });
                             break;
@@ -129,7 +138,7 @@ export function updateInternationalApi(updateCustDomData) {
                     case "CS_INVALIDSTATE":
                         {
                             dispatch({
-                                type: 'CS__INVALID_STATE',
+                                type: 'UPDATE_INT_CUST_DOM_INVALID_STATE',
                                 payload: data
 
                             });
@@ -147,7 +156,7 @@ export function updateInternationalApi(updateCustDomData) {
                     case "CS_AV_BAD_REPLY":
                         {
                             dispatch({
-                                type: 'CS__BAD_REPLY',
+                                type: 'UPDATE_INT_CUST_AV_BAD_REPLY',
                                 payload: data
                             })
                         }

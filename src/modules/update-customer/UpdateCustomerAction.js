@@ -12,11 +12,11 @@ export function updateCustomerAction(updateCustDomData) {
 
     //sets url to be used for api call
    
-    var URL = CONFIG_FILE_ADD.apiAddressAdd;
+    var URL = CONFIG_FILE_ADD.apiAddressUpdate;
     var fnid = CONFIG_FILE_ADD.updateCustomerFuncID;
     var params = updateCustDomData ;
 
-    const apiAddressAddURL = path+'apiAddressAdd.json';
+    const apiAddressAddURL = path+'apiAddressUpdate.json';
 
      var body = {
           "FunctionalityId" : fnid,

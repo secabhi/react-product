@@ -8,7 +8,6 @@ export class PaymentCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isForm:true,
         }
     }
 
@@ -20,53 +19,46 @@ export class PaymentCard extends Component {
             .handleChange(i, event)
     }
 
-    showForm=()=>{
-        if(this.state.isForm == true){
-            this.setState({isForm:false});
-        }
-        else{
-            this.setState({isForm:true});
+    setInactive=(index)=>{
+        var formElements=document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div:not([row="+"'"+index+"'"+"])>form")
+        var labelElements = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div:not([row="+"'"+index+"'"+"])>span.amountLabel")
+        for(var x=0; x<formElements.length; x++){
+            formElements[x].className="amountInputForm hide"
+            labelElements[x].className="amountLabel"
         }
     }
 
+    setActive=(index)=>{
+        var formElement = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>form")
+        formElement[0].className="amountInputForm"
+        var inputElement = document.querySelector("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>form>input")
+        inputElement.focus();
+        var labelElement = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>span.amountLabel")
+        labelElement[0].className="amountLabel hide"
+    }
     render() {
-
-        
-
         return (
             <div>
-                {this.state.isForm ?
-                <div className="payment-card" key={this.props.index} tabIndex={this.props.index} onClick={this.showForm}>
+                <div className={"payment-card " + this.props.index} key={this.props.index} tabIndex="0" row={this.props.index} onClick={()=>this.setActive(this.props.index)} onBlur={()=>this.setInactive(this.props.index)}> 
                     <span className="type-Number">
                         <span className="payment-cardNumber">
-                            { /*{card.CardType}*/}&nbsp;
-                            <span className="payment-asterisk">xxxxxxxx</span>
-                            {/*{card.CardToken.slice(-4)} */}
-                        </span>
-                    </span>
-                    
-                    <span className="amountLabel">Amount Paid ${this.props.props.values[this.props.index]}</span>
-                </div>
-                :
-                <div className="payment-card" key={this.props.index} tabIndex={this.props.index}>  
-                    <span className="type-Number">
-                        <span className="payment-cardNumber">
-                            { /*{card.CardType}*/}&nbsp;
-                            <span className="payment-asterisk">xxxxxxxx</span>
-                            {/*{card.CardToken.slice(-4)} */}
+                            {this.props.card?this.props.card.CardType+" "+ this.props.card.CardToken.slice(-4):
+                             <span className="payment-asterisk">xxxxxxxx</span>
+                            }
                         </span>
                     </span>
                     <form
-                        className="amountInputForm"
+                        className="amountInputForm hide"
                         onSubmit={this
                         .props
                         .props
                         .getAmountDue
-                        .bind(this, this.props.index)}>
+                        .bind(this, this.props.index)}
+                        >
                         <input
                             className="inputAmount"
                             autoFocus
-                            onBlur={this.showForm}
+                            ref={input => input && input.focus()}
                             type="number"
                             min="0.01"
                             step="0.01"
@@ -75,12 +67,11 @@ export class PaymentCard extends Component {
                             .handleChange
                             .bind(this, this.props.index)}
                             defaultValue={this.props.props.amountDue}
-                            //value={this.props.value}
                             name="input"></input>
-                        <button className="acceptAmountbttn" type="button">ACCEPT AMOUNT</button>
+                        <button className="acceptAmountbttn" type="submit">ACCEPT AMOUNT</button>
                     </form>
+                    <span className="amountLabel">Amount Paid ${this.props.props.values[this.props.index]}</span>
                 </div>
-                }
             </div>
         );
     }

@@ -9,10 +9,11 @@ import ServicesFooter from '../sale-services/services-common/ServicesFooter';
 import Footer from '../../common/footer/footer';
 
 import backArrow from '../../../resources/images/Back.svg';
-import InsufficientQnty from './OptionSeven/OptionSevenModals';
+import {InsufficientQnty} from './OptionSeven/OptionSevenModals';
 import Modal from 'react-responsive-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import FrequentlyShippedAddresses from './FreqShippedAddresses/Controller/frequentlyShippedAddresses';
 
 
 class SendContainer extends Component {
@@ -49,132 +50,9 @@ class SendContainer extends Component {
 
     componentWillMount() {
         console.log("send container", this.state)
-        // var cartItems = this.props.cart.data.cartItems.items;
-        // var cartItemsArray = [];
-
-        // cartItemsArray.push(
-        // <CartRenderer
-        //   items = {cartItems}
-        //   currentItem = {this.props.currentItem}
-        //   setCurrentItem = {this.setCurrentItem}
-          // tax={}
-
-
-        //   items = {this.props.items}
-        // currentItem = {this.props.currentItem}
-        // tax = {this.props.tax}
-        // showItemGiftReceiptModal = {this.props.showItemGiftReceiptModal}
-        // setCurrentItem = {this.props.setCurrentItem}
-        // />
-        // )
-    //   this.setState({
-    //     itemsArray: cartItemsArray
-    //   })
     }
-
-    initializeOptionSeven = (value) => {
-        this.state.optionSeven = value
-        this.setState({
-          optionSeven: value
-        })
-        console.log('working container', value)
-        return value;
-        // return this.state.optionSeven;
-      }
-
-    setShippingOption = (value) => {
-        // this.state.shippingOption = value
-        this.setState({
-          shippingOption: "shippingOption",
-        //   optionSeven: false
-        })
-        // return value;
-        // console.log('working', value)
-    }
-
-    // setSelectStore = (value) => {
-    //     this.state.selectStore = value
-    //     this.setState({
-    //       selectStore: value
-    //     })
-    //     return value;
-    //     // console.log('working', value)
-    // }
-
-    navigateToSale = () => {
-        this.props.history.push('/sale')
-    }
-
-    QntyPopup = () => {
-       this.setState({
-        insufficientQunty:true
-       });
-    }
-
-    exitModals = () => {
-        this.setState({
-            insufficientQunty: false,
-            //selectStore: true
-        })
-    }
-
-    footerButtonChange = () => {
-        var displayButton;
-
-        if(this.state.optionSeven === false && this.state.shippingOption === false) {
-            displayButton = (
-                <div className="giftwrap-next" 
-                    onClick={this.QntyPopup}>
-                <span className="giftwrap-next-text">Next</span></div>
-                )
-        }
-
-        else if(this.state.optionSeven === "optionSeven") {
-            console.log('optionseven button', this.state)
-            displayButton = (
-            <div className="giftwrap-next" 
-                onClick={() => {this.setShippingOption()}}>
-            <span className="giftwrap-next-text">Next</span></div>
-            )
-        }
-
-        else if (this.state.shippingOption === "shippingOption") {
-            console.log('shippinoption button', this.state)
-            this.setState({
-                optionSeven: false
-            })
-            displayButton = (
-            <div className="giftwrap-next" 
-                onClick={() => {this.navigateToSale()}}>
-            <span className="giftwrap-next-text">OK</span></div>
-            )
-        }
-
-        // else {
-        //     this.setState({
-        //         optionSeven: false,
-        //         shippingOption: false
-        //     })
-        //     displayButton = (
-        //         <div className="giftwrap-next" 
-        //             onClick={this.QntyPopup}>
-        //         <span className="giftwrap-next-text">OK</span></div>
-        //         )
-        // }
-
-        return displayButton;
-    }
-
 
     render() {
-        console.log('PROP VALUES',this.props)
-        console.log('STATE VALUES', this.state)
-        // const optionSevenNext = (
-            // <div className="giftwrap-next" 
-            //     onClick={this.QntyPopup}>
-            // <span className="giftwrap-next-text">Next</span></div>
-        // )
-
         return (
         <div>
         
@@ -191,7 +69,6 @@ class SendContainer extends Component {
           address2={this.state.address2}
         />
 
-        
         <ServicesHeader>
             <div className="giftwrap-header-container">
                 <img className="giftwrap-header-arrow" src={backArrow} alt="backarrow" onClick={this.navigateToSale}/>
@@ -225,15 +102,11 @@ class SendContainer extends Component {
             country={this.state.country}
             zip={this.state.zip}
             initialComponent={this.props.initialComponent}
-            /> 
+            navigate={() => {this.navigateToSale()}}
+            emailTrackingInfo={this.props.emailTrackingInfo}
+            moreCustomerData={this.props.moreCustomerData}
+        /> 
         
-        {/*<OptionSeven navigate={this.navigateToSale}/>*/}
-
-        <ServicesFooter >
-            <div className="giftwrap-cancel" onClick={this.navigateToSale}><span className="giftwrap-cancel-text">Cancel</span></div>
-            {this.footerButtonChange()}
-        </ServicesFooter>
-
         <Footer />
         <div className="select-store-container">
                 <Modal classNames={{modal: "insufficientQunty"}} open={this.state.insufficientQunty} onClose={() => this.setState({insufficientQunty: false})} closeOnOverlayClick={false}>
@@ -246,13 +119,57 @@ class SendContainer extends Component {
         </div>
         )
     }
+
+ initializeOptionSeven = (value) => {
+        this.state.optionSeven = value
+        this.setState({
+          optionSeven: value
+        })
+        console.log('working container', value)
+        return value;
+      }
+
+    setShippingOption = (value) => {
+        this.setState({
+          shippingOption: "shippingOption",
+        })
+    }
+
+    // setSelectStore = (value) => {
+    //     this.state.selectStore = value
+    //     this.setState({
+    //       selectStore: value
+    //     })
+    //     return value;
+    //     // console.log('working', value)
+    // }
+
+    navigateToSale = () => {
+        console.log('NAVIGATION TO SALE')
+        this.props.history.push('/sale')
+    }
+
+    QntyPopup = () => {
+       this.setState({
+        insufficientQunty:true
+       });
+    }
+
+    exitModals = () => {
+        this.setState({
+            insufficientQunty: false,
+        })
+    }
+
 };
 
 
-function mapStateToProps({cart, sale}) {
+function mapStateToProps({cart, sale, customerDetails, emailTrackingInfo}) {
     return { cart,
              otherPageData: sale.otherPageData,
-             initialComponent: sale.sendComponent
+             initialComponent: sale.sendComponent,
+             moreCustomerData: customerDetails.profileData,
+             emailTrackingInfo
             }
   }
   

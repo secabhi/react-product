@@ -4,59 +4,100 @@ import QuantityValidation from './QuantityValidation/QuantityValidation';
 import ShippingOptions from './ShippingOptions/ShippingOptions';
 import SelectStore from './SelectStore/SelectStore';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { optionSevenSendApi } from './OptionSevenActions';
+import { startSpinner } from '../../../common/loading/spinnerAction';
+
 
 class OptionSeven extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            
+        this.state = {    
+        }
+
+        this.optionSevenObject = {
+            shippingOption: undefined,
+            shippingFee: undefined,
+            overrideCode: undefined,
+            storeNumber: undefined,
+            associatePin: undefined
         }
     }
 
-    // continueOptionSeven = () => {
-    //     if(this.props.optionSeven) {
+    render() {
+        console.log('API OBJECT VALUES', this.optionSevenObject)
+        return (
 
-    //     }
-    // }
+        <div>
+            {this.displayComponent()}
+        </div>   
+
+        )
+    }
 
     displayComponent = (component) => {
-        console.log('option7 props', this.props)
+        // Renders component based on state changed
         var renderComponent;
-        // this.props.shippingOption("shippingOption")
         if(this.props.shippingOptionState === "shippingOption") {
-            console.log('shippinoptions',this.props)
-            renderComponent = (<ShippingOptions/>);
+            renderComponent = (
+                            <ShippingOptions
+                                optionSevenObject={this.optionSevenObject}
+                                setObject={(value) => {this.setOptionSevenObject(value)}}
+                                navigate={this.props.navigate}
+                            />
+                                );
         }
         else {
-            renderComponent = (<QuantityValidation
+            renderComponent = (
+                        <QuantityValidation
                             navigate={this.props.navigate} 
                             items={this.props.items} 
-                            optionSeven={(value) => {this.props.optionSeven(value)}} 
-                            shippingOption = {(value) => {this.setShippingOption(value)}}/>)
+                            optionSevenObject={this.optionSevenObject}
+                            setObject={(value) => {this.setOptionSevenObject(value)}}
+                            shippingOption = {(value) => {this.setShippingOption(value)}}
+                        />
+                        );
         }
 
         return renderComponent;
 
     }
 
-    render() {
-
-        return (
-        <div>
-
-        {this.displayComponent()}
-            {/* <div>Quantity Validation</div>     */}
-          {/*  <ShippingOptions navigate={this.props.navigate}/> shippingOption = {(true) => {this.setShippingOption(true)}} */} {/*commented to check the selectstore*/}
-          {/* <SelectStore navigate={this.props.navigate}/> */}
-          {/* <QuantityValidation
-          navigate={this.props.navigate} 
-                            items={this.props.items}  */}
-          {/* />  */}
-
-        </div>        
-        )
+    setOptionSevenObject = (value) => {
+        // Gathers required api params from child components
+        this.optionSevenObject = value
+        console.log('setoption7FUNC', this.optionSevenObject)
     }
-};
 
-export default OptionSeven;
+    optionSevenSendCall = () => {
+        // Api Call
+        const optionSevenSendObj = {};
+
+        this.props.startSpinner(true);
+        // this.props.optionSevenSendApi(optionSevenSendObj);
+
+    }
+
+
+}; // END CLASS
+
+function mapStateToProps({ optionSevenSend, cart, selectedItems }) {
+    return {
+        optionSevenSend,
+        cart, 
+        selectedItems
+            }
+  }
+  
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators(
+        {  
+            optionSevenSendApi,
+            startSpinner
+
+        }, dispatch)
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(OptionSeven);

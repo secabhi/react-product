@@ -8,9 +8,6 @@ import { PORDUCT_SEARCH } from '../../../src/pathConstants';
 import axios from 'axios';
 import { startSpinner } from '../common/loading/spinnerAction';
 
-import Header from '../common/header/header';
-import Footer from '../common/footer/footer';
-
 
 // actions import
 
@@ -252,7 +249,7 @@ class ProductSearch extends Component {
             else {
                 this.setState({ isSearchHit: false });
             }
-            //this.product-search-input-area-lff.props.history.push("/product-details/"+pimskuId);
+            //this.props.history.push("/product-details/"+pimskuId);
 
         });
     }
@@ -261,7 +258,7 @@ class ProductSearch extends Component {
 
 
     onProductClick = (search_pimsku) => {
-        debugger;
+        //debugger;
         this.props.startSpinner(true);
         this.props.productSearhActionInvoker("pimsku_search", { search_pimsku }, (pimskuId) => {
             this.props.history.push("/product-details/" + pimskuId);
@@ -269,51 +266,46 @@ class ProductSearch extends Component {
     }
 
     render() {
-        debugger;
+        //debugger;
         let searchType = this.props.match.params.type;
         return (
             <div className="product-search-main">
-                <Header history={this.props.history}></Header>
-                <div className="product-search-root-content">
-                    <ProductSearchView
-                        history={this.props.history}
-                        scanProductImage={this.state.scanProductImage}
-                        searchProductImage={this.state.searchProductImage}
-                        browseProductImage={this.state.browseProductImage}
-                        switchToScanProduct={this.switchToScanProduct}
-                        switchToSearchProduct={this.switchToSearchProduct}
-                        switchToBrowseProduct={this.switchToBrowseProduct}
-                        showRadioBtn1={this.showRadioBtn1}
-                        showRadioBtn2={this.showRadioBtn2}
-                        showRadioBtn3={this.showRadioBtn3}
-                        showRadioBtn4={this.showRadioBtn4}
-                        showRadioBtn5={this.showRadioBtn5}
-                        scanProductShown={this.state.scanProductShown}
-                        searchProductShown={this.state.searchProductShown}
-                        scannedSKU={this.state.scannedSKU}
-                        invokePimSKUAPI={this.searchByPimSKU}
-                        searchFields={this.state.searchFields}
-                        handleChange={this.handleChange}
-                        clearAll={this.clearAll}
-                        handleCategoryChange={this.handleCategoryChange}
-                        handleSubCategoryChange={this.handleSubCategoryChange}
-                        handleDetailChange={this.handleDetailChange}
-                        resetProductSearch={this.resetProductSearch}
-                        clickProductSearch={this.clickProductSearch}
-                        handleApiInvoker={this.handleApiInvoker}
-                        productPimSKUResult={this.props.products}
-                    />
+                <ProductSearchView
+                    history={this.props.history}
+                    scanProductImage={this.state.scanProductImage}
+                    searchProductImage={this.state.searchProductImage}
+                    browseProductImage={this.state.browseProductImage}
+                    switchToScanProduct={this.switchToScanProduct}
+                    switchToSearchProduct={this.switchToSearchProduct}
+                    switchToBrowseProduct={this.switchToBrowseProduct}
+                    showRadioBtn1={this.showRadioBtn1}
+                    showRadioBtn2={this.showRadioBtn2}
+                    showRadioBtn3={this.showRadioBtn3}
+                    showRadioBtn4={this.showRadioBtn4}
+                    showRadioBtn5={this.showRadioBtn5}
+                    scanProductShown={this.state.scanProductShown}
+                    searchProductShown={this.state.searchProductShown}
+                    scannedSKU={this.state.scannedSKU}
+                    invokePimSKUAPI={this.searchByPimSKU}
+                    searchFields={this.state.searchFields}
+                    handleChange={this.handleChange}
+                    clearAll={this.clearAll}
+                    handleCategoryChange={this.handleCategoryChange}
+                    handleSubCategoryChange={this.handleSubCategoryChange}
+                    handleDetailChange={this.handleDetailChange}
+                    resetProductSearch={this.resetProductSearch}
+                    clickProductSearch={this.clickProductSearch}
+                    handleApiInvoker={this.handleApiInvoker}
+                    productPimSKUResult={this.props.products}
+                />
 
-                    {
-                        searchType === "search" &&
-                        <ProductSearchList
-                            isSearchHit={this.state.isSearchHit}
-                            products={this.props.products}
-                            onProductClick={this.onProductClick} />
-                    }
-                    
-                </div>
-                <Footer hideTransactionId={true}></Footer>
+                {
+                    searchType === "search" &&
+                    <ProductSearchList
+                        isSearchHit={this.state.isSearchHit}
+                        products={this.props.products}
+                        onProductClick={this.onProductClick} />
+                }
             </div>
         );
     }

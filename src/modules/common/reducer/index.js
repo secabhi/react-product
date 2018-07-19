@@ -31,9 +31,10 @@ import { ProductDetailInfoReducer } from '../../product-details/ProductDetailinf
 import {PostVoidTransDetailsReducer} from '../../post-void/postVoidReducer';
 import {PostVoidGetTransListReducer} from '../../post-void/postVoidReducer';
 import {ItemSelectorReducer} from '../cartRenderer/reducer';
-import AlterationReducer from '../../sale/sale-services/sale-services-alterations/AlterationReducer';
-import AlterationDetailsReducer from '../../sale/sale-services/sale-services-alterations/AlterationReducer';
+import {AlterationReducer} from '../../sale/sale-services/sale-services-alterations/AlterationReducer';
 import {AddCardReducer} from '../../add-card/addCardReducer';
+import EmailTrackingInfoReducer from '../../sale/sendModals/emailTrackingInfoReducer';
+import {OptionSevenSendReducer} from '../../sale/sale-send/OptionSeven/OptionSevenReducer';
 /* state-name: reducer-name where
     - 'state-name' is the name provided in mapStateToProps for that module
     - 'reducer-name' is the name of the reducer for that module (the name of the function exported)
@@ -72,8 +73,9 @@ const reducers = combineReducers({
     giftWrap: GiftWrapReducer,
     sale: SaleReducer,
     alterationComplete: AlterationReducer,
-    alterationDetails: AlterationDetailsReducer,
-    addCard : AddCardReducer
+    addCard : AddCardReducer,
+    emailTrackingInfo: EmailTrackingInfoReducer,
+    optionSevenSend: OptionSevenSendReducer
 });
 
 export default reducers;

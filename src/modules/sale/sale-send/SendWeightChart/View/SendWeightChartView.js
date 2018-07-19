@@ -70,7 +70,7 @@ export default class SendWeightChartView extends Component{
                             </div>
 
                             <div className="WeightSend-option" onClick={
-                                (value)=> {this.props.optionSeven("optionSeven"); 
+                                (value)=> {this.props.componentChangeHandler("optionSeven"); 
                                 this.props.initializeOptionSeven("optionSeven")}}>From Other Location 
                                 <input type="radio" name="radio" />
                                 <span className="WeightSend-radio-button"></span>

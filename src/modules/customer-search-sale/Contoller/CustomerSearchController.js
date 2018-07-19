@@ -278,7 +278,7 @@ class CustomerSearch extends Component {
     navigateToSale = () => {
        this.setState({isClienteled:false});
         this.props.setClienteled(false)
-        this.props.history.push('/sale');
+        this.props.history.push('/sale', { isClienteled: false });
     }
 
 

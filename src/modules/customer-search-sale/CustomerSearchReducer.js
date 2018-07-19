@@ -39,39 +39,45 @@ export function CustomerSearchReducer(state = initialState, action) {
             return {
                 ...state,
                 buttonId : action.payload,
-                isSearchItemSet :  false
+                isSearchItemSet :  false,
+                dataFrom :''
             };
 
         case 'GET_CUSTOMERS':
             return {
                 ...state,
                 data: action.payload ,
-                isSearchItemSet :  false    
+                isSearchItemSet :  false    ,
+                dataFrom :''
             };
 
         case 'SET_CUSTOMER':
             return {
                 ...state,
                 customer: action.payload,
-                isSearchItemSet :  false
+                isSearchItemSet :  false,
+                dataFrom :''
             };
         case 'SET_CLIENTELED':
             return {
                 ...state,
                 clienteled: action.payload,
-                isSearchItemSet :  false
+                isSearchItemSet :  false,
+                dataFrom : ''
             };
         case 'CUST_INCIRCLE_INFO':
             return {
                 ...state,
                 incircleData: action.payload,
-                isSearchItemSet :  false
+                isSearchItemSet :  false,
+                dataFrom : ''
             };
         case 'CUST_INCIRCLE_ERROR':
             return {
                 ...state,
                 incircleData: null,
-                isSearchItemSet :  false
+                isSearchItemSet :  false,
+                dataFrom :''
             };
         case 'GET_ISELL_CART_REQUEST_SUCCESS': {
             console.log('**reducer: action.payload', action.payload);
@@ -86,14 +92,16 @@ export function CustomerSearchReducer(state = initialState, action) {
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'GET_CLIENT_TELE_REQUEST_UPDATE'
+                dataFrom: 'GET_CLIENT_TELE_REQUEST_UPDATE',
+                isSearchItemSet :  false
             };
         }
         case 'SET_SEARCHITEM_DATA':
             return {
             ...state,
             searchItem: action.payload,
-            isSearchItemSet :  true
+            isSearchItemSet :  true,
+            dataFrom : ''
             
         };
         case 'CLEAR_SEARCH_DATA':
@@ -101,7 +109,8 @@ export function CustomerSearchReducer(state = initialState, action) {
             ...state,
             searchItem: '',
             isSearchItemSet :  false,
-            data : {}
+            data : {},
+            dataFrom : ''
             
         }
         default:

@@ -6,8 +6,8 @@
     overflow: scroll;  
 }
 .item-color-size-oneLine{
-    display: flex;
-    width: 115px;
+  /*display: flex */
+  /* width: 115px; */
   height: 32px;
   font-family: Roboto;
   font-size: 24px;
@@ -19,8 +19,13 @@
   color: #333333;
   color: var(--Gray11);
 }
+.item-color-text {/*add*/
+    margin-top: -40px; 
+}
 .item-color-size-Spacing{
-    margin-left:20px;
+    /*margin-left: 20px; */
+    width: 156px;
+    margin-top: 5px;
 }
 .sku-text {
     width: 286px;
@@ -147,14 +152,14 @@
     line-height: 1.34;
     letter-spacing: normal;
     text-align: left;
-    color: #333333;;
+    color: #333333;    
 }
 
 .item-desc {
     width: 450px;
     height: 32px;
     font-family: Roboto;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -162,6 +167,14 @@
     letter-spacing: normal;
     text-align: left;
     color: #333333;
+}
+
+.item-style-desc{
+    font-size: 26px;   
+}
+
+.item-brand-desc{
+    font-size: 26px;
 }
 
 .item-color-size {
@@ -329,10 +342,8 @@
 }
 
 .item-tax-amount {
-     width: 124px; 
-     max-width: 124px;
     height: 30px;
-     margin-left: 60px; 
+    margin-left: 20px; 
     font-family: Roboto;
     /* font-size: 23px; */
     font-weight: normal;
@@ -388,8 +399,8 @@
 
 .item-discount-percent-spacing-tax{
     display: initial;
-    margin-right: 30px;
-    margin-left: 10px;
+    margin-right: 37px;
+    margin-left: 177px;
 }
 
 .saleContent-card-large{
@@ -413,8 +424,16 @@
 }
 
 .swipe-button-icon-container {
-  width: 100%;
-}
+    width: 100%;
+  }
+
+.checkbox-icon-container {    
+    width: 35px;
+    height: 35px;
+    margin-bottom: 16px;
+    margin-left: 18px;
+
+  }
 
 .swipe-button-icon-line-void {
   width: 60px;
@@ -842,7 +861,10 @@
         text-align: left;
         color: #333333;
         /* border: 2px solid blue; */
-    }   
+    } 
+    .dis-flex {
+        display: flex !important;
+    } 
     
     .item-description {
         display: flex;
@@ -972,7 +994,13 @@
   .swipe-button-icon-container {
     width: 100%;
   }
-  
+  .checkbox-icon-container {    
+   width: 66.5px;
+  height: 66.5px;
+  margin-bottom: 50px;
+  margin-left: 38px;
+
+  }
   .swipe-button-icon-line-void {
     width: 56px;
     height: 76px;

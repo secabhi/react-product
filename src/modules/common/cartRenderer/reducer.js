@@ -6,7 +6,7 @@ export const ItemSelectorReducer = (state = [], action) => {
   switch (action.type) {
    
     case CHANGE_ITEMS_SELECTED: //use for multiple item selections
-    console.log('**Reducer change_items_selected Called', action);
+    console.log('**Reducer change_items_selected Called', action.payload);
       //if state includes the index already remove it.
       if (state.includes(action.payload)) {
         return state.filter(val => val !== action.payload);
@@ -17,7 +17,7 @@ export const ItemSelectorReducer = (state = [], action) => {
       break;
 
     case CHANGE_ITEM_SELECTED:
-    console.log('**Reducer change_item_selected Called', action);
+    console.log('**Reducer change_item_selected Called', action.payload);
       //if were coming from a multiple selection we need to reset state to empty array.
       if(state.length > 1) {
         state=[]

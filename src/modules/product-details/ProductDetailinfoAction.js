@@ -12,7 +12,7 @@ const APP_KEY = CONFIG_FILE_ADD.cxp.AppKey;
 export function productDetailInfoAction(searchitem, searchfields, successCallback) {
     switch (searchitem) {
         case 'get_info':
-        debugger;
+        //debugger;
             var filter_data;
             let getDetailBySkuId = URL_SKU + `?skuId=${searchfields.pimskuId}&storeNo=002&divCd=NM`;
             var body = {

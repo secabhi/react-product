@@ -19,12 +19,13 @@ export class SaleItemSplitCommissionSFF extends Component {
         }
     }
     componentWillReceiveProps(nextProps) {
-        if(nextProps.pin2Error !== '') {
-            this.setState({spliterror2 : nextProps.pin2Error});
-        }
-        else {
-            this.setState({userPin1 : '',userPin2 : ''});
-        }
+        this.setState({spliterror1 : nextProps.spliterror["spliterror1"], spliterror2 : nextProps.spliterror["spliterror2"]})
+        // if(nextProps.pin2Error !== '') {
+        //     this.setState({spliterror2 : nextProps.pin2Error});
+        // }
+        // else {
+        //     this.setState({userPin1 : '',userPin2 : ''});
+        // }
     }
     
     handleValidation = (userPin1, userPin2) => {
@@ -32,18 +33,19 @@ export class SaleItemSplitCommissionSFF extends Component {
         var spliterror1, spliterror2;
 
         if (userPin1.length > 0 && userPin1.length < 6) {
-            spliterror1 = 'Invalid Pin'
+            spliterror1 = 'Invalid PIN entered.'
 
         }
         if (userPin2 && userPin2.length > 0 && userPin2.length < 6) {
-            spliterror2 = 'Invalid Pin'
+            spliterror2 = 'Invalid PIN entered.'
 
         }
-        if (spliterror1 != 'Invalid Pin' && spliterror2 != 'Invalid Pin') {
+        if (spliterror1 != 'Invalid PIN entered.' && spliterror2 != 'Invalid PIN entered.') {
             if (window.innerWidth > 1080) {
 
                 this.props.onSubmitshowSplitCommissionModal(userPin1, userPin2);
-                this.props.showSplitCommissionModal(false);
+              
+               // this.props.showSplitCommissionModal(false);
             }
             else {
 
@@ -77,7 +79,7 @@ export class SaleItemSplitCommissionSFF extends Component {
         else {
             //DO NOTHING
         }
-        this.setState({ userPin1: event.target.value });
+        this.setState({ userPin1: event.target.value,spliterror1: ""  });
 
     }
     handlePin2Change = (event, index, value) => {
@@ -97,7 +99,7 @@ export class SaleItemSplitCommissionSFF extends Component {
         else {
             //DO NOTHING
         }
-        this.setState({ userPin2: event.target.value });
+        this.setState({ userPin2: event.target.value ,spliterror2: "" });
 
     }
 
@@ -151,7 +153,7 @@ export class SaleItemSplitCommissionSFF extends Component {
             letterSpacing: 'normal',
             textAlign: 'right',
             color: '#d53560',
-            marginRight: '110px',
+            marginRight: '70px',
             paddingTop: '20px'
         }
 
@@ -197,7 +199,10 @@ export class SaleItemSplitCommissionSFF extends Component {
                 </div>
 
                 {(this.props.type_split_commission == 'itemsplit') ? (<div className='split-commission-button-area-itemsplit-sff'>
-                    <div onClick={this.props.hideItemModifyModalSmallFF} className='split-commission-cancel-btn' >
+                    <div onClick={() => {
+                            this.setState({userPin1 : '',userPin2 : '',spliterror1:'',spliterror2:''});
+                            this.props.hideItemModifyModalSmallFF();
+                        }} className='split-commission-cancel-btn' >
                         <div className="cross-icon-style"> <img className="close-icon-style" src={Cancel_Purple_SFF} /></div>
                         <div className='split-commission-cancel-btn-label'>CANCEL</div>
                     </div>
@@ -206,7 +211,7 @@ export class SaleItemSplitCommissionSFF extends Component {
                     </div>
                 </div>) : (<div className='split-commission-button-area-transmodify-sff'>
                     <div onClick={() => {
-                            this.setState({userPin1 : '',userPin2 : '',spliterror2:''});
+                            this.setState({userPin1 : '',userPin2 : '',spliterror1:'',spliterror2:''});
                             this.props.hideItemModifyModalSmallFF();
                         }} className='split-commission-cancel-btn' >
                         <div className="cross-icon-style"> <img className="close-icon-style" src={Cancel_Purple_SFF} /></div>
@@ -236,8 +241,9 @@ export class SaleItemSplitCommission extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-      
-        this.setState({spliterror2 : nextProps.pin2Error})
+
+        
+        this.setState({spliterror1 : nextProps.spliterror["spliterror1"], spliterror2 : nextProps.spliterror["spliterror2"]})
     }
 
     handleValidation = () => {
@@ -246,19 +252,19 @@ export class SaleItemSplitCommission extends Component {
         var spliterror1, spliterror2;
 
         if (this.state.userPin1.length > 0 && this.state.userPin1.length < 6) {
-            spliterror1 = 'Invalid Pin'
+            spliterror1 = 'Invalid PIN entered.'
 
         }
         if (this.state.userPin2.length > 0 && this.state.userPin2.length < 6) {
-            spliterror2 = 'Invalid Pin'
+            spliterror2 = 'Invalid PIN entered.'
 
         }
-        if (spliterror1 != 'Invalid Pin' && spliterror2 != 'Invalid Pin') {
+        if (spliterror1 != 'Invalid PIN entered.' && spliterror2 != 'Invalid PIN entered.') {
             if (window.innerWidth > 1080) {
                 var userPin1 = this.state.userPin1;
                 var userPin2 = this.state.userPin2;
                 this.props.onSubmitshowSplitCommissionModal(userPin1, userPin2);
-               this.props.showSplitCommissionModal(false);
+              // this.props.showSplitCommissionModal(false);
             }
             else {
                 
@@ -290,6 +296,7 @@ export class SaleItemSplitCommission extends Component {
         else {
             //DO NOTHING
         }
+
         this.setState({ userPin1: event.target.value, spliterror1: "" });
 
     }
@@ -354,7 +361,7 @@ export class SaleItemSplitCommission extends Component {
         }
         var errorsplitStyle = {
             bottom: '0',
-            marginRight: '17px',
+           
             fontFamily: 'Roboto',
             fontSize: '26px',
             fontWeight: 'normal',

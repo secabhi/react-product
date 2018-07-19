@@ -20,6 +20,7 @@ export function getIsellCartUpdateAction(getIsellCart) {
     }
 
     const params = `?cartId=${getIsellCart}`;
+    // const params = `?cartId=${201803082366}`;
     const getCartDetailsApi = cxp.getCartDetails + params;
     const getCartDetailsApiCall = callAxiosWebService({ method: 'get', url: getCartDetailsApi, headers: header });
 
@@ -59,7 +60,7 @@ export function getCustomerDetailsClienteleAction(customerDetailsList) {
     //     "StoreClientNo":"",   
     //     "Country":"INDIA",  
     //     "flagByPASS":true,    
-    //     "ClienteleUpdateFlag":true
+    //     "ClienteleUpdateFlag":false
     // };
     const params = {
         "ClientID": "0010:0169:06062018:013639",

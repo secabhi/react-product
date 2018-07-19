@@ -12,7 +12,7 @@ const header = {
 
 export function getCustomers(query, associatePin) {
 
-    const params = `?version=v2&q=${query}&offset=0&limit=50&associatePin=${associatePin}`;
+    const params = `?version=v2&q=${query}&offset=0&limit=500&associatePin=${associatePin}`;
     const customersApi = URL + params;
     const customersApiCall = callAxiosWebService({ method: 'get', url: customersApi, headers: header });
 
@@ -96,6 +96,17 @@ export function clearCustomerDataAction(){
         dispatch({
             type: "CLEAR_SEARCH_DATA",
             payload:{}
+        });
+    };
+}
+
+export function sendCustomerDetailsToAddCustomerAction(customerDetails) {
+    return (dispatch) => {
+        dispatch({
+            type: "AUTO_POPULATE_FN_LN_ADD_CUSTOMER",
+            payload: {
+                data : customerDetails
+            }
         });
     };
 }

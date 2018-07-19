@@ -60,9 +60,9 @@ export default (props) => {
       <div style={props.disableHeaderOptions?props.disabledHeaderStyle:props.enabledHeaderStyle} className={props.disabled ? 'keypad-container element-disabled' : 'keypad-container'}>
       {console.log('props in keypad'+JSON.stringify(props))}
         <button className="options-button" onClick={() => openNav()} ><span className="options-button-text">Options</span></button>
-        <button className="product-search-button">
+        <button className="product-search-button" onClick={props.navigateToProductSearch}>
           <img className="product-search-logo" src={productSearch} alt="product-search"/>
-          <span className="product-search-text">Product Search</span>
+          <span className="product-search-text">Product Search </span>
         </button>
 
         <button className="key-sku-button" onClick={() => props.openModal()}>

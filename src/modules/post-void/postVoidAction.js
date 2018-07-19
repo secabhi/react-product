@@ -74,8 +74,8 @@ export  function postVoidDetailsTransaction(){
         "Store":"0010",
         "Terminal":"0243", 
         "StoreAssoc":"209289",
-        "TransactionID":"2097",
-        "TranFile":"tran_180702163727_216_02097_20-Mar-17_N.log"
+        "TransactionId":"0002",
+        "TransactionFile": "tran_180618223828_243_03544_20-Mar-17_Y.log"
         }
            
      

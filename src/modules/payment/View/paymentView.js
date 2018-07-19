@@ -10,8 +10,8 @@ import "./payment.css";
 import Header from "../../common/header/header";
 import Footer from "../../common/footer/footer";
 import {PaymentCard} from './Components/PaymentCard';
-import {PurchasesList} from './Components/PurchasesList';
-import {SFFPurchasesModal} from './Components/Modals/SFFPurchasesModal';
+// import {PurchasesList} from './Components/PurchasesList';
+// import {SFFPurchasesModal} from './Components/Modals/SFFPurchasesModal';
 import {ReceiptMenuModal} from './Components/Modals/ReceiptMenuModal';
 import {EmailReceiptModal} from './Components/Modals/EmailReceiptModal';
 import {PrintReceiptModal} from './Components/Modals/PrintReceiptModal';
@@ -19,7 +19,6 @@ import {SignatureModal} from './Components/Modals/SignatureModal';
 import {VerifyEmailModal} from './Components/Modals/VerifyEmailModal';
 import {SFFHeader} from './Components/SFFHeader';
 import {SFFPaymentCard} from './Components/SFFPaymentCard';
-import {SFFCardList} from './Components/SSFCardList';
 
 // Images
 import backArrowWhite from "../../../resources/images/Back_White.svg";
@@ -96,11 +95,13 @@ export class PaymentView extends Component {
                                 : <div/>}
                             <div className="payment-cards-container">
                                 {this.props.isCards === true
-                                    ? this.props.cards.map((currentCard, index) => {
-                                        console.log("CARDS values",this.props.values); 
-                                        return <PaymentCard props={this.props} index = {index} value = {this.props.values[index]} />
+                                    ? this.props.cards.map((card, index) => {
+                                        return <PaymentCard props={this.props} index = {index} card={card} />
                                         })
                                     : emptyCardContainer}
+                                     {/*added for testing purpose ( for delete isell cart)
+                                        <button className="acceptAmountbttn" type="button" onClick={this.props.updateCartStatus}>ACCEPT AMOUNT</button>
+                                     */}
                             </div >
                             <div className="left-content-footer">
                                 <button className="gift-cards" onClick={this.props.giftCard}>GIFT CARDS</button>
@@ -108,13 +109,13 @@ export class PaymentView extends Component {
                             </div>
                         </div>
                         <div className="payment-right-content">
-                            <PurchasesList props={this.props} />
+                            {/* <PurchasesList props={this.props} /> */}
                         </div>
                     </div>
                     < div className="cusdet-footer">
                         <Footer />
                     </div>
-                    <ReceiptMenuModal props={this.props}/><SFFPurchasesModal props={this.props} /><EmailReceiptModal props={this.props} /><PrintReceiptModal props={this.props} /><SignatureModal props={this.props} /><VerifyEmailModal props={this.props} />
+                    <ReceiptMenuModal props={this.props}/><EmailReceiptModal props={this.props} /><PrintReceiptModal props={this.props} /><SignatureModal props={this.props} /><VerifyEmailModal props={this.props} />
                 </div >
 
 
@@ -134,17 +135,18 @@ export class PaymentView extends Component {
                             <span className="payment-AmountText">Amount Due
                             </span>
                             <span className="payment-Amount">${this.props.amountDue}</span>
-                            <span className="sff-purchasesView" onClick={this.props.showPurchasesModal}>
+                            {/* <span className="sff-purchasesView" onClick={this.props.showPurchasesModal}>
                                 <u>View Purchases</u>
-                            </span>
+                            </span> */}
                         </div>
 
                     </div>
                     <div className="payment-mainSection">
-                        <SFFCardList props={this.props} />
                         {this.props.isCards
-                            ? <SFFPaymentCard props={this.props} />
-                            : (this.props.cards.length < 3 ? emptyCardContainer : '')}
+                            ? this.props.cards.map((card, index) => {
+                                return <SFFPaymentCard props={this.props} index = {index} card={card} />
+                                })
+                            : emptyCardContainer}
                     </div>
                     <div className="payment-MoreSection">
                         <div className="payment-MoreText" hidden={!this.props.showMore}>
@@ -181,7 +183,8 @@ export class PaymentView extends Component {
                     <div className="sff-payment-footer">
                         <Footer></Footer>
                     </div>
-                    <ReceiptMenuModal props={this.props}/><SFFPurchasesModal props={this.props} /><EmailReceiptModal props={this.props} /><PrintReceiptModal props={this.props} /><SignatureModal props={this.props} /><VerifyEmailModal props={this.props} />
+                    <ReceiptMenuModal props={this.props}/><EmailReceiptModal props={this.props} /><PrintReceiptModal props={this.props} /><SignatureModal props={this.props} /><VerifyEmailModal props={this.props} />
+                    {/* <SFFPurchasesModal props={this.props} /> */}
                 </div>
             )
 

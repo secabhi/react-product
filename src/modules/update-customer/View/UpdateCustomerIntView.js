@@ -37,7 +37,7 @@ import PhoneModal from '../../update-customer/View/Components/AlertModals/PhoneM
 import TextOptModal from '../../update-customer/View/Components/AlertModals/TextOptModal';
 import EmailModal from '../../update-customer/View/Components/AlertModals/EmailModal';
 import SuccessModal from '../../update-customer/View/Components/AlertModals/SuccessModal';
-
+import {AddrEmailModal} from '../View/Components/AlertModals/AddressModal'
 export default class UpdateCustomerInternationalView extends Component {
     componentDidMount(){
         
@@ -159,6 +159,8 @@ export default class UpdateCustomerInternationalView extends Component {
                         underlineStyle = {customStyle.underlineStyle}
                         fullWidth = {true}
                         inputStyle = {customStyle.textFieldInputStyle}
+                        errorText= {this.props.errors["update_int_mobile"]}
+                        errorStyle={customStyle.errorStyle}
                         refs="update_int_mobile"
                             onChange={this.props.handleChangeonInternational.bind(this, "update_int_mobile")}
                             value={this.props.changedAddress["update_int_mobile"]}
@@ -214,6 +216,8 @@ export default class UpdateCustomerInternationalView extends Component {
                         fullWidth = {true}
                         inputStyle = {customStyle.textFieldInputStyle}
                         refs="update_int_otherMobile"
+                        
+                       
                         onChange={this.props.handleChangeonInternational.bind(this, "update_int_otherMobile")}
                         value={this.props.changedAddress["update_int_otherMobile"]}
                         >
@@ -359,6 +363,10 @@ export default class UpdateCustomerInternationalView extends Component {
                  currentAddress={this.props.currentAddress}
                  changedAddress = {this.props.changedAddress}
                  updateInternationalCustomerInvoker = {this.props.updateInternationalCustomerInvoker}
+                />
+                <AddrEmailModal
+                    addrEmailMOdal = {this.props.addrEmailMOdal}
+                    closeaddrEmailMOdal = {this.props.closeaddrEmailMOdal}
                 />
                 <SuccessModal
                 succesModal={this.props.succesModal}

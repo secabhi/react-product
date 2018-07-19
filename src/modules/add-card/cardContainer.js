@@ -4,23 +4,30 @@ import cardicon from '../../resources/images/Add_Card.svg';
 import './addCard.css'
 
 export default(props) => {
-    console.log("props", props);
-    const {customer} = props;
+    
+    console.log("props add card container", props);
+    const {cardData} = props;
 
 
     return (
         <div className='cardlist-container'>
-            {customer.creditCardInfo.length > 0
-                ? <div className='cardlist-display'>
-                        {customer
-                            .creditCardInfo
-                            .map(function (item) {
+            {cardData != ''
+                                ? <div className='cardlist-display'>
+                        {cardData.map(function (item) {
                                 return (<CardDisplay
-                                    firstname={item.firstname}
-                                    lastname={item.lastname}
-                                    cardNumber={item.number}
-                                    cardType={item.type}/>);
+                                    // firstname={item.firstname}
+                                    // lastname={item.lastname}
+                                    cardNumber = {item.lastFour}
+                                    cardType = {item.chargeType}
+                                    custFname = {props.custFname}
+                                />);
                             })}
+                            {/* <CardDisplay
+                                    // firstname={item.firstname}
+                                    // lastname={item.lastname}
+                                    cardNumber={cardData.lastFour}
+                                    cardType={cardData.chargeType}
+                                /> */}
                         <div className='add-card-button-section' onClick={props.openCardModals}>
                             <div className='add-card-icon-section'>
                                 <img src={cardicon} className='addcard-icon' alt='addcard'/>

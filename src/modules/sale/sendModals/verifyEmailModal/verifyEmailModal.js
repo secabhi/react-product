@@ -1,6 +1,10 @@
 // Dependecies
 import React, { Component } from 'react'
+
+//redux
 import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import { updateClientalEmail, updateNonClientele} from '../emailTrackInfoActions'
 
 // UI components
 import Modal2 from '../../../../UI/modal-two/modal-two';
@@ -20,11 +24,13 @@ class VerifyEmailModal extends Component {
   constructor(props){
     super(props)
     this.email='';
-    this.customer = this.props.customerInfo.customer;
-    this.isCliental = Object.keys(this.customer).length > 0;
+    this.customer = this.props.customerInfo.details;
+    console.log('sweezey : verfifyEmail Modal this customer: ', this.customer);
+    this.isCliental = this.customer;
     if(this.isCliental) {
-      if(this.customer.emails[0]) {
-        this.email = this.customer.emails[0];
+      this.customer.firstname !== '';
+      if(this.customer.email) {
+        this.email = this.customer.email;
       }
     }
     this.state = { email: this.email, Lname: '', Fname: ''};
@@ -55,8 +61,15 @@ class VerifyEmailModal extends Component {
     this.setState(newState);
   }
 
+  updateInfo = () => {
+    if(this.isCliental){
+      this.props.updateClientalEmail(this.state.email);
+    } else {
+      this.props.updateNonClientele({firstname: this.state.Fname, lastname: this.state.Lname, email: this.state.email});
+    }
+  }
+
  ClientalContent = () => {
-   alert(this.state.email);
     return (
       <div style={{minWidth: '95%', minHeight: '70px'}}>
         <div className={'send-modal-label show-label'}  style={this.isSFF ? {fontSize: '48px', marginLeft: '45px'} : {fontSize: '24px', marginLeft: '45px'}} >Email ID</div>
@@ -112,7 +125,6 @@ class VerifyEmailModal extends Component {
   }
 
   LargeFormFactor = () => {
-    console.log('this.customer', Object.keys(this.customer).length > 0);
     return (
       <Modal2 style={this.isCliental ? 
           {
@@ -136,13 +148,13 @@ class VerifyEmailModal extends Component {
       >
         <div className='send-flex-3 lff-size' style={this.isCliental ? {height: '575px'} : {height: '800px'}}>
           <img className='modal-icon' style={{marginTop: '50px'}} alt='email confirm icon' src={confirmEmailIcon} />
-          <div style={{ fontSize: '38px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.customer.names[0]) : 'Customer Email'}</div>
+          <div style={{ fontSize: '38px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.customer.firstname +' '+this.customer.lastname) : 'Customer Email'}</div>
           {this.isCliental ? <this.ClientalContent /> : <this.NonClientalContent />}
           <div className='btn-yes-no-wrapper' style={{marginBottom: '30px'}}>
             <div className='btn-no' onClick={() => this.props.close()} >NO</div>
             <div
               className={this.validateForm() ? 'btn-yes' : 'btn-yes btn-disable'}
-              onClick={() => {this.props.open_recipient_sender()}}
+              onClick={() => {this.updateInfo();this.props.open_recipient_sender()}}
             >YES
             </div>
           </div>
@@ -152,7 +164,6 @@ class VerifyEmailModal extends Component {
   }
 
   SmallFormFactor = () => {
-    console.log('this.customer', Object.keys(this.customer).length > 0);
     return (
       <Modal2 style={this.isCliental ? 
           {
@@ -176,13 +187,13 @@ class VerifyEmailModal extends Component {
         >
         <div className='send-flex-3 sff-size' style={this.isCliental ? {height: '1198px'} : {height: '1526px'}}>
           <img className='modal-icon-sff' alt='email confirm icon' src={confirmEmailIcon} />
-          <div style={{ fontSize: '60px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.customer.names[0]) : 'Customer Email'}</div>
+          <div style={{ fontSize: '60px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.customer.firstname +' '+this.customer.lastname) : 'Customer Email'}</div>
           {this.isCliental ? <this.ClientalContent /> : <this.NonClientalContent />}
           <div className='btn-yes-no-wrapper-sff'>
             <div className='btn-no-sff' onClick={() => this.props.close()}>NO</div>
             <div
               className={this.validateForm() ? 'btn-yes-sff' : 'btn-yes-sff btn-disable'}
-              onClick={() => {this.props.open_recipient_sender()}}
+              onClick={() => {this.updateInfo();this.props.open_recipient_sender()}}
             >YES
             </div>
           </div>
@@ -192,5 +203,14 @@ class VerifyEmailModal extends Component {
   }
 }
 
-export default VerifyEmailModal;
 
+
+const  mapStateToProps = ({sale}) => {
+  return { customerInfo: sale.otherPageData }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+  return bindActionCreators({updateClientalEmail, updateNonClientele},dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyEmailModal);

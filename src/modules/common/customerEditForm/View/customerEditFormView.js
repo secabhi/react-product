@@ -455,14 +455,14 @@ export default class CustomerEditFormView extends Component {
                             <div></div>
                         }
 
-                        <div className='viewedit-addcard-button-section'>
+                        {/* <div className='viewedit-addcard-button-section'>
                             <div className='viewedit-card-icon-section'>
                                 <img src={cardicon} className='addcard-icon' alt='addcard' />
                             </div>
                             <div className='viewedit-card-label-section'>
                                 <div className='view-label'>Add Card</div>
                             </div>
-                        </div>
+                        </div> */}
                         {/* <div className='viewedit-subfooter-container'>
                             <div className="view-edit-clear" onClick={this.props.cancelViewEdit}>
                                 <img className="viewedit-clear-all-icon" src={clearallbtn} alt="clear-all" />

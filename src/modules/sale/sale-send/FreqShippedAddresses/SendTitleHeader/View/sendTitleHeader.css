@@ -10,6 +10,7 @@
     height: 67px;
     /* width: 680px; */
     max-width: 680px;
+    margin-left: 50px;
     font-family: Roboto;
     font-size: 50px;
     font-weight: 300;
@@ -24,7 +25,7 @@
 .send-title-header-optional{
     height: 100px;
     /* width: 295px; */
-    margin-left: 900px;
+    margin-left: 800px;
     /* border: 2px solid green; */
 }
 

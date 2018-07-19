@@ -32,6 +32,17 @@
     margin: 50px 0 33px 80px;
 }
 
+/* .cart-render-status {
+    top: 100;
+    left: 100;
+    position: absolute;
+    width: 150px;
+    height: 196px;
+    display: flex;
+    justify-content: center;
+    font-size: 80px; 
+} */
+
 
 @media only screen and (max-width: 1080px) {
 

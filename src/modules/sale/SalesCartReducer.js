@@ -6,7 +6,8 @@ import {
     IM_RINGINGASSOCIATE,
     TRANS_DISCOUNT_FAIL,
     ASSOCIATE_DISCOUNT_APPLIED,
-    ASSOCIATE_DISCOUNT_FAIL
+    ASSOCIATE_DISCOUNT_FAIL,
+    ASSOCIATE_DISCOUNT_ALREADY_APPLIED
 } from '../common/constants/type';
 // helper - reformats the cart given from response
 import salesCartReformater from './helpers/salesCartReformater';
@@ -83,40 +84,17 @@ export function SalesCartReducer(state = initialState, action) {
 
         case 'ADD_ITEM_FAILURE':
             return {
+                ...state,
                 data: '',
-                dataFrom: 'WEB_SERVICE_ERROR',
+                dataFrom: 'INVALID_SKU-ID',
                 getISellData : '',
                 getISellDataFrom : ''
             };
 
-        case "UPDATE_PRICE_SUCESS":
-            return {
-                data: action.payload,
-                dataFrom: 'PER_MODIFY_SUCCESS',
-                popUp: 'POPUP_PER',
-                getISellData : '',
-                getISellDataFrom : ''
-            }
-
-
-        /* case "UPDATE_PRICE_DOLLER_SUCESS": 
-       return {
-           data: action.payload,
-           dataFrom: 'DOLLER_MODIFY_SUCCESS',
-           popUp : 'POPUP_DOLLER'
-         }
-*/
-        case "UPDATE_PRICE_MAXITEMREACHED":
-            return {
-                data: action.payload,
-                dataFrom: 'PER_MODIFY_SUCCESS',
-                popUp: 'POPUP_PER',
-                getISellData : '',
-                getISellDataFrom : ''
-            }
-
         case 'VOID_LINE_ITEM_SUCCESS':
+            action.payload.cartItems.items =  salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
             return {
+                ...state,
                 data: action.payload,
                 dataFrom: 'LINE_VOID',
                 getISellData : '',
@@ -124,7 +102,8 @@ export function SalesCartReducer(state = initialState, action) {
             }
 
         case 'MODIFY_QUANTITY_UPDATE_REQUEST_SUCCESS':
-        return {
+            action.payload.data.cartItems.items =  salesCartReformater(action.payload.data.cartItems.items, state.productImages)[0];
+            return {
                 ...state,
                 data: action.payload,
                 dataFrom: 'QUANTITY_UPDATE',
@@ -155,14 +134,14 @@ export function SalesCartReducer(state = initialState, action) {
             };
         case 'TRANS_TAX_EXEMPT_REQUEST_FAILURE':
             return {
+                ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
                 getISellData : '',
                 getISellDataFrom : ''
             };
         case 'SPLIT_COMMISSION_REQUEST_SUCCESS':
-            console.log('**reducer: action.payload.cart', action.payload.data.cartItems.items);
-            action.payload.data.cartItems.items =  salesCartReformater(action.payload.data.cartItems.items, state.productImages)[0]; 
+            action.payload.cartItems.items =  salesCartReformater(action.payload.cartItems.items, state.productImages)[0]; 
             return {
                 ...state,
                 data: action.payload,
@@ -170,10 +149,52 @@ export function SalesCartReducer(state = initialState, action) {
                 getISellData : '',
                 getISellDataFrom : ''
             };
+            case 'SC_INVALIDPINS':
+            
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'SC_INVALIDPINS'
+            };
+            case 'SC_INVALIDPIN1':
+            
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'SC_INVALIDPIN1'
+            };
+            case 'SC_INVALIDPIN2':
+            
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'SC_INVALIDPIN2'
+            };
+            case 'SC_SAMEPINS':
+            
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'SC_SAMEPINS'
+            };
+            case 'SC_PIN1MAND':
+            
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'SC_PIN1MAND'
+            };
+            case 'SC_FAILURE':
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'WEB_SERVICE_ERROR'
+            };
 
         case 'SPLIT_COMMISSION_REQUEST_FAILURE':
         console.log("SPLIT COMM FAILED");
         return {
+            ...state,
             data: '',
             dataFrom: 'WEB_SERVICE_ERROR',
             getISellData : '',
@@ -215,6 +236,7 @@ export function SalesCartReducer(state = initialState, action) {
             };
         case 'VOID_LINE_ITEM_FAILURE':
             return {
+                ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
                 getISellData : '',
@@ -223,6 +245,7 @@ export function SalesCartReducer(state = initialState, action) {
 
         case 'MODIFY_QUANTITY_UPDATE_FAILURE':
             return {
+                ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
                 getISellData : '',
@@ -244,7 +267,8 @@ export function SalesCartReducer(state = initialState, action) {
         console.log('**GIFT REG reducer: action.payload.cart', action.payload);
             return {
                 ...state,
-                dataFrom: 'WEB_SERVICE_ERROR',
+                dataFrom: 'GIFTREGISTRY_FAIL',
+                data:action.payload,
                 getISellData : '',
                 getISellDataFrom : ''
             };
@@ -285,11 +309,14 @@ export function SalesCartReducer(state = initialState, action) {
             console.log('REDUCER:TRANS_DISCOUNT_APPLIED', action.payload);
             action.payload.cartItems.items =  salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
             return {
+                ...state,
                 data: { ...action.payload },
                 dataFrom: 'Discount',
                 getISellData : '',
                 getISellDataFrom : ''
             };
+            
+
             case IM_RINGINGASSOCIATE:
           
             console.log('REDUCER:IM_RINGINGASSOCIATE', action.payload);
@@ -307,17 +334,27 @@ export function SalesCartReducer(state = initialState, action) {
             console.log('REDUCER:ASSOCIATE_DISCOUNT_APPLIED', action.payload);
             action.payload.cartItems.items =  salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
             return {
+                ...state,
                 data: { ...action.payload },
                 dataFrom: 'Discount',
                 getISellData : '',
                 getISellDataFrom : ''
             };
+            case ASSOCIATE_DISCOUNT_ALREADY_APPLIED:
+            console.log('REDUCER:TRANS_DISCOUNT_Already_APPLIED', action.payload);
+         
+            return {
+                ...state,
+                data: { ...action.payload },
+                dataFrom: 'IM_DISCOUNTALREADYAPPLIED',
+                
+            }; 
         case 'SPLIT_COMMISSION_PIN2_VALIDATION_FAIL': {
 
             return {
                 ...state,
                 //pin1Error : "",
-                pin2Error: action.payload.response.data.message,
+               // pin2Error: action.payload.response.data.message,
                 dataFrom: "SPLIT_COMM_ERROR",
                 getISellData : '',
                 getISellDataFrom : ''
@@ -330,6 +367,17 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 itemPromotionDetails : action.payload,
                 dataFrom : "GET_PROMOTIONS_SUCCESS",
+                getISellData : '',
+                getISellDataFrom : ''
+                
+            };
+            break;
+        }
+        case 'GET_PROMOTIONS_FAILURE' : {
+            return {
+                ...state,
+                itemPromotionDetails : action.payload,
+                dataFrom : "WEB_SERVICE_ERROR",
                 getISellData : '',
                 getISellDataFrom : ''
                 
@@ -360,40 +408,62 @@ export function SalesCartReducer(state = initialState, action) {
                 getISellDataFrom : ''
             }
         };
-        case 'AC_SUCCESS' : {
+        case 'ALTERATION_SUCCESS' : {
+            console.log('ALTERATIONS SALE REDUCER BEFORE FORMAT', action.payload.cartItems)
+            //debugger;
+            action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
+            console.log('ALTERATIONS SALE REDUCER AFTER FORMAT', action.payload.cartItems)
+            //debugger;
+            return {
+                ...state,
+                data : action.payload,
+                dataFrom: "ALTERATION_SUCCESS",
+                getISellData : '',
+                getISellDataFrom : ''
+            }
+        };
+        case 'ALTERATION_FAILURE' : {
             console.log('ALTERATIONS SALE REDUCER', action.payload)
-            action.payload.data.cartItems.items = salesCartReformater(action.payload.data.cartItems.items, state.productImages)[0];
             return {
                 ...state,
                 ...action.payload,
-                dataFrom: "AC_SUCCESS"
+                dataFrom: "WEB_SERVICE_ERROR",
+                getISellData : '',
+                getISellDataFrom : ''
             }
         };
         case 'AA_INVALIDALTERATIONTAG' : {
             return {
                 ...state,
                 ...action.payload,
-                dataFrom: "AA_INVALIDALTERATIONTAG"
+                dataFrom: "AA_INVALIDALTERATIONTAG",
+                getISellData : '',
+                getISellDataFrom : ''
             }
         };
         case 'ADD_ALTERATIONS_DEFAULT' : {
            return {
                 ...state,
                 ...action.payload,
-                dataFrom: "ADD_ALTERATIONS_DEFAULT"
+                dataFrom: "ADD_ALTERATIONS_DEFAULT",
+                getISellData : '',
+                getISellDataFrom : ''
             }
         };
         case 'ADD_ALTERATIONS_FAIL' : {
                 return {
                 ...state,
                 ...action.payload,
-                dataFrom: "ADD_ALTERATIONS_FAIL"
+                dataFrom: "ADD_ALTERATIONS_FAIL",
+                getISellData : '',
+                getISellDataFrom : ''
             }
         };
 
         case 'MODIFY_PRICE_SUCCESS' : {
             action.payload.cartItems.items =  salesCartReformater(action.payload.cartItems.items, state.productImages)[0]; 
             return {
+                ...state,
                 data: action.payload,
                 dataFrom: 'MODIFY_PRICE_SUCCESS',
                 getISellData : '',
@@ -402,12 +472,22 @@ export function SalesCartReducer(state = initialState, action) {
         }
         case 'MODIFY_PRICE_FAILURE' : {
             return {
+                ...state,
                 data: action.payload,
                 dataFrom: 'WEB_SERVICE_ERROR',
                 getISellData : '',
                 getISellDataFrom : ''
             };
         }
+
+        case 'CLEAR_CART':{
+            // const datainit = ...state
+             return {
+                // ...state,
+                 ...initialState,
+                 dataFrom : ''
+             }
+         }
         
         break;
         default:

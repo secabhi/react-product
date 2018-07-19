@@ -6,7 +6,8 @@ import transModifyImage from '../../../../resources/images/Trans_Modify.svg';
 import './transDiscount.css';
 
 export default class TransDiscountModal extends Component  {
-    state = {input: undefined}
+    state = {input: undefined};
+    discountThreshold = undefined;
 
     render() {
         if(window.innerWidth < 1900) {
@@ -37,7 +38,7 @@ export default class TransDiscountModal extends Component  {
                     <input 
                         className="modal-input-field" 
                         value={this.state.input}  style={{marginTop: "65px"}} type="text" placeholder="Enter % Off" 
-                        onChange={(e)=> this.onNextCharInput(e.target.value)} maxLength="2"
+                        onChange={(e)=> this.onNextCharInput(e.target.value)} maxLength="3"
                     />
                     <div className="modal-buttons-container-flex" style={{marginTop: "50px"}} >
                         <div className='modal-cancel-btn-flex' style={{marginRight: "40px"}} onClick={()=>{done()}} >
@@ -104,7 +105,9 @@ export default class TransDiscountModal extends Component  {
     }
 
     isValidInput(input){
-        if(input/1 >= 1 && input/1 <= 100) {
+        const discountThreshold = this.discountThreshold ? this.discountThreshold : 100;
+        
+        if(input/1 >= 1 && input/1 <= discountThreshold) {
             console.log('isvalid')
             return true
         }

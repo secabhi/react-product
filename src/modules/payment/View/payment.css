@@ -110,14 +110,15 @@
     display: flex;
     margin: 10px auto;
   }
-  /* .payment-card:focus .amountInputForm {
+  .amountInputForm {
     display: flex;
     visibility: visible;
-  } */
-  /* .payment-card .amountInputForm {
+  } 
+  .hide{
     display: none;
     visibility: hidden;
-  } */
+  }
+  
   .amountLabel {
     width: 100%;
     font-family: Roboto;
@@ -132,10 +133,7 @@
     padding-right: 35px;
   }
 
-  /* .payment-card:focus .amountLabel {
-    display: none;
-    visibility: hidden;
-  } */
+
   .payment-cardNumber {
     font-family: Roboto;
     font-size: 34px;
@@ -457,7 +455,6 @@
   .Modal-overlay-0-1-1 {
     background: rgba(0, 0, 0, 0.55) !important;
   }
-  /* Signature Modal */
   .payment-modal {
     width: 1001.1px !important;
     max-width: 1001.1px !important;
@@ -506,7 +503,9 @@
   canvas {
     width: inherit;
     height: inherit;
+    -ms-touch-action: none;
   }
+
 
   .enterSignatureLabel {
     width: 100%;

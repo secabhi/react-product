@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import ServicesHeader from '../services-common/ServicesHeader';
 import ServicesFooter from '../services-common/ServicesFooter';
 import Modal from 'react-responsive-modal';
-import { ContactDetailsModal, AlterationDetailsModal, CustomerDetailsModal, AlterationSuccessModal } from '../services-common/ServicesModals';
+import { ContactDetailsModal, 
+         AlterationDetailsModal, 
+         CustomerDetailsModal, 
+         AlterationSuccessModal,
+         InvalidAlterationTagModal,
+         ErrorModal
+         } from '../services-common/ServicesModals';
 
 import '../services-common/services-common.css';
 
@@ -40,6 +46,8 @@ class Alterations extends Component {
       customer_details_modal: false,
       alteration_success_modal: false,
       showCalendar_Modal: false,
+      invalidTag_modal: false,
+      error_modal: false,
       isSkip: this.props.otherPageData.isSkip,
       salutation: this.props.otherPageData.details ? this.props.otherPageData.details.salutation : '',
       firstname: this.props.otherPageData.details ? this.props.otherPageData.details.firstname : '',
@@ -56,29 +64,65 @@ class Alterations extends Component {
       contactName: undefined,
       contactExt: undefined
     }
-
-    // this.contactObject = {
-    //   contactName: undefined,
-    //   contacteExt: undefined
-    // }
-
+    
   }
 
 
   componentWillReceiveProps(nextprops) {
-    if(nextprops.alterationComplete) {
+    console.log("NEXT PROPS", nextprops)
+    
+    /* if(nextprops.alterationComplete) {
       this.setState({alteration_success_modal: true})
       this.props.startSpinner(false);
+    } */
+    if(nextprops.cart.dataFrom === 'ALTERATION_SUCCESS') {
+      /* debugger;
+      this.startSpinner(false); */
+      this.setState({alteration_success_modal: true})
+      this.props.startSpinner(false);
+      //this.props.history.push('/sale');
     }
+    else if(nextprops.cart.dataFrom === 'WEB_SERVICE_ERROR') {
+      /* debugger;
+      this.startSpinner(false); */
+      this.props.startSpinner(false);
+      //this.props.history.push('/sale');
+    }
+
+    else if(nextprops.cart.dataFrom === 'AA_INVALIDALTERATIONTAG') {
+      console.log("invalidtag dataform", nextprops.cart.dataFrom)
+      this.setState({
+        invalidTag_modal: true
+      })
+      this.alterationObject = {
+        promiseDate: '',
+        alterationID: '',
+        quotedPrice: '',
+        contactName: '',
+        contactExt: ''
+      }
+      this.props.startSpinner(false);
+    }
+    
+    else if(nextprops.cart.dataFrom === 'ADD_ALTERATIONS_FAIL') {
+      this.renderErrorModal();
+      this.props.startSpinner(false);
+    }
+
+    else if(nextprops.cart.dataFrom === 'WEB_SERVICE_ERROR') {
+      this.props.startSpinner(false);
+    }
+
   }
 
   render() {
+    console.log('ALTERATION PROPS',this.props)
     return (
       <div>
         <Modal classNames={{modal: "contact-details-modal"}} open={this.state.contact_modal} onClose={() => this.setState({contact_modal: false})} closeOnOverlayClick={false}>
           <ContactDetailsModal
             changeModal={this.renderAlterationsModal}
-            // closeModal={(this.setState({contact_modal:false}))}
+            closeModal={() => {this.exitModals()}}
             setObject={(value) => {this.setObject(value)}}
             alterationObject={this.alterationObject}
           />
@@ -103,6 +147,18 @@ class Alterations extends Component {
         <Modal classNames={{modal: "alteration-success-modal"}} open={this.state.alteration_success_modal} closeOnOverlayClick={false}>
           <AlterationSuccessModal
             closeModal={() => {this.props.resetAlterationComplete(); this.navigateToSale()}} />
+        </Modal>
+
+        <Modal classNames={{modal: "invalid-tag-modal"}} open={this.state.invalidTag_modal} onClose={() => this.setState({invalid_modal: false})} closeOnOverlayClick={false}>
+          <InvalidAlterationTagModal
+            closeModal={() => {this.exitModals()}}
+          />
+        </Modal>
+
+        <Modal classNames={{modal: "res-error-modal"}} open={this.state.error_modal} onClose={() => this.setState({error_modal: false})} closeOnOverlayClick={false}>
+          <ErrorModal
+            closeModal={() => {this.exitModals()}}
+          />
         </Modal>
 
         {this.state.showCalendar_Modal 
@@ -137,6 +193,7 @@ class Alterations extends Component {
 
           <div className="alterations-content">
             <div className="alterations-content-text">Item to be altered</div>
+            {console.log("BEFORE CART RENDERER: ",this.props.cart)}
             <CartRenderer
               style= {{boxShadow: 'none'}}
               items = {this.props.cart.data.cartItems.items}
@@ -178,8 +235,9 @@ class Alterations extends Component {
     var apiDateFormat = values.promiseDate.split('/');
     console.log('API DATE FORMAT', apiDateFormat);
     apiDateFormat[2] = apiDateFormat[2].slice(2);
-    apiDateFormat = apiDateFormat.join('');
-    console.log('API DATE FORMAT', apiDateFormat);
+    //apiDateFormat = apiDateFormat.join('');
+    var finalApiDateFormat = apiDateFormat[1] + apiDateFormat[0] + apiDateFormat[2];
+    console.log('API DATE FORMAT', finalApiDateFormat);
 
     const index = this.props.lineNumber - 1;
     const cart = this.props.cart.data.cartItems.items;
@@ -191,11 +249,12 @@ class Alterations extends Component {
       "transactionId": transId,
       "ItemNumber": sku,
       "LineNumber": lineNum,
-      "PromisedDate": apiDateFormat,
+      "PromisedDate": finalApiDateFormat,
       "QuotedPrice": this.alterationObject.quotedPrice,
       "AlterationTag": this.alterationObject.alterationID,
       "AlterationType" : "COM",
-      "AssociateName" :this.alterationObject.contactName
+      "AssociateName" :this.alterationObject.contactName,
+      "AssociateExtn": this.alterationObject.contactExt,
       // VALID ALTERATION TAG 1548634
     }
     console.log('B4 API CALL', this.props.cart.data)
@@ -237,16 +296,32 @@ class Alterations extends Component {
       alterations_modal: false,
       customer_details_modal: false,
     })
-    console.log('success modal', this.state)
+  }
+
+  // renderInvalidTag = () => {
+  //   this.setState({
+  //     invalidTag_modal: true
+  //   })
+  // }
+
+  renderErrorModal = () => {
+    this.setState({
+      error_modal: true
+    })
+    
   }
   
   exitModals = () => {
     this.setState({
+      contact_modal: false,
       customer_details_modal: false,
       alterations_modal: false,
-      alteration_success_modal: false
+      alteration_success_modal: false,
+      invalidTag_modal: false,
+      error_modal: false
     })
   }
+
 }// end of class
 
 function mapStateToProps({ alterationComplete, cart, sale, selectedItems,  }) {

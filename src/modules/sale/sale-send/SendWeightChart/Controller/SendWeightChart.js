@@ -13,7 +13,7 @@ export default class SendWeightChart extends Component {
     render() {
         return (
             <SendWeightChartView 
-            optionSeven={(value) => {this.props.optionSeven(value)}}
+            componentChangeHandler={(value) => {this.props.componentChangeHandler(value)}}
             initializeOptionSeven={(value) =>{this.props.initializeOptionSeven(value)}}
             />
             

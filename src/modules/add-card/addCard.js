@@ -11,7 +11,7 @@ import AddCardContext from "./addCardContext/addCardContext.js";
 import purpleCross from "../../resources/images/Cross_Purple.svg";
 import cardicon from '../../resources/images/Add_Card.svg';
 import error from '../../resources/images/Error_Red.svg'
-import {addCardAction, getAddCardAurusResponse} from "./actions";
+import {addCardAction, getAddCardAurusResponse, getCardDetails, getStoreClientId,addCardDetailsToClientele} from "./actions";
 // Components
 import Header from "../common/header/header";
 import Tabheader from "../common/tabheaders/cust-det-tabheader";
@@ -35,12 +35,14 @@ import incirclePurple from "../../resources/images/Incircle_Level_purple_small_b
 import incircleLarge from "../../resources/images/Incircle_Level_purple_large_bttn.svg";
 import cardDisplay from "./cardDisplay";
 import CardContainer from './cardContainer'
-import {json2xml} from '../common/helpers/helpers';
+import {json2xml,xml2json} from '../common/helpers/helpers';
+import {startSpinner} from '../common/loading/spinnerAction';
 
 var incircle_purple_large_bttn = require("../../resources/images/Incircle_Level_purple_large_bttn.svg");
 
 class AddCard extends Component {
     constructor(props) {
+        console.log("props add-card", props);
         super(props);
         this.inCircleInfo = require("../../resources/stubs/cust-incircleinfo.json");
         this.inCircleDetails = require("../../resources/stubs/incircleConfig.json");
@@ -53,17 +55,22 @@ class AddCard extends Component {
             addProfileShown: true,
             addCardImage: addcardselected,
             addCardModal: false,
-            maxCardWarning: false
+            maxCardWarning: false,
+            cardDetails: '',
+            profileInfo: (props.customerDetails.cssId) ? props.customerDetails.profileData : '',
+            aurusResponse : '',
+            storeClientNo: ''
         };
         this.aurusVars = require("../../resources/aurus/aurusVars")
         this.getCardBinJson = require("../../resources/aurus/GetCardBINRequest.json");
+        this.cancellasttxn = require("../../resources/aurus/CancelLastTransRequest.json");
     }
-    
+
     openCardModals = () => {
-        this.addCard(0);
         (customer.creditCardInfo.length == 5)
             ? this.setState({maxCardWarning: true})
             : this.setState({addCardModal: true});
+        this.addCard(0);
     }
 
     openOverlayModal = () => {
@@ -75,33 +82,137 @@ class AddCard extends Component {
                         done={() => {
                         this.closeOverlayModal();
                     }}
-                    addCard = {this.addCard}
-                  />
+                        addCard={this.addCard}
+                    />
                 </Modal>
             </div>
         );
     };
-    
+
     closeOverlayModal = () => {
         this.setState({addCardModal: false});
     };
 
-    //add_type = 0 for swipe/insert card add_type = 1 for keyin
 
+
+    // switchToKeyInMode = () =>{
+
+    // }
+
+    // cancelLastTransRequest = () => {
+    //     this.cancellasttxn.CancelLastTransRequest.
+
+    // }
+
+    //add_type = 0 for swipe/insert card,add_type = 1 for keyin
     addCard = (add_type) => {
-        console.log("add_type"+add_type);
+        console.log("add_type", add_type);
+        this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
+        this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
+        this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
         this.getCardBinJson.GetCardBINRequest.LookUpFlag = 0;
         this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = (add_type == 0)
             ? "N"
             : "Y";
         var request = json2xml(this.getCardBinJson);
-        this
-            .props
-            .aurusActionInvoker(request)
+        this.props.aurusActionInvoker(request)
     }
 
-    render() {
 
+    addCardDetailsToClienteleInvoker = () => {
+        console.log("yaay",this.state.aurusResponse);
+        let req = {
+            "expiration" : (this.state.aurusResponse.CardExpiryDate) ? (this.state.aurusResponse.CardExpiryDate) : '',
+            "cardToken" : (this.state.aurusResponse.CardToken) ? (this.state.aurusResponse.CardToken) : '',
+            "responseCode" : (this.state.aurusResponse.ResponseCode) ? (this.state.aurusResponse.ResponseCode) : '',
+            "kiNum" : (this.state.aurusResponse.KI) ? (this.state.aurusResponse.KI) : '',
+            "lastname":  (this.state.aurusResponse.LastName) ? (this.state.aurusResponse.LastName) : '',
+            "cardType":  (this.state.aurusResponse.CardType) ? (this.state.aurusResponse.CardType) : '',
+            "hashAcct" : "$AFFFJKKHFRAAADEAaEERTAassssGHJKasKIUJHGQASASRFDAADGHTHASGTTKIKHFFQDIUHIUA",
+            "terminalNum" : "01",
+            "transNum" : "",
+            "hashType" :"",
+            "sigonFile" :"" ,
+            // "storeClientNo" : (this.state.storeClientNo) ? (this.state.storeClientNo) : ''
+            "storeClientNo"  : "0001000161091"
+        }
+        this.props.addCardDetailsToClienteleActionInvoker(req);
+    }
+
+
+
+    getStoreClientIdInvoker = () => {
+        console.log("in getStoreClientIdInvoker ");
+        let clientData = {
+            "ClientTypeID": "1000",
+            "CFirstName": (this.state.profileInfo.names.length > 0)
+                ? (this.state.profileInfo.names[0].firstName)
+                : '',
+            "CLastName": (this.state.profileInfo.names.length > 0)
+                ? (this.state.profileInfo.names[0].lastName)
+                : '',
+            "CEmail": (this.state.profileInfo.emailAddresses.length > 0)
+                ? (this.state.profileInfo.emailAddresses[0].id)
+                : '',
+            "COtherPhone": '',
+            "Address_Ln1": (this.state.profileInfo.physicalAddresses.length > 0)
+                ? (this.state.profileInfo.physicalAddresses[0].addressLines[0])
+                : '',
+            "City": (this.state.profileInfo.physicalAddresses.length > 0)
+                ? (this.state.profileInfo.physicalAddresses[0].cityName)
+                : '',
+            "Zip5": (this.state.profileInfo.physicalAddresses.length > 0)
+                ? (this.state.profileInfo.physicalAddresses[0].postalCode)
+                : '',
+            "CCssNo": this.state.profileInfo.css_id,
+            "StoreClientNo": "",
+            "Country": (this.state.profileInfo.physicalAddresses.length > 0)
+                ? (this.state.profileInfo.physicalAddresses[0].countryName)
+                : '',
+            "flagByPASS": true,
+            "ClienteleUpdateFlag": false
+        };
+        this.props.getStoreClientIdActionInvoker(clientData);
+    }
+
+    getCardDetails = (client_id) => {
+        console.log("client id" + client_id);
+        let request = {
+            //"storeClientNo" : client_id
+            "storeClientNo": "0001900075246" // hard coded for testing since i was not getting customer with card details
+        }
+        this.props.getCardDetailsActionInvoker(request);
+    }
+
+    componentDidMount = () => {
+        this.props.startSpinner(true);
+        this.getStoreClientIdInvoker();
+    }
+
+    componentWillReceiveProps = (nextProps) => {
+    
+        if (nextProps.addCard.response) {
+            if (nextProps.addCard.response.storeClientNo && nextProps.addCard.isGetStoreClientId == true) {
+                this.setState({storeClientNo :nextProps.addCard.response.storeClientNo },
+                    this.getCardDetails(nextProps.addCard.response.storeClientNo));    
+            }
+            if (nextProps.addCard.response.cardList && nextProps.addCard.isGetCardDetails == true) {
+                this.setState({cardDetails: nextProps.addCard.response.cardList});
+                this.props.startSpinner(false);
+            }
+            if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAurusResponse == true){
+                var jsonResp =JSON.parse(xml2json(nextProps.addCard.response));
+                if(jsonResp.GetCardBINResponse.ResponseCode == "00000"){
+                    this.setState({aurusResponse :jsonResp.GetCardBINResponse},function(){
+                        this.addCardDetailsToClienteleInvoker();
+                    })
+                }
+            }
+        }
+    }
+
+
+    render() {
         const maxCardWarningMessage = () => {
             return ((this.state.maxCardWarning === true)
                 ? (
@@ -131,7 +242,13 @@ class AddCard extends Component {
                         <div className="divider"/>
                         <div className="customer-name">
                             <div className="customer-name-label">
-                                {this.inCircleInfo.salutation}. {this.inCircleInfo.firstname}{" "} {this.inCircleInfo.lastname}
+                                {(this.state.profileInfo != '')
+                                    ? ((this.state.profileInfo.names[0].salutation) + ((this.state.profileInfo.names[0].salutation)
+                                        ? '.'
+                                        : '') + (this.state.profileInfo.names[0].firstName) + ' ' + (this.state.profileInfo.names[0].lastName))
+                                    : ''
+                                }
+
                             </div>
                         </div>
                         <div className="divider"/>
@@ -166,12 +283,22 @@ class AddCard extends Component {
                             <div className="proceed-to-sale-label">Proceed to Sale</div>
                         </div>
                     </div>
-                    <Tabheader history={this.props.history}/>
+                    <Tabheader
+                        history={this.props.history}
+                        customerName={(this.state.profileInfo)
+                        ? (this.state.profileInfo.names[0].firstName)
+                        : ''}/>
 
                     <div className='credit-debit-title-container'>
                         <div className='credit-debit-title-text'>Credit And Debit Cards</div>
                     </div>
-                    <CardContainer customer={customer} openCardModals={this.openCardModals}/> {maxCardWarningMessage()}
+                    <CardContainer
+                        cardData={
+                            (this.state.cardDetails != "" || this.state.cardDetails !=undefined) ? this.state.cardDetails : '' }
+                            openCardModals = {this.openCardModals}
+                            custFname = {(this.state.profileInfo.names) != '' && (this.state.profileInfo.names) != undefined ? (this.state.profileInfo.names[0].firstName) : ''}
+                        /> 
+                        {maxCardWarningMessage()}
                     <Footer/>
                 </div>
             </div>
@@ -179,14 +306,19 @@ class AddCard extends Component {
     }
 }
 
-function mapStateToProps({addCard}) {
-    return {addCard};
+function mapStateToProps({addCard, customerDetails}) {
+
+    return {addCard, customerDetails};
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         addCardActionInvoker: addCardAction,
-        aurusActionInvoker: getAddCardAurusResponse
+        aurusActionInvoker: getAddCardAurusResponse,
+        getCardDetailsActionInvoker: getCardDetails,
+        getStoreClientIdActionInvoker: getStoreClientId,
+        addCardDetailsToClienteleActionInvoker : addCardDetailsToClientele,
+        startSpinner: startSpinner
     }, dispatch);
 
     // return { dispatch, addCardActionInvoker: () => dispatch(addCardAction()) };

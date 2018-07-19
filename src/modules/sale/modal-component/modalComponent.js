@@ -73,18 +73,25 @@ export class AddSkuModal extends Component {
           <img src={keypad} className='key-sku-modal-icon'/>
           <div className='key-sku-modal-label'>Key SKU</div>
           <div className='key-sku-modal-message'>Please enter SKU Number to Add Items</div>
-          <TextField className="key-sku-modal-textfield"
+
+            <TextField className="key-sku-modal-textfield"
                 onChange={e => this.updateSkuEntry(e)}
                 value={this.state.sku} 
-                type="text"
+                type="number"
                 floatingLabelText="Enter SKU or dept#"
                 floatingLabelStyle={textFieldFloatingLabelStyle}                    
                 style = {textFieldStyle}
                  //fullWidth = {true} 
                 inputStyle = {textFieldInputStyle}
+                onInput={(e)=>{ 
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,12)
+                }}
+                min={0}
                 refs="sku-modal" 
                 required
                 />
+
+
             <div className="key-sku-modal-link"><a>Select Dept</a></div>
             <button className='key-sku-modal-button' type="submit">
                 <span className="key-sku-button-text">Submit</span>

@@ -1,8 +1,9 @@
 // Dependencies
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import {updateCustDetails,getCustDetails,clearState,getAurusResponse} from './paymentActions';
+import {updateCustDetails,getCustDetails,clearState,getAurusResponse,UpdateCartStatusAction} from './paymentActions';
 import { store } from '../../../store/store';
+import {itemSelectedAction} from '../../common/cartRenderer/actions'
 
 // Components
 import {PaymentView} from '../View/paymentView';
@@ -20,6 +21,7 @@ class Payment extends Component {
         this.aurusVars = require("../../../resources/aurus/aurusVars.json");
         this.getCardBinJson = require("../../../resources/aurus/GetCardBINRequest.json");
         this.TransRequestJson = require("../../../resources/aurus/TransRequest.json");
+        /*added for testing**/this.customerInfo = require("../../../resources/stubs/customer.json");
         this.getAccountLookupJson = require("../../../resources/aurus/GetAccountLookupRequest.json");
         this.plccJson = require("../../../resources/aurus/PLCCApplicationRequest.json");
         this.signatureJson = require("../../../resources/aurus/SignatureRequest.json");
@@ -27,18 +29,22 @@ class Payment extends Component {
         this.closeTransJson = require("../../../resources/aurus/CloseTran.json");
         this.cancelTransJson = require("../../../resources/aurus/CancelLastTransRequest.json");
         this.bypassJson = require("../../../resources/aurus/BypassScreen.json");
-        this.UpdateRequestScanJson=require("../../../resources/aurus/UpdateRequestScan.json")
+        //this.UpdateRequestScanJson=require("../../../resources/aurus/UpdateRequestScan.json")
 
         //States
         this.state = {
-            cards: [""],
-            isCards: true,
+            hideShowForm: false,
+            cards: [],
+            isCards: false,
             cart: [],
             amountDue: 0,
             subtotal: 0,
             total: 0,
             taxAmount: 0,
             values: [],
+            orderNumber:"323345435890",
+            cartID:"201803082365",
+            isIsellTrans:true,
             showMore: true,
             partpayment: 0.00,
             currentCard: 0,
@@ -68,12 +74,15 @@ class Payment extends Component {
         this.getAmountDue = this
             .getAmountDue
             .bind(this);
+            this.orderNumber = this.state.orderNumber;
+            this.cartID = this.state.cartID;
     }
 
     componentWillMount() {
         this.screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         //this.calculate();
-        console.log(store.getState());
+        console.log("willmount")
+        console.log(JSON.stringify(store.getState().Payment));
         if(store.getState().cart.data){
         this.setState({
             cart: store.getState().cart.data.CartItems,
@@ -87,7 +96,8 @@ class Payment extends Component {
 
     componentWillReceiveProps(nextProps){
         this.setState({failure:null})
-        console.log(JSON.stringify(nextProps))
+        console.log("props")
+        console.log(nextProps)
         if(store.getState().Payment.failure==0){
         this.setState({
             failure: 0
@@ -103,12 +113,22 @@ class Payment extends Component {
                 emailverifyModal: false
             })
         }
+        if(nextProps.Payment.type=='UPDATE_ISELL_SUCCESS')
+        {   
+            //this.props.startSpinner(false);
+            alert('I sell cart update successfully');
+            console.log('Isell cart updated successfully');
+            /*added for update cart status*/
+           // this.props.startSpinner(false);
+
+            //this.continue();
+           // debugger;
+        }
     }
 
     componentDidMount() {
+        //this.activateScanner();     
         this.cardLookup();
-        console.log(base64toHEX("oAAABTUAAg=="));
-        //this.activateScanner();
     }
 
     activateScanner=()=> {
@@ -119,7 +139,6 @@ class Payment extends Component {
         this.UpdateRequestScanJson.UpgradeRequest.ServerIP = this.aurusVars.ServerIP;
         this.UpdateRequestScanJson.UpgradeRequest.ServerPort = this.aurusVars.ServerPort;
         var req = json2xml(this.UpdateRequestScanJson);
-
         this.props.aurusActionInvoker(this.UpdateRequestScanJson);
     }
 
@@ -149,10 +168,8 @@ class Payment extends Component {
 
     /*Navigate back*/
     navigateBack = () => {
-        this
-            .props
-            .history
-            .push('/sale',{isClienteled:this.props.history.location.state.isClienteled});
+        this.props.clearItemSelected("");
+        this.props.history.push('/sale');
     }
 
     //keyPad = () => {}
@@ -172,6 +189,11 @@ class Payment extends Component {
 
     getAmountDue(i, e) {
         e.preventDefault();
+        this.setInactive()
+        alert('getAmountDue');
+        console.log('e details'+e.currentTarget.input.value);
+        //this.updateCartStatus();
+       //this.props.UpdateCartStatusInvoker(this.orderNumber,this.carID);
         if (e.currentTarget.input.value !== "") {
             this.state.values[i] = e.currentTarget.input.value;
             if (this.state.values !== [] && this.state.values[i] !== undefined) {
@@ -183,43 +205,32 @@ class Payment extends Component {
                 this.TransRequestJson.TransRequest.KIType = this.state.cards[this.state.currentCard].KIType;
                 this.TransRequestJson.TransRequest.CardType = this.state.cards[this.state.currentCard].CardType;
                 this.TransRequestJson.TransRequest.CardToken = this.state.cards[this.state.currentCard].CardToken;
-                this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = this.state.values[this.state.currentCard];
+                //this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = this.state.values[this.state.currentCard];
                 this.TransRequestJson.TransRequest.TransAmountDetails.TransactionTotal = this.state.total;
                 this.TransRequestJson.TransRequest.CustomerFirstName = this.state.cards[this.state.currentCard].FirstName;
                 this.TransRequestJson.TransRequest.CustomerLastName = this.state.cards[this.state.currentCard].LastName;
-
+               
                 if (this.aurusVars.SignatureFlag=="Y") {
                     this.TransRequestJson.TransRequest.SignatureFlag = "Y"
                 }
                 var xml = json2xml(this.TransRequestJson)
-                console.log(xml)
                 this.props.aurusActionInvoker(xml)
-                console.log(store.getState().Payment.aurusresponse)
                 if (store.getState().Payment.aurusresponse) {
-                    this.setState({ amountDue: store.getState().Payment.aurusresponse.TransResponse.BalanceAmount, receiptModal: false, emailModal: false, printModal: false, emailverifyModal: false })
-                    if(store.getState().Payment.aurusresponse.TransResponse.SignatureDataFlag==="1"){
+                    console.log(store.getState().Payment.aurusresponse.TransResponse)
+                    this.setState({ amountDue: store.getState().Payment.aurusresponse.TransResponse.TransDetailsData[0].TransDetailData[0].BalanceAmount, receiptModal: false, emailModal: false, printModal: false, emailverifyModal: false })
+                    if(store.getState().Payment.aurusresponse.TransResponse.TransDetailsData[0].TransDetailData[0].SignatureReceiptFlag){
                         this.setState({signatureModal:true})
                     } 
-                } else {
-                    var xml = json2xml(this.bypassJson)
-                    this.props.aurusActionInvoker(xml)
-                }
+                } 
             }
             this.setState({currentCard: i});
         }
     }
 
-    checkAllpaid = () => {
+    printReceipt = () => {
         this.props.startSpinner(false);
         this.props.clearState();
-        if (this.state.amountDue === "0.00") {
-            if ((!this.state.printModal)) {
-                this.setState({signatureModal: true});
-            } else {
-                this.exit();
-            }
-        }
-
+        this.exit();
     }
 
     transactionComplete = () => {
@@ -228,21 +239,39 @@ class Payment extends Component {
 
     emailSend = () => {
         this.props.clearState();
-        this.params = {
+         var params = {
             "ReqHeader": {
-                "StoreNum": "001",/* Hardcoded, to be removed */
+                "StoreNum": "0010",/* Hardcoded, to be removed */
                 "RegisterNum": "218",/* Hardcoded, to be removed */
-                "AssociateNumber": "930991",/* Hardcoded, to be removed */
-                "TransactionNum": "4"/* Hardcoded, to be removed */
+                "AssociateNumber": "209289",/* Hardcoded, to be removed */
+                "TransactionNum": "1114"/* Hardcoded, to be removed */
             },
-            "FirstName": this.state.fname, //Not mandatory
-            "LastName": this.state.lname, // Not mandatory
+            "FirstName": this.state.fname, 
+            "LastName": this.state.lname, 
             "EmailAddress": this.state.email,
             "ClientSmartId": "0001000284641"
         };
-        this.updateCustDetails();
+        this.updateCustDetails(params);
         this.props.startSpinner(true);
     }
+updateCartStatus=(/*e*/)=>{
+       // e.preventDefault();
+        
+        /*this.setState({orderNumber:"323345435890"});
+        this.setState({cartID:"201803082365"});*/
+        var cartID = this.cartID;
+        console.log("cart id in payment.js"+cartID);
+        console.log("order id and cartid"+this.orderNumber+' '+this.cartID)
+        if(this.state.isIsellTrans)
+        this.props.UpdateCartStatusInvoker({orderNumber : this.orderNumber,cartID:this.cartID});
+        else
+        console.log('this is iSell cart Transaction');
+        //this.props.startSpinner(true);
+        
+    }
+    
+        
+  
 
     continue(){
         if (store.getState().Payment.clientData !== null) {
@@ -268,15 +297,14 @@ class Payment extends Component {
             failure: null
         })
     }
-    updateCustDetails(){
-      this.props.updateCustDetails(this.params);
+    updateCustDetails=(params)=>{
+      this.props.updateCustDetailsInvoker(params);
     }
 
-    getClientDetailsInvoker = () => {
-
+    getClientDetails = (params) => {
         this
             .props
-            .getClientDetailsInvoker(this.params);
+            .getClientDetailsInvoker(params);
     }
 
     closeSignatureModal = () => {
@@ -287,9 +315,7 @@ class Payment extends Component {
 
                 if (this.state.cards.length > 0) {
                     var cardslist = this.state.cards;
-                    // console.log(JSON.stringify(cardslist))
                     cardslist.splice(cardslist.length - 1, 1);
-                    //console.log(JSON.stringify(cardslist))
                     this.setState({cards: cardslist});
 
                 }
@@ -297,8 +323,6 @@ class Payment extends Component {
                 if (this.state.values.length > 0) {
                     var newValues = this.state.values;
                     var newValuesLength = newValues.length
-                    // console.log(this.state.values[this.state.values.length-1])
-                    // console.log(JSON.stringify(newValues))
                     this.setState({
                         amountDue: (parseFloat(this.state.amountDue) + parseFloat(this.state.values[newValuesLength - 1])).toFixed(2)
                     }, function () {
@@ -318,19 +342,29 @@ class Payment extends Component {
 
     }
     openreceiptModal=(sig)=> {
-        var hexSig = (base64toHEX(sig));
-        this.signatureJson.SignatureData = hexSig;
+        this.updateCartStatus();
+        var hexSig = (base64toHEX(sig.toDataURL().slice(22)));
+        this.signatureJson.SignatureRequest.SignatureData = hexSig;
+        this.signatureJson.SignatureRequest.TransactionIdentifier= this.props.Payment.aurusresponse.TransResponse.TransDetailsData[0].TransDetailData[0].TransactionIdentifier;
         var sigXml = json2xml(this.signatureJson);
         this.props.aurusActionInvoker(sigXml);
-        this.setState({signatureModal: false});
-        if(sigXml){
-            this.props.aurusActionInvoker(json2xml(this.closeTransJson));
+        if(true){
+            this.setState({signatureModal: false});
+            if (this.state.amountDue[0] === "0.00"||this.state.amountDue[0] === "0") { //need to show receipt/email only if entire amount is paid
+                this.setState({receiptModal: true})
+                var closeTransXml = json2xml(this.closeTransJson);
+                this.props.aurusActionInvoker(closeTransXml);
+            }
+            else {
+                var closeTransXml = json2xml(this.closeTransJson);
+                this.props.aurusActionInvoker(closeTransXml);
+                this.cardLookup();
+            }
+        
         } else {
             this.props.aurusActionInvoker(json2xml(this.bypassJson));
         }
-        if (this.state.amountDue === "0.00") { //need to show receipt/email only if entire amount is paid
-            this.setState({receiptModal: true})
-        }
+        
 
     }
     emailPrintReceipt = () => {
@@ -387,11 +421,10 @@ class Payment extends Component {
             .history
             .push('/')
     }
-    handleChange(index, event) {
+    handleChange=(index, event)=> {
         let values = [...this.state.values];
         let value = event.target.value;
         values[index] = parseFloat(value).toFixed(2);
-        //console.log(values)
         this.setState({ values: values });
 
     }
@@ -460,6 +493,7 @@ class Payment extends Component {
         let value = payedAmount;
         values[index] = parseFloat(value).toFixed(2);
         //console.log(values)
+        
         this.setState({values: values});
     }
 
@@ -479,7 +513,7 @@ class Payment extends Component {
             });
 
         }
-
+        /*added for testing*/cardsList.push(this.customerInfo.creditCardInfo[i]);
         this.setState({cards: cardsList, isCards: false})
 
     }
@@ -497,15 +531,31 @@ class Payment extends Component {
                         partpayment: this.state.amountDue,
                         signatureModal: true
                     }, function () {
-                        this.checkAllpaid();
+                        //this.checkAllpaid();
                     })
 
             })
     }
-    render() {
 
+    setInactive=()=>{
+        var formElements=document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div>form")
+        var labelElements = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div>span.amountLabel")
+        var inputElement = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div>form>input")
+        for(var x=0; x<formElements.length; x++){
+            formElements[x].className="amountInputForm hide"
+            labelElements[x].className="amountLabel";
+            inputElement[x].blur();
+        }
+    }
+
+    render() {
         return (<PaymentView
+            hideShowForm = {this.state.hideShowForm}
+            showHidePaymentForm = {this.showHidePaymentForm}
+            updateCartStatus = {this.updateCartStatus}
+           /* updateCartStatus = {this.updateCartStatus}*/
             history={this.props.history}
+            /*added for testing**/customerInfo={this.customerInfo}
             getAmountDue={this.getAmountDue}
             cards={this.state.cards}
             isCards={this.state.isCards}
@@ -537,10 +587,9 @@ class Payment extends Component {
             giftCard={this.giftCard}
             calculate={this.calculate}
             getAmountDue={this.getAmountDue}
-            checkAllpaid={this.checkAllpaid}
+            printReceipt={this.printReceipt}
             transactionComplete={this.transactionComplete}
             emailSend={this.emailSend}
-            getClientDetailsInvoker={this.getClientDetailsInvoker}
             closeSignatureModal={this.closeSignatureModal}
             openreceiptModal={this.openreceiptModal}
             emailPrintReceipt={this.emailPrintReceipt}
@@ -584,10 +633,12 @@ function mapDispatchToProps(dispatch) {
     return {
         dispatch,
         getClientDetailsInvoker: (data) => dispatch(getCustDetails(data)),
-        updateCustDetails: (data) => dispatch(updateCustDetails(data)), 
+        updateCustDetailsInvoker: (data) => dispatch(updateCustDetails(data)), 
         startSpinner: (data)=> dispatch(startSpinner(data)), 
         clearState:()=> dispatch(clearState()),
-        aurusActionInvoker : (data) => dispatch(getAurusResponse(data))
+        aurusActionInvoker : (data) => dispatch(getAurusResponse(data)),
+        UpdateCartStatusInvoker : (data) => dispatch(UpdateCartStatusAction(data)),
+        clearItemSelected : (item)=>dispatch(itemSelectedAction(item))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

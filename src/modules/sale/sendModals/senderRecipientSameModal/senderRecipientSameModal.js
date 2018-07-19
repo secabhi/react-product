@@ -35,19 +35,21 @@ export default (props) => {
           </div>
           <div className='btn-yes-no-wrapper'>
             <div className='btn-no'
-                 onClick={() => {
-                   props.goToSendPage('frequentShippedAddress');
-                   props.history.push('/send'); 
-                   }}
-            >NO</div>
-            <div
-              className='btn-yes'
+              onClick={() => {
+                props.goToSendPage('frequentShippedAddress');
+                props.history.push('/send'); 
+              }}
+            >
+              NO
+            </div>
+            <div className='btn-yes'
               onClick={() => {
                 props.goToSendPage('customerForm');
                 props.history.push('/send');
-                }}
-            >YES
-          </div>
+              }}
+            >
+              YES
+            </div>
           </div>
         </div>
       </Modal2>
@@ -74,7 +76,22 @@ export default (props) => {
             <div>the same?</div>
           </div>
           <div className='btn-yes-no-wrapper-sff'>
-            <div className='btn-no-sff'>NO</div>
+            <div className='btn-no-sff'
+              onClick={() => {
+                props.goToSendPage('frequentShippedAddress');
+                props.history.push('/send'); 
+              }}
+            >
+              NO
+            </div>
+            <div className='btn-yes-sff'
+              onClick={() => {
+                props.goToSendPage('customerForm');
+                props.history.push('/send');
+              }}
+            >
+              YES
+            </div>
           </div>
         </div>
       </Modal2>

@@ -96,7 +96,7 @@ const ContactInfo = (props) => (
 ) 
 const View = (props) => {
   let Residence = <LocationInfoInternational profileData={props.profileData} />
-  if(props.profileData.cust_dom_country == 'US' || props.profileData.cust_dom_country == "" || props.profileData.cust_dom_country == null || props.profileData.cust_dom_country == undefined) {
+  if(props.profileData.cust_dom_country == 'UNITED STATES' || props.profileData.cust_dom_country == "" || props.profileData.cust_dom_country == null || props.profileData.cust_dom_country == undefined) {
   Residence = <LocationInfoDomestic profileData={props.profileData} />
   }
 

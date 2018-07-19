@@ -33,36 +33,87 @@ export function updateSplitCommissionData(userPin1,userPin2,index,transactionId,
     const request =env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(splitcommissionauthentication, {}); //DEFINING THE REQUEST
 
     console.log(params);
+    
     return (dispatch) => {
-        console.log("inside action1");
-        console.log(userPin1);
-        console.log("inside action2");
-      
-         request.then((data) => { //REQUEST CALL
-            
-            if(data.data.response_text == "SC_SUCCESS") {
-                dispatch({
-                    type: 'SPLIT_COMMISSION_REQUEST_SUCCESS',
-                    payload: data
-                });
-                dispatch(startSpinner(false));
-            }
-        }).catch((err) => {
-            dispatch(startSpinner(false));
-            dispatch({
-                    type: 'SPLIT_COMMISSION_REQUEST_FAILURE',
-                });
-        });
+        request.then(({
+                data
+            }) => {
+               switch (data.response_text) {
 
-        request.catch(function (error) {
-            if(JSON.stringify(error.response.status) == "422"){
+                    case "SC_SUCCESS":
+                        {
+                            dispatch({
+                                type: 'SPLIT_COMMISSION_REQUEST_SUCCESS',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "SC_INVALIDPINS":
+                        {
+                            dispatch({
+                                type: 'SC_INVALIDPINS',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "SC_INVALIDPIN1":
+                        {
+                            dispatch({
+                                type: 'SC_INVALIDPIN1',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "SC_INVALIDPIN2":
+                        {
+                            dispatch({
+                                type: 'SC_INVALIDPIN2',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "SC_SAMEPINS":
+                        {
+                            dispatch({
+                                type: 'SC_SAMEPINS',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "SC_PIN1MAND":
+                        {
+                            dispatch({
+                                type: 'SC_PIN1MAND',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "SC_FAILURE":
+                        {
+                            dispatch({
+                                type: 'SC_FAILURE',
+                                payload: data
+                            });
+                            break;
+                        }
+
+                    default:
+                        {
+                            dispatch({
+                                type: 'PV_RESP_DEFAULT',
+                                payload: data
+                            });
+                            break;
+                        }
+                }
+            })
+            .catch(error => {
                 dispatch({
                     type: 'SPLIT_COMMISSION_PIN2_VALIDATION_FAIL',
                     payload: error
                 });
-            }
-       });
-    };    
+            });
+    };
 }
 
 

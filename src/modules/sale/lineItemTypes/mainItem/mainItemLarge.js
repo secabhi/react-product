@@ -36,32 +36,32 @@ export default class MainItemLarge extends Component{
 
     sendGiftReceipt = () =>{
         console.log('prop in large item'+JSON.stringify(this.props));
-        this.props.showItemGiftReceiptModal(true,'item');
+        this.props.showItemGiftReceiptModal(true,'itemreceipt');
     }
     
     render(){
-    
+
      let itemColor;
      let itemSize;
      let imageURL;
      
      if(this.props.obj.color=="NO COLOR" || this.props.obj.color=="NO COL") {
-        itemColor = ""
+        itemColor = "NO COLOR"
        
       } else {
         itemColor = this.props.obj.color;
       }
-      if(this.props.obj.size=="NO SIZE" || this.props.obj.color=="NO SIZ") {
-       itemSize = ""       
+      if(this.props.obj.size=="NO SIZE" || this.props.obj.size=="NO SIZ") {
+       itemSize = "NO SIZE"       
       } else {
-        itemSize = this.props.obj.size;
+        itemSize = "Size:"+" "+this.props.obj.size;
       }
         if(this.props.obj.imgLink !== 'Image Not Found') {
           imageURL = this.props.obj.imgLink
         } else {
           imageURL = noImageAvailable;
         }
-
+        
         return(
             (this.props.obj.quantity > 0) ? (<div className="saleContent-card-large">
             <div style={this.props.selectedItemStyle} className='item' key={this.props.obj.pim_SKU_ID + '-' + this.props.index+1}>
@@ -89,17 +89,18 @@ export default class MainItemLarge extends Component{
                 },
                 {
                     text: <div>
-                        <div className="swipe-button-icon-container">
-                            <img className="swipe-button-icon-gift-receipt" src={require('../../../../resources/images/Gift_Receipt_Unchecked.svg')} />
+                        <div className="checkbox-icon-container">
+                        <input className="swipe-button-icon-gift-receipt" type="checkbox" onClick={this.sendGiftReceipt} name="radio" checked={this.props.isGiftRec?"checked":''}/>
+                         {/*<img className="swipe-button-icon-gift-receipt" src={require('../../../../resources/images/Gift_Receipt_Unchecked.svg')} />*/}
                         </div>
                         <div className="swipe-button-text">Gift</div>
                         <div className="swipe-button-text">Receipt</div>
                     </div>,
                     onPress: () => {
-                        this.sendGiftReceipt();
+                        
                     },
                     style: {
-                        backgroundColor: '#919191',
+                        backgroundColor: '#4b2b6f',
                         color: 'white',
                         height: '194px',
                         width: '144px',
@@ -130,15 +131,17 @@ export default class MainItemLarge extends Component{
                       <img src={imageURL}  alt='item picture' height='144px' width='113px'/>
                     </div>
                     <div className='item-description'>
-                        <div className="item-category">{"Shirts/Tops"}</div>
-                        <div className="item-sku">{this.props.obj.department+"-"+this.props.obj.class+"-"+this.props.obj.subClass+'-'+this.props.obj.pim_SKU_ID}</div>
+                        {/*<div className="item-category">{"Shirts/Tops"}</div> */}
                         <div className="item-desc">{this.props.obj.itemDesc}</div>
+                        <div className="item-sku">{this.props.obj.department+"-"+this.props.obj.class+"-"+this.props.obj.subClass+'-'+this.props.obj.pim_SKU_ID}</div>
+                        <div className="item-style-desc">{this.props.obj.styleDesc}</div>
+                        <div className="item-brand-desc">{this.props.obj.brandDesc}</div>
                         <div className="item-designer">{this.props.obj.style}</div>
                     </div>   
                     </div>
                     <div className="item-color-size"> 
                     <div className="item-color-size item-qty">Qty {this.props.obj.quantity}</div>    
-                    <div className="item-color-size-oneLine"><div>{itemColor}</div> <div className="item-color-size-Spacing">{itemSize}</div></div>
+                    <div className="item-color-size-oneLine"><div className="item-color-text">{itemColor}</div> <div className="item-color-size-Spacing">{itemSize}</div></div>
                     </div>
                     {/* <StatusIndicators 
                         updateLastStatusIndicatorFunction = {this.props.updateLastStatusIndicatorFunction}
@@ -147,7 +150,7 @@ export default class MainItemLarge extends Component{
                     <div className="item-codes">
                         {/* <span>Gp</span> */}
                             {/* <span className=''>{this.state.indicators}</span>  */}
-                         <span className={this.props.isGiftRec ? "giftregistry_symbol":"lineItemDisplayNone"}>G</span> 
+                         <span className={this.props.obj.print_GWGR_Msg || this.props.isGiftReg ? "giftregistry_symbol":"lineItemDisplayNone"}>G</span> 
                         {/* <span className={this.props.isSplInstn ? "":" lineItemDisplayNone"}>S</span> */}
                     </div>
                     <div className="item-price-info-container">
@@ -175,7 +178,8 @@ export default class MainItemLarge extends Component{
                         </div>
                         <div className="item-tax-container">
                             <div className="item-discount-percent-spacing-tax">
-                                {"TAX(" + parseFloat(this.props.tax * 100).toFixed(3) + "%" + ")" + "10100"}
+                                {/*{"TAX(" + parseFloat(this.props.obj.taxPercent * 100).toFixed(3) + "%" + ")" + "10100"} */}
+                                {`TAX (${this.props.obj.taxPercent}) %`}
                             </div>
                             <div className="item-tax-amount">{parseFloat(this.props.obj.itemsTax).toFixed(2)}</div>
                             <div className="item-tax-text">T</div>
@@ -185,10 +189,10 @@ export default class MainItemLarge extends Component{
                 <table className="item-extra-item-details">
                     <tbody>
                         {/*NEEDS TO BE CHANGED AND PROPERLY IMPLIMENTED  */}
-                    {/* <tr className={this.props.isSplInstn ? "item-extra-gift-receipt":"item-extra-gift-receipt lineItemDisplayNone"}>
+                     <tr className={this.props.obj.print_GWGR_Msg || this.props.isGiftReg ? "item-extra-gift-receipt":"item-extra-gift-receipt lineItemDisplayNone"}>
                         <td className="item-extra-line-item-titles">Gift Receipt:</td>
-                        <td className="item-extra-line-item-data">{}</td>
-                    </tr> */}
+                        <td className="item-extra-line-item-data">{this.props.obj.print_GWGR_Msg}</td>
+                    </tr> 
                     <tr className={ this.props.isREPL ? "item-extra-REPL": "item-extra-REPL lineItemDisplayNone" }>
                         <td className="item-extra-line-item-titles">REPL:</td>
                         <td className="item-extra-line-item-data">In {this.props.obj.replenishDays}, {this.props.obj.itemDesc} </td>
@@ -202,7 +206,7 @@ export default class MainItemLarge extends Component{
                         <td className="item-extra-line-item-data">{this.props.obj.gift_reg}</td>
                     </tr>
                     
-                    <tr className={ this.props.isSplInstn ? "item-extra-special-instructions": "item-extra-special-instructions lineItemDisplayNone" }>
+                    <tr className={ this.props.isSplInstn ? this.props.obj.comment[0]===""?"item-extra-special-instructions lineItemDisplayNone": "item-extra-special-instructions":"item-extra-special-instructions lineItemDisplayNone" }>
                         <td className="item-extra-line-item-titles">Special Instruction:</td>
                         <td className="item-extra-line-item-data">{this.props.obj.comment}</td>
                     </tr> 

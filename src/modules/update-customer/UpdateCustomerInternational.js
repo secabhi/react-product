@@ -26,6 +26,8 @@ import Spinner from '../common/loading/spinner';
 /* View Components import */
 import UpdateCustomerInternationalView from '../update-customer/View/UpdateCustomerIntView'
 
+import { navigateToDomesticCustomer } from '../customer-details/CustomerDetailsActions.js'
+
 class UpdateCustomerInternational extends Component {
     constructor(props) {
         super(props);
@@ -97,9 +99,51 @@ class UpdateCustomerInternational extends Component {
         this.setState({
             countryList: nextProps.updateCustomerInternational.countryList
         });
-        if(nextProps.updateCustomerInternational.successModalFlag === true) {
+        /*if(nextProps.updateCustomerInternational.successModalFlag === true) {
             this.openSuccesModal();
-        } 
+        } */
+
+        if(nextProps.updateCustomerInternational.successModalFlag === true) {
+            console.log("11111");
+            this.setState({
+                emailModal: false
+            });
+            this.setState({
+                phoneModal: false
+            });
+            this.setState({
+                textoptModal : false
+            });
+            this.setState({
+                succesModal: true
+            })
+        }
+
+
+        if(nextProps.updateCustomerInternational.errors.length > 0) {
+            console.log("66666");
+            this.setState({
+        
+                emailModal: false
+            });
+            if(nextProps.updateCustomerInternational.errors[0].cust_email==='INVALID EMAIL')
+            {   
+                this.setState({
+        
+                    emailModal: false
+                });
+
+                this.openaddrEmailMOdal();
+            }
+
+ 
+            
+            
+            this.props.startSpinner(false);
+            //console.log(nextProps.updateCustomer.errors[0].dom_cust_mobile);
+            this.setState({errors : nextProps.updateCustomerInternational.errors});
+        }
+
 
         if((nextProps.updateCustomerInternational.isProfileLoaded) && (nextProps.updateCustomerInternational.customerProfile != '{}'))
             {
@@ -137,7 +181,8 @@ class UpdateCustomerInternational extends Component {
         }
 
         goBacktoCustDetails=()=>{
-            this.props.history.push('/customer-details-international');
+            this.props.navigateToDomesticCustomerInvoker(this.state.profileData.cust_cssId);
+            this.props.history.push('/customer-details');
         }
 
     handleValidationInternational() {
@@ -151,7 +196,7 @@ class UpdateCustomerInternational extends Component {
         else if (!fields['update_int_lname']) {
             errors['update_int_lname'] = 'Last Name cannot be empty';
         } 
-        else if(fields['update_int_fname'] && fields['update_int_fname'] && (!fields['update_int_address1'] && !fields['update_int_email']))
+        /*else if(fields['update_int_fname'] && fields['update_int_fname'] && (!fields['update_int_address1'] && !fields['update_int_email']))
         {   
             console.log('HELLO!')
            this.isValid = false;
@@ -159,12 +204,18 @@ class UpdateCustomerInternational extends Component {
            this.openaddrEmailMOdal();
            console.log(this.isValid)
            return this.isValid;
-        }
+        }*/
+        else if (!fields['update_int_address1']) {
+            errors['update_int_address1'] = 'Address Line 1 cannot be empty';
+            this.isValid = false;
+        } 
         else if (!fields['update_int_country']) {
             errors['update_int_country'] = 'Country cannot be empty';
+            this.isValid = false;
         } 
         else if (!fields['update_int_city']) {
             errors['update_int_city'] = 'City cannot be empty';
+            this.isValid = false;
         } 
         else{
             console.log("setting to true")
@@ -173,7 +224,7 @@ class UpdateCustomerInternational extends Component {
         if (fields['update_int_mobile'] !== '' && fields['update_int_mobile'] !== undefined) {
             if (fields['update_int_mobile'].length < 10 || fields['update_int_mobile'].length > 16) {
                 console.log('update_int_mobile' + fields['update_int_mobile'].length);
-                errors['update_int_otherMobile'] = 'Invalid Phone Number';
+                errors['update_int_mobile'] = 'Invalid Phone Number';
                 this.isValid = false;    
             }
         }
@@ -339,11 +390,8 @@ class UpdateCustomerInternational extends Component {
         this.setState({
             succesModal: false
         })
-        this.setState({
-            succesModal: false
-        });
         this.setState({succesModal:false});
-        this.props.history.push('/customer-details-international');
+        this.props.history.push('/customer-details');
     }
 
     getAddress() {
@@ -375,7 +423,7 @@ class UpdateCustomerInternational extends Component {
             update_int_country: this.state.profileData.cust_dom_country,
             update_int_pincode: this.state.profileData.cust_dom_zip
         }
-
+        console.log('int cust data'+profile);
 
         this.setState({currentAddress: profile});
         
@@ -449,7 +497,7 @@ class UpdateCustomerInternational extends Component {
             errors = {this.state.errors}               
             openModals = {this.openModals}
             phoneModal = {this.state.phoneModal}
-            textoptModal = {this.state.textoptModal}                         
+            textoptModal = {this.state.textoptModal}                        
             emailModal = {this.state.emailModal}
             succesModal = {this.state.succesModal}
             failModal = {this.state.failModal}
@@ -493,7 +541,9 @@ function mapStateToProps({ updateCustomerInternational }) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ updateCustomerintInvoker: getCountryList ,updateCustomerIntServiceInvoker:updateInternationalApi,
+    return bindActionCreators({ updateCustomerintInvoker: getCountryList ,
+        updateCustomerIntServiceInvoker:updateInternationalApi,
+        navigateToDomesticCustomerInvoker: navigateToDomesticCustomer,
         startSpinner:startSpinner}, dispatch);
 }
 

@@ -277,7 +277,12 @@ export const applyAssociateDiscountToCart = (discountPin, discountId, transactio
                     payload: data
                 });
             }
-
+            else if(data.response_text == "IM_DISCOUNTALREADYAPPLIED") {
+                dispatch({
+                    type: 'ASSOCIATE_DISCOUNT_ALREADY_APPLIED',
+                    payload: data
+                });
+            }
             else if(data.response_text == "IM_RINGINGASSOCIATE"){
                 dispatch({
                     type: 'IM_RINGINGASSOCIATE',
@@ -416,6 +421,16 @@ export function modifyPriceAction(transactionId,item,modifyValue,managerPin,call
                     payload: data
                 });
             }
+        });
+    };
+}
+export function clearCart()
+{
+    
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_CART',
+            payload: {}
         });
     };
 }

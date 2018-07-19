@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BackSVG from "../../../../resources/images/Back_White.svg";
 import BagSVG from "../../../../resources/images/Add_to_Bag_bttn.svg";
+import ProceedToSale from "../../../../resources/images/Sale_White_Filled.svg";
 
 
 export default function ProductDetailsHeader(props) {
@@ -34,7 +35,7 @@ export default function ProductDetailsHeader(props) {
               <span className="bag-text">Bag</span>
             </div>
             <div>
-              <img className="sale-img" src={BagSVG} />
+              <img className="sale-img" src={ProceedToSale} />
               <span className="sale-text">Proceed to sale</span>
             </div>
           </div>

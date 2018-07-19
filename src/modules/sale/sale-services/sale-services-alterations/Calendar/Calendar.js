@@ -15,8 +15,6 @@ export default class Calendar extends Component {
   
   render() {
     const today = new Date();
-
-    console.log('MIKE CALENDAR PROPS',this.props);
     return (
       <Modal2 overlay style={{
         width: '500px',

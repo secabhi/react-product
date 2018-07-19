@@ -147,6 +147,8 @@
     flex-direction: column;
 }
 
+.invalid-tag-modal,
+.res-error-modal,
 .alteration-success-modal {
     width: 725px !important;
     height: 443px !important;
@@ -158,6 +160,7 @@
     display: flex;
     flex-direction: column;
 }
+
 
 @media only screen and (max-width: 1080px) {
 
@@ -261,6 +264,8 @@
         flex-direction: column;
     }
     
+    .invalid-tag-modal,
+    .res-error-modal,
     .alteration-success-modal {
         width: 890px !important;
         height: 1426px !important;

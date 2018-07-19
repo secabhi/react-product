@@ -42,7 +42,7 @@ export class ItemModifySpecialInstructions extends Component {
         this.setState({ specialInstructions: e.target.value,
         });
         console.log("valueAt:"+e.target.value.charAt(0))
-        if ((e.target.value.length < 1 ) || (e.target.value.charAt(0)==" ") || (e.target.value.charAt(0)=="\n")){
+        if ((e.target.value.length < 1 )){
             document.getElementsByClassName("item-modify-special-instructions-ok")[0].disabled = true;
         }
         else {

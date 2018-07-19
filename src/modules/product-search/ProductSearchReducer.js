@@ -16,7 +16,7 @@ import { PRODUCT_SEARCH_CATALOG_ITEM_FAIL } from '../common/constants/type';
 const initialState = [];
 
 export function ProductSearchReducer(state = initialState, action) {
-  debugger;
+  //debugger;
   switch (action.type) {
     case PRODUCT_SEARCH_KEYWORD_SUCCESS:
       return [...action.payload];

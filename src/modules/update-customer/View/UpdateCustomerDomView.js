@@ -22,6 +22,8 @@ import PhoneModal from '../../update-customer/View/Components/AlertModals/PhoneM
 import TextOptModal from '../../update-customer/View/Components/AlertModals/TextOptModal'
 import EmailModal from '../../update-customer/View/Components/AlertModals/EmailModal';
 import {FailModal} from '../View/Components/AlertModals/FailModal'
+import {AddrEmailModal} from '../View/Components/AlertModals/AddressModal'
+import './UpdateCustomerDomView.css';
 import Modal from 'react-responsive-modal';
 
 import phonemodalicon from '../../../resources/images/Confirm_Phone.svg';
@@ -375,6 +377,10 @@ export default class UpdateCustomerDomView extends Component {
                     currentAddress={this.props.currentAddress}
                     changedAddress = {this.props.changedAddress}
                     updateDomesticCustomerInvoker = {this.props.updateDomesticCustomerInvoker}
+                />
+                <AddrEmailModal
+                    addrEmailMOdal = {this.props.addrEmailMOdal}
+                    closeaddrEmailMOdal = {this.props.closeaddrEmailMOdal}
                 />
                  <SuccessModal
                 succesModal={this.props.succesModal}

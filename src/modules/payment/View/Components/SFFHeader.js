@@ -27,10 +27,11 @@ export class SFFHeader extends Component {
                         Payment
                     </div>
                     <div className="payment-customerDetails">
-                        <div className="payment-CustomerName">{this.props.props.inCircleInfo.salutation}. {this.props.props.inCircleInfo.firstname}
-                            &nbsp; {this.props.props.inCircleInfo.lastname}</div>
+                        <div className="payment-CustomerName">
+                        {/* {this.props.props.inCircleInfo.salutation}. {this.props.props.inCircleInfo.firstname} &nbsp; {this.props.props.inCircleInfo.lastname} */}
+                        </div>
                         <div>
-                            <div className="payment-customerAddress">{this.props.props.saleCartItems.address}</div>
+                            <div className="payment-customerAddress"> {/* {this.props.props.saleCartItems.address} */}</div>
                         </div>
                     </div>
                     <div className="incircle-details">

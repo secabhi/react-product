@@ -349,7 +349,9 @@ margin-left: 46px;
         
       }
 
-      .delivery-modal {
+      .delivery-modal,
+      .invalid-store-modal,
+      .override-code-modal {
         width: 890px !important;
         height: 1200px !important;
         max-width: 890 !important;
@@ -358,7 +360,9 @@ margin-left: 46px;
         border: solid 1px #bfbfbf;
       }
 
-      .delivery-modal-icon, .invalid-store-modal-icon {
+      .delivery-modal-icon, 
+      .invalid-store-modal-icon,
+      .override-code-icon {
         width: 300px;
         height: 300px;
         display: block;
@@ -367,7 +371,9 @@ margin-left: 46px;
         margin-bottom: 200px;
     }
     
-    .delivery-modal-label, .invalid-store-modal-label {
+    .delivery-modal-label,
+    .invalid-store-modal-label,
+    .override-code-label {
         width: 774px;
         height: 161px;
         font-family: Roboto;
@@ -382,15 +388,22 @@ margin-left: 46px;
         margin: 0 auto;
         margin-bottom: 180px;
     }
+
+    .override-code-textfield {
+        width: 700px;
+    }
     
-    .delivery-modal-button-container, .invalid-store-modal-button-container {
+    .delivery-modal-button-container, 
+    .invalid-store-modal-button-container,
+    .override-code-button-container {
         display: flex;
         text-transform: uppercase;
         align-items: center;
         justify-content: center;
     }
     
-    .delivery-modal-button-no {
+    .delivery-modal-button-no,
+    .override-code-cancel {
         height: 120px;
         font-size: 46px;
         display: flex;
@@ -402,7 +415,8 @@ margin-left: 46px;
         /* margin-left: 190px; */
     }
     
-    .delivery-modal-button-yes {
+    .delivery-modal-button-yes,
+    .override-code-yes {
         height: 120px;
         font-size: 46px;
         display: flex;

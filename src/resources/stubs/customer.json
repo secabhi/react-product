@@ -7,15 +7,15 @@
         "streetAddress": "3120 Gary Drive",
         "creditCardInfo": [{
                 "type": "visa",
-                "number": "4389374691823846"
+                "number": "3846"
             },
             {
                 "type": "mc",
-                "number": "5467908721626754"
+                "number": "6754"
             },
             {
                 "type": "mc",
-                "number": "5213923709875643"
+                "number": "5643"
             }
         ], 
         "email":"barbjones@gmail.com"

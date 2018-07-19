@@ -1,7 +1,16 @@
-import {callPostWebService, callGetWebService} from '../../common/helpers/helpers';
+import {callPostWebService, callAxiosWebService,callPutWebService,callGetWebService} from '../../common/helpers/helpers';
 import { GET_CLIENT_DETAILS, UPDATE_CLIENT_DETAILS } from './constants';
 import { xml2json } from './converter';
-import { getStore } from '../../../store/store'
+import { getStore } from '../../../store/store';
+
+const env = require('../../../settings/env.js');
+const path = env.PATH+'cxp/';
+const cxp = require('../../../resources/stubs/config.json').cxp;
+const AppKey= cxp.AppKey;
+var headers = {
+    'AppID': 'MPOS',
+    'AppKey': AppKey
+}
 
 export function getCustDetails(customerDetails) {
     const CONFIG_FILE = require('../../../resources/stubs/config.json');
@@ -46,13 +55,7 @@ export function updateCustDetails(customerDetails) {
 
     return (dispatch) => {
         request.then(({data}) => {
-            /*
-                    Response sample structure:
-                   {
-                    "ResponseCode": "0",
-                    "ResponseString": "Success"
-                    }
-                */
+            console.log(data)
             switch (data.ResponseCode) {
 
                 case "0":
@@ -122,4 +125,48 @@ var error = function (message) {
         type: 'AURUS_FAILURE_RESPONSE',
         payload: 'aurusresponse'
     });
+}
+
+
+//UpdateIsellCart Action
+export function UpdateCartStatusAction(obj) {
+    console.log(JSON.stringify(obj));
+    const UpdateCartStatus = env.ENV_MODE=='dev1'?cxp.updateCartStatus+'?cartId='+obj.cartID:path+'UpdateCartStatus.json';
+
+    var params = {statusCd:'1',orderNumber:obj.orderNumber};
+    const request =  env.ENV_MODE=='dev1'?callPutWebService(UpdateCartStatus,params,headers):callGetWebService(UpdateCartStatus,{});
+    return (dispatch) => {
+        request.then(({data}) => {
+            console.log('updatecartstatus action data'+data.status);
+                
+            switch (data.code) {
+
+                case "200":
+                    {   
+                        dispatch({type: 'ISELL_SUCCESS', payload: data});
+                        break;
+                    }
+
+                case "71007.0":
+                    {
+                        dispatch({type: 'ISELL_FAILURE', payload: data});
+                        break;
+                    }
+                case '71007.1':
+                    {
+                        dispatch({type: 'ISELL_MISSING_DETAILS', payload: data});
+                        break;
+                    }
+
+                default:
+                    {
+                        console.log("Inside Switch Block: default");
+                        dispatch({type: 'DEFAULT', payload: data});
+                        break;
+                    }
+            }
+        }).catch(error => {
+            dispatch({type: 'REQUEST_FAILED', payload: error});
+        });
+    };
 }

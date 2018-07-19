@@ -44,7 +44,7 @@ export class PrintReceiptModal extends Component {
                         </div>
                         <div
                             className='add-dom-cust-modal-yes-btn printbtnConfirm'
-                            onClick={this.props.props.checkAllpaid}>
+                            onClick={this.props.props.printReceipt}>
                             <span className='add-dom-cust-modal-yes-btn-label lff-btn'>OK</span>
                         </div>
                     </div>

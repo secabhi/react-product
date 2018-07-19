@@ -22,7 +22,7 @@ class ProductDetailsRows extends Component {
   }
 
   componentDidMount() {
-    debugger;
+    //debugger;
     if (this.props.product) {
       let pimStyleId = this.props.product.pimstyleId;
       let pimskuId = this.props.product.pimskuId;
@@ -40,13 +40,13 @@ class ProductDetailsRows extends Component {
   }
 
   updateSelection = (item) => {
-    debugger;
+   // debugger;
   }
 
   render() {
     let product = this.props.product;
     let productFilterData = this.props.productsFilter;
-    debugger;
+    //debugger;
     return (
       <div className="product-details-rows-content">
         <div className="rows-main-content">
@@ -111,7 +111,7 @@ class ProductDetailsRows extends Component {
 
 
 function mapStateToProps(state) {
-  debugger;
+ // debugger;
   return {
     productsFilter: state.productRow,
     productDetailInfo: state.productDetailInfo

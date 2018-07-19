@@ -3,7 +3,7 @@ import './services-common.css';
 
 
 export default (props) => (
-  <div className="common-footer footer-fixed">
+  <div className={"common-footer" + " "+ props.additionalStyle}>
     {props.children}
   </div>
 )

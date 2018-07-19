@@ -20,12 +20,6 @@ class QuantityValidation extends Component {
         }
     }
 
-    // continueOptionSeven = () => {
-    //   if(this.props.optionSeven) {
-
-    //   }
-    // }
-
   render() {
       
     return (
@@ -38,6 +32,7 @@ class QuantityValidation extends Component {
               items = {this.props.items}
               // setCurrentItem = {this.setCurrentItem}
             />
+            {/* <div className="cart-render-status">Available</div> */}
         </div>
       </div>
     )

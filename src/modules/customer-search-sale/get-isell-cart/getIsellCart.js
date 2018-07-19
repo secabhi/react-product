@@ -17,10 +17,10 @@ export class GetIsellCart extends Component {
     updateIsellCartEntry(e) {
         this.setState({ getIsellCart: e.target.value });
         if ((e.target.value !== "201803082365")) {
-            document.getElementById("sale-item-modify-quantity-error").style.display = "block";
+            document.getElementById("get-isell-cartid-error").style.display = "block";
         }
         else{
-            document.getElementById("sale-item-modify-quantity-error").style.display = "none"; 
+            document.getElementById("get-isell-cartid-error").style.display = "none"; 
         }
     }
 
@@ -93,7 +93,7 @@ export class GetIsellCart extends Component {
                         onChange={e => this.updateIsellCartEntry(e)}
                         required
                     />
-                    <p id="sale-item-modify-quantity-error" className="get-isell-cartid-error">Please Enter 201803082365</p>
+                    <p id="get-isell-cartid-error" className="get-isell-cartid-error">Please Enter 201803082365</p>
                     <button className='get-isell-cart-modal-button' type="submit">
                         <span className="get-isell-cart-modal-text">Submit</span>
                     </button>

@@ -12,16 +12,19 @@ export default class SelectStore extends Component {
         super(props)
 
         this.state = {
-            storeNumber : '',
-            associatePin: '',
+            storeDetails : {
+                storeNumber : '',
+                associatePin: ''
+            },
             invalid_modal: false
         }
+        this.state.storeDetails = this.props.optionSevenObject;
     }
 
 
 
     render() {
-
+        console.log('select store props', this.props)
         const textFieldInputStyle = {
             fontFamily: 'Roboto',
             fontSize: (window.innerWidth > 1900) ? '30px': '56px',
@@ -52,7 +55,10 @@ export default class SelectStore extends Component {
                     <label className="store-form-label">Sending Store Number</label>
                         <TextField className="store-textfield"
                             type="number"
-                            // value={this.state.storeNumber}
+                            value={this.state.storeDetails.storeNumber}
+                            onChange={(e) => {
+                                this.setStoreNumber(e);
+                            }}
                             hintText="Store Number"                    
                             // style = {textFieldStyle}
                             inputStyle = {textFieldInputStyle}
@@ -63,7 +69,10 @@ export default class SelectStore extends Component {
                     <label className="store-form-label associate-pin-label">Sending Associate PIN</label>
                         <TextField className="store-textfield"
                             type="number"
-                            // value={this.state.associatePin}
+                            value={this.state.storeDetails.associatePin}
+                            onChange={(e) => {
+                                this.setAssociatePin(e);
+                            }}
                             hintText="Associate Pin"                    
                             // style = {textFieldStyle}
                             inputStyle = {textFieldInputStyle}
@@ -77,11 +86,34 @@ export default class SelectStore extends Component {
             )
         }
 
+        setStoreNumber = (e) => {
+            // Retrieves the store number
+            let selectedStoreNumber = e.target.value;
+            this.setState({
+                storeDetails: {
+                    ...this.state.storeDetails,
+                    storeNumber: selectedStoreNumber
+                }
+            })
+        }
+
+        setAssociatePin = (e) => {
+            // Retrieves the associate pin
+            let selectedAssocaitePin = e.target.value;
+            this.setState({
+                storeDetails: {
+                    ...this.state.storeDetails,
+                    associatePin: selectedAssocaitePin
+                }
+            })
+        }
+
         // renderInvalidModal = () => {
-        //     if(this.state.storeNumber is invalid) {
+        //     if(this.state.storeNumber != valid store num) {
         //         this.setState({
         //             invalid_modal: true
         //         })
         //     }
         // }
-};
+        
+}; // END CLASS

@@ -87,7 +87,7 @@ export function callGetWebService(url,params) {
     );
 }
 
-export function callPutWebService(url,params) {
+export function callPutWebService(url,params,headers) {
     console.log('------------Web Service Call Details------------');
     var header = {
 		'Content-Type': 'application/json',
@@ -95,10 +95,10 @@ export function callPutWebService(url,params) {
 	};
     console.log("Request Type: PUT");
     console.log("URL: ",url);
-    console.log("Header: ",header);
+    console.log("Header: ",headers);
     console.log("Params: ",params);
     console.log('------------------------------------------------');
-    var requestObject = axios.put(url,params,header);
+    var requestObject = axios.put(url,params,{headers: headers});
     return new Promise(
         function (resolve, reject) {
             requestObject.then((data) => {
@@ -123,6 +123,7 @@ export function callPutWebService(url,params) {
         }
     );
 }
+
 
 export function callAxiosWebService(obj) {
     console.log('------------Web Service Call Details------------');
@@ -177,7 +178,7 @@ export function json2xml(json) {
 }
 
 
-function xml2json(xml) {
+export function xml2json(xml) {
     var json;
     var xml2js = require('xml2js');
     var parser = new xml2js.Parser({explicitArray : false});

@@ -10,17 +10,17 @@ const giftRegistryURL = path+'giftRegistryURL.json';
 
 //sets url to be used for api call
 //const URL = CONFIG_FILE.config.giftRegistryURL+'?regID=216';
-const URL = CONFIG_FILE.giftRegistryURL+'?regID=216';
+const URL = CONFIG_FILE.giftRegistryURL;
 
-export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type){
-    
+export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,userPin){
+    console.log("User Pinwerwerwerwerwerwe-------------------",userPin);
     const params = {
 
-        "SourceLoc":"NM-DIRECT",
-	 "SourceLoc":"NM-DIRECT",
+    "SourceLoc":"NM-DIRECT",
+	"SourceApp":"MPOS",
 	 "Store":"0010",
 	 "Terminal":"0216",
-	 "StoreAssoc":"209289",
+	 "StoreAssoc":userPin,
 	 "ClientID":"0010:0216:06082018:033639",
 	 "TransactionId":transactionId,
 	"LineNumber": modify_type=='item'?item.lineNumber:undefined,
@@ -28,8 +28,9 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type){
 	"TransModify": modify_type=='item'?"N":"Y",
 	"GiftRegistryNum": gift
     };
+    //console.log("User Pin090090909090909090909",userPin);
     const request = env.ENV_MODE=='dev1'?callPutWebService(URL, params):callGetWebService(giftRegistryURL, {});
-    
+    console.log("Request", request);
     console.log("saleitemGiftRegistryUpdate Parameters being sent", params);
     
     return (dispatch) => {
@@ -48,7 +49,8 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type){
                     
                     type: 'GIFTREGISTRYUPDATE_REQUEST',
                     payload: data
-                    /*{  
+                    /*
+                    {  
                         "response_code":0,
                         "response_text":"AC_SUCCESS",
                         "transactionId":"1303",
@@ -1313,6 +1315,7 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type){
             dispatch(startSpinner(false));
             dispatch({
                     type: 'GIFTREGISTRYUPDATE_FAIL',
+                    payload:'No Result'
                 });
             // console.log("ERROR",err);
             // alert("ERROR");

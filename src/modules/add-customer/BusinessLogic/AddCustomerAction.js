@@ -18,15 +18,15 @@ export function addCustomerAction(addCustDomData) {
 //sets url to be used for api call
    
     var URL = CONFIG_FILE_ADD.apiAddressAdd;
-    var fnid = CONFIG_FILE_ADD.addCustomerFuncID;
+    //var fnid = CONFIG_FILE_ADD.addCustomerFuncID;
     var params = addCustDomData ;
      var body = {
-          "FunctionalityId" : fnid,
+          //"FunctionalityId" : fnid,
           "RequestParams" : params
     }
       
      
-    const request = callPostWebService(URL,body);
+    const request = callPostWebService(URL,params);
 
     return (dispatch) => {
         request.then(({
@@ -34,8 +34,8 @@ export function addCustomerAction(addCustDomData) {
             }) => {
             
 
-                console.log('data',data.Output.Response_Code);
-                switch (data.Output.Response_Code) {
+                console.log('data',data.response_text);
+                switch (data.response_text) {
 
                    case CS_SUCCESS:
                         {
@@ -168,22 +168,22 @@ export function addCustomerIntAction(addCustIntData) {
 
     //sets url to be used for api call 
     var URL = CONFIG_FILE_ADD_INT.apiAddressAdd;
-    var fnid = CONFIG_FILE_ADD_INT.addCustomerFuncID;
+    //var fnid = CONFIG_FILE_ADD_INT.addCustomerFuncID;
     var params = addCustIntData ;
      var body = {
-          "FunctionalityId" : fnid,
+          //"FunctionalityId" : fnid,
           "RequestParams" : params
     }
      
-    const request = callPostWebService(URL,body);
+    const request = callPostWebService(URL,params);
 
     return (dispatch) => {
         request.then(({
                 data
             }) => {
 
-                console.log('data',data.Output.Response_Code);
-                switch (data.Output.Response_Code) {
+                console.log('data',data.response_text);
+                switch (data.response_text) {
 
                     case CS_SUCCESS:
                         {

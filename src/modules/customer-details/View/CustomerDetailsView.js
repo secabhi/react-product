@@ -167,7 +167,7 @@ export class CustomerDetailsView extends Component {
             </div> : <div></div>
           }
           <div className="spacer-div" />
-          <div className="product-search">
+          <div className="product-search" onClick={this.props.navigateToProductSearch}>
             <img
               className="product-search-icon"
               src={productSearchWhite}
@@ -192,7 +192,7 @@ export class CustomerDetailsView extends Component {
                 <div className="content-left-lower">
                   <div className="recommended-prod-carousel-header">
                     Recommendations for {this.props.toCamelCase(this.props.profileData.cust_dom_fname)}
-                    <a className='see-all' href="">See All</a>
+                    
                   </div>
                   <div className="recommended-prod-carousel">
                      <RecommendationSlider recommendations={this.props.customerDetails.test} displayModal={(index) => this.props.displayRecommendsModal(index)} />
@@ -206,7 +206,6 @@ export class CustomerDetailsView extends Component {
                 <div className="purchase-history">
                   <div className="purchase-history-carousel-header">
                     <div>Purchase History</div>
-                    <a href="">See All</a>
                   </div>
                   <div className="purchase-history-carousel">
                     <PurchaseSlider purchases={this.props.customerDetails.purchases} displayModal={(index) => this.props.displayHistoryModal(index)} />

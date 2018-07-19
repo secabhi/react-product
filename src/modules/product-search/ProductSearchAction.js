@@ -159,11 +159,12 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
 
             return (dispatch) => {
                 styleSearchrequest.then(({ data }) => {
-                    if (data.data.totalCount > 0) {
+                    if (data.data && data.data.totalCount > 0) {
                         dispatch({
                             type: PRODUCT_SEARCH_STYLE_SUCCESS,
                             payload: data.data.products
                         });
+                        console.log("In Style dipatcher", data.data && data.data.totalCount);
                     }
                     else {
                         dispatch({

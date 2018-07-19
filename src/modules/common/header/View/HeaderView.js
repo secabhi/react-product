@@ -49,7 +49,7 @@ export class HeaderView extends Component {
 
       var navLinks=(
         <div className="header-navLinks"><div className="suspendIconContainer" onClick={this.props.suspendTransaction}><img src={suspendIcon} className="suspend-Icon">
-        </img><span className="suspendLabel">Suspend</span> </div><div className="accountLookupIconContainer" ><img src={accountLookup} className="accountLookup-Icon"></img><span className="accountLookupLabel">Account Lookup</span></div>
+        </img><span className="suspendLabel">Suspend</span> </div><div className="accountLookupIconContainer" onClick={() => history.push('customer-search')}><img src={accountLookup} className="accountLookup-Icon"></img><span className="accountLookupLabel">Account Lookup</span></div>
         <div className="voidIconContainer"><img src={postVoidIcon} className="void-Icon"></img><span className="voidLabel">Void</span></div></div>
       ); 
 

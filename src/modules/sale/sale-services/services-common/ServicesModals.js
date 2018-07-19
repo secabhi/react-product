@@ -6,7 +6,8 @@ import services from '../../../../resources/images/Services_Black.svg';
 import scanItem from '../../../../resources/images/Scan_Item_Borderless.svg';
 import calendar from '../../../../resources/images/Calendar.svg';
 import confirmEmail from '../../../../resources/images/Confirm_Email.svg';
-import success from '../../../../resources/images/Success.svg'
+import success from '../../../../resources/images/Success.svg';
+import warning from '../../../../resources/images/Warning_101.svg';
 import './services-common.css';
 import moment from 'moment';
 
@@ -156,10 +157,11 @@ export class ContactDetailsModal extends Component {
             <div className="contact-details-modal">
                 <img src={services} alt="services" className='contact-modal-icon'/>     
                 <form onSubmit={(e) => {
-			            e.preventDefault();
-                        this.props.setObject(this.state.contactDetails);
-                        this.props.changeModal()
-                        }}>
+                    e.preventDefault();
+			        this.props.setObject(this.state.contactDetails);
+                    this.props.changeModal()}
+                }>
+        
                     <div className='contact-modal-label'>Contact Details</div>
 
                     <TextField className="contact-modal-textfield" 
@@ -185,12 +187,14 @@ export class ContactDetailsModal extends Component {
                         inputStyle = {textFieldInputStyle}
                         underlineStyle= {underlineStyle}
                         refs="contact-details-modal" 
+                        minLength="7"
+                        maxLength="9"
                         required
                     />
                 
                     <div className="contact-modal-button-container">
                         <button className="contact-modal-button-cancel" 
-                            onClick={this.props.closeModal}>CANCEL
+                            onClick={() => this.props.closeModal()}>CANCEL
                         </button> 
                         <button type="submit" className="contact-modal-button-ok">OK</button>
                     </div>
@@ -291,8 +295,8 @@ export class AlterationDetailsModal extends Component {
         return (
             <div className="alteration-details-modal">
                 <img src={services} alt="services" className='alteration-modal-icon'/>        
-                <form onSubmit={(event) => {
-			            event.preventDefault();
+                <form onSubmit={(e) => {
+			            e.preventDefault();
 			            this.props.alterationsApiCall(this.state.alterationData)}
 		  }>
                 <div className='alteration-modal-label'>Alteration Details</div>
@@ -314,7 +318,7 @@ export class AlterationDetailsModal extends Component {
                 <img src={scanItem} className="scan-item-img" alt="scanner"/>
 
                 <TextField className="alteration-modal-textfield" 
-                    type="number"
+                    type="text"
                     onChange={(e)=> {this.getQuotedPrice(e)}}
                     value={this.state.alterationData.quotedPrice}
                     floatingLabelText="Quoted Price"
@@ -323,8 +327,10 @@ export class AlterationDetailsModal extends Component {
                     inputStyle = {textFieldInputStyle}
                     underlineStyle= {underlineStyle}
                     refs="alteration-details-modal" 
-                    onInput = {(e) => 
-                    {e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,3)}}
+                    // onInput = {(e) => 
+                    // {e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,3)}}
+                    pattern="\d*"
+                    maxlength="6"
                     required
                 />
 
@@ -617,6 +623,44 @@ export class GiftWrapMessageModal extends Component {
                     </div>
                 </div>
              </form>
+            </div>
+        )
+    }
+}
+
+
+export class InvalidAlterationTagModal extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <div className="invalid-tag-modal">
+                <img className="invalid-tag-icon" src={warning} alt="warning" />
+                <div className="invalid-tag-label">Invalid Alteration Tag</div>
+                <div className="invalid-tag-button-container">
+                    <div className="invalid-tag-ok" onClick={() => this.props.closeModal()}>OK</div>
+                </div>
+            </div>
+        )
+    }
+}
+
+
+export class ErrorModal extends Component {
+    constructor(props) {
+        super(props)
+    }
+
+    render() {
+        return (
+            <div className="res-error-modal">
+                <img className="res-error-icon" src={warning} alt="warning" />
+                <div className="res-error-label">Error</div>
+                <div className="res-error-button-container">
+                    <div className="res-error-ok" onClick={() => this.props.closeModal()}>OK</div>
+                </div>
             </div>
         )
     }

@@ -9,7 +9,10 @@ import deletebutton from '../../resources/images/Delete_Purple.svg'
 import './addCard.css'
 
 export default(props) => {
-    const {cardNumber, firstName, lastName, cardType} = props;
+
+    const {cardNumber, custFname, lastName, cardType} = props;
+    console.log("props in card display",props);
+    
     const cardImagePaths = {
         visa,
         mastercard
@@ -21,7 +24,7 @@ export default(props) => {
                     <img src={visa} className="card-icon"/>
                 </div>
                 <div className="card-layout-text">
-                    <label className="card-cust-name-text">{firstName}</label>
+                    <label className="card-cust-name-text">{custFname}</label>
                     <div className="card-cust-number">
                         <div className="card-number-star-text">****</div>
                         <div className="card-number-text">{cardNumber}</div>
@@ -34,4 +37,5 @@ export default(props) => {
                   </div> */}
         </div>
     )
+  
 }

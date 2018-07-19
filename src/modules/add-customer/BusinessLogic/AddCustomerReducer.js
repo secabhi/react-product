@@ -12,7 +12,9 @@ const initialState = {
     addressValidationSuccessFlagInt: false,
     errors: [],
     errorsInt: [],
-    countryList: []
+    countryList: [],
+    firstName : '',
+    lastName : ''
 };
 
 export function AddCustomerReducer(state = initialState, action) {
@@ -26,7 +28,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     addressValidationSuccessFlag: false,
                     invalidAddress:false,
                     invalidEmail:false,
-                    errors: []
+                    errors: [],
+                    firstName : '',
+                    lastName : ''
                 };
                 break;
             }
@@ -41,7 +45,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     invalidAddress:false,
                     invalidEmail:false,
                     addressValidationSuccessFlag: true,
-                    errors: []
+                    errors: [],
+                    firstName : '',
+                    lastName : ''
                 };
                 break;
             }
@@ -55,7 +61,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     invalidEmail:false,
                     errors: [{
                         dom_cust_zip: INVALID_ZIP
-                    }]
+                    }],
+                    firstName : '',
+                    lastName : ''
                 }
             }
 
@@ -69,7 +77,9 @@ export function AddCustomerReducer(state = initialState, action) {
                 invalidEmail:false,
                 errors: [{
                     dom_cust_address: INVALID_Address
-                }]
+                }],
+                firstName : '',
+                lastName : ''
             }
         }
 
@@ -80,7 +90,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     ...state,
                     successModalFlagInt: true,
                     addressValidationSuccessFlagInt: false,
-                    errors: []
+                    errors: [],
+                    firstName : '',
+                    lastName : ''
                 };
                 break;
             }
@@ -94,7 +106,9 @@ export function AddCustomerReducer(state = initialState, action) {
                    invalidEmail:true,
                     errors: [{
                         "cust_email": INVALID_EMAIL
-                    }]
+                    }],
+                    firstName : '',
+                    lastName : ''
                 }
                 break;
             }
@@ -108,7 +122,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     invalidEmail:true,
                     errors: [{
                         "cust_email": INVALID_EMAIL
-                    }]
+                    }],
+                    firstName : '',
+                    lastName : ''
                 }
                 break;
         }
@@ -120,7 +136,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     ...state,
                     successModalFlag: false,
                     addressValidationSuccessFlag: true,
-                    errors: []
+                    errors: [],
+                    firstName : '',
+                    lastName : ''
                 };
                 break;
             }
@@ -132,7 +150,9 @@ export function AddCustomerReducer(state = initialState, action) {
                     successModalFlag: false,
                     errors: [{
                         dom_cust_zip: INVALID_ZIP
-                    }]
+                    }],
+                    firstName : '',
+                    lastName : ''
                 }
             }
 
@@ -141,7 +161,9 @@ export function AddCustomerReducer(state = initialState, action) {
                 ...state,
                 successModalFlag: false,
                 successModalFlagInt: false,
-                countryList: action.payload.Output.CountryList
+                countryList: action.payload.Output.CountryList,
+                firstName : '',
+                lastName : ''
             };
             break;
 
@@ -153,7 +175,17 @@ export function AddCustomerReducer(state = initialState, action) {
                 addressValidationSuccessFlag: false,
                 invalidAddress:false,
                 invalidEmail:false,
-                errors: []
+                errors: [],
+                firstName : '',
+                lastName : ''
+            };
+        }
+
+        case 'AUTO_POPULATE_FN_LN_ADD_CUSTOMER': {
+            return {
+                ...state,
+                firstName : action.payload.data.customerFirstName,
+                lastName : action.payload.data.customerLastName
             };
         }
 
@@ -162,7 +194,9 @@ export function AddCustomerReducer(state = initialState, action) {
                 ...state,
                 successModalFlag: false,
                 addressValidationSuccessFlag: false,
-                errors: []
+                errors: [],
+                firstName : '',
+                lastName : ''
             };
     }
 }
