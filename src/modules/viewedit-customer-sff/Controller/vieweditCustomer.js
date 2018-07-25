@@ -485,8 +485,8 @@ class ViewEditCustomerSff extends Component {
             "ClientID": "0010:0169:06062018:013639",
             "ClientTypeID": "1000",
             "SourceApp": "POS",
-            "Country": "INDIA",
-            "storeAssoc": "110010",
+            "Country": this.state.changedAddress['cust_dom_country'],
+            "storeAssoc": this.props.login.userpin,
             "SourceLoc": "0010",
             "CFirstName": this.state.changedAddress['cust_dom_fname'],
             "CLastName": this.state.changedAddress['cust_dom_lname'],
@@ -567,8 +567,8 @@ function isObjectEmpty(obj){
     return true;
 }
 
-function mapStateToProps({ viewEditCustomerSff, customerSearch }) {
-    return { viewEditCustomerSff, incircleData: customerSearch.incircleData }
+function mapStateToProps({ viewEditCustomerSff, customerSearch, login }) {
+    return { viewEditCustomerSff, incircleData: customerSearch.incircleData, login }
     }
 
 function mapDispatchToProps(dispatch) {

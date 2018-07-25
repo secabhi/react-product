@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactTooltip from 'react-tooltip';
 
+
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -22,8 +23,10 @@ import crossicon from '../../../../resources/images/Cross_Purple.svg';
 import cardicon from '../../../../resources/images/Add_Card.svg';
 import clearallbtn from '../../../../resources/images/Close_Bttn_Purple.svg';
 
+
 export default class CustomerEditFormView extends Component {
     render() {
+        console.log('CONTRIES', this.props.countryList)
         var selectFieldFloatingLabelStyle = {
             height: '28px',
             fontSize: '30px',
@@ -136,6 +139,9 @@ export default class CustomerEditFormView extends Component {
             backgroundColor: '#828282',
             height: '0.8px'
         }
+
+        const ServiceFooter = this.props.optionalFooter;
+
         var Dropdownicon = (props) => (
 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 24.4">
@@ -149,7 +155,30 @@ export default class CustomerEditFormView extends Component {
         );
         
         return (
-            <div>
+            <div className='add-customer-main'>
+                <div className='addcust-subheader-container'> 
+                     <div className="send-title-header-text">{this.props.formType}</div>
+                        <div
+                            className='add-customer-tab-header'
+                            onClick={() => {this.props.handleCustTypeChange()}}>
+                            <img
+                                src={this.props.addCustImage}
+                                className='add-customer-icon'
+                                alt="add-customer-icon"/>
+                            <div className='add-customer-label '>Add Customer</div>
+                        </div>
+                        <div
+                            className='add-int-customer-tab-header'
+                            onClick={() => {this.props.handleCustTypeChange()}}>
+                            <img
+                                src={this.props.addIntCustImage}
+                                className='add-int-customer-icon'
+                                alt="add-international-customer-icon"/>
+                            <div className='add-int-customer-label '>Add International Customer</div>
+                        </div>                  
+                    <div className='tab-header-spacer'></div>
+                    </div>
+
                     <div className="viewedit-form">
                         <div className="viewedit-firstrow">
                             <div className='field1'>
@@ -209,7 +238,7 @@ export default class CustomerEditFormView extends Component {
 
                             </div>
 
-                            {this.props.userType != 'int' ?
+                            {this.props.custType != 'int' ?
                                 <div className='field4'>
                                     <div>
                                         <TextField
@@ -318,7 +347,7 @@ export default class CustomerEditFormView extends Component {
                                 />
 
                             </div>
-                            {this.props.userType != 'int' ?
+                            {this.props.custType != 'int' ?
                                 <div className='field2'>
                                     <div>
                                         <SelectField
@@ -349,7 +378,7 @@ export default class CustomerEditFormView extends Component {
                                             type="text"
                                             floatingLabelText="Zip"
                                             refs='cust_dom_zip'
-                                            value={this.props.changedAddress['cust_dom_zip'].replace(/[^0-9]/g, '')}
+                                            value={this.props.changedAddress['cust_dom_zip']}
                                             onChange={this.props.handleChange.bind(this, "cust_dom_zip")}
                                             floatingLabelStyle={textFieldFloatingLabelStyle}
                                             style={textFieldStyle}
@@ -400,7 +429,7 @@ export default class CustomerEditFormView extends Component {
 
                             </div>
                         </div>
-                        {this.props.userType == 'int' ?
+                        {this.props.custType == 'int' ?
                             <div className="viewedit-fourthrow">
 
                                 <div className='field1'>
@@ -411,7 +440,7 @@ export default class CustomerEditFormView extends Component {
                                             iconButton: <Dropdownicon />,
                                         }}
                                         value={this.props.changedAddress['cust_dom_country']}
-                                        onChange={this.props.handleCountryChange.bind(this, "cust_dom_country")}
+                                        onChange={this.props.handleCountryChange}
                                         fullWidth={true}
                                         floatingLabelStyle={selectFieldFloatingLabelStyle}
                                         style={selectFieldStyle}
@@ -454,6 +483,24 @@ export default class CustomerEditFormView extends Component {
                             </div> :
                             <div></div>
                         }
+
+                        {/* SERVICES FOOTER  */}
+                        <ServiceFooter additionalStyle='sendComponent-customerEditForm-offset'>
+                            <div  className="giftwrap-cancel" onClick={() => this.props.history.goBack()}><span className="giftwrap-cancel-text">Cancel</span></div>
+                            <button className="giftwrap-next" 
+                                onClick={() => {
+                                    {/* this.props.handleValidation() */}
+                                    this.props.handleClientele();
+                                    console.log("SHIV: formtype:",this.props.formType)
+                                    if(this.props.formType =="Receiver"){
+                                        this.props.constructCustomerObject("Receiver",this.props.changedAddress)
+                                        this.props.updateShipmentOptionsObject("ZIP", this.props.changedAddress['cust_dom_zip']);
+                                        this.props.componentChangeHandler("itemsToBeShipped");
+                                    }
+                                }}>
+                            <span className="giftwrap-next-text">Next</span></button>
+                        </ServiceFooter>
+                        {/* END SERVICES FOOTER  */}
 
                         {/* <div className='viewedit-addcard-button-section'>
                             <div className='viewedit-card-icon-section'>
@@ -556,7 +603,7 @@ export default class CustomerEditFormView extends Component {
                                     You must supply a valid street address or email address for this client. Press OK to continue. </span>
                                 </div>
                                 <div className='add-domcust-fail-modal-button-area'>
-                                    <div className='add-dom-cust-modal-ok-btn' onClick={this.props.closeaddrEmailMOdal}><span className='add-dom-cust-modal-ok-btn-label'>OK</span></div>
+                                    <div className='add-dom-cust-modal-ok-btn' onClick={this.props.openCloseAddrEmailModal}><span className='add-dom-cust-modal-ok-btn-label'>OK</span></div>
                                 </div>
                             </div>
                         </Modal>

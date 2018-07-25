@@ -10,7 +10,8 @@ import {getCsrPurchasesNRecommends, navigateToDomesticCustomer,getSalesSummaryAc
 import {navigateToEditCustomerAction} from '../update-customer/UpdateCustomerAction';
 import {navigateToEditCustomerIntAction} from '../update-customer/UpdateCustomerInternationalActions';
 import { bindActionCreators } from 'redux';
-import { goToSalesPage } from '../sale/SaleAction.js'
+import { goToSalesPage } from '../sale/SaleAction.js';
+import { getReminders} from '../reminders/remindersAction'
 
 class CustomerDetails extends Component {
   constructor(props) {
@@ -84,7 +85,7 @@ class CustomerDetails extends Component {
           cust_dom_address2: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 1) ? profile.physicalAddresses[0].addressLines[1] : '',
           cust_dom_mobile: (profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].rawValue : '',
           cust_dom_email: (profile.emailAddresses && profile.emailAddresses.length > 0) ? profile.emailAddresses[0].id : '',
-          cust_dom_otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].id : '',
+          cust_dom_otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].rawValue : '',
           cust_dom_city: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].cityName : '', //"New york"
           cust_dom_state: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'NY'
           cust_dom_country: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].countryName : '', //'CANADA',
@@ -95,7 +96,8 @@ class CustomerDetails extends Component {
         }
         this.setState({ profileData: profileData });
         console.log('cssID '+profile.css_id)
-        this.props.getCsrPurchasesNRecommends({ cssId: profile.css_id }, this.props.login.userpin);
+        this.props.getCsrPurchasesNRecommends({ cssId: profile.css_id });
+        this.props.getReminders(this.props.login.userpin);
         
       }
     }
@@ -133,25 +135,18 @@ class CustomerDetails extends Component {
     this.props.history.push('/product-search');
   }
 
+  navigateToProductDummy = () => {
+    this.props.history.push('/products-dummy');
+  }
+
   /*Navigate back home*/
   navigateBack = () => {
     this.props.clearCustomerDetails();
     this.props.history.push('/customer-search'); ``
   }
 
-  displayHistoryModal(index) {
-    //to be implemented
-    alert(`History Modal to Be Implemented ${index}`);
-
-  }
-
-  displayRecommendsModal(index) {
-    //to be implmeneted
-    alert(`Recommends Modal to Be Implemented ${index}`);
-  }
-
+ 
   render() {
-    console.log('Render-this.props', this.props);
 
     return (
       //   
@@ -172,8 +167,11 @@ class CustomerDetails extends Component {
         profileData={this.state.profileData}
         navigateToSale={this.navigateToSale}
         navigateToProductSearch = {this.navigateToProductSearch}
+        navigateToProductDummy = {this.navigateToProductDummy}
         salesSummaryDetails = {this.state.salesSummaryDetails}
         toCamelCase={this.toCamelCase}
+        userPin={this.props.login.userpin}
+        remindersCount = {(this.props.reminders.remindersList != undefined)?this.props.reminders.remindersList.length:0}
       />
     )
   }
@@ -203,8 +201,8 @@ class CustomerDetails extends Component {
 
 }
 
-function mapStateToProps({ customerDetails, customerSearch,login }) {
-  return { customerDetails, customerSearch,login }
+function mapStateToProps({ customerDetails, customerSearch,login,reminders }) {
+  return { customerDetails, customerSearch,login,reminders }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -217,6 +215,7 @@ function mapDispatchToProps(dispatch) {
   navigateToEditCustomerInt : navigateToEditCustomerIntAction,
   getSalesSummaryCall : getSalesSummaryAction,
   clearCustomerDetails :clearCustomerDetailsAction,
+  getReminders :getReminders
   }, dispatch)
 }
 

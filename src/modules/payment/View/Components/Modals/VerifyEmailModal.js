@@ -20,14 +20,14 @@ export class VerifyEmailModal extends Component {
     componentDidMount() {}
 
     render() {
-        const errorDiv = this.props.failure
+        const errorDiv = this.props.props.emailFailure
             ? (
                 <span className="emailErrorBanner"><img src={WarningIcon} className="warning-icon"/>
                     <span className="loginErrorText">Email request error</span>
                     <img
                         className="closeModalBanner"
                         src={crosswhite}
-                        onClick={this.props.closeError}></img>
+                        onClick={this.props.props.closeError}></img>
                 </span>
             )
             : null;

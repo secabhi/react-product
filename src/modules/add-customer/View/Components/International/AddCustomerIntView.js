@@ -17,6 +17,7 @@ import savebtn from '../../../../../resources/images/Save.svg';
 import visa from '../../../../../resources/images/Visa.svg'
 import deletebutton from '../../../../../resources/images/Delete_Purple.svg'
 import info from '../../../../../resources/images/Info.svg';
+import arrowdownicon from '../../../../../resources/images/Arrow_Down.svg';
 
 /*Styles import */
 import '../../Styles/AddCustomerStyle.css';
@@ -170,7 +171,7 @@ export class AddCustomerIntView extends Component {
                             errorStyle
                             ={customStyle.errorStyle}>
                             <InputMask
-                                mask="9999999999"
+                                mask="9999999999999"
                                 maskChar=""
                                 onChange={this.props.internationalProp
                                 .handleChangeInt
@@ -236,7 +237,7 @@ export class AddCustomerIntView extends Component {
                     <div className='field1'>
                         <SelectField value={ this.props.internationalProp.selectedCountry} onChange={this.props.internationalProp.handleCountryChange} floatingLabelText="Country*" fullWidth={true} floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle} style={customStyle.selectFieldStyle} labelStyle={customStyle.selectFieldLabelStyle} menuItemStyle={customStyle.selectFieldMenuItemStyle} selectedMenuItemStyle={customStyle.selectFieldMenuItemStyle} iconStyle={customStyle.selectFieldIconStyle} //maxHeight = '105.5px'
                             maxHeight={180} dropDownMenuProps={{
-                            iconButton: <Dropdownicon/>
+                            iconButton: <img src={arrowdownicon} alt="arror-icon"/>
                         }} errorText={this.props.internationalProp.errorsInt["selectedCountry"]} errorStyle ={customStyle.errorStyle} underlineStyle={customStyle.underlineStyle}>
 
                             {this
@@ -267,7 +268,11 @@ export class AddCustomerIntView extends Component {
                             .handleChangeInt
                             .bind(this, "int_cust_postal_code")}
                             value={this.props.internationalProp.fieldsInt["int_cust_postal_code"]}
-                            underlineStyle={customStyle.underlineStyle}/>
+                            underlineStyle={customStyle.underlineStyle}
+                            errorText={this.props.internationalProp.errorsInt["int_cust_postal_code"]}
+                            errorStyle
+                            ={customStyle.errorStyle}
+                            />
                     </div>
                     <div className='field3'></div>
                 </div>

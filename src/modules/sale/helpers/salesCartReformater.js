@@ -12,7 +12,7 @@ export default (cartOld, productImages)=> {
     cart.forEach((object) => {
         let obj = reformatObject(object, productImages);
         let itemDesc = obj.itemDesc.trim();
-        if(!formattedLineNumber[0] || itemDesc === 'Alterations NP' || itemDesc === 'Gift Wrap' || itemDesc === 'delivery fee') {
+        if(!formattedLineNumber[0] || itemDesc === 'Alterations' || itemDesc === 'Gift Wrap' || itemDesc === 'delivery fee') {
             formattedLineNumber.push(obj)
         } else {
             formattedCart.push(formattedLineNumber);
@@ -40,7 +40,7 @@ const reformatObject = (object, productImages) => {
     //check to see if we have a main product object
     let itemDesc = object.itemDesc.trim();
     //image check should only be done if a product object
-    if(itemDesc !== 'Alterations NP' && itemDesc !== 'Gift Wrap' && itemDesc !== 'delivery fee'){
+    if(itemDesc !== 'Alterations' && itemDesc !== 'Gift Wrap' && itemDesc !== 'delivery fee'){
         
         if(productImages.imageUrls[object.pim_SKU_ID]){
             console.log('match found in productImage', productImages.imageUrls[object.pim_SKU_ID], object.imgLink)

@@ -33,16 +33,19 @@ import customer from "../../resources/stubs/customer.json";
 import CardDisplay from "./cardDisplay";
 import incirclePurple from "../../resources/images/Incircle_Level_purple_small_bttn.svg";
 import incircleLarge from "../../resources/images/Incircle_Level_purple_large_bttn.svg";
+import successicon from "../../resources/images/Success.svg"
 import cardDisplay from "./cardDisplay";
 import CardContainer from './cardContainer'
 import {json2xml,xml2json} from '../common/helpers/helpers';
 import {startSpinner} from '../common/loading/spinnerAction';
+import {AddCardResultDisplay} from './AddCardResultDisplay/AddCardResultDisplay'
+
+import { goToSalesPage } from '../sale/SaleAction.js';
 
 var incircle_purple_large_bttn = require("../../resources/images/Incircle_Level_purple_large_bttn.svg");
 
 class AddCard extends Component {
     constructor(props) {
-        console.log("props add-card", props);
         super(props);
         this.inCircleInfo = require("../../resources/stubs/cust-incircleinfo.json");
         this.inCircleDetails = require("../../resources/stubs/incircleConfig.json");
@@ -52,61 +55,100 @@ class AddCard extends Component {
         this.totalpoints = parseInt(this.inCircleInfo.total_points);
         this.pointsToNextLvl = this.nextLvl - this.totalpoints;
         this.state = {
-            addProfileShown: true,
-            addCardImage: addcardselected,
-            addCardModal: false,
-            maxCardWarning: false,
-            cardDetails: '',
-            profileInfo: (props.customerDetails.cssId) ? props.customerDetails.profileData : '',
-            aurusResponse : '',
-            storeClientNo: ''
+                addProfileShown : true,
+                addCardImage : addcardselected,
+                addCardModal : false,
+                maxCardWarning : false,
+                cardDetails : '',
+                profileInfo : (props.customerDetails.cssId) ? props.customerDetails.profileData : '',
+                aurusResponse : '',
+                storeClientNo : '',
+                addCardResultModal : false
         };
         this.aurusVars = require("../../resources/aurus/aurusVars")
         this.getCardBinJson = require("../../resources/aurus/GetCardBINRequest.json");
-        this.cancellasttxn = require("../../resources/aurus/CancelLastTransRequest.json");
+        this.cancelLastTxn = require("../../resources/aurus/CancelLastTransRequest.json");
     }
 
+    componentDidMount = () => {
+        this.props.startSpinner(true);
+        this.getStoreClientIdInvoker();
+       
+    }
+
+   
+
+    componentWillReceiveProps = (nextProps) => {
+        if (nextProps.addCard.response) {
+            if (nextProps.addCard.response.storeClientNo && nextProps.addCard.isGetStoreClientId == true) {
+                this.setState({storeClientNo :nextProps.addCard.response.storeClientNo },
+                    this.getCardDetails(nextProps.addCard.response.storeClientNo));    
+            }
+            if (nextProps.addCard.response.cardList && nextProps.addCard.isGetCardDetails == true) {
+                this.setState({cardDetails: nextProps.addCard.response.cardList},function(){
+                    (this.state.addCardModal == true) ? (this.setState({addCardModal : false})) : ''
+                });
+                this.props.startSpinner(false);
+            }
+            if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAurusResponse == true){
+                var jsonResp =JSON.parse(xml2json(nextProps.addCard.response));
+                if(jsonResp.GetCardBINResponse.ResponseCode == "00000"){
+                    this.setState({
+                        aurusResponse :jsonResp.GetCardBINResponse},function(){
+                        this.addCardDetailsToClienteleInvoker();
+                    })
+                }
+            }
+            if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAddCardClientele == true){
+                console.log("Hey add card success in comp will receive props");
+                this.props.startSpinner(true);
+                this.getCardDetails(this.state.storeClientNo);
+                // this.setState({addCardResultModal : true});
+            }
+            if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAddCardClienteleFail == true ){
+                console.log("Add Card details failed");
+                this.props.startSpinner(false);
+            }
+        }
+    }
+
+
     openCardModals = () => {
-        (customer.creditCardInfo.length == 5)
-            ? this.setState({maxCardWarning: true})
-            : this.setState({addCardModal: true});
-        this.addCard(0);
+        if(customer.creditCardInfo.length == 5){
+            this.setState({
+                maxCardWarning : true
+            })
+        }
+        else{
+            this.setState({
+                addCardModal : true   
+            },function(){
+                console.log("AddCArd timeout");
+                setTimeout(this.addCard(0), 3000);
+                this.addCard(0);
+            })
+        }
     }
 
     openOverlayModal = () => {
         return (
-            <div>
-                <Overlay/>
-                <Modal>
-                    <AddCardContext
-                        done={() => {
-                        this.closeOverlayModal();
-                    }}
-                        addCard={this.addCard}
-                    />
-                </Modal>
-            </div>
-        );
-    };
+        <div>
+            <Overlay/>
+            <Modal open = {this.state.addCardResultModal}>
+                <AddCardContext
+                    done={() => {this.closeOverlayModal()}}
+                    addCard={this.addCard}
+                />
+            </Modal>
+        </div>);
+    }
 
     closeOverlayModal = () => {
         this.setState({addCardModal: false});
-    };
-
-
-
-    // switchToKeyInMode = () =>{
-
-    // }
-
-    // cancelLastTransRequest = () => {
-    //     this.cancellasttxn.CancelLastTransRequest.
-
-    // }
+    }
 
     //add_type = 0 for swipe/insert card,add_type = 1 for keyin
     addCard = (add_type) => {
-        console.log("add_type", add_type);
         this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
         this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
         this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
@@ -118,31 +160,25 @@ class AddCard extends Component {
         this.props.aurusActionInvoker(request)
     }
 
-
     addCardDetailsToClienteleInvoker = () => {
-        console.log("yaay",this.state.aurusResponse);
         let req = {
             "expiration" : (this.state.aurusResponse.CardExpiryDate) ? (this.state.aurusResponse.CardExpiryDate) : '',
             "cardToken" : (this.state.aurusResponse.CardToken) ? (this.state.aurusResponse.CardToken) : '',
             "responseCode" : (this.state.aurusResponse.ResponseCode) ? (this.state.aurusResponse.ResponseCode) : '',
             "kiNum" : (this.state.aurusResponse.KI) ? (this.state.aurusResponse.KI) : '',
-            "lastname":  (this.state.aurusResponse.LastName) ? (this.state.aurusResponse.LastName) : '',
-            "cardType":  (this.state.aurusResponse.CardType) ? (this.state.aurusResponse.CardType) : '',
-            "hashAcct" : "$AFFFJKKHFRAAADEAaEERTAassssGHJKasKIUJHGQASASRFDAADGHTHASGTTKIKHFFQDIUHIUA",
-            "terminalNum" : "01",
+            "lastname" :  (this.state.aurusResponse.LastName) ? (this.state.aurusResponse.LastName) : '',
+            "cardType" :  (this.state.aurusResponse.CardType) ? (this.state.aurusResponse.CardType) : '',
+            "hashAcct" : "$AFFPJKKHYRYAAIUAaEOSYAassssGHJKasKIUJHGQASASRFTAAIGHTHASGTTKIUMFFQUIOHIZA",
             "transNum" : "",
-            "hashType" :"",
-            "sigonFile" :"" ,
-            // "storeClientNo" : (this.state.storeClientNo) ? (this.state.storeClientNo) : ''
-            "storeClientNo"  : "0001000161091"
+            "hashType" : "",
+            "sigonFile" : "" ,
+            "storeClientNo" : (this.state.storeClientNo) ? (this.state.storeClientNo) : ''
         }
+      
         this.props.addCardDetailsToClienteleActionInvoker(req);
     }
 
-
-
     getStoreClientIdInvoker = () => {
-        console.log("in getStoreClientIdInvoker ");
         let clientData = {
             "ClientTypeID": "1000",
             "CFirstName": (this.state.profileInfo.names.length > 0)
@@ -169,49 +205,71 @@ class AddCard extends Component {
             "Country": (this.state.profileInfo.physicalAddresses.length > 0)
                 ? (this.state.profileInfo.physicalAddresses[0].countryName)
                 : '',
-            "flagByPASS": true,
+            "flagByPASS": false,
             "ClienteleUpdateFlag": false
         };
         this.props.getStoreClientIdActionInvoker(clientData);
     }
 
     getCardDetails = (client_id) => {
-        console.log("client id" + client_id);
         let request = {
-            //"storeClientNo" : client_id
-            "storeClientNo": "0001900075246" // hard coded for testing since i was not getting customer with card details
+            "storeClientNo" : client_id
         }
         this.props.getCardDetailsActionInvoker(request);
     }
 
-    componentDidMount = () => {
-        this.props.startSpinner(true);
-        this.getStoreClientIdInvoker();
-    }
 
-    componentWillReceiveProps = (nextProps) => {
+    openAddCardDetailsSuccessModal = () => {
+        return(
+            <div>
+                 <Modal open = {this.state.addCardResultModal}  little showCloseIcon='false' classNames={{ modal: 'addCard-result-modal-container'}}>
+                    <AddCardResultDisplay
+                    closeAddCardDetailsFailModal = {this.closeAddCardDetailsFailModal}
+                    ></AddCardResultDisplay>
+                </Modal>
+            </div>)
+      }
     
-        if (nextProps.addCard.response) {
-            if (nextProps.addCard.response.storeClientNo && nextProps.addCard.isGetStoreClientId == true) {
-                this.setState({storeClientNo :nextProps.addCard.response.storeClientNo },
-                    this.getCardDetails(nextProps.addCard.response.storeClientNo));    
-            }
-            if (nextProps.addCard.response.cardList && nextProps.addCard.isGetCardDetails == true) {
-                this.setState({cardDetails: nextProps.addCard.response.cardList});
-                this.props.startSpinner(false);
-            }
-            if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAurusResponse == true){
-                var jsonResp =JSON.parse(xml2json(nextProps.addCard.response));
-                if(jsonResp.GetCardBINResponse.ResponseCode == "00000"){
-                    this.setState({aurusResponse :jsonResp.GetCardBINResponse},function(){
-                        this.addCardDetailsToClienteleInvoker();
-                    })
-                }
-            }
-        }
+    openAddCardDetailsFailModal = () => {
+        this.setState({
+            addcardfailModal : true
+        })
+    }
+ 
+    closeAddCardDetailsFailModal = () => {
+        this.setState({
+            addcardfailModal : false
+        })
     }
 
-
+    // openAddCardResultModal = () => {
+   
+    // }
+    navigateToSale = () => {
+        this.props.goToSalesPage(false, { 
+            cust_cssId: this.props.customerDetails.profileData.names[0].css_id,
+            salutation:(this.state.profileInfo.names && this.state.profileInfo.names.length > 0 && this.state.profileInfo.names[0].salutation !== '') ? this.state.profileInfo.names[0].salutation : '',
+            firstname: (this.state.profileInfo.names.length > 0)
+                        ? (this.state.profileInfo.names[0].firstName)
+                        : '',
+            lastname: (this.state.profileInfo.names.length > 0)
+                    ? (this.state.profileInfo.names[0].lastName)
+                    : '',
+            address1: (this.state.profileInfo.physicalAddresses && this.state.profileInfo.physicalAddresses.length > 0 && this.state.profileInfo.physicalAddresses[0].addressLines.length > 0) ? this.state.profileInfo.physicalAddresses[0].addressLines[0] : '',
+            city: (this.state.profileInfo.physicalAddresses.length > 0)
+            ? (this.state.profileInfo.physicalAddresses[0].cityName)
+            : '',
+            state: (this.state.profileInfo.physicalAddresses && this.state.profileInfo.physicalAddresses.length > 0) ? this.state.profileInfo.physicalAddresses[0].state : '',
+            zip: (this.state.profileInfo.physicalAddresses.length > 0)
+                    ? (this.state.profileInfo.physicalAddresses[0].postalCode)
+                    : '',
+            address2: (this.state.profileInfo.physicalAddresses && this.state.profileInfo.physicalAddresses.length > 0 && this.state.profileInfo.physicalAddresses[0].addressLines.length > 1) ? this.state.profileInfo.physicalAddresses[0].addressLines[1] : '',
+            email:(this.state.profileInfo.emailAddresses && this.state.profileInfo.emailAddresses.length > 0) ? this.state.profileInfo.emailAddresses[0].id : '',
+            mobile:(this.state.profileInfo.phoneNumbers && this.state.profileInfo.phoneNumbers.length > 0) ? this.state.profileInfo.phoneNumbers[0].rawValue : '',
+            otherMobile: (this.state.profileInfo.phoneNumbers && this.state.profileInfo.phoneNumbers.length > 1) ? this.state.profileInfo.phoneNumbers[1].rawValue : ''}
+        );
+            this.props.history.push('/sale')
+    }
     render() {
         const maxCardWarningMessage = () => {
             return ((this.state.maxCardWarning === true)
@@ -226,12 +284,36 @@ class AddCard extends Component {
                 )
                 : (null));
         };
+
+    
+    if( this.props.customerSearch.incircleData){
+        var  maxIncircleVal =  Math.max(
+                this.props.customerSearch.incircleData.data.lyBenefitLevelCode,
+                this.props.customerSearch.incircleData.data.lyEarnedlevelCode,
+                this.props.customerSearch.incircleData.data.tyBenefitlevelCode,
+                this.props.customerSearch.incircleData.data.tyEarnedlevelCode
+            )
+    }
+    else {
+        var  maxIncircleVal = ''
+
+    }
+
+    if(this.props.customerSearch && this.props.customerSearch.incircleData){
+        var nextPointCardVal = this.props.customerSearch.incircleData.data.pointsAwayToNextPointCard
+    }
+    else{
+        var nextPointCardVal = ''
+    }
+
+
         return (
             <div>
                 <div className="cusdet-container">
                     {this.state.addCardModal
                         ? this.openOverlayModal()
                         : <noscript/>}
+                    {this.state.addCardResultModal ? this.openAddCardDetailsSuccessModal() : ''}    
                     <div className="cusdet-header">
                         <Header history={this.props.history}/>
                     </div>
@@ -248,22 +330,21 @@ class AddCard extends Component {
                                         : '') + (this.state.profileInfo.names[0].firstName) + ' ' + (this.state.profileInfo.names[0].lastName))
                                     : ''
                                 }
-
                             </div>
                         </div>
                         <div className="divider"/>
                         <div className="incircle-details">
-                            <span className="subheader-iconNum">{this.currentlvl}</span>
+                            <span className="subheader-iconNum">{maxIncircleVal}</span>
                             <img
                                 className="subheader-circleStatusicon"
                                 src={incircle_purple_large_bttn}
                                 alt="profile-tab-icon"/>
                             <div className="incircle-description">
                                 <div className="incircle-description-level">
-                                    CIRCLE {this.currentlvl}
+                                    CIRCLE {maxIncircleVal}
                                 </div>
                                 <div className="incircle-description-points">
-                                    Points to next point card: {this.pointsToNextLvl}
+                                    Points to next point card: {nextPointCardVal}
                                 </div>
                             </div>
                         </div>
@@ -275,7 +356,7 @@ class AddCard extends Component {
                                 alt="product-search-icon"/>
                             <div className="product-search-label">Product Search</div>
                         </div>
-                        <div className="proceed-to-sale">
+                        <div className="proceed-to-sale" onClick={()=>this.navigateToSale()}>
                             <img
                                 className="proceed-to-sale-icon"
                                 src={proceedToSaleWhite}
@@ -301,26 +382,25 @@ class AddCard extends Component {
                         {maxCardWarningMessage()}
                     <Footer/>
                 </div>
-            </div>
-        );
+              </div>
+          );
     }
+ 
 }
 
-function mapStateToProps({addCard, customerDetails}) {
-
-    return {addCard, customerDetails};
+function mapStateToProps({addCard, customerDetails, customerSearch}) {
+    return {addCard, customerDetails, customerSearch};
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        addCardActionInvoker: addCardAction,
-        aurusActionInvoker: getAddCardAurusResponse,
-        getCardDetailsActionInvoker: getCardDetails,
-        getStoreClientIdActionInvoker: getStoreClientId,
+        aurusActionInvoker : getAddCardAurusResponse,
+        getCardDetailsActionInvoker : getCardDetails,
+        getStoreClientIdActionInvoker : getStoreClientId,
         addCardDetailsToClienteleActionInvoker : addCardDetailsToClientele,
-        startSpinner: startSpinner
-    }, dispatch);
-
-    // return { dispatch, addCardActionInvoker: () => dispatch(addCardAction()) };
+        startSpinner : startSpinner,
+        goToSalesPage: goToSalesPage,
+      },dispatch);
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(AddCard);

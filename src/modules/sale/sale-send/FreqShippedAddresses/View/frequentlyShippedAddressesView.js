@@ -13,7 +13,8 @@ export default class FrequentlyShippedAddressesView extends Component{
         console.log('Sweezey frequestshippAddressesview this.props ',this.props);
         const addCustomerButton = (
             <div className="freqShipped-Addcustomer-container">
-                <div className="freqShipped-AddCustomer-button"><img src={AddCustomer} /></div>
+                <div className="freqShipped-AddCustomer-button" 
+                onClick={() => this.props.componentChangeHandler("senderForm")}><img src={AddCustomer} /></div>
                 <div className="freqshipped-AddCustomer-text">ADD CUSTOMER</div>
             </div>
         )
@@ -50,15 +51,13 @@ export default class FrequentlyShippedAddressesView extends Component{
                     title = {"Frequently Shipped Addresses"}
                     optional={addCustomerButton}
                 />
-
                 <div className="freq-shipped-address-container">
                     {frequentAddresses}  
                 </div>
-
                 <ServicesFooter additionalStyle={'sendComponent-offset'}>
-                    <div  className="giftwrap-cancel" onClick={this.navigateToSale}><span className="giftwrap-cancel-text">Cancel</span></div>
+                    <div  className="giftwrap-cancel" onClick={this.props.history.goBack}><span className="giftwrap-cancel-text">Cancel</span></div>
                     <div className={aSelectionHasBeenMade ? 'giftwrap-next' : 'giftwrap-next element-disabled'} 
-                        onClick={() => this.props.componentChangeHandler("customerForm")}>
+                        onClick={() => this.props.componentChangeHandler("senderForm")}>
                     <span className="giftwrap-next-text">Next</span></div>
                 </ServicesFooter>
             </Fragment>

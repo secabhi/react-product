@@ -162,3 +162,24 @@
   max-width: 820px;
 }
 
+.notification_count_circle{
+  width: 34px;
+  height: 34px;
+  background-color: #d53560;
+  border-radius: 50%;
+  margin:5% 0% 0% -6%;
+  text-align:center;
+}
+
+.notification_count_circle span{width: 14px;
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}

@@ -40,19 +40,18 @@ export default class MainItemLarge extends Component{
     }
     
     render(){
-
      let itemColor;
      let itemSize;
      let imageURL;
      
      if(this.props.obj.color=="NO COLOR" || this.props.obj.color=="NO COL") {
-        itemColor = "NO COLOR"
+        itemColor = ""
        
       } else {
         itemColor = this.props.obj.color;
       }
       if(this.props.obj.size=="NO SIZE" || this.props.obj.size=="NO SIZ") {
-       itemSize = "NO SIZE"       
+       itemSize = ""       
       } else {
         itemSize = "Size:"+" "+this.props.obj.size;
       }
@@ -126,7 +125,7 @@ export default class MainItemLarge extends Component{
                 >
                 <div className="item-info-container" onClick={() => this.selectItem(this.props.obj.itemNumber,this.props.obj.itemPrice,this.props.obj.pim_SKU_ID,this.props.obj.lineNumber,this.props.index)} >
                     <div className='item-info'>
-                    <div className='item-index' style={this.props.selectedItemIndexStyle}>{this.props.index+1}</div>
+                    <div className='item-index' style={this.props.selectedItemIndexStyle}>{this.props.obj.lineNumber}</div>
                     <div className='item-image' >
                       <img src={imageURL}  alt='item picture' height='144px' width='113px'/>
                     </div>
@@ -179,7 +178,7 @@ export default class MainItemLarge extends Component{
                         <div className="item-tax-container">
                             <div className="item-discount-percent-spacing-tax">
                                 {/*{"TAX(" + parseFloat(this.props.obj.taxPercent * 100).toFixed(3) + "%" + ")" + "10100"} */}
-                                {`TAX (${this.props.obj.taxPercent}) %`}
+                                {`TAX (${this.props.obj.taxPercent}%)`}
                             </div>
                             <div className="item-tax-amount">{parseFloat(this.props.obj.itemsTax).toFixed(2)}</div>
                             <div className="item-tax-text">T</div>
@@ -195,11 +194,11 @@ export default class MainItemLarge extends Component{
                     </tr> 
                     <tr className={ this.props.isREPL ? "item-extra-REPL": "item-extra-REPL lineItemDisplayNone" }>
                         <td className="item-extra-line-item-titles">REPL:</td>
-                        <td className="item-extra-line-item-data">In {this.props.obj.replenishDays}, {this.props.obj.itemDesc} </td>
+                        <td className="item-extra-line-item-data">In {this.props.obj.replenishDays}, {this.props.obj.eventDescription} </td>
                     </tr>
                     <tr className={this.props.obj.salesId > 0 ? "item-extra-split-comm":"item-extra-split-comm lineItemDisplayNone"} >
                         <td className="item-extra-line-item-titles">Split Commission:</td>
-                        <td className="item-extra-line-item-data">PIN - {this.props.obj.salesId},{this.props.obj.assistId}</td>
+                        <td className="item-extra-line-item-data">PIN - {this.props.obj.salesId}{(this.props.obj.assistId > 0) ? (',' + this.props.obj.assistId) : ''}</td>
                     </tr>
                     <tr className={ this.props.isGiftReg ? "item-extra-gift-registry": "item-extra-gift-registry lineItemDisplayNone" }>
                         <td className="item-extra-line-item-titles">Gift Registry #:</td>

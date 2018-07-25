@@ -2,7 +2,7 @@ import {NAV_TO_SEND} from '../common/constants/type';
 
 const initialState = {
     otherPageData: { isSkip: false, details: null },
-    sendComponent: ''
+    sendComponent: { componentName: '', sameSenderReciever: false}
   };
   
   export function SaleReducer(state = initialState, action) {
@@ -17,7 +17,7 @@ const initialState = {
       console.log("NAV TO SEND",action.payload)
         return {
           ...state,
-          sendComponent:action.payload.data
+          sendComponent:action.payload
         };
 
       default:

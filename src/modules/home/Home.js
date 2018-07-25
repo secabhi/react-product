@@ -10,7 +10,7 @@ import Header from '../common/header/header';
 import HomeHeader from './home-header';
 import HomeHeaderSmall from './home-header-small'
 import PostVoidSelect from '../post-void/postVoidSelect'
-import {PostVoidEnter} from '../post-void/postVoid';
+import PostVoidEnter from '../post-void/postVoidEnter';
 import  PostVoid from '../post-void/postVoid';
 import Saleicon from '../../resources/images/Sale_bttn.svg';
 import CustomerIcon from '../../resources/images/Customer_Search_bttn.svg';
@@ -26,11 +26,12 @@ import pinpadBattery from '../../resources/images/Pinpad Battery Level.svg';
 import userLogin from '../../resources/images/Associate-Login.svg';
 import NeimanMarcusLogo from '../../resources/images/Neiman_Marcus_logo.svg'
 
-import { getTransactionRequest, setButtonClick } from './HomeAction';
+import { getTransactionRequest, setButtonClick, getSalutations } from './HomeAction';
 import { getTransactionId } from './HomeSelector';
 import {clearCustomerDataAction} from '../customer-search-sale/actions';
 import {clearCart} from '../sale/SalesCartAction';
-import {itemSelectedAction} from '../common/cartRenderer/actions'
+import {itemSelectedAction} from '../common/cartRenderer/actions';
+import {clearCustomerDetailsAction} from '../customer-details/CustomerDetailsActions';
 
 import './home.css';
 
@@ -78,9 +79,11 @@ class Home extends Component {
     console.log("Home did mount");
     console.log("loggedIn: ",sessionStorage.getItem("loggedIn"));
     this.getTransactionIdInvoker();
+    this.getSalutationsInvoker();
     this.props.clearSearchData();
     this.props.clearCart();
     this.props.clearItemSelected("");
+    this.props.clearCustomerDetails();
   }
 
   
@@ -97,9 +100,13 @@ class Home extends Component {
       SourceApp:"MPOS",
       StoreNumber:"0010",
       RegisterNumber:"0216",
-      StoreAssoc:"209289"
+      StoreAssoc:this.props.userpin,
     };
     this.props.getTransactionIdInvoker(requestData);
+  }
+
+  getSalutationsInvoker() {
+    this.props.getSalutationsInvoker();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,6 +127,20 @@ class Home extends Component {
       }
       console.log("LOGIN RESPONSE: ",nextProps.home.response);
     }
+
+    console.log("^%^%^^%^%^%^%^FOR RESUME TRANSACTION",nextProps);
+    if(nextProps.home.getResumeDatasFrom === 'RESUME_TRANSACTIONS_SUCCESS'){
+      this.navigateToResumeTransaction();
+    }
+
+    if(nextProps.home.navigateToPostVoidDetails === true) {
+      this.props.history.push('/postvoiddetails');
+    }
+  }
+  
+  navigateToResumeTransaction = () =>{
+    this.props.history.push('/resume-transactions');
+    this.props.startSpinner(false);
   }
 
   handleShowLogin(event) {
@@ -361,15 +382,18 @@ null
 }
 
 function mapStateToProps(state) {
+  console.log('STATE--------------------------', state)
   return { home : state.home, userPin: state.userPin }
 }
 
 function mapDispatchToProps(dispatch) {
   return { dispatch, getTransactionIdInvoker: (data) => dispatch(getTransactionRequest(data)),
+    getSalutationsInvoker: () => dispatch(getSalutations()),
     openSelectInvoker :()=>dispatch(postVoidTransactionList()) ,setButtonClickInvoker: (buttonId) => dispatch(setButtonClick(buttonId)),
     clearSearchData : ()=> dispatch(clearCustomerDataAction()),
     clearCart : ()=>dispatch(clearCart()),
-    clearItemSelected : (item)=>dispatch(itemSelectedAction(item))};
+    clearItemSelected : (item)=>dispatch(itemSelectedAction(item)),
+    clearCustomerDetails : () => dispatch(clearCustomerDetailsAction())};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

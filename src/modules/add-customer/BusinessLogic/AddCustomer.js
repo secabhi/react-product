@@ -12,7 +12,7 @@ import addcustomer from '../../../resources/images/Add_Customer.svg';
 import addintcustomerselected from '../../../resources/images/Add_International_Customer_Selected.svg';
 
 /**/
-import { parsePhoneNumber } from '../../common/helpers/helpers'
+import { parsePhoneNumber,validZip } from '../../common/helpers/helpers'
 
 /* View Components import */
 import { AddCustomerView } from '../View/AddCustomerView'
@@ -185,11 +185,12 @@ class AddCustomer extends Component {
 
     /**Fetch the salutations list from local json */
 
-    fetchSalutation() {
-        var salutationData = require('../../../resources/stubs/salutationList.json');
-        if (salutationData) {
-            this.state.salutationDataDrop = salutationData.Salutation;
-        }
+    fetchSalutation() {      
+        if (this.props.salutationData) {
+            this.setState({
+                salutationDataDrop:  this.props.salutationData.Salutations
+            });
+        }    
     }
 
     /**Fetch the states list from local json */
@@ -231,8 +232,10 @@ class AddCustomer extends Component {
 
         this.clearAllFields();
         this.clearAllFieldsInt();
+        this.closeFailModalInt();
         this.closeFailModal();
         this.closeFailModal1();
+        this.closeFailModalInt1();
         this.props.getCountryListActionInvoker();
         document.getElementsByClassName('add-customer-label')[0].classList.remove('selected-tab-label');
         document.getElementsByClassName('add-int-customer-label')[0].classList.add('selected-tab-label');
@@ -460,6 +463,7 @@ class AddCustomer extends Component {
         let errors = this.state.errors;
         errors[field] = "";
         this.setState({ errors: errors });
+        
     }
 
     /* Set text opt in/out flag - Domestic */
@@ -517,9 +521,19 @@ class AddCustomer extends Component {
             phone2Validation = false;
             }
         }
-        
+
+        if (fields['dom_cust_zip']) {
+            if(fields['dom_cust_zip'].length<5)
+            {
+            errors['dom_cust_zip'] = 'Invalid Zip';   
+            zipValidation = false; 
+            //this.setState({emailMissingModal: true});
+            }
+        }
+
+
         if (fields['cust_email'] == '' ||  fields['cust_email'] == undefined ||  fields['cust_email'] == null) {
-                errors["cust_email"] = "Email missing";
+               // errors["cust_email"] = "Email missing";
                 emailValidation = false;
         }
         
@@ -532,14 +546,17 @@ class AddCustomer extends Component {
             if (!fields['dom_cust_zip']) {
                 errors['dom_cust_zip'] = 'zipcode cannot be empty';   
                 zipValidation = false; 
-                this.setState({emailMissingModal: true});
+                this.openFieldsMissingModal();
+                
             }
         }
+        
 
-        if(emailValidation === false && addrValidation === false) {
+        if(emailValidation === false && addrValidation === false && (fields['cust_fname']) && (fields['cust_lname']) ) {
             errors["cust_email"] = "";
+            
             errors['cust_dom_address1'] = 'Address and Email missing';
-            this.openFieldsMissingModal();
+            this.setState({emailMissingModal: true});
         }
         else if(emailValidation === true && addrValidation === false) {
             if(!this.validateEmail(fields["cust_email"])) {
@@ -581,8 +598,8 @@ class AddCustomer extends Component {
         let addCustDomData = {
             'ClientID': '0101:0169:04042018:033639', /* Hardcoded, to be removed */
             'ClientTypeID': '1000', /* Hardcoded, to be removed */
-            'SourceApp': 'CMOS', /* Hardcoded, to be removed */
-            'SourceLoc': 'NM-DIRECT', /* Hardcoded, to be removed */
+            'SourceApp': 'MPOS', /* Hardcoded, to be removed */
+            'SourceLoc': '', /* Hardcoded, to be removed */
             'CFirstName': this.state.fields['cust_fname'],
             'CLastName': this.state.fields['cust_lname'],
             'Salutation ': this.state.selectedSalutation,
@@ -590,12 +607,12 @@ class AddCustomer extends Component {
             'Address_Ln2': this.state.fields['cust_addr2'],
             'City': this.state.fields['cust_city'],
             'State_Abbr': this.state.dom_cust_state,
-            'Zip5': this.state.fields['dom_cust_zip'],
+            'Zip9': this.state.fields['dom_cust_zip'],
             'CEmail': this.state.fields['cust_email'],
             'Country': this.state.dom_cust_country,
-            'CPhone': (this.state.fields['cust_phone1'] !== '' && this.state.fields['cust_phone1'] != undefined && this.state.fields['cust_phone1'] != null) ? parsePhoneNumber(this.state.fields['cust_phone1']) : undefined,
+            'CMobile': (this.state.fields['cust_phone1'] !== '' && this.state.fields['cust_phone1'] != undefined && this.state.fields['cust_phone1'] != null) ? parsePhoneNumber(this.state.fields['cust_phone1']) : undefined,
             'COtherPhone': (this.state.fields['cust_phone2'] !== '' && this.state.fields['cust_phone2'] != undefined && this.state.fields['cust_phone2'] != null) ? parsePhoneNumber(this.state.fields['cust_phone2']) : undefined,
-            'storeClientNo': '10000000257', /* Hardcoded, to be removed */
+            'storeClientNo': '', /* Hardcoded, to be removed */
             'storeAssoc': this.props.login.userpin, /* Hardcoded, to be removed */
             'donotcall ': this.state.cust_text_opt,
             'flagByPASS': bypassFlag
@@ -647,7 +664,7 @@ class AddCustomer extends Component {
     handleValidationIntCustomer = () => {
         let fieldsInt = this.state.fieldsInt;
         let errorsInt = {};
-
+       
         if (!fieldsInt['cust_fname']) {
             errorsInt['cust_fname'] = 'First Name cannot be empty';
         }
@@ -669,15 +686,23 @@ class AddCustomer extends Component {
         if (!fieldsInt['cust_city']) {
             errorsInt['cust_city'] = 'City cannot be empty';
         }
-
+        
+        if(fieldsInt['int_cust_postal_code'])
+        {
+            if(!validZip(fieldsInt['int_cust_postal_code']))
+            {
+                errorsInt['int_cust_postal_code'] = 'Invalid postal code';
+            }
+        }
+        
         if (fieldsInt['cust_phone1'] !== '' && fieldsInt['cust_phone1'] !== undefined) {
-            if (fieldsInt['cust_phone1'].length < 10 || fieldsInt['cust_phone1'].length > 10) {
+            if (fieldsInt['cust_phone1'].length < 10 || fieldsInt['cust_phone1'].length > 15) {
                 errorsInt['cust_phone1'] = 'Invalid Phone Number';
             }
         }
 
         if (fieldsInt['cust_phone2'] !== '' && fieldsInt['cust_phone2'] !== undefined) {
-            if (fieldsInt['cust_phone2'].length < 10 || fieldsInt['cust_phone2'].length > 10) {
+            if (fieldsInt['cust_phone2'].length < 10 || fieldsInt['cust_phone2'].length > 15) {
                 errorsInt['cust_phone2'] = 'Invalid Phone Number';
             }
         }
@@ -894,8 +919,8 @@ class AddCustomer extends Component {
         let addCustIntData = {
             'ClientID': '0101:0169:04042018:033639', /* Hardcoded, to be removed */
             'ClientTypeID': '1000', /* Hardcoded, to be removed */
-            'SourceApp': 'CMOS', /* Hardcoded, to be removed */
-            'SourceLoc': 'NM-DIRECT', /* Hardcoded, to be removed */
+            'SourceApp': 'MPOS', /* Hardcoded, to be removed */
+            'SourceLoc': '', /* Hardcoded, to be removed */
             'CFirstName': this.state.fieldsInt['cust_fname'],
             'CLastName': this.state.fieldsInt['cust_lname'],
             'Salutation ': this.state.selectedSalutationInt,
@@ -906,10 +931,10 @@ class AddCustomer extends Component {
             'Zip5': this.state.fieldsInt['int_cust_postal_code'],
             'CEmail': this.state.fieldsInt['cust_email'],
             'Country': this.state.selectedCountry,
-            'CPhone': (this.state.fieldsInt['cust_phone1'] !== '' && this.state.fieldsInt['cust_phone1'] != undefined && this.state.fieldsInt['cust_phone1'] != null) ? formatPhoneint(this.state.fieldsInt['cust_phone1']) : undefined,
+            'CMobile': (this.state.fieldsInt['cust_phone1'] !== '' && this.state.fieldsInt['cust_phone1'] != undefined && this.state.fieldsInt['cust_phone1'] != null) ? formatPhoneint(this.state.fieldsInt['cust_phone1']) : undefined,
             'COther': (this.state.fieldsInt['cust_phone2'] !== '' && this.state.fieldsInt['cust_phone2'] != undefined && this.state.fieldsInt['cust_phone2'] != null) ? formatPhoneint(this.state.fieldsInt['cust_phone2']) : undefined,
-            'storeClientNo': '10000000257', /* Hardcoded, to be removed */
-            'storeAssoc':this.props.login.userpin, /* Hardcoded, to be removed */
+            'storeClientNo': '', /* Hardcoded, to be removed */
+            'storeAssoc': this.props.login.userpin, /* Hardcoded, to be removed */
             'donotcall ': this.state.cust_text_opt,
             //'flagByPASS': bypassFlag
             'flagByPASS': "true"
@@ -1025,8 +1050,8 @@ function isObjectEmpty(obj) {
     return true;
 }
 
-function mapStateToProps({ addCustomer, customerSearch , login }) {
-    return { addCustomer, customerSearch, login };
+function mapStateToProps({ addCustomer, customerSearch, home, login }) {
+    return { addCustomer, customerSearch, salutationData: home.salutationData, login };
 }
 
 function mapDispatchToProps(dispatch) {

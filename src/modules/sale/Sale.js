@@ -16,10 +16,10 @@ export class Sale extends Component {
     constructor(props)
     {
         super(props);
-        this.inCircleInfo = require("../../resources/stubs/cust-incircleinfo.json");
-        this.inCircleDetails = require("../../resources/stubs/incircleConfig.json");
-        this.data = this.inCircleDetails.data;
-        this.currentlvl = this.inCircleInfo.currentlvl;
+        // this.inCircleInfo = require("../../resources/stubs/cust-incircleinfo.json");
+        // this.inCircleDetails = require("../../resources/stubs/incircleConfig.json");
+        // this.data = this.inCircleDetails.data;
+        // this.currentlvl = this.inCircleInfo.currentlvl;
 
         this.state = {
             isSkip: this.props.otherPageData.isSkip,
@@ -31,7 +31,7 @@ export class Sale extends Component {
             city: (this.props.otherPageData.details && this.props.otherPageData.details.city) ? (this.props.otherPageData.details.city + ',') : '',
             state: this.props.otherPageData.details ? this.props.otherPageData.details.state : '',
             zip: this.props.otherPageData.details ? this.props.otherPageData.details.zip : '',
-            currentLvl: this.props.incircleData ? this.props.incircleData.data.lyBenefitLevelCode: '0'        
+            currentLvl: this.props.incircleData ? this.props.incircleData.data.lyBenefitLevelCode: ''        
         }
     }
 

@@ -1,38 +1,35 @@
 // Dependencies
-import React, { Component } from 'react';
-
-//redux
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {itemsSelectedAction, itemSelectedAction } from '../../../../common/cartRenderer/actions';
+import React, { Component, Fragment } from 'react';
 
 import './itemsToBeShipped.css';
 
 import CartRenderer from '../../../../common/cartRenderer/cartRenderer';
 
-class ItemsToBeShippedView extends Component {
+export default class ItemsToBeShippedView extends Component {
     render() {
-        console.log('Sweezey : itemsToBeShippedView.js', this.props.items);
+        const ServicesFooter = this.props.optionalFooter;
+        
         return (
-            
-            <CartRenderer
-                items={this.props.items}
-                setCurrentItem = {(itemNumber,itemPrice,itemSku,selectedItem,index) => this.props.itemsSelectedAction(selectedItem)}
-            />
-            // <div>this is bob</div>
+            <Fragment>
+                <CartRenderer
+                    items={this.props.items}
+                    selectedItems={this.props.selectedItems}
+                    setCurrentItem = {this.props.setCurrentItem}
+                />
+
+                <ServicesFooter additionalStyle='sendComponent-offset'>
+                    <div  className="giftwrap-cancel" onClick={this.props.navigate}><span className="giftwrap-cancel-text">Cancel</span></div>
+                        <div className="giftwrap-next" 
+                        onClick={() => {
+                                this.props.updateObjectHandler("ItemList",this.props.getItemDetails());
+                                this.props.componentChangeHandler("sendweightchart") 
+                            }}>
+                    <span className="giftwrap-next-text">Next</span></div>
+                </ServicesFooter>
+            </Fragment>
         );
     }
 
-    
 }
 
 
-const mapDispatchToProps = (dispatch)  => {
-    return bindActionCreators(
-        {
-          itemsSelectedAction,
-          itemSelectedAction
-        }, dispatch)
-  }
-
-  export default connect(null, mapDispatchToProps)(ItemsToBeShippedView);

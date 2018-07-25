@@ -5,11 +5,10 @@
   }
   /* Sub-subheader */
 
-  .email-receipt-modal.clientele-modal
-  {
+  .email-receipt-modal.clientele-modal {
     height: 575px !important;
   }
-  
+
   .payment-page-content {
     width: 1920px;
     height: 901px;
@@ -113,12 +112,12 @@
   .amountInputForm {
     display: flex;
     visibility: visible;
-  } 
-  .hide{
+  }
+  .hide {
     display: none;
     visibility: hidden;
   }
-  
+
   .amountLabel {
     width: 100%;
     font-family: Roboto;
@@ -133,7 +132,10 @@
     padding-right: 35px;
   }
 
-
+  .type-Number {
+    width: 850px;
+  }
+  
   .payment-cardNumber {
     font-family: Roboto;
     font-size: 34px;
@@ -146,6 +148,7 @@
     color: #333333;
     padding-left: 43px;
     padding-right: 43px;
+    width: inherit;
   }
 
   .inputAmount {
@@ -204,7 +207,7 @@
     color: #51515b;
     margin-bottom: 43px;
     padding-left: 47px;
-    }
+  }
 
   .gift-cards {
     width: 200px;
@@ -220,7 +223,7 @@
     text-align: center;
     color: #0a6962;
     margin-top: 33px;
-    margin-left:40px;
+    margin-left: 40px;
   }
   .keypad {
     width: 70px;
@@ -370,9 +373,6 @@
     padding-bottom: 23px;
   }
 
-
-  
-
   .payment-tblText {
     padding-right: 119px;
     width: 89px;
@@ -388,7 +388,7 @@
     color: #51515b;
     text-align: right;
     display: table-cell;
-    }
+  }
   .payment-tblValue {
     width: 126px;
     height: 27px;
@@ -419,22 +419,17 @@
     display: table-cell;
     text-align: left;
     padding-left: 51px;
-    }
+  }
 
-    .right-content-footer {
-      /* bottom: 0; 
+  .right-content-footer {
+    /* bottom: 0; 
     position: absolute;*/
-      width: 986.2px;
-      height: 200px;
-      background-color: #ffffff;
-      box-shadow: 0 -4px 8px 0 rgba(0, 0, 0, 0.16);
-      /* float: right; */
-    }
-
-
-   
-  
-
+    width: 986.2px;
+    height: 200px;
+    background-color: #ffffff;
+    box-shadow: 0 -4px 8px 0 rgba(0, 0, 0, 0.16);
+    /* float: right; */
+  }
 
   .payment-tblTotalValue {
     width: 235px;
@@ -506,7 +501,6 @@
     -ms-touch-action: none;
   }
 
-
   .enterSignatureLabel {
     width: 100%;
     height: 38px;
@@ -573,10 +567,8 @@
   }
   .email-receipt-modal .add-dom-cust-modal-no-btn-label {
     width: 109.5px;
-
   }
-  .email-receipt-modal .emailbtns
-  {
+  .email-receipt-modal .emailbtns {
     width: 180px !important;
   }
   .payment-cancel-btn-cross-icon {
@@ -760,7 +752,6 @@
     text-align: left !important;
     color: #333333 !important;
     top: 15px !important;
-
   }
   .lname-receipt-input label {
     font-family: Roboto !important;
@@ -773,7 +764,6 @@
     text-align: left !important;
     color: #333333 !important;
     top: 15px !important;
-
   }
   .lname-receipt-input input {
     font-family: Roboto !important;
@@ -809,7 +799,7 @@
     color: #333333 !important;
     top: 15px !important;
   }
-  .fname-receipt-input:hover >label {
+  .fname-receipt-input:hover > label {
     font-family: Roboto !important;
 
     font-size: 24px !important;
@@ -820,7 +810,6 @@
     text-align: left !important;
     color: #333333 !important;
     top: 15px !important;
-
   }
   .fname-receipt-input input {
     font-family: Roboto !important;
@@ -893,17 +882,17 @@
     justify-content: center;
     padding-top: 60px;
   }
-  .emailErrorBanner{
-    position: absolute; 
-   z-index: 2;      
-   width: 727px;
-   height: 50px;
-   background-color: #a31818;
-   color: #ffffff;
-   font-size: 21px;
-   left: -1px;
-   top: -1px;
-}
+  .emailErrorBanner {
+    position: absolute;
+    z-index: 2;
+    width: 727px;
+    height: 50px;
+    background-color: #a31818;
+    color: #ffffff;
+    font-size: 21px;
+    left: -1px;
+    top: -1px;
+  }
 
   /* Print Receipt Modal */
   .print-receipt-input {
@@ -911,7 +900,7 @@
     margin: 0 auto !important;
     height: 80px !important;
   }
-  .print-receipt-input input{
+  .print-receipt-input input {
     top: 20px;
   }
 
@@ -956,6 +945,114 @@
   .productCount {
     display: none !important;
   }
+
+  .card-auth-modal {
+    width: 725px !important;
+    height: 800px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;  
+  }
+  .card-auth-icon {
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 76px;
+  }
+  .card-auth-label {
+    /* width: 294px;
+    height: 43px; */
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    /* margin: 0 auto; */
+    /* margin-bottom: 26px; */
+    margin-top: 26px;
+  }
+  .card-auth-textfield {
+    width: 625px !important;
+    margin:0 50px 20px 50px;
+
+  }
+  .card-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+ 
+  .card-info-label {
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: right;
+    color: #333333;
+    margin-bottom: 10px;
+  }
+  .card-info-data {
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #333333;
+    margin-bottom: 10px;
+  }
+  .card-auth-button-container {
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    margin-top: 40px;
+  }
+  .card-auth-button-cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #613b8c;
+    margin-right: 40px;
+  }
+  .card-auth-button-ok {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #ffffff;
+  }
+
 }
 
 /* for portraint mode */
@@ -971,7 +1068,7 @@
     font-size: 31px;
     left: 185px;
     color: #e27272;
-}
+  }
   .payment-header {
     width: 1080px;
     height: 130px;
@@ -1499,19 +1596,16 @@
     border-radius: 50%;
     margin-top: 40px;
   }
-  .email-receipt-modal .cross-icon-border
-{
-  margin-top: 1px;
-  MARGIN-LEFT: 28px;
-}
-.email-receipt-modal .payment-cancel-btn-cross-icon {
- 
-  margin-left: 1px;
-}
-.clientele-modal .add-dom-cust-modal-email-button-area 
-{
-  margin-top: 69px !important;
-}
+  .email-receipt-modal .cross-icon-border {
+    margin-top: 1px;
+    margin-left: 28px;
+  }
+  .email-receipt-modal .payment-cancel-btn-cross-icon {
+    margin-left: 1px;
+  }
+  .clientele-modal .add-dom-cust-modal-email-button-area {
+    margin-top: 69px !important;
+  }
 
   .payment-cancel-btn-cross-icon {
     height: 23px;
@@ -1618,7 +1712,6 @@
     text-align: center;
     color: #333333;
     margin-top: 52px;
-
   }
   .add-dom-cust-modal-email-button-area {
     width: 100%;
@@ -1629,23 +1722,23 @@
     /*position: absolute;*/
     justify-content: center;
   }
-.add-dom-cust-email-verify-modal-name{
-  width: 100%;
+  .add-dom-cust-email-verify-modal-name {
+    width: 100%;
     height: fit-content;
-  font-family: Roboto;
-  font-size: 74px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.18;
-  letter-spacing: normal;
-  text-align: center;
-  color: #333333;
-  margin: 0 auto;
+    font-family: Roboto;
+    font-size: 74px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.18;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     padding-bottom: 87px;
-}
+  }
   .add-dom-cust-modal-icon {
     width: 300px;
     height: 300px;
@@ -1715,7 +1808,7 @@
   }
   .modalContainer.fanme-modal-text {
     padding-top: 74px !important;
-}
+  }
   .lname-receipt-input label {
     height: 63px !important;
     font-family: Roboto !important;
@@ -1728,7 +1821,6 @@
     text-align: left !important;
     color: #333333 !important;
     top: -10px !important;
-
   }
   .lname-receipt-input:hover label {
     height: 63px !important;
@@ -1752,7 +1844,7 @@
     line-height: 1.19 !important;
     text-align: left !important;
     color: #333333 !important;
-    top:0 !important;
+    top: 0 !important;
   }
   .modalContainer {
     width: 738px !important;
@@ -1906,17 +1998,17 @@
     margin-left: 50px;
   }
 
-  .emailErrorBanner{
-    position: absolute; 
-   z-index: 2;      
-   width: 892px;
-   height: 105px;
-   background-color: #a31818;
-   color: #ffffff;
-   font-size: 21px;
-   left: -1px;
-   top: -1px;
-}
+  .emailErrorBanner {
+    position: absolute;
+    z-index: 2;
+    width: 892px;
+    height: 105px;
+    background-color: #a31818;
+    color: #ffffff;
+    font-size: 21px;
+    left: -1px;
+    top: -1px;
+  }
 
   /* Print Receipt Modal */
   .add-dom-cust-container {
@@ -2148,25 +2240,20 @@
   .add-dom-cust-modal.email-receipt-modal.clientele-modal {
     height: 1200px !important;
   }
-  .email-receipt-modal .modalContainer
-{
-  padding-bottom: 64px !important;
-}
+  .email-receipt-modal .modalContainer {
+    padding-bottom: 64px !important;
+  }
 
-.clientele-modal .modalContainer.email-modal-text
-{
-  padding-top: 93px !important;
-  padding-bottom: 64px !important;
-  
-}
+  .clientele-modal .modalContainer.email-modal-text {
+    padding-top: 93px !important;
+    padding-bottom: 64px !important;
+  }
 }
 .payment-custom-overlay {
   background: none !important;
 }
 
-
 /* Manju' changes*/
-
 
 .advance-deposit {
   width: 280px;
@@ -2186,23 +2273,19 @@
   margin-top: 33px;
 }
 
-
 .right-content-footer table {
   width: 100%;
-    height: 100%;
-    margin-top: 36.5px;
-    border-spacing: 20px;
-    /* padding-bottom: 23px; */
+  height: 100%;
+  margin-top: 36.5px;
+  border-spacing: 20px;
+  /* padding-bottom: 23px; */
 }
-
 
 .modalContainer.email-modal-text {
   margin-bottom: 0;
   padding-bottom: 0 !important;
-
 }
 
-.email-receipt-modal .modalContainer  input
-{
+.email-receipt-modal .modalContainer input {
   margin-left: 10px;
 }

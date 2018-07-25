@@ -71,7 +71,7 @@ class VerifyCustomerDomestic extends React.Component{
             'Country': 'US',
             'CMobile': this.props.changedAddress['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, ""),
             'storeClientNo': '10000000257',
-            'storeAssoc': '209289',
+            'storeAssoc': this.props.login.userpin,
             'donotcall ': this.props.cust_text_opt,            
             'flagByPASS': this.props.bypassFlag
         }
@@ -239,8 +239,8 @@ class VerifyCustomerDomestic extends React.Component{
     }
 }
 
-function mapStateToProps({ updateCustomer }) {
-    return { updateCustomer };
+function mapStateToProps({ updateCustomer, login }) {
+    return { updateCustomer, login };
 }
 
 function mapDispatchToProps(dispatch) {

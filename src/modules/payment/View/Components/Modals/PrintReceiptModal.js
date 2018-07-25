@@ -12,11 +12,13 @@ export class PrintReceiptModal extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {inputVal:""}
 
     }
 
-    componentDidMount() {}
+    handleChange=(e)=>{
+        this.setState({inputVal:e.target.value})
+    }
 
     render() {
         return (
@@ -34,7 +36,8 @@ export class PrintReceiptModal extends Component {
                     <TextField
                         type="telephone"
                         hintText="Enter Register ID"
-                        className="print-receipt-input"/>
+                        className="print-receipt-input"
+                        onChange={(e)=> this.handleChange(e) }/>
                     <div className='add-dom-cust-modal-email-button-area'>
                         <div
                             className='payment-signature-modal-cancel-btn'
@@ -44,7 +47,7 @@ export class PrintReceiptModal extends Component {
                         </div>
                         <div
                             className='add-dom-cust-modal-yes-btn printbtnConfirm'
-                            onClick={this.props.props.printReceipt}>
+                            onClick={()=>this.props.props.printReceipt(this.state.inputVal)}>
                             <span className='add-dom-cust-modal-yes-btn-label lff-btn'>OK</span>
                         </div>
                     </div>

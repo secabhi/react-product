@@ -96,8 +96,8 @@
     text-align: right;
     color: #51515b; 
     position: absolute;
-    margin-top: 2%;
-    margin-left: 20%;
+    margin-top: 25px;
+    margin-left: 360px;
     padding-top: 30px;
 }
 
@@ -147,7 +147,8 @@
         line-height: 1.3;
         text-align: left;
         color: #333333;
-        margin-left: 13px;
+        position: fixed;
+        right: 896px;
 }
 
 .viewMoreClass .payment-button{

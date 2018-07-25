@@ -24,7 +24,7 @@
 }
 .item-color-size-Spacing{
     /*margin-left: 20px; */
-    width: 156px;
+    width: 235px;
     margin-top: 5px;
 }
 .sku-text {
@@ -114,7 +114,7 @@
 }
 
 .item-category {
-    width: 162px;
+    /* width: 162px; */
     height: 37px;
     font-family: Roboto;
     font-size: 28px;
@@ -343,7 +343,7 @@
 
 .item-tax-amount {
     height: 30px;
-    margin-left: 20px; 
+    margin-left: 66px; 
     font-family: Roboto;
     /* font-size: 23px; */
     font-weight: normal;
@@ -399,8 +399,8 @@
 
 .item-discount-percent-spacing-tax{
     display: initial;
-    margin-right: 37px;
-    margin-left: 177px;
+    margin-right: 89px;
+    margin-left: 87px;
 }
 
 .saleContent-card-large{

@@ -50,7 +50,7 @@ let carouselSettingsRecommendedProducts = {
   dots: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 7,
+  slidesToShow: 5,
   slidesToScroll: 1,
 };
 
@@ -67,6 +67,7 @@ let carouselSettingsPurchaseHistory = {
 };
 
 const PurchaseSlider = (props) => {
+  console.log('Sweezey: CustomerDetailsView props', props);
   let slides = [];
   if(props.purchases) {
     slides = props.purchases.map((product, index) => {
@@ -79,6 +80,8 @@ const PurchaseSlider = (props) => {
           return={product.return}
           mySale={product.mySale} 
           displayModal={props.displayModal}
+          userPin={props.userPin}
+          salesPin={product.associatePin}
         />
       )
     })
@@ -103,6 +106,8 @@ const RecommendationSlider = (props) => {
           vendor={product.vendor}
           proddesc={product.proddesc} 
           displayModal={props.displayModal}
+          navigateToProductDummy={props.navigateToProductDummy}
+
         />   
      )
     })
@@ -185,7 +190,7 @@ export class CustomerDetailsView extends Component {
           </div>
         </div>
         <div className="cusdet-tab-area">
-            <Tabheader history={this.props.history} customerName={this.props.profileData.cust_dom_fname}></Tabheader>
+            <Tabheader history={this.props.history} customerName={this.props.profileData.cust_dom_fname} reminderCount={this.props.remindersCount}></Tabheader>
             <div className="cusdet-tab-content">
               <div className="content-left-part">
                 <Details profileData={this.props.profileData} navigateToViewEditCustomer = {this.props.navigateToUpdateCustomer}/> 
@@ -195,7 +200,7 @@ export class CustomerDetailsView extends Component {
                     
                   </div>
                   <div className="recommended-prod-carousel">
-                     <RecommendationSlider recommendations={this.props.customerDetails.test} displayModal={(index) => this.props.displayRecommendsModal(index)} />
+                     <RecommendationSlider recommendations={this.props.customerDetails.recommendations} displayModal={(index) => this.props.displayRecommendsModal(index)} navigateToProductDummy={this.props.navigateToProductDummy} />
                   </div>
                   </div>
                   <div className="content-left-last-shopped-section">
@@ -208,10 +213,10 @@ export class CustomerDetailsView extends Component {
                     <div>Purchase History</div>
                   </div>
                   <div className="purchase-history-carousel">
-                    <PurchaseSlider purchases={this.props.customerDetails.purchases} displayModal={(index) => this.props.displayHistoryModal(index)} />
+                    <PurchaseSlider userPin={this.props.userPin} purchases={this.props.customerDetails.purchases} displayModal={(index) => this.props.displayHistoryModal(index)} />
                   </div>
                 </div>
-              </div>
+              </div>          
           </div>
         </div>
        <Footer />

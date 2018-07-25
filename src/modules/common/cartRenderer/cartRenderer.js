@@ -31,11 +31,14 @@ class CartRenderer extends Component{
             border: '2px solid #a87ed6'
         }
 
+        //get all selected Items lineNumbers will used to set selected style(see below code)
+        const allSelectedLineNumbers = this.props.selectedItems.map( index => {return this.props.items[index][0].lineNumber});
+        console.log('Sweezey : allSelectedLineNumber', allSelectedLineNumbers);
         //const selectedItemStyle = this.state.selected ? itemStyle : null;
         //Create array of items to display
         const items = this.props.items.map((itemGroup, pointer) => {
             return  itemGroup.map((obj, index) => {
-                let isCurrentSelection = this.props.selectedItems.includes(obj.lineNumber);
+                let isCurrentSelection = allSelectedLineNumbers.includes(obj.lineNumber);
                 let selectedItemStyle = isCurrentSelection ? itemStyle : null;
                 let selectedItemIndexStyle = isCurrentSelection ? selectedIndexStyle : null;
                 let qtyPrice = parseFloat(obj.itemPrice * obj.quantity).toFixed(2);

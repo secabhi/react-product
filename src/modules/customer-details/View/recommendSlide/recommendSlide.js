@@ -12,7 +12,7 @@ export default (props) =>{
       imageURL=noImageAvailable
     }
     return(
-    <div className='recommendSlide' onClick={() => props.displayModal(props.index)}>
+    <div className='recommendSlide' onClick={() => props.navigateToProductDummy()}>
         <img src={imageURL} className='img' alt={imageURL} />
         <div className='img-details'>
             <div className='brand'>{props.vendor}</div>

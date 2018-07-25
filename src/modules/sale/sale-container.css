@@ -261,7 +261,7 @@
     width: 725px;
     padding: 0px ! important;
 }
-
+/*----SFF--*/
 @media only screen and (max-width: 1900px){    
 
     .void-line-confirm-modal-container {
@@ -311,4 +311,26 @@
 .search-field-style {
     height: 85px ! important;
     max-height: 85px ! important;
+}
+/*---LFF--*/
+@media only screen and (min-width: 1920px){
+.amount-to-be-entered-modal-container{
+    margin-top: 313px;
+    width: 725px;
+    height: 575px;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    }
+
+    /*---SFF--*/
+    @media only screen and (max-width: 1900px){ 
+        .amount-to-be-entered-modal-container{
+            margin-top: 247px;
+            width: 890px;
+            height: 1200px;
+            box-shadow: 0 3px 25px 0 rgba(0, 0, 0, 0.49);
+        }
+    }
+
+
 }

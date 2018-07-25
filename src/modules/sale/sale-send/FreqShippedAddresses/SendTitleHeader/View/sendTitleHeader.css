@@ -6,6 +6,15 @@
     /* border: 2px solid red; */
 }
 
+.Recipient{
+    display: flex;
+    align-items: inherit;
+    margin-top: 30px;
+    height: 40px;
+    width: 1910px;
+    /* border: 2px solid red; */
+}
+
 .send-title-header-text{
     height: 67px;
     /* width: 680px; */

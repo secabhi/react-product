@@ -19,12 +19,12 @@ export function updateCustomerAction(updateCustDomData) {
     const apiAddressAddURL = path+'apiAddressUpdate.json';
 
      var body = {
-          "FunctionalityId" : fnid,
+         // "FunctionalityId" : fnid,
           "RequestParams" : params
     }
       
      
-    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(apiAddressAddURL, {});
+    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, updateCustDomData):callGetWebService(apiAddressAddURL, {});
 
     return (dispatch) => {
         request.then(({
@@ -39,8 +39,9 @@ export function updateCustomerAction(updateCustDomData) {
                         ValidAddress: null
                     }
                 */
-               console.log(data.Output.Response_Code);
-               switch (data.Output.Response_Code) {
+               console.log('data.Output.Response_Code',data);
+               //debugger;
+               switch (data.response_text) {
 
                     case "CS_AV_SUCCESS":
                         {

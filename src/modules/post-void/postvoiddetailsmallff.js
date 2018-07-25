@@ -19,7 +19,7 @@ class PostVoidDetailssmallff extends Component {
         this.state = {}
     }
     postVoidInvoker = () => {
-        this.props.PostVoidCallInvoker();
+        this.props.PostVoidCallInvoker(this.props.login.userPin);
     }
 
     componentDidMount () {
@@ -108,7 +108,7 @@ class PostVoidDetailssmallff extends Component {
     }
 }
 function mapStateToProps(state) {
-    return { postvoid: state.postvoid, postvoidtransdetails : state.postvoidtransdetails };
+    return { postvoid: state.postvoid, postvoidtransdetails : state.postvoidtransdetails, login:state.login };
 }
 
  function mapDispatchToProps(dispatch) {

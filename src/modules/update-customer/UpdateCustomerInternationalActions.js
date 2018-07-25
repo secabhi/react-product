@@ -47,7 +47,7 @@ export function updateInternationalApi(updateCustDomData) {
         "FunctionalityId" : functionalityId,
         "RequestParams" : params
     }
-    const request =  env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(apiAddressAddURL, {});
+    const request =  env.ENV_MODE=='dev1'?callPostWebService(URL, updateCustDomData):callGetWebService(apiAddressAddURL, {});
     return (dispatch) => {
         request.then(({
                 data

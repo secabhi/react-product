@@ -4,7 +4,7 @@
     "apiAddressTransaction": "http://10.198.5.203:3009/api/Transactions/GetTransactionID",
     "emailReceipt": "http://10.198.5.203:3004/api/v1/emailreceipt",
     "apiAddressAdd": "http://10.198.5.203:4060/api/Customer/AddCustomer",
-    "apiAddressUpdate": "http://10.198.5.203:3000/api/v1/customer",
+    "apiAddressUpdate": "http://10.198.5.203:4060/api/Customer/UpdateCustomer",
     "initServiceURL": "http://10.198.5.203:3000/api/v1/init",
     "apiUpdateItemToCart": "http://10.198.5.203:3017/api/UpdateCart/UpdateItemtoCart/",
     "addCardURL": "http://10.198.5.203:4060/api/Card/AddCardDetails", 
@@ -19,7 +19,7 @@
     "apiSaleItemModifyQuantity": "http://10.198.5.203:4060/api/AddCart/UpdateQuantity",
     "giftRegistryURL": "http://10.198.5.203:4060/api/sale/AddGiftRegistry",
     "giftReceiptURL": "http://10.198.5.203:4060/api/sale/GiftReceipt",
-    "apiVerifySaleCustomer": "http://10.198.5.203:4060/api/Clientele/UpdateCustomer",
+    "apiVerifySaleCustomer": "http://10.198.5.203:4060/api/Clientele/ClienteleCustomer",
     "apiItemModifySpecialInstructions" :"http://10.198.5.203:4060/api/ItemModify/SpecialInstruction",
     "postVoidTransApi":"http://10.198.5.203:4060/api/Transactions/PostVoid",
     "apiGetGiftWrap": "http://10.198.5.203:4022/api/sale/GetGiftWrapCodes",
@@ -30,8 +30,19 @@
     "updatePriceURL" : "http://10.198.5.203:4060/api/AddCart/UpdatePrice",
     "postvoidTransDetails":"http://10.198.5.203:4060/api/Transactions/GetTransactionDetails",
     "postvoidGetTransList":"http://10.198.5.203:4060/api/Transactions/GetTransactionList",
-    "getClientteleURL":"http://10.198.5.203:4060/api/Clientele/UpdateCustomer",
+    "getClientteleURL":"http://10.198.5.203:4060/api/Clientele/ClienteleCustomer",
     "apiOptionSevenSend":"http://10.198.5.203:4060/Api/TransactionModify/SendFromOtheStore",
+    "apiDirectSendGetOptions": "http://10.198.5.203:4060/Api/ShippingOptions/DefaultShipping",
+    "apiDirectSend":"http://10.198.5.203:4060/Api/TransactionModify/DirectSend",
+    "completeTransaction": "http://10.198.5.203:4060/api/sale/CompleteTransaction",
+    "addTender": "http://10.198.5.203:4060/api/sale/AddTender",
+    "printReceipt":"http://10.198.5.203:3021/api/Print/PrintReceipt",
+    "getSalutationURL": "http://10.198.5.203:4060/api/Init/Salutations",
+    "getRemindersURL" : "http://10.198.5.203:4060/Api/Reminder/GetReminders",
+    "apiResumeEntry":"http://10.198.5.203:4060/Api/Transactions/resumeTran",
+    "apiResumeSelect":"http://10.198.5.203:4060/Api/Transactions/getSuspendedTrans",
+    "apiValidateDL": "http://10.198.5.203:4060/api/validation/ValidateDL",
+    "apiAddGiftCard": "http://10.198.5.203:4060/api/sale/AddGiftCard?regID=0216",
 
     "cxp": {
         "AppKey": "RVNCX01QT1NfRFBfQVBJS2V5OlRwcWVGTkRaV0Z6UTNsTlNVeFhkblFTVXRsZVRwWGRuUkJZMlpVWTJsM1MyaDBiR3BVU2tobQ==",
@@ -58,12 +69,13 @@
     "timeoutFuncId": "00.2",
 
     "clientConfig": {
-        "ClientID":"0010:0216:06082018:033639",
         "SourceApp":"MPOS",
         "SourceLoc":"NM-DIRECT",
+        "ClientID":"0010:0168:05092018:033639",
         "Store":"0010",
-        "Terminal":"0216",
+        "Terminal":"0168",
         "StoreAssoc":"209289"
+        
     }
 
 }

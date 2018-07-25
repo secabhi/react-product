@@ -17,7 +17,7 @@ export default class AlternateLineItems extends Component{
             (this.props.obj.quantity > 0) ? (<div className="saleContent-card-large">
             <div style={this.props.selectedItemStyle} className='item' key={this.props.obj.pim_SKU_ID + '-' + this.props.index}>
                 <div className={"item-extraDetail-container " + this.props.containerStyle} >
-                    <div className={'item-index-extra-line-items '+ this.props.indexStyle} >{this.props.index+1}</div>
+                    <div className={'item-index-extra-line-items '+ this.props.indexStyle} >{this.props.obj.lineNumber}</div>
                     <div className={"item-info-card-title "+ this.props.titleStyle}>
                         {this.props.title}
                     </div>

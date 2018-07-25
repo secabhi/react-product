@@ -1,5 +1,7 @@
 import {combineReducers} from 'redux';
 import {HomeReducer} from '../../home/HomeReducer';
+import {ResumeTransactionsReducer} from '../../resume/resume-services-transactions/ResumeTransactionsReducer';
+import {ResumeReducer} from '../../resume/resumeReducer'
 import {AddCustomerReducer} from '../../add-customer/BusinessLogic/AddCustomerReducer';
 import {FooterReducer} from '../../common/footer/FooterReducer';
 import {HeaderReducer} from '../../common/header/HeaderReducer';
@@ -35,12 +37,16 @@ import {AlterationReducer} from '../../sale/sale-services/sale-services-alterati
 import {AddCardReducer} from '../../add-card/addCardReducer';
 import EmailTrackingInfoReducer from '../../sale/sendModals/emailTrackingInfoReducer';
 import {OptionSevenSendReducer} from '../../sale/sale-send/OptionSeven/OptionSevenReducer';
+import {sendReducer} from '../../sale/sale-send/sendReducer';
+import {GiftCardReducer} from '../../sale/sale-giftcard/GiftCardReducer';
+import {RemindersReducer} from '../../reminders/remindersReducer';
 /* state-name: reducer-name where
     - 'state-name' is the name provided in mapStateToProps for that module
     - 'reducer-name' is the name of the reducer for that module (the name of the function exported)
 */
 const reducers = combineReducers({
     home: HomeReducer,
+    resumeTransaction:ResumeTransactionsReducer,
     addCustomer: AddCustomerReducer,
     footer: FooterReducer,
     header: HeaderReducer,
@@ -75,7 +81,11 @@ const reducers = combineReducers({
     alterationComplete: AlterationReducer,
     addCard : AddCardReducer,
     emailTrackingInfo: EmailTrackingInfoReducer,
-    optionSevenSend: OptionSevenSendReducer
+    optionSevenSend: OptionSevenSendReducer,
+    giftCard: GiftCardReducer,
+    send: sendReducer,
+    reminders : RemindersReducer,
+    resumered:ResumeReducer
 });
 
 export default reducers;

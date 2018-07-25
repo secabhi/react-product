@@ -6,9 +6,14 @@ export default class AddressCards extends Component {
     render() {
         return (
             <AddressCardsView 
-                name = {this.props.name}
+                firstName = {this.props.firstName}
+                lastName = {this.props.lastName}
+                city={this.props.cityName}
+                state={this.props.state}
+                zip={this.props.zip}
                 phoneNumber = {this.props.phoneNumber}
-                address = {this.props.address}
+                address1 = {this.props.address1}
+                address2 = {this.props.address2}
                 email = {this.props.email}
                 key={this.props.key}
                 index = {this.props.index}

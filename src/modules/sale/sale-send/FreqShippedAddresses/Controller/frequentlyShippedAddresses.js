@@ -15,6 +15,7 @@ export default class FrequentlyShippedAddresses extends Component {
         return (
             <FrequentlyShippedAddressesView 
                 componentChangeHandler={(value) => {this.props.componentChangeHandler(value)}}
+                customerDetails={this.props.customerDetails}
                 emailTrackingInfo={this.props.emailTrackingInfo}
                 moreCustomerData={this.props.moreCustomerData}
                 selectedAddress={this.state.selectedAddress}
@@ -24,6 +25,7 @@ export default class FrequentlyShippedAddresses extends Component {
                 lastName={this.props.lastName}
                 mobile={this.props.mobile}
                 email={this.props.email}
+                history={this.props.history}
             />
         )
     }

@@ -1,10 +1,10 @@
 .recommendSlide {
-    width: 167px !important;
-    height: 249px !important;
-    border : 1px solid black;
-    text-align: center;
-    margin-top: 20px;
-    margin-left: 18px;
+  width: 254px;
+  height: 290px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  background-color: #ffffff;
+  background-color: var(--white);
+  border: solid 1px #ededed;
   }
   
   .recommendSlide .img {
@@ -15,14 +15,15 @@
   }
 
   .recommendSlide .img-details {
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 300;
-  font-style: normal;
-  width: 137px;
-  height: 42px;
-  text-align: center;
-  margin: auto;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: normal;
+    width: 200px;
+    height: 42px;
+    text-align: left;
+    margin: auto;
+    word-break: break-word;
 }
 
 .img-details .brand {

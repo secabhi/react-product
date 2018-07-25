@@ -43,6 +43,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_SUCCESS,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -53,6 +54,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_INVALID_EMAIL,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -62,6 +64,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_MISSING_DETAILS,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -72,6 +75,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_GENERAL_ERROR,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -81,6 +85,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_INVALID_PHONE,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -90,6 +95,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_RECORD_NOT_ADDED,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 

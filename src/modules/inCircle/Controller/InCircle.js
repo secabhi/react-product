@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {custIncircleInfoRequest} from './incircleActions';
 import {incircleGiftCardRequest} from './incircleActions';
 import {store} from '../../../store/store';
+import { goToSalesPage } from '../../sale/SaleAction.js';
 
 // Components
 import {InCircleView} from '../View/InCircleView';
@@ -45,7 +46,11 @@ class InCircle extends Component {
         address2: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 1) ? profile.physicalAddresses[0].addressLines[1] : '',
         city: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].cityName : '',
         state: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '',
-        zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : ''        
+        zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '' ,
+        email:(profile.emailAddresses && profile.emailAddresses.length > 0) ? profile.emailAddresses[0].id : '',
+        mobile:(profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].rawValue : '',
+        otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].rawValue : ''
+           
       };
     }
     else {
@@ -76,7 +81,10 @@ class InCircle extends Component {
         address2: '',
         city: '',
         state: '',
-        zip: ''        
+        zip: ''   ,
+        email:'',
+        mobile:'',
+        otherMobile:''     
       };
       
     };
@@ -153,12 +161,13 @@ class InCircle extends Component {
 
   /*Navigate back home*/
   navigateBack = () => {
-    this
-      .props
-      .history
-      .push('/');
+    // this
+    //   .props
+    //   .history
+    //   .push('/');
+    this.props.history.push('/customer-search'); 
   }
-
+ 
   viewCards() {
     this.setState({showcardPage: true});
   }
@@ -176,6 +185,23 @@ class InCircle extends Component {
     this.setState({activeIcon: num, activebttn: "circleStatusbttn activebttn", activecircleNum: "circleNum activecircleNum", openModal: true, init: false});
   }
 
+
+  navigateToSale = () => {
+    this.props.goToSalesPage(false, {
+      salutation: this.state.salutation,
+      firstname: this.state.fname,
+      lastname: this.state.lname,
+      address1: this.state.address1,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip ,
+      address2: this.state.address2,
+      email: this.state.email,
+      mobile: this.state.mobile,
+      otherMobile: this.state.otherMobile,
+    });
+    this.props.history.push('/sale');
+  }
   render() {
     //console.log(this.props)
     //console.log(store.getState())
@@ -251,7 +277,8 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     custIncircleInfoRequest: (data) => dispatch(custIncircleInfoRequest(data)),
-    incircleGiftCardRequest: (data) => dispatch(incircleGiftCardRequest(data))
+    incircleGiftCardRequest: (data) => dispatch(incircleGiftCardRequest(data)),
+    goToSalesPage :    (flag,data)=> dispatch(goToSalesPage(flag,data))
   }
 }
 

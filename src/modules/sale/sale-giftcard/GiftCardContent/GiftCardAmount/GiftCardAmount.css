@@ -1,0 +1,61 @@
+.giftcard-amount-container {
+    display: flex;
+    flex-direction: column;
+    width: 1920px;
+    height: 705px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+    overflow-y: auto;
+}
+
+.giftcard-amount-label {
+    display: flex;
+    flex-direction: row;
+    margin: 80px 0 0 50px;
+}
+
+.giftcard-amount-text {
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+
+.giftcard-amount-data {
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 35px;
+}
+
+.giftcard-amount-textfield {
+    width: 553px !important;
+    margin: 80px 0 0 50px;
+}
+
+
+
+
+/* ---------- SMALL FORM FACTOR ---------- */
+@media only screen and (max-width: 1080px) {
+    .giftcard-amount-container {
+        width: 1080px;
+        height: 1095px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+        overflow: scroll;  
+        display: flex;
+        flex-direction: column;
+    }
+}

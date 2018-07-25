@@ -3,12 +3,15 @@ const initialState = {
     addressValidationSuccessFlag : false,
     verifyAddressFlag : false,
     invalidPhone : false,
+    isUpdateSuccess  :false, 
     errors : [],
     countryList:[],
-    profileData: {}
+    profileData: {},
+    storeClientNumber:""
 };
 
 export function ViewEditCustomerReducer(state, action) {
+ 
     switch (action.type) {
         case 'COUNTRY_LIST_RETRIEVED_VIEW_EDIT': {
             return {
@@ -19,7 +22,8 @@ export function ViewEditCustomerReducer(state, action) {
                 countryList : action.payload,
                 errors : [],
                 isCountryList : true,
-                isProfileData : false
+                isProfileData : false,
+                isUpdateSuccess : false
             };
         }
         case 'UPDATE_CUST_SUCCESS': {
@@ -28,7 +32,8 @@ export function ViewEditCustomerReducer(state, action) {
                 successModalFlag: true,
                 addressValidationSuccessFlag: false,
                 clienteleUpdateFlag: action.payload.ClienteleUpdateFlag,
-                errors : []
+                errors : [],
+                isUpdateSuccess : false
             };
         }
 
@@ -41,9 +46,23 @@ export function ViewEditCustomerReducer(state, action) {
                 errors : [],
                 profileData : action.payload,
                 isCountryList : false,
-                isProfileData : true
+                isProfileData : true,
+                isUpdateSuccess : false
             };
         }
+        // case "STORE_CLIENT_REQ_SUCCESS":
+        //     {
+        //         return {
+        //             ...state,
+        //             storeClientNumber:action.payload.storeClientNo,
+        //             response: action.payload,
+        //             successModalFlag: false,
+        //             clienteleUpdateFlag: false,
+        //             addressValidationSuccessFlag: false,
+        //             isUpdateSuccess : true
+                   
+        //         }
+        //     }
 
         default:
             return {
@@ -55,7 +74,8 @@ export function ViewEditCustomerReducer(state, action) {
                 errors : [],
                 profileData: {},
                 isCountryList : false,
-                isProfileData : false
+                isProfileData : false,
+                isUpdateSuccess : false
             };
     }
 }

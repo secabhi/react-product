@@ -14,12 +14,14 @@ import { callPostWebService, callGetWebService } from '../common/helpers/helpers
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setCurrnetItem, priceActions, addItemsRequest, addItemsSuccess, addItemsFailure, voidLineItemAction, applyTransDiscountToCart, applyAssociateDiscountToCart, getPromotionsAction, modifyPriceAction } from './SalesCartAction';
-import {goToSendPage} from './SaleAction';
+import { goToSendPage } from './SaleAction';
 import { itemSelectedAction } from '../common/cartRenderer/actions';
 import { getTransactionId } from '../home/HomeSelector';
 import { SaleItemReplenishment } from './sale-item-replenishment/sale-item-replishment';
-import { AddSkuModal, SearchModal, MaxItemCountModal, WarningCountModal, ScannerNotDockedModal, VoidLineConfirmModal, ModifyPriceModal, TaxAttemptModal, ManagerApprovalModal, ModifyPriceErrorModal } from './modal-component/modalComponent';
+import { AddSkuModal, SearchModal, MaxItemCountModal, WarningCountModal, ScannerNotDockedModal, VoidLineConfirmModal, ModifyPriceModal, TaxAttemptModal, ManagerApprovalModal, ModifyPriceErrorModal, AmountToBeEnteredModal } from './modal-component/modalComponent';
 import TransDiscountModal from './transModifiy/transDiscount/transDiscount';
+import { store } from '../../store/store';
+
 import { TransTaxExempt, TransTaxExemptSFF } from './transModifiy/trans-tax-exempt/transTaxExempt';
 import { transTaxExemptUpdate } from './transModifiy/trans-tax-exempt/transTaxExemptActions'
 import AssociateDiscountModal from './transModifiy/associateDiscount/associateDiscount';
@@ -48,11 +50,12 @@ import SelectItemCartRenderer from '../common/cartRenderer/SelectItemCartRendere
 
 import salesCartReformater from './helpers/salesCartReformater';
 import { productImgSearchAction } from '../product-search/ProductSearchAction';
-import {productSearchAction} from '../product-search/ProductSearchAction';
+import { productSearchAction } from '../product-search/ProductSearchAction';
 // import { SelectDeptModal } from './modal-component/modalComponent';
 
 
 import './sale-container.css';
+
 //import { config } from '../../../../platforms/windows/cordova/node_modules/shelljs/src/common';
 //import { DEFAULT_PARSER } from '../../../../platforms/windows/cordova/node_modules/elementtree/lib/constants';
 
@@ -68,9 +71,9 @@ class SaleContainer extends Component {
       spliterror2: '',
       sale_errorModal: false,
       sku_errorModal: false,
+      replenishClientOpen: false,
       userPin1: '',
       userPin2: '',
-      login:'',
       items: [],
       currentPopup: '',
       modify_type: '',
@@ -145,16 +148,17 @@ class SaleContainer extends Component {
       modifyPriceFieldValue: '',
       modifyPriceError: '',
       saleItemModifyPriceSFFValue: '',
-      sendOptionSelected: false,      
-      associatetranserrormodal:false,
-      AssociateDiscountAlreadyAppliedModal:false,
-      discountalreadyapplied:'No More Discounts Allowed'
+      sendOptionSelected: false,
+      associatetranserrormodal: false,
+      AssociateDiscountAlreadyAppliedModal: false,
+      discountalreadyapplied: 'No More Discounts Allowed',
+      amount_to_be_entered_modal: false
     }
 
     this.SALES_TAX = .08000;
     this.saleCartJson = require("../../resources/stubs/sale-cart-items.json");
-    this.MAX_ITEM_COUNT =this.saleCartJson.MAX_ITEM_COUNT;
-    this.WARNING_COUNT=this.saleCartJson.WARNING_COUNT;
+    this.MAX_ITEM_COUNT = this.saleCartJson.MAX_ITEM_COUNT;
+    this.WARNING_COUNT = this.saleCartJson.WARNING_COUNT;
   }
 
   handleChangedropdownColor = (type) => {
@@ -172,6 +176,13 @@ class SaleContainer extends Component {
       registryCLickStyle: ''
     })
   }
+
+  componentWillMount() {
+    if (this.props.cart.getISellData !== '') {
+      this.props.startSpinner(true);
+    }
+  }
+
   componentDidMount() {
     console.log("COMP DID MOUNT SALECONTAINER: ", this.props);
     const { cartItems, subTotal, totalTax, total, transactionId } = this.props.cart.data
@@ -189,82 +200,107 @@ class SaleContainer extends Component {
       this.setState({ transactionId: this.props.transactionId })
     }
 
-    if(this.props.cart.getISellData !== '') {
-      var skuId = this.props.cart.getISellData.itemDetailsList[0].pimSkuId;
-      this.retrieveSku(skuId);
+    if (this.props.cart.getISellData !== '') {
+      //this.props.startSpinner(true);
+      var i;
+      var skuIdmultiple = [];
+      for (i = 0; i < this.props.cart.getISellData.itemDetailsList.length; i++) {
+        skuIdmultiple[i] = this.props.cart.getISellData.itemDetailsList[i].pimSkuId;
+      }
+      console.log("Multiple SkuID's", skuIdmultiple);
+      this.retrieveSkuMultiple(skuIdmultiple);
     }
   }
+  amount_to_be_inserted_modal = (flag) => {
 
+    this.setState({ amount_to_be_entered_modal: flag });
+  }
   componentWillReceiveProps(nextProps) {
     let errors = {};
-    console.log('nextPropsinsidesalecontainer',nextProps);
-    console.log('type'+nextProps.cart.dataFrom);
-    this.setState({scrollCheck:false });
+    console.log('props in container', this.props);
+    console.log('type' + nextProps.cart.dataFrom);
+    this.setState({ scrollCheck: false });
+
+
     //do we need product images
-    if(nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
+    if (nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
+      //const multiImageTest = {updated: false, imageUrls: {401052070933:'',401014934152:'',401058977854:'',401015154958:''}}
+      //this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
+      //this.props.productImgSearchAction(multiImageTest.imageUrls);
+      this.props.startSpinner(true);
       this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
     }
     //check for transaction id in redux
-    if(nextProps.cart.dataFrom === 'SC_INVALIDPIN1'){
-            errors["spliterror1"] = "Pin1 is Invalid"
-           this.props.startSpinner(false);
+    if (nextProps.cart.dataFrom === 'SC_INVALIDPIN1') {
+      errors["spliterror1"] = "Pin1 is Invalid"
+      this.props.startSpinner(false);
     }
-    else if(nextProps.cart.dataFrom === 'SC_INVALIDPIN2')
-    {
-            errors["spliterror2"] = "Pin2 is Invalid"
-            this.props.startSpinner(false);
+    else if (nextProps.cart.dataFrom === 'SC_INVALIDPIN2') {
+      errors["spliterror2"] = "Pin2 is Invalid"
+      this.props.startSpinner(false);
     }
-    else if(nextProps.cart.dataFrom === 'SC_INVALIDPINS')
-    {
-            errors["spliterror1"] = "Pin1 is Invalid"
-            errors["spliterror2"] = "Pin2 is Invalid"
-            this.props.startSpinner(false);
+    else if (nextProps.cart.dataFrom === 'SC_INVALIDPINS') {
+      errors["spliterror1"] = "Pin1 is Invalid"
+      errors["spliterror2"] = "Pin2 is Invalid"
+      this.props.startSpinner(false);
     }
-    else if(nextProps.cart.dataFrom === 'GIFTREGISTRY_FAIL')
-    {
-            this.setState({cart_errorModal:true})
-            this.props.startSpinner(false);
+    else if (nextProps.cart.dataFrom === 'GIFTREGISTRY_FAIL') {
+      this.setState({ cart_errorModal: true })
+      this.props.startSpinner(false);
     }
 
-    else if(nextProps.cart.dataFrom === 'SC_SAMEPINS') {
-        errors["spliterror2"] = "PIN1 and pin2 are same"
-        this.props.startSpinner(false);
-      }
-    else if (nextProps.cart.dataFrom !== 'WEB_SERVICE_ERROR' && nextProps.cart.dataFrom !== 'INVALID_SKU-ID' && nextProps.cart.dataFrom!=='RP_FAIL' && nextProps.cart.dataFrom!=='REPLENISH_FAIL' && nextProps.cart.dataFrom!=='SPLIT_COMM_ERROR' && nextProps.cart.dataFrom !== 'IM_DISCOUNTALREADYAPPLIED' && nextProps.cart.dataFrom!=='GET_PROMOTIONS_SUCCESS') {
-    console.log('transactionID'+nextProps.cart.data.transactionId);
-     if (nextProps.cart.data.transactionId!==undefined || nextProps.cart.data.transactionId) {
+    else if (nextProps.cart.dataFrom === 'SC_SAMEPINS') {
+      errors["spliterror2"] = "PIN1 and pin2 are same"
+      this.props.startSpinner(false);
+    }
+    else if (nextProps.cart.dataFrom !== 'WEB_SERVICE_ERROR' && nextProps.cart.dataFrom !== 'INVALID_SKU-ID' && nextProps.cart.dataFrom !== 'RP_FAIL' && nextProps.cart.dataFrom !== 'REPLENISH_FAIL' && nextProps.cart.dataFrom !== 'SPLIT_COMM_ERROR' && nextProps.cart.dataFrom !== 'IM_DISCOUNTALREADYAPPLIED' && nextProps.cart.dataFrom !== 'GET_PROMOTIONS_SUCCESS') {
+      console.log('transactionID' + nextProps.cart.data.transactionId);
+      if (nextProps.cart.data && (nextProps.cart.data.transactionId !== undefined || nextProps.cart.data.transactionId)) {
         this.setState({ transactionId: nextProps.cart.data.transactionId });
       }
       //added as a work around for special instructions
-      else if (nextProps.cart.data.data.transactionId) {
+      else if (nextProps.cart.data && nextProps.cart.data.data && nextProps.cart.data.data.transactionId) {
         this.setState({ transactionId: nextProps.cart.data.data.transactionId });
       }
       else {
         console.log('will receive props');
         this.setState({ transactionId: '1249' })
-      }  
+      }
     }
-    if (nextProps.cart.dataFrom == 'INVALID_SKU-ID')
-    {
-      this.setState({sku_errorModal:true})
+    if (nextProps.cart.dataFrom == 'INVALID_SKU-ID') {
+      this.setState({ sku_errorModal: true })
     }
-    if(nextProps.cart.dataFrom=='RP_FAIL')
+    {/*if(nextProps.cart.dataFrom=='RP_FAIL' && store.getState().customerSearch.clienteled!==false)
     {
       this.setState({sale_errorModal:true});
+    }*/}
+    if (nextProps.cart.dataFrom == 'WEB_SERVICE_ERROR') {
+      this.setState({ sale_errorModal: false });
     }
-    if(nextProps.cart.dataFrom == 'WEB_SERVICE_ERROR'){ 
-      this.setState({sale_errorModal:false});
+    if (this.state.replishmentOpen && store.getState().customerSearch.clienteled === false) {
+      this.setState({
+        //sku_errorModal:true,
+        replishmentOpen: false,
+        replenishClientOpen: true,
+
+      });
     }
-    if(this.state.replishmentOpen && nextProps.history.location.state.isClienteled===false ){  
-        this.setState({
-          sku_errorModal:true,
-          replishmentOpen:false
-        });
+    console.log(nextProps);
+    //debugger;
+    //dont write here ...append to last
+    if (nextProps.cart.data.cartItems.items[0].salePrice == 0) {
+
+      this.amount_to_be_inserted_modal(true);
+      // debugger;
+      //  this.setState({  amount_to_be_entered_modal:true });
     }
+
+
     //update only if adding item or applying Discount.. may need to add to condition for other things
-    if (nextProps.cart.dataFrom === 'ADD_ITEM' || nextProps.cart.dataFrom === 'Discount' 
-        || nextProps.cart.dataFrom === 'MODIFY_SPECIAL_INSTRUCTIONS_UPDATE' || nextProps.cart.dataFrom === 'GIFT_WRAP' ||  nextProps.cart.dataFrom === 'UPDATED_IMAGES') {
+    if (nextProps.cart.dataFrom === 'ADD_ITEM' || nextProps.cart.dataFrom === 'Discount'
+      || nextProps.cart.dataFrom === 'MODIFY_SPECIAL_INSTRUCTIONS_UPDATE' || nextProps.cart.dataFrom === 'GIFT_WRAP' || nextProps.cart.dataFrom === 'UPDATED_IMAGES') {
       this.props.startSpinner(false);
+      //debugger;
       //cartIsShowingItems is used as one of factors to rerenderCart when component is unmounted
       this.setState({ cartIsShowingItems: true, scrollCheck: true });
       //this.setState({disableOptions:true});
@@ -275,7 +311,8 @@ class SaleContainer extends Component {
         }
       }
       if (itemArrayLength < this.MAX_ITEM_COUNT) {
-        if (itemArrayLength === this.MAX_ITEM_COUNT - (this.WARNING_COUNT)) {
+
+        if (itemArrayLength === (this.WARNING_COUNT - 1)) {
           this.setState({
             items: nextProps.cart.data.cartItems.items,
             subTotal: nextProps.cart.data.subTotal,
@@ -307,7 +344,7 @@ class SaleContainer extends Component {
         currentItemIndex: ''
       });
     }
-    
+
     else if (nextProps.cart.dataFrom === 'QUANTITY_UPDATE') {
       this.props.startSpinner(false);
       this.setState({
@@ -427,27 +464,27 @@ class SaleContainer extends Component {
         total: nextProps.cart.data.data.total*/
       });
     }
-    
-    
+
+
     else if (nextProps.cart.dataFrom == 'IM_RINGINGASSOCIATE') {
-     
+
       this.props.startSpinner(false);
-     // if(nextProps.cart.isInvalid == true){
-       
-        this.showTransModifyAssociateDiscountErrorModal(true,'');
-  
-     // }
+      // if(nextProps.cart.isInvalid == true){
+
+      this.showTransModifyAssociateDiscountErrorModal(true, '');
+
+      // }
     }
     else if (nextProps.cart.dataFrom == 'IM_DISCOUNTALREADYAPPLIED') {
-     
+
       this.props.startSpinner(false);
-     
-      this.setState({AssociateDiscountAlreadyAppliedModal:true})
-      
-  
-     // }
+
+      this.setState({ AssociateDiscountAlreadyAppliedModal: true })
+
+
+      // }
     }
-    else if(nextProps.cart.dataFrom === 'ALTERATION_SUCCESS') {
+    else if (nextProps.cart.dataFrom === 'ALTERATION_SUCCESS') {
       //debugger;
       /* this.startSpinner(false); */
       this.setState({
@@ -458,7 +495,7 @@ class SaleContainer extends Component {
       });
       //this.props.history.push('/sale');
     }
-    this.setState({errors:errors})
+    this.setState({ errors: errors })
 
   }
 
@@ -479,8 +516,26 @@ class SaleContainer extends Component {
     this.setState({ subTotal, taxTotal, total })
   }
 
+  retrieveSkuMultiple(skuArray) {
+
+    if (!skuArray) {
+      return;
+    }
+    else {
+      var transactionId = this.state.transactionId;
+      //this.props.startSpinner(true);
+      this.props.addItemsRequestInvoker({
+        "ItemNumbers": skuArray,
+        "TransactionId": transactionId
+      });
+    }
+
+    this.setState({ modal_sku: false }); // dismisses modal after submitting sku
+
+  }
+
   retrieveSku(sku) {
-  
+
     if (!sku) {
       return;
     }
@@ -489,6 +544,7 @@ class SaleContainer extends Component {
       this.props.startSpinner(true);
       this.props.addItemsRequestInvoker({
         "ItemNumber": sku.toString(),
+        TranDiscPriceOverrideFlag: 'true',
         "TransactionId": transactionId
       });
     }
@@ -523,10 +579,11 @@ class SaleContainer extends Component {
     console.log("selectedItem", selectedItem)
     this.setState({ scrollCheck: false })
     //store in redux
-    this.props.itemSelectedAction(selectedItem)
+    console.log('**************************************sweezey : index', index);
+    this.props.itemSelectedAction(index)
     if (index !== '' || selectedItem !== '') {
       this.props.startSpinner(true);
-      this.props.getPromotionsInvoker(this.state.transactionId, this.state.items[index][0]);
+      // this.props.getPromotionsInvoker(this.state.transactionId, this.state.items[index][0]);
       this.setState({ currentItemNumber: itemNumber, currentItemPrice: itemPrice, currentItemSku: itemSku, currentItem: selectedItem, currentItemIndex: index });
     }
     else {
@@ -534,6 +591,10 @@ class SaleContainer extends Component {
     }
 
 
+  }
+
+  loadPriceDrpDown = () => {
+    this.props.getPromotionsInvoker(this.state.transactionId, this.state.currentItem);
   }
 
   getSelectedItem = (isSelected, selectedItem) => {
@@ -553,8 +614,8 @@ class SaleContainer extends Component {
 
   saleitemGiftRegistryUpdate = (gift, modify_type) => {
     this.props.startSpinner(true);
-    this.props.saleitemGiftRegistryUpdateInvoker(modify_type == 'IteamRegistry' ? this.state.items[this.state.currentItemIndex][0]:'', this.state.transactionId, gift, modify_type,this.props.login.userpin);
-debugger;
+    this.props.saleitemGiftRegistryUpdateInvoker(modify_type == 'IteamRegistry' ? this.state.items[this.state.currentItemIndex][0] : '', this.state.transactionId, gift, modify_type, this.props.login.userpin);
+
     if (window.innerWidth < 1900) {
       this.hideItemModifyModalSmallFF();
     }
@@ -566,7 +627,7 @@ debugger;
   //item gift receipt update
   saleitemGiftReceiptUpdate = (modify_type) => {
     this.props.startSpinner(true);
-    this.props.saleitemGiftReceiptUpdateInvoker(modify_type == 'item' ? this.state.items[this.state.currentItemIndex] : '', this.state.transactionId, modify_type);
+    this.props.saleitemGiftReceiptUpdateInvoker(modify_type == 'item' ? this.state.items[this.state.currentItemIndex] : '', this.state.transactionId, modify_type, this.props.login.userpin, this.state.currentItemIndex);
 
     if (window.innerWidth < 1900) {
       this.hideItemModifyModalSmallFF();
@@ -626,7 +687,7 @@ debugger;
     this.setState({ modal_select_dept: showFlag });
     this.setState({ modal_sku: false });
   }
-  showaddskumodal =() =>{
+  showaddskumodal = () => {
     this.setState({ modal_select_dept: false });
     this.setState({ modal_sku: true });
   }
@@ -721,12 +782,20 @@ debugger;
   }
 
   showReplenishmentModal = (showFlag) => {
-    
-console.log('in replenishment');
+
+    console.log('in replenishment');
+    console.log('store data in replenish' + JSON.stringify(store.getState()));
+
 
     if (window.innerWidth > 1080) {
-
-      this.setState({ replishmentOpen: showFlag});
+      /*if(store.getState().customerSearch.clienteled===true)
+      {*/
+      this.setState({ replishmentOpen: showFlag });
+      /*}
+      else{
+        this.setState({ replishmentOpen: false});
+        this.setState({sku_errorModal:true});
+      }*/
     }
     else {
       document.getElementsByClassName('footer-container')[0].style.display = "none";
@@ -761,15 +830,15 @@ console.log('in replenishment');
     this.props.applyTransDiscountToCart(percentage, this.state.transactionId);
   }
 
-  applyAssociateDiscount  = (pin, id) => {
+  applyAssociateDiscount = (pin, id) => {
     //hide modal and enable options menu & apply discount
     this.setState({ modal_AssociateDiscount: false, disableOptions: false });
     this.props.startSpinner(true);
-    this.props.applyAssociateDiscountToCart(pin, id, this.state.transactionId);
+    this.props.applyAssociateDiscountToCart(pin, id, this.state.transactionId, this.props.login.userpin);
   }
 
   splitCommissionOpened = (modifytype) => {
-
+    debugger;
     if (this.props.currentItem !== '') {
       if (window.innerWidth > 1080) {
         this.handleChangeTransdropdownColor("TransSplit");
@@ -789,6 +858,7 @@ console.log('in replenishment');
       }
     }
   }
+
 
   TransTaxExempt = () => {
     if (this.props.currentItem !== '' && this.state.taxExemptID === '') {
@@ -1052,12 +1122,21 @@ console.log('in replenishment');
   }
 
   showSplitCommissionModal = (showFlag, calledfrom) => {
-    if (showFlag) {
-      this.setState({ modal_split_commission: showFlag, type_split_commission: calledfrom, errors : [] });
-
+    debugger;
+    var cart = this.props.cart
+    const itemIndex = this.props.selectedItem[0];
+    console.log("@@@@@@@@@@@@@@@@@@@@ ItemIndex", itemIndex);
+    //console.log("@@@@@@@@@@@@@@@@@@@@@ SalesID", cart.data.cartItems.items[itemIndex][0].salesId);
+    if (cart.data.cartItems.items) {
+      if (showFlag && cart.data.cartItems.items[itemIndex?itemIndex:0][0].salesId != "0") {
+        this.onSubmitshowSplitCommissionModal(cart.data.cartItems.items[itemIndex?itemIndex:0][0].salesId)
+      }
+      else if (showFlag && cart.data.cartItems.items[itemIndex?itemIndex:0][0].salesId == "0") {
+        this.setState({ modal_split_commission: showFlag, type_split_commission: calledfrom, errors: [] });
+      }
     }
     else {
-      this.setState({ modal_split_commission: showFlag, type_split_commission: calledfrom, errors : [] });
+      this.setState({ modal_split_commission: showFlag, type_split_commission: calledfrom, errors: [] });
       this.handleChangeTransdropdownColor("");
     }
   }
@@ -1141,17 +1220,50 @@ console.log('in replenishment');
   }
 
   showModifyErrorModal = (showFlag, errorText) => {
-    this.setState({ modal_modify_price_error: showFlag, modifyPriceError: errorText,AssociateDiscountAlreadyAppliedModal:showFlag,discountalreadyapplied:errorText });
+    this.setState({ modal_modify_price_error: showFlag, modifyPriceError: errorText, AssociateDiscountAlreadyAppliedModal: showFlag, discountalreadyapplied: errorText });
   }
 
-  showTransModifyAssociateDiscountErrorModal = (showFlag,val) => {
-   
+  showTransModifyAssociateDiscountErrorModal = (showFlag, val) => {
+
     this.setState({ associatetranserrormodal: showFlag });
   }
-    /*Navigate back to Product Search */
-    navigateToProductSearch = () => {
+  /*Navigate back to Product Search */
+  navigateToProductSearch = () => {
     this.props.history.push('/product-search');
+  }
+
+  openCameraScanner = () => {
+    console.log('OPEN CAMERA SCANNER');
+    if (window.cordova) {
+      console.log('Cordova Present');
+      window.cordova.plugins.barcodeScanner.scan(
+        this.cameraScanSuccess,
+        this.cameraScanFailure,
+        {
+          preferFrontCamera: true, // iOS and Android
+          prompt: "Place a barcode inside the scan area", // Android
+          resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+          orientation: "landscape", // Android only (portrait|landscape), default unset so it rotates with the device
+          disableAnimations: true, // iOS
+          disableSuccessBeep: false, // iOS and Android
+          formats: "QR_CODE,PDF_417,UPC_A,UPC_E,EAN_8,EAN_13,CODE_39,CODE_93,CODE_128,DATA_MATRIX,CODABAR,ITF,RSS14,MSI,AZTEC"
+        }
+      );
     }
+    else {
+      console.log('Cordova not Present');
+    }
+  }
+
+  cameraScanSuccess = (result) => {
+    //console.log("We got a barcode\n", "Result: ", result.text, "\n", "Format: ", result.format, "\n", "Cancelled: ", result.cancelled);
+    console.log('Barcode Scanned. Result text: ', result.text)
+    this.retrieveSku(result.text)
+  }
+
+  cameraScanFailure = (error) => {
+    console.log("Camera scanning failed: ", error);
+  }
 
   render() {
 
@@ -1297,7 +1409,7 @@ console.log('in replenishment');
       pointerEvents: this.state.items[0] ? 'none' : 'auto'
     }
 
- 
+
 
     if (this.state.currentItem !== '') {
       const obj = this.state.items[this.state.currentItemIndex][0];
@@ -1592,32 +1704,45 @@ console.log('in replenishment');
     }
 
     return (
+
       <div>
         <div>
 
-        <Modal open={this.state.sku_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
-        <div className='sale-errorModal-container'>
-          <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
-          <div className="sale-errorModal-text">Invalid SKU/Department</div>
-          <button className="sale-errorModal-button" onClick={() => { this.setState({ sku_errorModal: false }) }}>
-            <div className="sale-errorModal-button-text">CLOSE</div>
-          </button>
-        </div>
+          <Modal open={this.state.sku_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
+            <div className='sale-errorModal-container'>
+              <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+              <div className="sale-errorModal-text">Invalid SKU/Department</div>
+              <button className="sale-errorModal-button" onClick={() => { this.setState({ sku_errorModal: false }) }}>
+                <div className="sale-errorModal-button-text">CLOSE</div>
+              </button>
+            </div>
 
-      </Modal>
+          </Modal>
 
-      <Modal open={this.state.cart_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
-        <div className='sale-errorModal-container'>
-          <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
-          <div className="sale-errorModal-text">Invalid Gift Registry Number</div>
-          <button className="sale-errorModal-button" onClick={() => { this.setState({ cart_errorModal: false }) }}>
-            <div className="sale-errorModal-button-text">CLOSE</div>
-          </button>
-        </div>
+          <Modal open={this.state.cart_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
+            <div className='sale-errorModal-container'>
+              <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+              <div className="sale-errorModal-text">Invalid Gift Registry Number</div>
+              <button className="sale-errorModal-button" onClick={() => { this.setState({ cart_errorModal: false }) }}>
+                <div className="sale-errorModal-button-text">CLOSE</div>
+              </button>
+            </div>
 
-      </Modal>
+          </Modal>
 
-      <Modal open={this.state.sale_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
+          <Modal open={this.state.replenishClientOpen} little classNames={{ modal: 'sale-errorModal' }} >
+            <div className='sale-errorModal-container'>
+              <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+              <div className="sale-errorModal-text">Function only valid for client transaction</div>
+              <button className="sale-errorModal-button" onClick={() => { this.setState({ replenishClientOpen: false }) }}>
+                <div className="sale-errorModal-button-text">CLOSE</div>
+              </button>
+            </div>
+
+          </Modal>
+
+
+          <Modal open={this.state.sale_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
             <div className='sale-errorModal-container'>
               <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
               <div className="sale-errorModal-text">Invalid Request</div>
@@ -1646,9 +1771,9 @@ console.log('in replenishment');
           }
 
           {this.state.modal_Recipient_Sender ?
-            <SenderRecipientSameModal 
-              history = {this.props.history}
-              goToSendPage = {this.props.goToSendPage}
+            <SenderRecipientSameModal
+              history={this.props.history}
+              goToSendPage={this.props.goToSendPage}
             />
             :
             null
@@ -1711,7 +1836,7 @@ console.log('in replenishment');
 
                 itemModifySpecialInstructionsUpdate={this.itemModifySpecialInstructionsUpdate}
                 showSpecialInstructionsModal={this.showSpecialInstructionsModal}
-                specialInstructionsValue={(this.state.currentItem !== '') ? this.state.items[this.state.currentItemIndex][0].comment[0] : ''}
+                specialInstructionsValue={(this.state.currentItem !== '') ? this.state.items[this.state.currentItemIndex][0].comment : ''}
               />
             </Modal>
             :
@@ -1771,7 +1896,7 @@ console.log('in replenishment');
           }
 
           {this.state.modal_warning ?
-            <Modal classNames={{ modal: 'max-warning-modal-container' }} open={(sku) => this.retrieveSku(sku)} onClose={() => {}} >
+            <Modal classNames={{ modal: 'max-warning-modal-container' }} open={(sku) => this.retrieveSku(sku)} onClose={() => { }} >
               <WarningCountModal done={() => this.setState({ modal_warning: false })} />
             </Modal>
             :
@@ -1876,7 +2001,6 @@ console.log('in replenishment');
                 handleChangedropdownColor={this.handleChangedropdownColor}
                 handleChangeTransdropdownColor={this.handleChangeTransdropdownColor}
                 isEnabled={this.isEnabled}
-                saleitemGiftRegistryData = {this.props.cart}
                 saleitemGiftRegistryUpdate={this.saleitemGiftRegistryUpdate}
                 modify_type={this.state.modify_type}
                 showItemGiftRegistryModal={this.showItemGiftRegistryModal} />
@@ -1972,27 +2096,27 @@ console.log('in replenishment');
             null
           }
 
-          
+
           {this.state.associatetranserrormodal ?
-             <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
-             open={() => {
+            <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
+              open={() => {
 
-             }}
-             onClose={() => {
+              }}
+              onClose={() => {
 
-             }}
-           >
+              }}
+            >
               <ModifyPriceErrorModal
-             
-                errorText={<div>Ringing associate cannot<br/>be purchasing associate.</div>}
-                showModifyErrorModal = {this.showTransModifyAssociateDiscountErrorModal}
+
+                errorText={<div>Ringing associate cannot<br />be purchasing associate.</div>}
+                showModifyErrorModal={this.showTransModifyAssociateDiscountErrorModal}
               />
             </Modal>
             :
             null
           }
 
-{this.state.AssociateDiscountAlreadyAppliedModal ?
+          {this.state.AssociateDiscountAlreadyAppliedModal ?
             <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
               open={() => {
 
@@ -2009,6 +2133,25 @@ console.log('in replenishment');
             :
             null
           }
+          {this.state.amount_to_be_entered_modal ?
+            <Modal classNames={{ modal: 'amount-to-be-entered-modal-container' }}
+              open={() => {
+
+              }}
+              onClose={() => {
+
+              }}
+            >
+              <AmountToBeEnteredModal
+                amount_to_be_inserted_modal={this.amount_to_be_inserted_modal}
+
+              />
+            </Modal>
+            :
+            null
+          }
+
+
         </div>
 
         <div className="sale-container">
@@ -2037,8 +2180,18 @@ console.log('in replenishment');
             transGiftRegistry={() => this.transGiftRegistry('transregistry')}
             transGiftReceipt={() => this.transGiftReceipt('transregistry')}
             showItemModifyPriceModal={this.showItemModifyPriceModal}
+            loadPriceDrpDown={this.loadPriceDrpDown}
             showTransDiscount={() => this.setState({ modal_TransDiscount: true })}
-            showAssociateDiscount={() => this.setState({ modal_AssociateDiscount: true })}
+            showAssociateDiscount={() => {
+              console.log(this.props.cart);
+              console.log(this.state.items);
+              if (this.props.cart.data.cartItems.associateDiscount !== null && this.props.cart.data.cartItems.associateDiscount !== undefined && this.props.cart.data.cartItems.associateDiscount !== {}) {
+                this.setState({ AssociateDiscountAlreadyAppliedModal: true })
+              }
+              else {
+                this.setState({ modal_AssociateDiscount: true })
+              }
+            }}
             showSpecialInstructionsModal={this.showSpecialInstructionsModal}
             disableOptionsMenu={() => { this.setState({ disableOptions: true }) }}
             active={this.state.currentItem || this.state.cartIsShowingItems == false ? false : true}
@@ -2058,7 +2211,8 @@ console.log('in replenishment');
               enableHeaderStyle={this.state.enableHeaderStyle}
               disabledHeaderStyle={disabledHeaderStyle}
               openModal={() => this.setState({ modal_sku: true })}
-              navigateToProductSearch = {this.navigateToProductSearch}
+              navigateToProductSearch={this.navigateToProductSearch}
+              openCameraScanner={this.openCameraScanner}
             />
             {/* NEED TO PASS PROPS WITH PROPER RESPONSE PARAM */}
             <div className="sale-content-container-outer">
@@ -2093,24 +2247,23 @@ console.log('in replenishment');
             </div>
           </div> {/* SALE CONTENT */}
         </div> {/* SALE CONTAINER */}
+
       </div>
-     
+
     )
   }
 };
 
 function mapStateToProps(state) {
-  debugger;
-  console.log("***************************login",state.login.userpin);
   return {
+    selectedItem: state.selectedItems,
     cart: state.cart,
     transactionId: getTransactionId(state),
     login: state.login,
+    isClienteled: state.clienteled
   }
-  
 }
-//console.log("**********login",this.state.login.userpin);
-//console.log("**********cart",this.props.cart);
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
@@ -2126,6 +2279,7 @@ function mapDispatchToProps(dispatch) {
       getReplenishDataInvoker: getReplenishment,
       updateSplitCommisssionInvoker: updateSplitCommissionData,
       setCurrnetItemInvoker: setCurrnetItem,
+
       startSpinner: startSpinner,
       applyTransDiscountToCart,
       applyAssociateDiscountToCart,

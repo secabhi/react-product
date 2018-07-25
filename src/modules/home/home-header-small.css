@@ -1,6 +1,6 @@
 @media only screen and (max-width: 1920px) and (min-width: 1920px) {
   .headerMainCls {
-    z-index: 1;
+    z-index: 101;
     position: relative;
     top:0px;
     display: flex;
@@ -8,7 +8,7 @@
     flex-direction: row;
     align-items: center;
     width: 1920px;
-    height: 90px;
+    height: 100px;
     background-color: #ffffff;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
   }

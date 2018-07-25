@@ -12,11 +12,11 @@ const header = {
     'AppKey': AppKey
 }
 
-export function getCsrPurchasesNRecommends (csrObj, salesId) {
+export function getCsrPurchasesNRecommends(csrObj) {
     const endDate = moment().format('L');
-    const startDate= moment().subtract(10,'year').format('L');
+    const startDate= moment().subtract(2,'year').format('L');
 
-    const purchaseParams = `?version=v2&id=${csrObj.cssId}&offset=0&limit=50&startDate=${startDate}&endDate=${endDate}&associatePin=${salesId}`;
+    const purchaseParams = `?version=v2&id=${csrObj.cssId}&offset=0&startDate=${startDate}&endDate=${endDate}`;
     const apiCallPurchases = purchaseURL + purchaseParams;
 
     const recommendationParams =`?version=1.0&brand=NM&cssId=${csrObj.cssId}`
@@ -79,13 +79,11 @@ export function getSalesSummaryAction(cssId,associatePin){
 }
 
 export function clearCustomerDetailsAction(){
-
     return (dispatch) => {
        
             dispatch({
                 type: 'CLEAR_CUSTOMER_DETAILS',
                 payload: {}
             });
-    
-            };
+    };
 }

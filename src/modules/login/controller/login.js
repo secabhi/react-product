@@ -136,10 +136,11 @@ class Login extends Component {
 
         console.log("in auth",this.props.login.response.Output);
         console.log("errorPresent", this.errorPresent)
+        
 
         var userParams = {
-            "userPin":userPin,
-            "Upass":Upass
+            "userPin":this.state.userPin,
+            "Upass":this.state.password
         }
 
         if((this.props.login.response.Output.Response_Code === "PW_SUCCESS")){

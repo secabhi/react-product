@@ -178,7 +178,7 @@ export class ContactDetailsModal extends Component {
                     />
 
                     <TextField className="contact-modal-textfield" 
-                        type="tel"
+                        type="number"
                         onChange={(e) => {this.getContactExt(e)}}
                         value={this.state.contactDetails.contactExt}
                         floatingLabelText="Contact Extention"
@@ -187,10 +187,8 @@ export class ContactDetailsModal extends Component {
                         inputStyle = {textFieldInputStyle}
                         underlineStyle= {underlineStyle}
                         refs="contact-details-modal" 
-                        minLength="7"
-                        maxLength="9"
-                        required
-                    />
+                        required>
+                        <InputMask mask="999999999" maskChar=""/></TextField>
                 
                     <div className="contact-modal-button-container">
                         <button className="contact-modal-button-cancel" 
@@ -291,6 +289,8 @@ export class AlterationDetailsModal extends Component {
         })
     }
 
+
+
     render() {
         return (
             <div className="alteration-details-modal">
@@ -311,10 +311,10 @@ export class AlterationDetailsModal extends Component {
                     inputStyle = {textFieldInputStyle}
                     underlineStyle= {underlineStyle}
                     refs="alteration-details-modal" 
-                    minLength="7"
-                    maxLength="9"
                     required
-                />
+                ><InputMask mask="999999999" maskChar=""/>
+                </TextField>
+
                 <img src={scanItem} className="scan-item-img" alt="scanner"/>
 
                 <TextField className="alteration-modal-textfield" 
@@ -327,8 +327,12 @@ export class AlterationDetailsModal extends Component {
                     inputStyle = {textFieldInputStyle}
                     underlineStyle= {underlineStyle}
                     refs="alteration-details-modal" 
-                    // onInput = {(e) => 
-                    // {e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0,3)}}
+        
+                    // onInput={(e)=>{ 
+                    // e.target.value =  parseFloat(e.target.value).toFixed(2).toString().slice(0,6)
+                    // }}
+                    // min={1.00}
+                    // max={9999.99}
                     pattern="\d*"
                     maxlength="6"
                     required
@@ -344,14 +348,9 @@ export class AlterationDetailsModal extends Component {
                     inputStyle = {textFieldInputStyle}
                     underlineStyle= {underlineStyle}
                     refs="alteration-details-modal" 
+                    disabled
                     required
-                >
-                    {/* <InputMask 
-                        refs="alterations-details-modal"
-                        mask="mm/dd/yyyy"
-                    /> */}
-
-                </TextField>
+                />
                 
                 <img className="calendar-img"  
                     src={calendar} 

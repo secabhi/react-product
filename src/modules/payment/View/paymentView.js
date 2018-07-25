@@ -10,13 +10,14 @@ import "./payment.css";
 import Header from "../../common/header/header";
 import Footer from "../../common/footer/footer";
 import {PaymentCard} from './Components/PaymentCard';
-// import {PurchasesList} from './Components/PurchasesList';
+import {PurchasesList} from './Components/PurchasesList';
 // import {SFFPurchasesModal} from './Components/Modals/SFFPurchasesModal';
 import {ReceiptMenuModal} from './Components/Modals/ReceiptMenuModal';
 import {EmailReceiptModal} from './Components/Modals/EmailReceiptModal';
 import {PrintReceiptModal} from './Components/Modals/PrintReceiptModal';
 import {SignatureModal} from './Components/Modals/SignatureModal';
 import {VerifyEmailModal} from './Components/Modals/VerifyEmailModal';
+//import {CardAuthorizationModal} from './Components/Modals/CardAuthorizationModal';
 import {SFFHeader} from './Components/SFFHeader';
 import {SFFPaymentCard} from './Components/SFFPaymentCard';
 
@@ -38,7 +39,6 @@ export class PaymentView extends Component {
       }
 
     render() {
-        //console.log(this.props)
         var leftContentHeader = (
             <div className="left-content-header">
                 <span className="amountDueLabel">Amount Due&nbsp;
@@ -109,13 +109,18 @@ export class PaymentView extends Component {
                             </div>
                         </div>
                         <div className="payment-right-content">
-                            {/* <PurchasesList props={this.props} /> */}
+                             <PurchasesList props={this.props} />
                         </div>
                     </div>
                     < div className="cusdet-footer">
                         <Footer />
                     </div>
-                    <ReceiptMenuModal props={this.props}/><EmailReceiptModal props={this.props} /><PrintReceiptModal props={this.props} /><SignatureModal props={this.props} /><VerifyEmailModal props={this.props} />
+                    <ReceiptMenuModal props={this.props}/>
+                    <EmailReceiptModal props={this.props} />
+                    <PrintReceiptModal props={this.props} />
+                    <SignatureModal props={this.props} />
+                    <VerifyEmailModal props={this.props} />
+                    {/* <CardAuthorizationModal props={this.props} /> */}
                 </div >
 
 
@@ -183,7 +188,12 @@ export class PaymentView extends Component {
                     <div className="sff-payment-footer">
                         <Footer></Footer>
                     </div>
-                    <ReceiptMenuModal props={this.props}/><EmailReceiptModal props={this.props} /><PrintReceiptModal props={this.props} /><SignatureModal props={this.props} /><VerifyEmailModal props={this.props} />
+                    <ReceiptMenuModal props={this.props}/>
+                    <EmailReceiptModal props={this.props} />
+                    <PrintReceiptModal props={this.props} />
+                    <SignatureModal props={this.props} />
+                    <VerifyEmailModal props={this.props} />
+                    {/* <CardAuthorizationModal props={this.props} /> */}
                     {/* <SFFPurchasesModal props={this.props} /> */}
                 </div>
             )

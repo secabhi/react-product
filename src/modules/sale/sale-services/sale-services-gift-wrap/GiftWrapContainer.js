@@ -13,6 +13,7 @@ import SaleHeader from '../../SaleHeader';
 
 import './GiftWrap.css';
 import backArrow from '../../../../resources/images/Back.svg';
+import imageNotAvailable from '../../../../resources/images/Image_placeholder.svg';
 import defaultImage from '../../../../resources/images/giftWrap01_04.jpg';
 import giftWrap04Img from '../../../../resources/images/giftWrap04_04.jpg';
 import giftWrap05Img from '../../../../resources/images/giftWrap05_04.jpg';
@@ -34,10 +35,10 @@ class GiftWrap extends Component {
     super(props);
     //giftWrap Defaul Images
     this.defaultImages = {};
-    this.defaultImages[0] = defaultImage; this.defaultImages[1] = defaultImage; this.defaultImages[2] = defaultImage; this.defaultImages[3]=giftWrap08Img; this.defaultImages[4]=giftWrap05Img;
-    this.defaultImages[5] = giftWrap06Img; this.defaultImages[6] =  giftWrap04Img; this.defaultImages[7] = giftWrap09Img; this.defaultImages[8]=giftWrap10Img; this.defaultImages[9]=defaultImage;
-    this.defaultImages[10] = defaultImage; this.defaultImages[11] = defaultImage; this.defaultImages[12] = defaultImage; this.defaultImages[13]=defaultImage; this.defaultImages[14]=defaultImage;
-    this.defaultImages[15] = defaultImage; this.defaultImages[16] = defaultImage;
+    this.defaultImages[0] = defaultImage; this.defaultImages[1] = imageNotAvailable; this.defaultImages[2] = imageNotAvailable; this.defaultImages[3]=giftWrap08Img; this.defaultImages[4]=giftWrap05Img;
+    this.defaultImages[5] = giftWrap06Img; this.defaultImages[6] =  giftWrap04Img; this.defaultImages[7] = giftWrap09Img; this.defaultImages[8]=giftWrap10Img; this.defaultImages[9]=imageNotAvailable;
+    this.defaultImages[10] = imageNotAvailable; this.defaultImages[11] = imageNotAvailable; this.defaultImages[12] = imageNotAvailable; this.defaultImages[13]=imageNotAvailable; this.defaultImages[14]=imageNotAvailable;
+    this.defaultImages[15] = imageNotAvailable; this.defaultImages[16] = imageNotAvailable;
 
     this.inCircleInfo = require("../../../../resources/stubs/cust-incircleinfo.json");
     this.inCircleDetails = require("../../../../resources/stubs/incircleConfig.json");
@@ -66,6 +67,7 @@ class GiftWrap extends Component {
 
   render() {   
     const isNextBtnEnabled = () => {
+      if(this.props.cart.dataFrom === 'LINE_VOID') return false;
       if(!this.props.giftWrap.data.length) return true;
       if(this.props.giftWrap.data.length && this.state.giftWrapSelectedIndex !== null) return true;
       return false;
@@ -160,12 +162,16 @@ class GiftWrap extends Component {
     )
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('mike recievd props')
+  }
+
   componentDidUpdate() {
     this.props.startSpinner(false);
   }
 
   setCurrentItem = (itemNumber, itemPrice, itemSku, selectedItem, index) => {
-    this.props.itemSelectedAction(selectedItem);
+    this.props.itemSelectedAction(index);
   }
 
   // ********** GIFT WRAP OPTION METHODS **********
@@ -217,15 +223,22 @@ class GiftWrap extends Component {
   addToGiftWrapCall = () => {
     //close all modals
     this.exitModals();
-    const index = this.props.lineNumber - 1;
-    //selected item is an array of related objects you need item zero fro main item(sku item)
-    const selectedItem = this.props.cart.data.cartItems.items[index][0];
+    const cart = this.props.cart.data.cartItems;
+    const index = this.props.selectedItems[0];
+
+    //selected item is an array of related objects you need item zero for main item(sku item)
+    const selectedItem = cart.items[index][0];
+
+    //need to get last subitem linenumber to pass to API.Not the main sku linenumber
+    const lastSubItemIndex = cart.items[index].length - 1;
+    const lineNum = cart.items[index][lastSubItemIndex].lineNumber;
+   
     const transactionId = this.props.cart.data.transactionId;
     const giftMessage = this.apiData.giftWrapMessage ? this.apiData.giftWrapMessage : '';
     
     const optionsObj = {
       "Sku": selectedItem.itemNumber,
-      "lineNumber": selectedItem.lineNumber,
+      "lineNumber": lineNum,
       "TransactionId": transactionId,
       "IsServiceOnly": false,
       "WrapNumber": this.giftWrapSelection.wrapNumber,
@@ -259,7 +272,6 @@ class GiftWrap extends Component {
      
       // this.props.startSpinner(false);
     }
-    console.log('RES-CODE', this.props.cart.data.response_code)
   }
 
     // ********** GIFT WRAP MODAL METHODS **********
@@ -299,7 +311,7 @@ function mapStateToProps({giftWrap, cart, sale, selectedItems}) {
   return { giftWrap, 
            cart,
            otherPageData: sale.otherPageData,
-           lineNumber: selectedItems
+           selectedItems
           }
 }
 

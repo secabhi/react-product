@@ -44,6 +44,7 @@ export default class ItemModifyDropdown extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    debugger;
     console.log("ItemModifyDropdown nextProps: ", nextProps);
     var discountsApplied = {
       mkdPerc : false,
@@ -117,7 +118,8 @@ export default class ItemModifyDropdown extends Component {
       this.setState({dropdownOpen:false, discountsApplied: discountsApplied})
     }
     else {
-      this.setState({discountsApplied: discountsApplied})
+      this.setState({dropdownPriceOpen:true})
+      this.setState({dropdownOpen:true,discountsApplied: discountsApplied})
     }
   }
 
@@ -127,9 +129,11 @@ export default class ItemModifyDropdown extends Component {
     }
   }
   handleChangePricedropdown = () => {
-    if(Object.keys(this.props.itemPromotionDetails).length !== 0) {
-      this.setState({dropdownPriceOpen:!this.state.dropdownPriceOpen})
-    }
+      if(this.state.dropdownPriceOpen){
+        this.setState({dropdownPriceOpen:!this.state.dropdownPriceOpen})
+      }else{
+        this.props.loadPriceDrpDown();
+      }
   }
   
   changeMenu = e => {
@@ -405,8 +409,7 @@ export default class ItemModifyDropdown extends Component {
 
   splitCommissionOpened = (modifytype) => {
     if(this.props.currentItem !== '') {
-     
-      if(window.innerWidth > 1080) {
+    if(window.innerWidth > 1080) {
         this.props.handleChangedropdownColor(modifytype);
           this.props.showSplitCommissionModal(true,modifytype);
       }
@@ -496,7 +499,7 @@ export default class ItemModifyDropdown extends Component {
                 
                 <div className="drop-down-menu-custom">
                   <div className="drop-down-custom-sub">
-                    <div className={(Object.keys(this.props.itemPromotionDetails).length !== 0)?"button-enabled-style":"button-disabled-style"}>
+                    <div className="button-enabled-style">
                       <div onClick={this.handleChangePricedropdown} className={"item-modify-menu-item"}>Price</div>
                       <img onClick={this.handleChangePricedropdown} className="menu-dropdown" src={this.state.dropdownPriceOpen?accordianOpen:accordianClose} />                      
                     </div>

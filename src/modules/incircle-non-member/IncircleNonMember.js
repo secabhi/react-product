@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, ButtonGroup } from "reactstrap";
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import backArrowWhite from "../../resources/images/Back_White.svg";
 import incircleLevel3White from "../../resources/images/Incirle_Leve3_White.png";
 import productSearchWhite from "../../resources/images/Product_Search_White.svg";
@@ -16,6 +18,8 @@ import "./incircleNonMember.css";
 import "../common/subheaders/incircle-subheader.css"
 import "../../resources/stylesheets/slick.min.css";
 import "../../resources/stylesheets/slick-theme.min.css";
+
+import { goToSalesPage } from '../sale/SaleAction.js';
 
 var incircle_purple_large_bttn = require("../../resources/images/Incircle_Level_purple_large_bttn.svg");
 
@@ -47,7 +51,12 @@ class IncircleNonMember extends Component {
         address2: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 1) ? profile.physicalAddresses[0].addressLines[1] : '',
         city: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].cityName : '',
         state: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '',
-        zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : ''
+        zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '',
+        email: (profile.emailAddresses && profile.emailAddresses.length > 0) ? profile.emailAddresses[0].id : '',
+        mobile: (profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].rawValue : '',
+        otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].rawValue : '',
+
+     
       };
     }
     else {
@@ -64,7 +73,11 @@ class IncircleNonMember extends Component {
         address2: '',
         city: '',
         state: '',
-        zip: ''
+        zip: '',
+        email: '',
+        mobile:'',
+        otherMobile:'',
+     
       };
 
     }
@@ -77,9 +90,27 @@ class IncircleNonMember extends Component {
     console.log("activeName =" + activeName);
     this.setState({ activeName });
   }
+
+  navigateToSale = () => {
+    this.props.goToSalesPage(false, {
+      salutation: this.state.salutation,
+      firstname: this.state.fname,
+      lastname: this.state.lname,
+      address1: this.state.address1,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip ,
+      address2: this.state.address2,
+      email: this.state.email,
+      mobile: this.state.mobile,
+      otherMobile: this.state.otherMobile,
+    });
+    this.props.history.push('/sale');
+  }
   /*Navigate back home*/
   navigateBack = () => {
-    this.props.history.push('/');
+    //this.props.history.push('/');
+    this.props.history.push('/customer-search'); 
   }
   render() {
     var carouselSettingsRecommendedProducts = {
@@ -143,7 +174,7 @@ class IncircleNonMember extends Component {
             />
             <div className="product-search-label">Product Search</div>
           </div>
-          <div className="proceed-to-sale">
+          <div className="proceed-to-sale" onClick={()=>this.navigateToSale()}>
             <img
               className="proceed-to-sale-icon"
               src={proceedToSaleWhite}
@@ -618,7 +649,10 @@ function mapStateToProps({ customerDetails, customerSearch }) {
 
 
 function mapDispatchToProps(dispatch) {
-  return { };
+  return bindActionCreators({
+    goToSalesPage: goToSalesPage,
+        
+     }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(IncircleNonMember);

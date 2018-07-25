@@ -6,6 +6,7 @@ import profileSelected from '../../../resources/images/Profile_Selected.svg';
 import cards from "../../../resources/images/Add_Card.svg";
 import cardSelected from '../../../resources/images/Add_Card_Selected.svg'
 import reminder from "../../../resources/images/Reminder.svg";
+import reminderSelected from '../../../resources/images/Reminder_Selected.svg';
 import incircle from "../../../resources/images/Incircle_Purple.svg";
 import incircleSelected from "../../../resources/images/Incircle_Purple_Selected.svg";
 
@@ -22,7 +23,8 @@ export default class TabHeader extends Component {
       profileIcon: profile,
       cardsIcon: cards,
       reminderIcon: reminder,
-      incircleIcon: incircle
+      incircleIcon: incircle,
+     
 
     };
     //console.log(this.props.history.location.pathname);
@@ -32,9 +34,11 @@ export default class TabHeader extends Component {
     this.props.history.location.pathname==='/customer-details'?this.setState({profileClassName:"profile-tab-label selected-tab-label", profileIcon:profileSelected}):""
     this.props.history.location.pathname==='/customer-details-international'?this.setState({profileClassName:"profile-tab-label selected-tab-label", profileIcon:profileSelected}):""
     this.props.history.location.pathname==='/add-card'?this.setState({cardClassName:"cards-tab-label selected-tab-label",cardsIcon: cardSelected}):""
-    this.props.history.location.pathname==='/reminders'?this.setState({reminderClassName:"reminder-tab-label selected-tab-label", reminderIcon: incircleSelected}):""
+    this.props.history.location.pathname==='/reminders'?this.setState({reminderClassName:"reminder-tab-label selected-tab-label", reminderIcon: reminderSelected}):""
     this.props.history.location.pathname==='/incircle'?this.setState({incircleClassName:"incircle-tab-label selected-tab-label", incircleIcon: incircleSelected}):""
     this.props.history.location.pathname==='/incircle-non-member'?this.setState({incircleClassName:"incircle-tab-label selected-tab-label", incircleIcon: incircleSelected}):""
+
+    
   }
 
   render() {
@@ -62,6 +66,7 @@ export default class TabHeader extends Component {
           </div>
           <div
             className="reminder-tab-header"
+            onClick = { this.navigateToReminders}
           >
             {
               <img
@@ -70,6 +75,9 @@ export default class TabHeader extends Component {
                 alt="reminder-tab-icon"
               />
             }
+
+            {(this.props.reminderCount > 0)?
+            <div className="notification_count_circle"><span>{this.props.reminderCount}</span></div>:''}
             <div className={this.state.reminderClassName}>Reminders</div>
           </div>
           <div

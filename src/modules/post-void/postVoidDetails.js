@@ -12,7 +12,8 @@ class PostVoidDetails extends Component {
 
 
     postVoidInvoker = () => {
-        this.props.PostVoidCallInvoker();
+      
+        this.props.PostVoidCallInvoker(this.props.login.userpin,this.props.postvoidtransdetails.transacID);
     }
 
     constructor(props)
@@ -20,7 +21,7 @@ class PostVoidDetails extends Component {
         super(props);
         this.state = {}
     }
-
+    
     componentDidMount () {
         console.log("PostVoidDetails componentDidMount");
         console.log(this.props);
@@ -46,37 +47,37 @@ class PostVoidDetails extends Component {
                         <div className="rectangle-block"><label className="lineNumber">{items.lineNumber}</label></div>
                         <img className="detailsimagecls" src='http://via.placeholder.com/114x144'/>
                         <div className="columnone-container">
-                            <div className="rowoneitem">{items.itemDesc}</div>
+                            <div className="rowoneitem">{items.brandDesc}</div>
                             <div className="rowtwoitem">{items.pim_SKU_ID}</div>
-                            <div className="rowthreeitem">High Neck Blouse with Tie</div>
-                            <div className="rowfouritem">Helmut Lang</div>
+                            <div className="rowthreeitem">{items.itemDesc}</div>
+                            <div className="rowfouritem">{items.eventDescription}</div>
                         </div>
                         <div className="columntwo-container">
                             <div className="rowoneitem">Qty {items.quantity}</div>
                             <div className="rowtwoitem"></div>
-                            <div className="rowthreeitem">Blue Chambray</div>
-                            <div className="rowfouritem">Size</div>
+                            <div className="rowthreeitem">{items.color}</div>
+                            <div className="rowfouritem">{items.size}</div>
                         </div>
                         <div className="columnthree-container">
                             <div className="rowoneitem">S</div>
                         </div>
                         <div className="columnfour-container">
                             <div className="rowoneitem"></div>
-                            <div className="rowtwoitem">MKD% (25%)</div>
-                            <div className="rowthreeitem">Savings (30%)</div>
-                            <div className="rowfouritem">TAX (8.00%)</div>
+                            <div className="rowtwoitem">MKD% ({items.maxDiscount}%)</div>
+                            <div className="rowthreeitem">Savings ({items.subClass}%)</div>
+                            <div className="rowfouritem">TAX ({items.taxPercent}%)</div>
                         </div>
                         <div className="columnfive-container">
-                            <div className="rowoneitem">600.00 EA</div>
-                            <div className="rowtwoitem">- 150.00</div>
-                            <div className="rowthreeitem">- 150.00</div>
-                            <div className="rowfouritem">10100</div>
+                            <div className="rowoneitem">{items.itemPrice} EA</div>
+                            <div className="rowtwoitem">- {items.salesId}</div>
+                            <div className="rowthreeitem">- {items.itemsTax}</div>
+                            <div className="rowfouritem">{items.salePrice}</div>
                         </div>
                         <div className="columnfive-container">
-                            <div className="rowoneitem">600.00</div>
+                            <div className="rowoneitem">{items.totalPrice}</div>
                             <div className="rowtwoitem"></div>
                             <div className="rowthreeitem"></div>
-                            <div className="rowfouritem">36.00 T</div>
+                            <div className="rowfouritem">{items.class}T</div>
                         </div>
                         
                             
@@ -106,7 +107,7 @@ class PostVoidDetails extends Component {
 }
 
 function mapStateToProps(state) {
-    return { postvoid: state.postvoid, postvoidtransdetails : state.postvoidtransdetails };
+    return { postvoid: state.postvoid, postvoidtransdetails : state.postvoidtransdetails,login:state.login};
 }
 
  function mapDispatchToProps(dispatch) {

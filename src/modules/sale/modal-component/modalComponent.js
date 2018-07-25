@@ -12,6 +12,8 @@ import cancelBtnImage from '../../../resources/images/Close_Bttn_Purple.svg';
 import transModifyImage from '../../../resources/images/Trans_Modify.svg';
 
 
+
+
 export class AddSkuModal extends Component {
     constructor(props) {
         super(props)
@@ -21,7 +23,9 @@ export class AddSkuModal extends Component {
     }
 
     updateSkuEntry(e) {
-        this.setState({sku: e.target.value})
+        if(e.target.value.length <= 12){
+            this.setState({sku: e.target.value})
+        }
     }
 
   render() {
@@ -75,6 +79,7 @@ export class AddSkuModal extends Component {
           <div className='key-sku-modal-message'>Please enter SKU Number to Add Items</div>
 
             <TextField className="key-sku-modal-textfield"
+                //maxLength='2' 
                 onChange={e => this.updateSkuEntry(e)}
                 value={this.state.sku} 
                 type="number"
@@ -666,6 +671,101 @@ export class ModifyPriceErrorModal extends Component {
             }}>
                 <div className="modify-price-error-ok-button">OK</div>
             </div>
+        </div>);
+    }
+}
+export class AmountToBeEnteredModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state= {
+           
+        }
+    }
+
+    handleamountchange = (event, index, value) => {
+        if (event.target.value) {
+            if (window.innerWidth > 1900) {
+
+
+                document.getElementsByClassName('Ok-button-area')[0].style.opacity = "1";
+                document.getElementsByClassName('Ok-button-area')[0].classList.remove('button-disabler');
+
+
+
+            }
+            else {
+                document.getElementsByClassName('Ok-button-area')[0].style.opacity = "1";
+                document.getElementsByClassName('Ok-button-area')[0].classList.remove('button-disabler');
+            }
+        }
+        else {
+            //DO NOTHING
+        }
+
+
+
+    }
+    render() {
+
+        var textFieldStyle = {
+            height: (window.innerWidth>1900)?'85px':'100px',
+            paddingTop: '10px',
+            fontSize: (window.innerWidth>1900)?'32px':'56px', 
+            color: '#828282'
+            
+        }
+    
+        var textFieldFloatingLabelStyle = {
+            height: (window.innerWidth>1900)?'37px':'74px',    
+            fontFamily: 'Roboto',
+            fontSize: (window.innerWidth>1900)?'30px':'56px',
+            fontWeight: '300',
+            fontStyle: 'normal',            
+            letterSpacing: 'normal',            
+            textAlign: 'left',
+            color: '#333333'
+        }
+
+        var errorStyle= {
+            position: 'absolute',
+            fontFamily: 'Roboto',
+            fontSize: (window.innerWidth>1900)?'22px':'34px',
+            fontWeight: 'normal',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            textAlign: 'right',
+            color: '#d53560',
+            bottom:'-20px',
+            right:'20px'
+        }
+    
+        var underlineStyle= {
+            backgroundColor: '#828282'
+            
+        }
+
+        return (<div className="amount-to-be-entered-modal">
+            <div className="enter-amount-icon"> <img className="enter-amt-icon" src={itemModifyImage} alt="enter-amount" /></div>
+            <div className="enter-amount-label">Enter Amount</div>
+            <div className="modify-amount-item-modify-text-field">
+                    <TextField
+                        type="number"
+                        floatingLabelText = "Price"
+                        floatingLabelStyle = {textFieldFloatingLabelStyle} 
+                        underlineStyle = {underlineStyle}
+                        errorStyle = {errorStyle}                                   
+                        style = {textFieldStyle}
+                        fullWidth = {true}
+                        onChange={this.handleamountchange}
+                       
+                    />
+            <div className="amount-to-be-entered-button-area">
+            <div className="cancel-button-area" onClick={() => {
+                this.props.amount_to_be_inserted_modal(false);}}><img className="modify-amount-item-cancel-button-icon" src={cancelBtnImage} alt="cancel" /><div className="modify-amount-cancel-label">CANCEL</div></div>
+            <div className="Ok-button-area button-disabler"><div className="modify-amount-ok-label">OK</div></div>
+            </div>
+                </div>
         </div>);
     }
 }

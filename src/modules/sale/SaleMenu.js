@@ -25,7 +25,7 @@ export default class SaleMenu extends Component {
     super(props);
     this.state={
       sendOptionSelected: false,
-      discountsApplied:[]
+      discountsApplied:[],
     };
   }
 
@@ -39,6 +39,7 @@ export default class SaleMenu extends Component {
   }
 
   voidLineItem = (index) => {
+
     var clickedItem = Object.assign({},this.props.items[index][0])
     //clickedItem.LineNumber = "100";
     console.log('Void Line clickedItem: ', clickedItem);
@@ -54,6 +55,10 @@ export default class SaleMenu extends Component {
     this.closeNav();
     this.props.showVoidLineConfirmModal(true,clickedItem);
     //this.props.voidLineItem(clickedItem);
+  }
+
+  renderGiftCard = () => {
+    this.props.history.push('/gift-card')
   }
 
   render() {
@@ -75,6 +80,7 @@ export default class SaleMenu extends Component {
               showItemGiftReceiptModal = {this.props.showItemGiftReceiptModal}
               showSpecialInstructionsModal={this.props.showSpecialInstructionsModal}
               isItemSelected={this.props.isItemSelected}
+              loadPriceDrpDown={this.props.loadPriceDrpDown}
               itemPromotionDetails = {this.props.itemPromotionDetails}
               item={this.props.items[this.props.currentItem]}
               showModifyErrorModal={this.props.showModifyErrorModal}
@@ -84,6 +90,7 @@ export default class SaleMenu extends Component {
                 history={this.props.history} 
                 currentItem={this.props.currentItem} 
                 voidLineItem={this.voidLineItem}
+                items={this.props.items}
               />
 
               <div className="option-list">
@@ -120,7 +127,7 @@ export default class SaleMenu extends Component {
               >
                 <img className='icon-send' src={this.props.isSendOptionSelected ? send_selected : send} alt="send"/>Send
               </div>
-              <div className="option-list"><img className="icon-gift-card" src={giftCard} alt="gift-card"/>Gift Card</div> 
+              <div className="option-list"><img className="icon-gift-card" src={giftCard} alt="gift-card" onClick={this.renderGiftCard}/>Gift Card</div> 
               
         </div>,
         
@@ -144,6 +151,7 @@ export default class SaleMenu extends Component {
                 <SaleServicesMenu
                   history={this.props.history} 
                   currentItem={this.props.currentItem}
+                  items={this.props.items}
                 />
 
                 <div className="option-list">

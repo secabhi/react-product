@@ -275,7 +275,7 @@ export default class ViewEditCustomerView extends Component {
                     <div className="spacer-div" />
 
                 </div>
-                <div className='viewedit-subheader-container'>
+                {/* <div className='viewedit-subheader-container'>
                     <div className='viewedit-customer-tab-header' onClick={this.props.switchtoProfile} >
 
 
@@ -292,7 +292,7 @@ export default class ViewEditCustomerView extends Component {
                         </Badge>
                         <div className='viewedit-customerint-label '>Reminders</div>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="viewedit-form">
                     <div className="viewedit-firstrow">
@@ -314,7 +314,7 @@ export default class ViewEditCustomerView extends Component {
                             >
                                 {
                                     this.props.salutationDataDrop.map(function (item, i) {
-                                        return <MenuItem className="select-field-menu-item" key={i} value={item.Value} primaryText={item.Value} />;
+                                        return <MenuItem className="select-field-menu-item" key={i} value={item} primaryText={item} />;
                                     })
                                 }
                             </SelectField>

@@ -13,29 +13,30 @@ const giftReceiptdataURL = path+'giftReceiptURL.json';
 const URL = CONFIG_FILE.giftReceiptURL;
 
 
-export function saleitemGiftReceiptUpdate(item,transactionId,modify_type){
+export function saleitemGiftReceiptUpdate(item,transactionId,modify_type,userPin,index){
     console.log('modify type in action'+modify_type);
     console.log('line number'+JSON.stringify(item));
     console.log('line number'+item.itemNumber);
+    let shouldModifyVal = '';
     if(modify_type=='item')
     {
         item=item[0];
+        shouldModifyVal = item .print_GWGR_Msg;
     }
     else{
         item=item;
     }
     const params = {
-
+    "SourceApp":"MPOS",
     "SourceLoc":"NM-DIRECT",
-	 "SourceLoc":"NM-DIRECT",
 	 "Store":"0010",
 	 "Terminal":"0216",
-	 "StoreAssoc":"209289",
+	 "StoreAssoc":userPin,
 	 "ClientID":"0010:0216:06082018:033639",
 	 "TransactionId":transactionId,
 	"LineNumber": modify_type=='item'?item.lineNumber:undefined,
 	"SKU": modify_type=='item'?item.itemNumber:undefined,
-	"IsTransModify": modify_type=='item'?"false":"true",
+	"IsTransModify": modify_type=='item'?"false":"true"
     };
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(giftReceiptdataURL,{});
       
@@ -45,6 +46,9 @@ export function saleitemGiftReceiptUpdate(item,transactionId,modify_type){
         console.log('content'+env.ENV_MODE)
          request.then(({data}) => {
             console.log('response data'+JSON.stringify(data));
+            if(modify_type == 'item' && data.cartItems.items[index].print_GWGR_Msg === shouldModifyVal){
+                data.cartItems.items[index].print_GWGR_Msg = null;
+            }
             if(data.response_text == "IM_SUCCESS") {
                 
                 dispatch({

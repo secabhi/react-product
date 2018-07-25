@@ -20,7 +20,7 @@ export class SignatureModal extends Component {
         return (
             <Modal
                 open={this.props.props.signatureModal}
-                onClose={() => this.props.props.closeSignatureModal()}
+                onClose={this.props.props.closeSignatureModal}
                 classNames={{
                 modal: 'payment-modal'
             }}
@@ -29,7 +29,7 @@ export class SignatureModal extends Component {
                 <div className='payment-modal-container'>
                     <div className='payment-signature-modal-label'>
                         Amount Charged &nbsp;
-                        <span className="payment-signature-modal-labelText">${this.props.props.values[this.props.props.currentCard]}</span>
+                        <span className="payment-signature-modal-labelText">${this.props.props.payValues[this.props.props.currentCard]}</span>
                     </div>
                     <div className="payment-signature-area-modal">
                         <SignatureCanvas ref={(ref)=>{this.mySignature=ref}} />

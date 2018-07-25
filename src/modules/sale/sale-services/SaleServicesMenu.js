@@ -18,7 +18,7 @@ import './SaleServicesMenu.css';
 class SaleServicesMenu extends Component {
     constructor(props) {
         super(props);
-
+        this.props = props
         this.state = {
             dropDown: false,
             altDropDown: false,
@@ -73,7 +73,7 @@ class SaleServicesMenu extends Component {
 
     
     render() {
-        console.log('MENU', this.props)
+       const isEnabled  = this.props.items[0] && this.props.items[0].length !== 0 
         return (
             <div className="services-enabled-style">
             {/* <div className={(this.props.currentItem !== '')?"services-enabled-style":"services-disabled-style"}> */}
@@ -86,8 +86,8 @@ class SaleServicesMenu extends Component {
                 {this.state.dropDown ? 
                     <div className="drop-menu">
 
-                        <div className={(this.props.currentItem !== '')?"drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
-                            if(this.props.currentItem !== '') {
+                        <div className={isEnabled ? "drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
+                            if(isEnabled) {
                                 this.renderGiftWrap(this.props); 
                                 this.activeLink(e);
                             }
@@ -95,8 +95,8 @@ class SaleServicesMenu extends Component {
                       
                         <div className="drop-menu-items" onClick={this.activeLink}>Gift Wrap COM</div>
                     
-                        <div className={(this.props.currentItem !== '')?"drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
-                            if(this.props.currentItem !== '') {
+                        <div className={isEnabled ? "drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
+                            if(isEnabled) {
                                 this.renderAlterations(this.props.cart.data); 
                                 this.activeLink(e);
                             }
@@ -121,8 +121,8 @@ class SaleServicesMenu extends Component {
 };
 
 
-function mapStateToProps({cart}) {
-    return { cart }
+function mapStateToProps(state) {
+    return { cart: state.cart }
   }
   
   function mapDispatchToProps(dispatch) {

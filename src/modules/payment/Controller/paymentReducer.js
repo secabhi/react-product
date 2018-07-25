@@ -4,14 +4,20 @@ const initialState = {
 };
 
 export function paymentReducer(state = initialState, action) {
-
     switch (action.type) {
 
-        case 'SUCCESS': {
+        case 'GET_CLIENT_DETAILS': {
             return {
                 ...state,
-                clientData:action.payload, 
-                failure: 0
+                clientData:action.payload
+            };
+            break;
+        }
+
+        case 'UPDATE_CLIENT_DETAILS': {
+            return {
+                ...state,
+                clientData:action.payload
             };
             break;
         }
@@ -19,15 +25,15 @@ export function paymentReducer(state = initialState, action) {
         case 'FAILURE' :{
             return{
                 ...state,
-                failure: 1
+                clientData:action.payload
             }
             break;
         }
 
         case 'CLEAR':{
             return {
-                ...state, 
-                failure:null
+                ...state,
+                clientData:null
             }
         }
         case 'SET_CLIENTELED':
@@ -40,9 +46,8 @@ export function paymentReducer(state = initialState, action) {
         return {
             ...state,
             aurusresponse: action.payload
-
-
         }
+
         //isell cart update reducers
         case 'ISELL_SUCCESS' : 
         console.log('ISELL_SUCCESS true');
@@ -50,8 +55,6 @@ export function paymentReducer(state = initialState, action) {
             ...state,
             data: action.payload,
             type:'UPDATE_ISELL_SUCCESS'
-
-
         }
 
         case 'ISELL_FAILURE' : 
@@ -61,6 +64,47 @@ export function paymentReducer(state = initialState, action) {
             type : 'UPDATE_ISELL_FAILURE'
 
 
+        }
+
+        //PRINT RECEIPT
+        case 'PRINT_RECEIPT_SUCCESS':
+        console.log(action.payload)
+        return {
+            ...state,
+            data: action.payload
+        }
+        
+        case 'PRINT_RECEIPT_FAILURE':
+        console.log(action.payload)
+        return {
+            ...state,
+            data: action.payload
+        }
+
+        // ADD TENDER
+        case 'ADD_TENDER_SUCCESS' :
+        return {
+            ...state,
+            data: action.payload
+        }
+
+        case 'ADD_TENDER_FAILURE' :
+        return {
+            ...state,
+            data: action.payload
+        }
+
+        // COMPLETE TRANSACTION
+        case 'COMPLETE_TRANSACTION_SUCCESS' :
+        return {
+            ...state,
+            data: action.payload
+        }
+
+        case 'COMPLETE_TRANSACTION_FAILURE' :
+        return {
+            ...state,
+            data: action.payload
         }
 
         default:

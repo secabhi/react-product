@@ -9,7 +9,11 @@
     box-shadow: 0 -1px 6px 0 #d3d3d3;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+   align-items: center;
+}
+.tax-exempt {
+    align-items: normal;
+   padding-top: 30px;
 }
 
 .item-subtotal, .item-taxed, .item-total {
@@ -35,6 +39,10 @@
     text-align: left;
     color: #333333;
     margin-left: 20px;
+}
+
+.item-taxed-amount {
+    margin-left: 58px;
 }
 
 /* 
@@ -89,6 +97,8 @@
     background-color: #0a6962;
     margin-right: 50px;
     align-items: center;
+    /*--*/
+    margin-top: 30px;
 }
 
 .payment-logo {
@@ -292,6 +302,9 @@
         margin-right: 50px;
         align-items: center;
     }
+   .pay-btn-tax-exe {
+       margin-top: 30px;
+   }
 
     .payment-text {
         width: 187px;

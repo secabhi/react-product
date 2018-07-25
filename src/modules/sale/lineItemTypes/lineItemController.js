@@ -31,15 +31,15 @@ export default class LineItemController extends Component{
     
     saleItemType(){
         console.log("ITEMTYPE:", this.state.itemType);
-        if(this.state.itemType == "alterationsnp"){
+        if(this.state.itemType == "alterations"){
             // console.log('IN ALTERATIONS', this.props);
             // alert("hello")
             // this.props.lastStatusIndicatorFunction("A");
             
             if(this.state.smallFormFactor){
                 var date = this.props.obj.promisedDate;
-                var month = date.substr(0,2);
-                var day = date.substr(2, 2);
+                var day = date.substr(0,2);
+                var month = date.substr(2, 2);
                 var year = date.substr(4,2);
 
                 return(
@@ -52,7 +52,7 @@ export default class LineItemController extends Component{
                         spaceStyle = {"alterations-space"}
                         containerStyle = {"alterations-container"}
                         title = {"Alterations"}
-                        descriptionLine1 = {"Test Data"}
+                        descriptionLine1 = {"NP "+this.prop.obj.department+' '+this.props.obj.class+"-"+this.prop.obj.subClass+" "+this.props.obj.alterationID}
                         descriptionLine2 = {"Promised: " + month + '/' + day + '/' + year}
                         pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
                         pricingLine2 = {"TAX(" + (parseFloat(this.props.tax * 100).toFixed(3)) + "%" + ")" + "101000"}
@@ -79,8 +79,8 @@ export default class LineItemController extends Component{
                         spaceStyle = {"alterations-space"}
                         containerStyle = {"alterations-container"}
                         title = {"Alterations"}
-                        descriptionLine1 = {"Test Data"}
-                        descriptionLine2 = {"Promised: " + month + '/' + day + '/' + year}
+                        descriptionLine1 = {"NP "+this.props.obj.department+' '+this.props.obj.class+"-"+this.props.obj.subClass+" "+this.props.obj.alterationID}
+                        descriptionLine2 = {"Promised: " + day + '/' + month + '/' + year}
                         pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
                         pricingLine2 = {"TAX(" + (parseFloat(this.props.tax * 100).toFixed(3)) + "%" + ")" + "101000"}
                         qtyPrice = {this.props.qtyPrice}
@@ -102,8 +102,9 @@ export default class LineItemController extends Component{
                         spaceStyle = {"giftWrap-space"}
                         containerStyle = {"giftWrap-container"}
                         title = {"Gift Wrap:"}
-                        descriptionLine1 = {"Test Data"}
-                        descriptionLine2 = {"Gift Message Enclosed"}
+                        descriptionLine1 = {this.props.obj.pim_SKU_ID}
+                        descriptionLine2 = {this.props.obj.comment[0] ? this.props.obj.print_GWGR_Msg
+                            : ""}
                         pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
                         //pricingLine2 = {"TAX(" + (this.props.tax * 100) + "%" + ")" + "101000"} 
                         qtyPrice = {this.props.qtyPrice}
@@ -123,8 +124,8 @@ export default class LineItemController extends Component{
                         spaceStyle = {"giftWrap-space"}
                         containerStyle = {"giftWrap-container"}
                         title = {"Gift Wrap:"}
-                        descriptionLine1 = {"Test Data"}
-                        descriptionLine2 = {"Gift Message Enclosed"}
+                        descriptionLine1 = {this.props.obj.pim_SKU_ID}
+                        descriptionLine2 = {this.props.obj.comment[0] ? this.props.obj.print_GWGR_Msg : ""}
                         pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
                         //pricingLine2 = {"TAX(" + (this.props.tax * 100) + "%" + ")" + "101000"} 
                         qtyPrice = {this.props.qtyPrice}

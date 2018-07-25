@@ -42,18 +42,17 @@ export class PaymentCard extends Component {
                 <div className={"payment-card " + this.props.index} key={this.props.index} tabIndex="0" row={this.props.index} onClick={()=>this.setActive(this.props.index)} onBlur={()=>this.setInactive(this.props.index)}> 
                     <span className="type-Number">
                         <span className="payment-cardNumber">
-                            {this.props.card?this.props.card.CardType+" "+ this.props.card.CardToken.slice(-4):
-                             <span className="payment-asterisk">xxxxxxxx</span>
+                            {this.props.card?this.props.card.CardType+" "+ this.props.card.CardToken:
+                             <span className="payment-asterisk">XXXXXXXXXXXXXXXX</span>
                             }
                         </span>
                     </span>
                     <form
-                        className="amountInputForm hide"
-                        onSubmit={this
+                        className="amountInputForm"
+                        onSubmit={(e)=>this
                         .props
                         .props
-                        .getAmountDue
-                        .bind(this, this.props.index)}
+                        .getAmountDue(e, this.props.index, "F")}
                         >
                         <input
                             className="inputAmount"
@@ -62,7 +61,7 @@ export class PaymentCard extends Component {
                             type="number"
                             min="0.01"
                             step="0.01"
-                            key={this.props.props.amountDue}
+                            //key={this.props.props.amountDue}
                             onChange={this
                             .handleChange
                             .bind(this, this.props.index)}
@@ -70,7 +69,7 @@ export class PaymentCard extends Component {
                             name="input"></input>
                         <button className="acceptAmountbttn" type="submit">ACCEPT AMOUNT</button>
                     </form>
-                    <span className="amountLabel">Amount Paid ${this.props.props.values[this.props.index]}</span>
+                    <span className="amountLabel hide">Amount Paid ${this.props.props.paidValues[this.props.props.currentCard]}</span>
                 </div>
             </div>
         );

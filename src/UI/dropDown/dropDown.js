@@ -21,7 +21,7 @@ export default class DropDown extends Component {
         
         return (
             <div className={active ? 'dropDown': 'dropdown-element-disabled'} >
-                <div className="dropDown-main-flex" onClick={() => {console.log('Sweezey : dropdown: i was clicked');this.toggleChildrensVisibility() }}>
+                <div className="dropDown-main-flex" onClick={() => {this.toggleChildrensVisibility() }}>
                     {header}
                     <img className="dropDown-icon" src={this.state.show ? accordianOpen : accordianClose} alt='dropdown arrow' />
                 </div>

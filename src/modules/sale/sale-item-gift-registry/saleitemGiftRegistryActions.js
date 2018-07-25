@@ -13,7 +13,7 @@ const giftRegistryURL = path+'giftRegistryURL.json';
 const URL = CONFIG_FILE.giftRegistryURL;
 
 export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,userPin){
-    console.log("User Pinwerwerwerwerwerwe-------------------",userPin);
+
     const params = {
 
     "SourceLoc":"NM-DIRECT",
@@ -28,9 +28,8 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
 	"TransModify": modify_type=='item'?"N":"Y",
 	"GiftRegistryNum": gift
     };
-    //console.log("User Pin090090909090909090909",userPin);
     const request = env.ENV_MODE=='dev1'?callPutWebService(URL, params):callGetWebService(giftRegistryURL, {});
-    console.log("Request", request);
+    
     console.log("saleitemGiftRegistryUpdate Parameters being sent", params);
     
     return (dispatch) => {
@@ -49,8 +48,7 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
                     
                     type: 'GIFTREGISTRYUPDATE_REQUEST',
                     payload: data
-                    /*
-                    {  
+                    /*{  
                         "response_code":0,
                         "response_text":"AC_SUCCESS",
                         "transactionId":"1303",

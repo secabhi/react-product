@@ -1039,4 +1039,160 @@
         color: white;
         margin-top: 31px;
     }
+}/*---LFF--*/
+@media only screen and (min-width: 1920px){
+.amount-to-be-entered-modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.enter-amount-icon{
+    margin-top: 80px;
+    width: 120px;
+    height: 120px;
+}
+.enter-amount-label{
+    margin-top: 25px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.amount-to-be-entered-button-area{
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+}
+.cancel-button-area{
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    display: flex;
+    flex-direction: row;
+    
+}
+.Ok-button-area{
+    margin-left: 40px;
+    width: 155px;
+    height: 60px;
+    
+    background-color: #4b2b6f;
+}
+.modify-amount-item-cancel-button-icon{
+    width: 28px;
+    height: 28px;
+    margin-left: 24.7px;
+    margin-top: 16px;
+}
+.modify-amount-cancel-label{
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #613b8c;
+    margin-left:10px;
+    margin-top: 16px;
+}
+.modify-amount-ok-label{
+    margin-left: 62px;
+    margin-top: 16px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: #ffffff;
+}
+.button-disabler{
+    opacity:0.4
+}
+
+}
+/*----SFF---*/
+@media only screen and (max-width: 1900px){ 
+    .amount-to-be-entered-modal{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .enter-amount-icon{
+        margin-top: 153px;
+        width: 300px;
+        height: 300px;
+    }
+    .enter-amount-label{
+        margin-top: 102px;
+        font-family: Roboto;
+        font-size: 74px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+    }
+    .amount-to-be-entered-button-area{
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+
+    }
+    .cancel-button-area{
+        width: 375px;
+        height: 120px;
+        border: solid 2px #613b8c;
+        display: flex;
+        flex-direction: row;
+        
+    }
+    .modify-amount-item-cancel-button-icon{
+        width: 47.3px;
+        height: 47.3px;
+        margin-left: 24.7px;
+        margin-top: 16px;
+    }
+    .modify-amount-cancel-label{
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #612e9b;
+        margin-left:10px;
+        margin-top: 16px;
+    }
+    .modify-amount-ok-label{
+        margin-left: 62px;
+        margin-top: 16px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: 0.4px;
+        text-align: left;
+        color: #ffffff;
+    }
+    .button-disabler{
+        opacity:0.4
+    }
+
+
 }

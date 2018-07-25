@@ -114,6 +114,7 @@ class UpdateCustomer extends Component {
         console.log("UpdateCustomer Domestic Will mount");
         this.fetchSalutation();
         this.fetchStates();
+        console.log('Update Customer: componentWillmount', this.props);
         this.props.startSpinner(false);
     }
 
@@ -122,6 +123,7 @@ class UpdateCustomer extends Component {
     componentWillReceiveProps = nextProps => {
         console.log('Update Customer: componentWillReceiveProps', nextProps);
         console.log(this.state.currentAddress)
+        //debugger;
         if (nextProps.updateCustomer.successModalFlag === true) {
             console.log("11111");
             this.setState({
@@ -220,12 +222,13 @@ class UpdateCustomer extends Component {
     }
 
 
-    /**Fetch the salutations list from local json */
+    /**Fetch the salutations list*/
 
     fetchSalutation() {
-        var salutationData = require('../../resources/stubs/salutationList.json');
-        if (salutationData) {
-            this.setState({ salutationDataDrop: salutationData.Salutation });
+        if (this.props.salutationData) {
+            this.setState({ 
+                salutationDataDrop: this.props.salutationData.Salutations 
+            });
         }
     }
 
@@ -259,10 +262,13 @@ class UpdateCustomer extends Component {
             'CEmail': this.state.changedAddress['cust_dom_email'],
             'Country': 'US',
             'CMobile': this.state.changedAddress['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, ""),
-            'storeClientNo': '10000000257',
-            'storeAssoc': '209289',
+            'storeClientNo': '',//'10000000257',
+            'storeAssoc': this.props.login.userpin,
             'donotcall': this.state.cust_text_opt,
             'flagByPASS': bypassFlag,
+            "ClienteleUpdateFlag":true,
+            "CCssNo":this.props.customerDetails.cssId,
+            "COtherPhone":this.state.changedAddress['cust_dom_otherMobile'].replace(/[^A-Z0-9]+/ig, "")
 
             /* "ClientID":"0101:0169:04042018:033639",
                  "ClientTypeID":"1000",
@@ -316,11 +322,14 @@ class UpdateCustomer extends Component {
             // this.isValid = false;
 
         }
-        else if (!fields['cust_dom_lname']) {
+      if (!fields['cust_dom_lname']) {
+           
             errors['cust_dom_lname'] = 'Last Name cannot be empty';
             // this.isValid = false;
         }
-        else if (fields['cust_dom_fname'] && fields['cust_dom_fname'] && (!fields['cust_dom_address1'] && !fields['cust_dom_email'])) {
+      
+       
+       if (fields['cust_dom_fname'] && fields['cust_dom_lname'] && (!fields['cust_dom_address1'] && !fields['cust_dom_email'])) {
             this.openaddrEmailMOdal();
             this.isValid = false;
             console.log(this.isValid)
@@ -329,7 +338,7 @@ class UpdateCustomer extends Component {
         else if (!fields["cust_dom_email"] && !fields['cust_dom_address1']) {
             errors['cust_dom_address1'] = 'Address Line 1 cannot be empty';
             //this.isValid = false;
-        }
+        }  
         else if (!fields['cust_dom_country']) {
             errors['cust_dom_country'] = 'Country cannot be empty';
             //this.isValid = false;
@@ -356,7 +365,7 @@ class UpdateCustomer extends Component {
                 // this.isValid = false;
             }
         }
-
+        
         this.isValid = isObjectEmpty(errors);
         console.log('isValid' + this.isValid);
         this.setState({ errors: errors });
@@ -740,8 +749,8 @@ function isObjectEmpty(obj) {
     }
     return true;
 }
-function mapStateToProps({ updateCustomer, customerDetails }) {
-    return { updateCustomer, customerDetails };
+function mapStateToProps({ updateCustomer, customerDetails, home, login}) {
+    return { updateCustomer, customerDetails, salutationData: home.salutationData, login };
 }
 
 function mapDispatchToProps(dispatch) {

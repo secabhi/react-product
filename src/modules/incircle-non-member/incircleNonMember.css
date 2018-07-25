@@ -60,28 +60,28 @@
 /* INTEGRATE */
 
 .cusdet-tab-content .custdet-detail-label {
-  font-family: Roboto-Light;
+  font-family: Roboto;
   font-size: 21px;
-  font-weight: normal;
+  font-weight: 300;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.29;
-  letter-spacing: 2px;
+  line-height: 1.62;
+  letter-spacing: normal;
   text-align: left;
   color: #505050;
 }
 
 .cusdet-tab-content .custdet-detail-value {
   height: 62px;
-  font-family: Roboto-Medium;
+  font-family: Roboto;
   font-size: 28px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.71;
-  letter-spacing: 2px;
+  line-height: 1.21;
+  letter-spacing: normal;
   text-align: left;
-  color: #505050;
+  color: #333333;
 }
 
 .cusdet-tab-content .edit-profile-button-label {

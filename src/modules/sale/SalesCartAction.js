@@ -311,6 +311,7 @@ export function navigate(data) {
 }
 
 export function getPromotionsAction(transactionId,item) {
+    debugger;
     const apiURL = config.getPromoPriceURL;
     const getPromoPriceURL =path+'getPromoPriceURL.json';
 

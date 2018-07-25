@@ -58,13 +58,7 @@ export function CustomerSearchReducer(state = initialState, action) {
                 isSearchItemSet :  false,
                 dataFrom :''
             };
-        case 'SET_CLIENTELED':
-            return {
-                ...state,
-                clienteled: action.payload,
-                isSearchItemSet :  false,
-                dataFrom : ''
-            };
+       
         case 'CUST_INCIRCLE_INFO':
             return {
                 ...state,
@@ -87,15 +81,6 @@ export function CustomerSearchReducer(state = initialState, action) {
                 dataFrom: 'GET_ISELL_CART_REQUEST_UPDATE'
             };
         }
-        case 'GET_CLIENT_TELE_REQUEST_SUCCESS': {
-            console.log('**GET_CLIENT_TELE_REQUEST_SUCCESS: action.payload', action.payload);
-            return {
-                ...state,
-                data: action.payload,
-                dataFrom: 'GET_CLIENT_TELE_REQUEST_UPDATE',
-                isSearchItemSet :  false
-            };
-        }
         case 'SET_SEARCHITEM_DATA':
             return {
             ...state,
@@ -104,6 +89,15 @@ export function CustomerSearchReducer(state = initialState, action) {
             dataFrom : ''
             
         };
+
+        case 'SET_CLIENTELED':
+            return {
+                ...state,
+
+                clienteled : action.payload,
+                dataFrom: 'SET_CLIENTELED'
+            };
+
         case 'CLEAR_SEARCH_DATA':
         return {
             ...state,

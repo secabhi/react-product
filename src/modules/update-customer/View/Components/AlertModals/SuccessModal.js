@@ -25,7 +25,9 @@ export default class SuccessModal extends Component {
                             <div className='add-domcust-success-modal-message'>
                                 The customer <span> 
                                 {(this.props.invokedFrom === "updateCustomerInternational")?this.props.changedAddress['update_int_salutation']:this.props.changedAddress['update_int_salutation']} 
+                                {' '}
                                 {(this.props.invokedFrom === "updateCustomerInternational")?this.props.changedAddress['update_int_fname']:this.props.changedAddress['cust_dom_fname']} 
+                                {' '}
                                 {(this.props.invokedFrom === "updateCustomerInternational")?this.props.changedAddress['update_int_lname']:this.props.changedAddress['cust_dom_lname']} </span>
                                     has been updated successfully.
 

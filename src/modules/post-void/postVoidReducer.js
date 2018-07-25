@@ -22,6 +22,10 @@ const initialState = {
           ...state,
           transactionData: action.payload
         }
+        case 'PV_TRANSACTIONNOTFOUND':
+        return {
+          ...state,
+                }
       default:
         return {
           ...state,
@@ -45,15 +49,32 @@ const initialState = {
   };
   
   export function PostVoidTransDetailsReducer(state = initialStatePostVoidDetails, action) {
-    
+
     switch (action.type) {
  
-     
-      case 'IM_SUCCESS':
+ 
+      case 'TRANSACTION_DETAILS_FETCH_SUCCESS':
         return {
           ...state,
           response: action.payload,
+          transacID:action.transacID,
+
           detailsFetchSuccessFlag : true
+        }
+
+      case 'TRANSACTION_DETAILS_FETCH_FAILURE':
+        return {
+          ...state,
+          response: {
+            cartItems: {},
+            response_code:'',
+            response_text:"",
+            subTotal:'',
+            total:'',
+            totalTax:'',
+            transactionId:""
+          },
+          detailsFetchSuccessFlag : false
         }
       default:
         return {
@@ -89,18 +110,43 @@ const initialState = {
         },
       ]
     },
-    detailsFetchSuccessFlag : false
+    listFetchSuccessFlag : false,
+    defaultValue : true
   };
   export function PostVoidGetTransListReducer(state = initialStatePostVoidTransList, action) {
    
     switch (action.type) {
  
      
-      case 'TL_SUCCESS':
+      case 'TRANSACTION_LIST_FETCH_SUCCESS':
         return {
           ...state,
           response: action.payload,
-          detailsFetchSuccessFlag : true
+          listFetchSuccessFlag : true,
+          defaultValue: false //This is to distinguish default response from other responses
+        }
+      case 'TRANSACTION_LIST_FETCH_FAILURE':
+        return {
+          ...state,
+          response : {
+            transactionList: [
+              {
+              store: "",
+              terminal: "",
+              transactionID: "",
+              date: "",
+              time: "",
+              unKnownFiled: "",
+              amount: "",
+              flag1: true,
+              flag2: false,
+              flag3: false,
+              transactionFile: ""
+              },
+            ]
+          },
+          listFetchSuccessFlag : false,
+          defaultValue: false
         }
       default:
         return {
@@ -122,7 +168,8 @@ const initialState = {
               },
             ]
           },
-          detailsFetchSuccessFlag : false
+          listFetchSuccessFlag : false,
+          defaultValue: true
         };
     }
   }

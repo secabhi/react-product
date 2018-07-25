@@ -24,7 +24,7 @@ export const ItemSelectorReducer = (state = [], action) => {
         }
       
       //if payload is empty, return empty single selection
-      if(action.payload) {
+      if(action.payload !== '') {
         return [action.payload];
       } else {
         return []

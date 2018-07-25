@@ -18,6 +18,7 @@ import savebtn from '../../../../../resources/images/Save.svg';
 import visa from '../../../../../resources/images/Visa.svg'
 import deletebutton from '../../../../../resources/images/Delete_Purple.svg'
 import info from '../../../../../resources/images/Info.svg'
+import arrowdownicon from '../../../../../resources/images/Arrow_Down.svg';
 
 /* Styles import */
 import '../../Styles/AddCustomerStyle.css';
@@ -205,7 +206,7 @@ export class AddCustomerDomesticView extends Component {
                         <div className='field2'>
                             <SelectField value={this.props.domesticProp.dom_cust_state} onChange={this.props.domesticProp.handleCustStateChange} floatingLabelText="State" fullWidth={true} floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle} style={customStyle.selectFieldStyle} labelStyle={customStyle.selectFieldLabelStyle} menuItemStyle={customStyle.selectFieldMenuItemStyle} selectedMenuItemStyle={customStyle.selectFieldMenuItemStyle} iconStyle={customStyle.selectFieldIconStyle} //maxHeight = '85.5px'
                                 maxHeight={180} dropDownMenuProps={{
-                                iconButton: <Dropdownicon/>
+                                iconButton: <img src={arrowdownicon} alt="arror-icon"/>
                             }} underlineStyle={customStyle.underlineStyle}>
                                 {this.props.domesticProp.statesList.map((s, i) => {
                                     return (

@@ -17,6 +17,7 @@ class OptionSeven extends Component {
         this.state = {    
         }
 
+        // object use to get data from individual child components
         this.optionSevenObject = {
             shippingOption: undefined,
             shippingFee: undefined,

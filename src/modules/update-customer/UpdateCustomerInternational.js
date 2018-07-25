@@ -20,6 +20,7 @@ import Popup from '../popup/popup';
 import VerifyCustomer from '../verify_customer/View/VerifyCustomerIntView';
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
+import { parsePhoneNumber,validZip } from '../common/helpers/helpers'
 import { startSpinner } from '../common/loading/spinnerAction';
 import Spinner from '../common/loading/spinner';
 
@@ -84,12 +85,13 @@ class UpdateCustomerInternational extends Component {
         console.log("UpdateCustomer International Did mount");
     }
 
-    /**Fetch the salutations list from local json */
+    /**Fetch the salutations list  */
 
     fetchSalutation(){
-        var salutationData = require('../../resources/stubs/salutationList.json');
-        if(salutationData){
-            this.setState({ salutationDataDrop: salutationData.Salutation })
+        if(this.props.salutationData){
+            this.setState({ 
+                salutationDataDrop: this.props.salutationData.Salutations 
+            });
         }
     }
      /* This method is invoked if any of the props changes, via reducer */
@@ -193,7 +195,7 @@ class UpdateCustomerInternational extends Component {
             errors['update_int_fname'] = 'First Name cannot be empty';
              
         } 
-        else if (!fields['update_int_lname']) {
+        if (!fields['update_int_lname']) {
             errors['update_int_lname'] = 'Last Name cannot be empty';
         } 
         /*else if(fields['update_int_fname'] && fields['update_int_fname'] && (!fields['update_int_address1'] && !fields['update_int_email']))
@@ -205,15 +207,15 @@ class UpdateCustomerInternational extends Component {
            console.log(this.isValid)
            return this.isValid;
         }*/
-        else if (!fields['update_int_address1']) {
+        if (!fields['update_int_address1']) {
             errors['update_int_address1'] = 'Address Line 1 cannot be empty';
             this.isValid = false;
         } 
-        else if (!fields['update_int_country']) {
+         if (!fields['update_int_country']) {
             errors['update_int_country'] = 'Country cannot be empty';
             this.isValid = false;
         } 
-        else if (!fields['update_int_city']) {
+         if (!fields['update_int_city']) {
             errors['update_int_city'] = 'City cannot be empty';
             this.isValid = false;
         } 
@@ -225,6 +227,14 @@ class UpdateCustomerInternational extends Component {
             if (fields['update_int_mobile'].length < 10 || fields['update_int_mobile'].length > 16) {
                 console.log('update_int_mobile' + fields['update_int_mobile'].length);
                 errors['update_int_mobile'] = 'Invalid Phone Number';
+                this.isValid = false;    
+            }
+        }
+        if(fields['update_int_pincode'])
+        {
+            if(!validZip(fields['update_int_pincode']))
+            {
+                errors['update_int_pincode'] = 'Invalid postal code';
                 this.isValid = false;    
             }
         }
@@ -461,12 +471,16 @@ class UpdateCustomerInternational extends Component {
            'CEmail': this.state.changedAddress['update_int_email'],
            'Country': this.state.changedAddress['update_int_country'],
            'CMobile': this.state.changedAddress['update_int_mobile'].replace(/[^A-Z0-9]+/ig, ""),
-           'storeClientNo': '0001900075192',
-           'storeAssoc': '209289',
+           'storeClientNo': '',
+           'storeAssoc': this.props.login.userpin,
            'donotcall': this.state.cust_text_opt,
-           'flagByPASS': true
+           'flagByPASS': true,
+           "ClienteleUpdateFlag":true,
+            "CCssNo":this.props.customerDetails.cssId,
+            "COtherPhone":this.state.changedAddress['update_int_otherMobile'].replace(/[^A-Z0-9]+/ig, "")
+
        }
-       
+       console.log('calling invoker',addCustDomData)
        this.props.updateCustomerIntServiceInvoker(addCustDomData);
    }
     handleChangeonInternational = (field, e) => {
@@ -536,8 +550,8 @@ function isObjectEmpty(obj){
     }
     return true;
 }
-function mapStateToProps({ updateCustomerInternational }) {
-    return { updateCustomerInternational };
+function mapStateToProps({ updateCustomerInternational, home, login,customerDetails }) {
+    return { updateCustomerInternational, salutationData: home.salutationData, login,customerDetails };
 }
 
 function mapDispatchToProps(dispatch) {

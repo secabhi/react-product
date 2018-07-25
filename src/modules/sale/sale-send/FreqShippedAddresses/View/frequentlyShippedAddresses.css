@@ -5,6 +5,7 @@
     width: 1828px;
     max-height: 560px;
     margin-top: 50px;
+    overflow: scroll;
     /* border: 2px solid blue; */
 }
 

@@ -116,7 +116,7 @@ class Alterations extends Component {
   }
 
   render() {
-    console.log('ALTERATION PROPS',this.props)
+    console.log('MIKE----------ALTERATION PROPS',this.props)
     return (
       <div>
         <Modal classNames={{modal: "contact-details-modal"}} open={this.state.contact_modal} onClose={() => this.setState({contact_modal: false})} closeOnOverlayClick={false}>
@@ -202,8 +202,8 @@ class Alterations extends Component {
           </div>
 
           <ServicesFooter>
-            <div className="alterations-cancel" onClick={() => this.navigateToSale()}><span className="alterations-cancel-text">Cancel</span></div>
-            <div className="alterations-next" onClick={() => this.renderContactDetailsModal()}><span className="alterations-next-text">Next</span></div>
+            <div className="alterations-cancel" onClick={() => {this.navigateToSale()}}><span className="alterations-cancel-text">Cancel</span></div>
+            <div className="alterations-next" onClick={() => {this.renderContactDetailsModal()}}><span className="alterations-next-text">Next</span></div>
           </ServicesFooter>
         </div> 
 
@@ -225,7 +225,8 @@ class Alterations extends Component {
   }
 
   setCurrentItem = (itemNumber, itemPrice, itemSku, selectedItem, index) => {
-    this.props.itemSelectedAction(selectedItem);
+
+    this.props.itemSelectedAction(index);
   }
 
   addToAlteration = (values) => {
@@ -236,15 +237,22 @@ class Alterations extends Component {
     console.log('API DATE FORMAT', apiDateFormat);
     apiDateFormat[2] = apiDateFormat[2].slice(2);
     //apiDateFormat = apiDateFormat.join('');
-    var finalApiDateFormat = apiDateFormat[1] + apiDateFormat[0] + apiDateFormat[2];
+    var finalApiDateFormat = apiDateFormat[0] + apiDateFormat[1] + apiDateFormat[2];
     console.log('API DATE FORMAT', finalApiDateFormat);
 
-    const index = this.props.lineNumber - 1;
+    const index = this.props.selectedItems[0];
+
     const cart = this.props.cart.data.cartItems.items;
     const transId = this.props.cart.data.transactionId;
     const selectedItem = cart[index][0];
+    //need to get last subitem linenumber to pass to API.Not the main sku linenumber
+    const lastSubItemIndex = cart[index].length - 1;
+
+    //if no subitem index will be zero which is main sku
+    const lineNum = cart[index][lastSubItemIndex].lineNumber;
+
     const sku = selectedItem.itemNumber;
-    const lineNum = selectedItem.lineNumber;
+
     const alterationsObj = {
       "transactionId": transId,
       "ItemNumber": sku,
@@ -252,9 +260,12 @@ class Alterations extends Component {
       "PromisedDate": finalApiDateFormat,
       "QuotedPrice": this.alterationObject.quotedPrice,
       "AlterationTag": this.alterationObject.alterationID,
-      "AlterationType" : "COM",
+      "AlterationType" : "",
       "AssociateName" :this.alterationObject.contactName,
       "AssociateExtn": this.alterationObject.contactExt,
+      "ClientTypeID": "1000",
+      "Description": "",
+      "RfaComments": ""
       // VALID ALTERATION TAG 1548634
     }
     console.log('B4 API CALL', this.props.cart.data)
@@ -328,7 +339,7 @@ function mapStateToProps({ alterationComplete, cart, sale, selectedItems,  }) {
   return { alterationComplete, 
            cart, 
            otherPageData: sale.otherPageData,
-           lineNumber: selectedItems
+           selectedItems
           }
 }
 

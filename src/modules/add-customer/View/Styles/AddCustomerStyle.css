@@ -36,7 +36,8 @@
     width: 1920px;
     max-width: 1920px;
     box-shadow: 0 1px 6px 0 #D9CCE7;
-	border-bottom: 1px solid #613b8c;
+    border-bottom: 1px solid #613b8c;
+    z-index: 101;
 
 }
 
@@ -1268,7 +1269,7 @@ input:focus {
     display: flex;
     flex-direction: row;
     flex: 1;
-    margin-top: 37px;
+    margin-top: 16px;
 }
 
 .add-dom-cust-modal-backtoedit-btn{
@@ -1279,6 +1280,17 @@ input:focus {
     width: 222px;
     height: 60px;
     border: solid 2px #613b8c;
+    background-color: #613b8c;
+}
+.add-domcust-name{
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold!important;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    text-align: center;
 }
 
 
@@ -1299,7 +1311,7 @@ input:focus {
 }
 
 .add-dom-cust-modal-backtoedit-btn-label{
-    width: 137px;
+    width: 163px;
     height: 24px;
     
     font-family: Roboto;
@@ -1310,7 +1322,7 @@ input:focus {
     line-height: 1.19;
     letter-spacing: normal;
     text-align: left;
-    color: #613b8c;
+    color: #ffffff;
 }
 
 .add-dom-cust-modal-bypass-btn-icon{

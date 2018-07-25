@@ -30,9 +30,9 @@ class PostVoid extends Component {
         return (
             <div>
                 <div className='post-void-modal-container'>
-                    <div><img src={closeicon} className="closeicon" onClick={this.props.closePostVoidModal} /></div>
-                    <div><img src={postVoidIcon} className='post-void-modal-icon' /></div>
-                    <div className='post-void-modal-label'>Post Void Options</div>
+                    <div><img src={closeicon} className="closeicon" onClick={this.props.closeModal1} /></div>
+                    <div><img src={this.props.modalIcon} className='post-void-modal-icon' /></div>
+                    <div className='post-void-modal-label'>{this.props.modalMessage}</div>
                     <div className='post-void-modal-button-area'>
                         <button className='post-void-modal-button-select'><span className='post-void-modal-button-select-label' onClick={() => this.props.openselectTrans()}>SELECT TRANS #</span></button>
                         <button className='post-void-modal-button-enter'><span className='post-void-modal-button-enter-label' onClick={this.props.openenterTrans}>ENTER TRANS #</span></button>
@@ -106,7 +106,7 @@ export class PostVoidEnter extends Component {
         return (
             <div>
                 <div className="postvoidmodal-enter-container">
-                    <div className=""><img className="post-void-modal-iconenter" src={postVoidIcon} /></div>
+                    <div className=""><img className="post-void-modal-iconenter" src={this.props.modalIcon} /></div>
                     <div className="post-void-modalenter-labelcont"><label className="post-void-modalenter-label">Enter Trans #</label></div>
                     {(window.innerWidth > 1900) ?
                         (<div className="textfield-scan-cls">

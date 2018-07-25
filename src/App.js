@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {
-  HashRouter as Router,
+  HashRouter as Router, 
   Route
 } from 'react-router-dom';
 import {HashRouter} from 'react-router-dom';
@@ -16,7 +16,7 @@ import InCircle from './modules/inCircle/Controller/InCircle';
 import IncircleNonMember from './modules/incircle-non-member/IncircleNonMember';
 import Sale from './modules/sale/Sale';
 import LookupDummy from './modules/lookup-dummy/LookupDummy';
-// import ProductsDummy from './modules/products-dummy/controller/ProductsDummy';
+import ProductsDummy from './modules/products-dummy/ProductsDummy';
 import AddCard from './modules/add-card/addCard';
 import Payment from './modules/payment/Controller/payment';
 import CustomerDetailsInternational from './modules/customer-details-international/CustomerDetailsInternational';
@@ -27,12 +27,15 @@ import ViewEditCustomerSff from './modules/viewedit-customer-sff/Controller/view
 import ProductSearch from './modules/product-search/ProductSearch';
 import GiftWrap from './modules/sale/sale-services/sale-services-gift-wrap/GiftWrapContainer';
 import Send from './modules/sale/sale-send/SendContainer';
+import GiftCard from './modules/sale/sale-giftcard/GiftCardContainer';
 import ProductDetails from "./modules/product-details/ProductDetails";
 import Alterations from './modules/sale/sale-services/sale-services-alterations/AlterationsContainer';
 import PostVoidDetailssmallff from './modules/post-void/postvoiddetailsmallff';
 //import PostVoidTransaction from './modules/post-void/post-void-transaction-model'
+import Reminders from './modules/reminders/reminders'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import ResumeTransactions from './modules/resume/resume-services-transactions/ResumeTransactionsContainer';
 import './App.css';
 
 import { Provider } from 'react-redux';
@@ -66,8 +69,6 @@ class App extends Component {
       var timeoutValue = parseInt(responseJSON.timeout);
       this.setState({ timeout : timeoutValue });
     })
-
-    //window.cordova.plugins.nmplugin.returnANumber("<InitAdsdkRequest> <POSID> 006402</POSID> <APPID>402</APPID> <CCTID>402</CCTID> <ServerIP>10.198.5.203</ServerIP> <ServerPort>4060</ServerPort> </InitAdsdkRequest>");
   }
 
   render() {
@@ -97,7 +98,7 @@ class App extends Component {
                 <Route path="/sale" component={Sale} />
                 <Route path='/gift-wrap' component = {GiftWrap}/>
                 <Route path='/alterations' component = {Alterations}/>
-                {/* <Route path="/products-dummy" component={ProductsDummy} /> */}
+                <Route path="/products-dummy" component={ProductsDummy} />
                 <Route path="/lookup-dummy" component={LookupDummy} />
                 <Route path="/incircle-non-member" component={IncircleNonMember} />
                 <Route path="/customer-search" component={CustomerSearch} />
@@ -105,11 +106,13 @@ class App extends Component {
 
                 <Route path="/payment" component={Payment} />
                 <Route path="/send" component={Send} />
+                <Route path="/gift-card" component={GiftCard} />
                  {/* <Route path='/postvoidtransactionmodel' component = {PostVoidTransaction}/>   */}
                  <Route path='/postvoiddetailsff' component = {PostVoidDetailssmallff}/>
                  <Route path="/product-search/:type?" component={ProductSearch}/>
                  <Route path="/product-details/:pimskuId" component={ProductDetails}/>
-
+                 <Route path="/reminders" component ={Reminders} />
+                 <Route path='/resume-transactions' component = {ResumeTransactions}/>
 
               </div>
             </MuiThemeProvider>

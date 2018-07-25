@@ -18,15 +18,24 @@ export default class ShippingOptions extends Component {
             },
             delivery_modal : false,
             selectStore: false,
-            overrideCode_error: ''
-            
+            overrideCode_error: '',
+
         }
-        this.state.shippingDetails = this.props.optionSevenObject;
+        // this.state.shippingDetails = this.props.optionSevenObject;
     }
+
+    componentWillMount = () => {
+      console.log("SHIV:SHIPPING", this.props.shipmentOptionsReqestObject)
+      console.log("SHIV:SHIPPING",this.props.sendResponseObject)
+    
+    }
+    
 
     
     render() {
         console.log('shipping options state', this.state)
+        
+        const ServicesFooter = this.props.optionalFooter;
 
         const textFieldInputStyle = {
             fontFamily: 'Roboto-Light',
@@ -62,7 +71,8 @@ export default class ShippingOptions extends Component {
         }
 
         const inputStyle = {
-            color: '#4b2b6f'
+            color: '#4b2b6f',
+            width:"inherit"
         }
 
         // Labels used for RadioButton
@@ -90,6 +100,7 @@ export default class ShippingOptions extends Component {
             <div className="shipping-options-label">Saturday Delivery - 41.00</div>
         )
 
+
         return (
             <div>
            {this.state.selectStore ? <SelectStore 
@@ -113,63 +124,25 @@ export default class ShippingOptions extends Component {
             <div className="shipping-options-content">
 
             <div className="shipping-options-list">
-            <RadioButtonGroup name="shippingOptions" >
-                <RadioButton className="shipping-option"
-                    value="0.00"
-                    label={surfaceLabel}
-                    onClick={(e) => {
-                        this.setShippingFee(e);
-                    }}
-                    iconStyle={iconStyle}
-                    inputStyle={inputStyle}
-                />
-                <RadioButton className="shipping-option"
-                    value="15.00"
-                    label={secondDayAirLabel}
-                    onClick={(e) => {
-                        this.setShippingFee(e);
-                    }}
-                    iconStyle={iconStyle}
-                    inputStyle={inputStyle}
-                />
-                <RadioButton className="shipping-option"
-                    value="25.00"
-                    label={overNightLabel}
-                    onClick={(e) => {
-                        this.setShippingFee(e);
-                        this.renderDeliveryModal();
-                    }}
-                    iconStyle={iconStyle}
-                    inputStyle={inputStyle}
-                />
-                 <RadioButton className="shipping-option"
-                    value="125.00"
-                    label={courierLabel}
-                    onClick={(e) => {
-                        this.setShippingFee(e);
-                    }}
-                    iconStyle={iconStyle}
-                    inputStyle={inputStyle}
-                />
-                 <RadioButton className="shipping-option"
-                    value="36.00"
-                    label={priorityLabel}
-                    onClick={(e) => {
-                        this.setShippingFee(e);
-                    }}
-                    iconStyle={iconStyle}
-                    inputStyle={inputStyle}
-                />
-                 <RadioButton className="shipping-option"
-                    value="41.00"
-                    label={saturdayLabel}
-                    onClick={(e) => {
-                        this.setShippingFee(e);
-                    }}
-                    iconStyle={iconStyle}
-                    inputStyle={inputStyle}
-                />
-            </RadioButtonGroup>     
+             
+                 <RadioButtonGroup 
+                    name="shippingOptions" >
+                     {this.props.sendResponseObject.shippingOptionsResponse.data.shippingOptions.map((option) => {
+                         //console.log(this.props.sendResponseObject.shippingOptionsResponse.data)
+                         //console.log(option)
+                        return <RadioButton className="shipping-option"
+                            key={option.option}
+                            value={option}
+                            label={option.description + " - " + parseFloat(option.price).toFixed(2)}
+                            onClick={(e) => {
+                                this.constructShippingOptionObject(option)
+                                this.setShippingFee(e)
+                                }}
+                            iconStyle={iconStyle}
+                            inputStyle={inputStyle}
+                        /> 
+                    })} 
+                </RadioButtonGroup>     
             </div>
 
             <div className="shipping-options-form">
@@ -201,9 +174,31 @@ export default class ShippingOptions extends Component {
 
         </div>
            }
+        <ServicesFooter additionalStyle='sendComponent-offset'>
+            <div  className="giftwrap-cancel" onClick={() => {this.props.history.goBack()}}><span className="giftwrap-cancel-text">Cancel</span></div>
+            <div className="giftwrap-next"  onClick={() => 
+                {
+                    this.props.directSendRequest(this.props.sendApiRequestObject)
+                }}>
+            <span className="giftwrap-next-text">Next</span></div>
+        </ServicesFooter>
         </div>
     )
   }
+
+    constructShippingOptionObject = (obj) => {
+        var shippingOptionObject = {
+            "Option":obj.option,
+            "Description":obj.description,
+            "PriceType":obj.priceType,
+            "InternationalFlag":obj.internationalFlag,
+            "SurfaceFlag":obj.surfaceFlag,
+            "Price":obj.price 
+        }
+        console.log("Shiv construct shippingOBJ", obj.option)
+        this.props.updateObjectHandler("ShippingOption", shippingOptionObject);
+
+    }
 
     setShippingFee = (e) => {
         // Retrieves the shipping fee
@@ -229,7 +224,7 @@ export default class ShippingOptions extends Component {
 
     shippingOptionsApiCall = () => {
         // SHIPPING OPTIONS API CALL
-        // apicall(){}
+        // this.props.getShipmentOptions(this.props.shipmentOptionsReqestObject)
 
         // SAMPLE SHIPPING OPTION OBJ
         // "ShippingOption": {
@@ -292,3 +287,7 @@ export default class ShippingOptions extends Component {
     }
 
 }; // END CLASS
+
+
+
+

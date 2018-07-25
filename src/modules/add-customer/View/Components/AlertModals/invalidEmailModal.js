@@ -36,7 +36,7 @@ export class InvalidEmailModal extends Component {
                             <div
                                 className='add-dom-cust-modal-backtoedit-btn'
                                 onClick={this.props.invalidEmailClose}><img src={editIcon} className='add-dom-cust-modal-backtoedit-btn-icon' hidden = {this.props.isHidden}/>
-                                <span className='add-dom-cust-modal-backtoedit-btn-label'>BACK TO EDIT</span>
+                                <span className='add-dom-cust-modal-backtoedit-btn-label'>RETURN TO EDIT</span>
                             </div>
                             <div
                                 className='add-dom-cust-modal-bypass-btn'

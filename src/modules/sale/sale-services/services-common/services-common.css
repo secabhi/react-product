@@ -24,6 +24,12 @@
   bottom: 80px;
 }
 
+.sendComponent-customerEditForm-offset{
+  position: absolute;
+  bottom: 80px;
+  left:0px;
+}
+
 
 /*----------SERVICES MODALS---------- */
 

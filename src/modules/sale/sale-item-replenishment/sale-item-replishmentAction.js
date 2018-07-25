@@ -6,18 +6,17 @@ const CONFIG_FILE = require('../../../resources/stubs/config.json');
 const env = require('../../../settings/env.js');
 const path = env.PATH;
 const ReplenishItem = path+'ReplenishItem.json';
+const clientConfig= CONFIG_FILE.clientConfig;
 
 //sets url to be used for api call
 const URL = CONFIG_FILE.ReplenishItem;
 const getURL = CONFIG_FILE.getReplenishData;
 export function updateReplishmentData(daysValue,description,index,transactionId){
+    
     const params = {
-        "ClientID":"0010:0005:06072018:033639",
-        "SourceApp":"MPOS",
-        "SourceLoc":"NM-DIRECT",
-        "Store":"0010",
-        "Terminal":"0005", 
-        "StoreAssoc":"209289",
+
+        
+        ...clientConfig,
         "ItemNumber": index[0].itemNumber,
         "LineNumber": index[0].lineNumber,
         "TransactionId": transactionId,
@@ -40,7 +39,7 @@ export function updateReplishmentData(daysValue,description,index,transactionId)
             }) => {
                switch (data.response_text) {
 
-                    case "REPLENISH_ITEM_SUCCESS":
+                    case "IM_SUCCESS":
                         {
                             dispatch({
                                 type: 'REPLENISH_ITEM_SUCCESS',
@@ -74,7 +73,7 @@ export function getReplenishment(index){
     const params = {
         "AssociateNumber":"209289",
         "PIMSKUID":index.pim_SKU_ID,
-        "ClientNumber":"0001000067671",
+        "ClientNumber":"0001000360908",
        } 
        
     const request = callPostWebService(getURL, params);
@@ -85,7 +84,7 @@ export function getReplenishment(index){
             }) => {
                switch (data.response_text) {
 
-                    case "GETREPLENISH_ITEM_SUCCESS":
+                    case "RP_SUCCESS":
                         {
                             dispatch({
                                 type: 'GETREPLENISH_ITEM_SUCCESS',

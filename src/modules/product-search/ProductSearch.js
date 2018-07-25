@@ -50,10 +50,10 @@ class ProductSearch extends Component {
             browseProductImage: browseicon,
             scannedSKU: "TWK25356431", //to be replaced when scanner is implimented.
             searchFields: {
-                search_keyword: params.get('keyword'),
-                search_pimsku: params.get('pimsku'),
-                search_upc: params.get('upc'),
-                search_style: params.get('style')
+               // search_keyword: params.get('keyword'),
+              //  search_pimsku: params.get('pimsku'),
+              //  search_upc: params.get('upc'),
+              //  search_style: params.get('style')
             },
             activeRadioBtn: '',
         }
@@ -241,9 +241,9 @@ class ProductSearch extends Component {
 
     handleApiInvoker = () => {
         this.props.startSpinner(true);
-
         this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
-            if (this.props.products.length === 0) {
+
+            if (pimskuId.failure) {
                 this.setState({ isSearchHit: true });
             }
             else {
@@ -313,6 +313,7 @@ class ProductSearch extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log("**** Product***",state.productSearch )
     return { products: state.productSearch };
 }
 

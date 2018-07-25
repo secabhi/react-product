@@ -20,71 +20,84 @@ class PostVoidSelect extends Component {
             modal_post_void: false,
             modal_post_voidselect: false,
             modal_post_voidenter: false,
-            active: null
+            active: null,
+            transactionList : [],
+            selectedTransaction : "",
+            selectedTransactionDetails : {}
         }
     }
+
+    componentDidMount() {     
+        this.props.startSpinner(true);
+    }
+  
     componentWillReceiveProps(nextProps) {
-        
-        if(nextProps.postvoidtransdetails.detailsFetchSuccessFlag === true) {
-            console.log("READY TO NAVIGATE");
-            console.log(this.props.history);
-            if(window.innerWidth>1080){
-                this.props.history.push('/postvoiddetails')
-            }
-            else{
-                this.props.history.push('/postvoiddetailsff')
-            }
-            
+        console.log('PostVoidSelect componentWillReceiveProps: ', nextProps);
+        if(nextProps.postvoidgettransaction.listFetchSuccessFlag === true) {
+            this.props.startSpinner(false);
+            this.setState({ transactionList : nextProps.postvoidgettransaction.response.transactionList });
         }
         else {
-            console.log("NOT READY TO NAVIGATE - FETCH FAILURE");
+            if(nextProps.postvoidgettransaction.defaultValue !== true) {
+                this.props.startSpinner(false);
+            }
         }
     }
+
     postVoidTransInvoker = () => {
-        
-        this.props.PostVoidTransDetls();
+        if(this.state.selectedTransaction !== '') {
+            this.props.PostVoidTransDetls(this.props.login.userpin,this.state.selectedTransactionDetails);
+    
+        }
+        else {
+            //DO NOTHING
+        }
     }
-    toggle = (position) => {
-        if (this.state.active === position) {
-            this.setState({ active: null })
+    toggle = (index) => {
+        if (this.state.selectedTransaction === index) {
+            this.setState({ selectedTransaction: '', selectedTransactionDetails : {} })
             document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = ".4";
         } else {
-            this.setState({ active: position })
-        }
-    }
-
-    myColor = (position) => {
-        if (this.state.active === position) {
+            this.setState({ selectedTransaction: index, selectedTransactionDetails : this.state.transactionList[index] })
             document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = "1";
-            return "#4b2b6f";
-
         }
-            return "";
     }
-    mytextColor = (position) => {
-        if (this.state.active === position) {
-            return "#fff";
-        }
-        return "";
-
-    }
-
 
     render() {
+        var selectedStyle = {
+            background: "#4b2b6f"
+        }
+        var unselectedStyle = {
+            background: "#FFFFFF"
+        }
+        var selectedTextStyle = {
+            color : "#FFFFFF"
+        }
+        var unselectedTextStyle = {
+            color : "#000000"
+        }
         return (
             <div>
 
                 <div className='post-void-modalselect-container'>
                     <div className="postvoid-modalselect-header">
                         <div className="postvoid-modalselect-label">Please select a Trans #</div>
-                    </div>
+                    </div>                    
                     <div className="postvoid-selectionarea">
-                        <div style={{ background: this.myColor(0) }} onClick={() => { this.toggle(0) }} className="carditemlayoutinitial"><label style={{ color: this.mytextColor(0) }} className="labelcardlayout">03055 TAKE-164.65</label></div>
-                        <div style={{ background: this.myColor(1) }} onClick={() => { this.toggle(1) }} className="carditemlayoutremain" ><label style={{ color: this.mytextColor(1) }} className="labelcardlayout">03055 TAKE-164.65</label></div>
-                        <div style={{ background: this.myColor(2) }} onClick={() => { this.toggle(2) }} className="carditemlayoutremain" ><label style={{ color: this.mytextColor(2) }} className="labelcardlayout">03055 TAKE-164.65</label></div>
-                        <div style={{ background: this.myColor(3) }} onClick={() => { this.toggle(3) }} className="carditemlayoutremain"><label style={{ color: this.mytextColor(3) }} className="labelcardlayout">03055 TAKE-164.65</label></div>
-                        <div style={{ background: this.myColor(4) }} onClick={() => { this.toggle(4) }} className="carditemlayoutremain"><label style={{ color: this.mytextColor(4) }} className="labelcardlayout">03055 TAKE-164.65</label></div>
-                        <div style={{ background: this.myColor(5) }} onClick={() => { this.toggle(5) }} className="carditemlayoutremain"><label style={{ color: this.mytextColor(5) }} className="labelcardlayout">03055 TAKE-164.65</label></div>
+                    {
+                        this.state.transactionList.map(function(item,index) {
+                            var rowObject = (
+                                <div style={(this.state.selectedTransaction === index)?(selectedStyle):(unselectedStyle)} onClick={() => this.toggle(index)} key={index} className="carditemlayoutinitial">
+                                    <label style={(this.state.selectedTransaction === index)?(selectedTextStyle):(unselectedTextStyle)} className="labelcardlayout" >
+                                        {item.transactionID} - {item.amount}
+                                    </label>
+                                </div>
+                            )
+                            return (
+                                rowObject
+                            );
+                        },this)
+                    }                    
                     </div>
                     <div className='post-void-modalselect-button-area'>
                         <button className='post-void-modalselect-cancelbtn' onClick={this.props.cancelSelectModal}><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>CANCEL</span></button>
@@ -97,8 +110,8 @@ class PostVoidSelect extends Component {
     
 }
 
-function mapStateToProps({ postvoidtransdetails,postvoidgettransaction }) {
-    return { postvoidtransdetails,postvoidgettransaction, };
+function mapStateToProps({ postvoidtransdetails,postvoidgettransaction,login }) {
+    return { postvoidtransdetails,postvoidgettransaction, login};
 }
 
  function mapDispatchToProps(dispatch) {

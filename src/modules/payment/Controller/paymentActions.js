@@ -6,6 +6,7 @@ import { getStore } from '../../../store/store';
 const env = require('../../../settings/env.js');
 const path = env.PATH+'cxp/';
 const cxp = require('../../../resources/stubs/config.json').cxp;
+const CONFIG_FILE = require('../../../resources/stubs/config.json');
 const AppKey= cxp.AppKey;
 var headers = {
     'AppID': 'MPOS',
@@ -13,7 +14,6 @@ var headers = {
 }
 
 export function getCustDetails(customerDetails) {
-    const CONFIG_FILE = require('../../../resources/stubs/config.json');
     var URL = CONFIG_FILE.emailReceipt
     var params = customerDetails;
     console.log("Parameters being sent", params);
@@ -25,7 +25,7 @@ export function getCustDetails(customerDetails) {
 
                 case 0:
                     {
-                        dispatch({type: 'SUCCESS', payload: data});
+                        dispatch({type: 'GET_CLIENT_DETAILS', payload: data});
                         break;
                     }
 
@@ -48,7 +48,6 @@ export function getCustDetails(customerDetails) {
 }
 
 export function updateCustDetails(customerDetails) {
-    const CONFIG_FILE = require('../../../resources/stubs/config.json');
     var URL = CONFIG_FILE.emailReceipt
     var params = customerDetails;
     const request = callPostWebService(URL, params);
@@ -60,7 +59,7 @@ export function updateCustDetails(customerDetails) {
 
                 case "0":
                     {
-                        dispatch({type: 'SUCCESS', payload: data});
+                        dispatch({type: 'UPDATE_CLIENT_DETAILS', payload: data});
                         break;
                     }
 
@@ -87,15 +86,121 @@ export function clearState() {
     return (dispatch) => dispatch({type: 'CLEAR'})
 }
 
+export function addTender(addTenderObj, transactionObj) {
+    const addTenderUrl = CONFIG_FILE.addTender;
+    const clientConfig = CONFIG_FILE.clientConfig
+    const body = {
+        ...clientConfig,
+        ...transactionObj,
+        ...addTenderObj
+    }
 
+    const addTenderCall = callPostWebService(addTenderUrl, body);
+
+    return (dispatch) => {
+        addTenderCall.then((data) => {
+            switch(data.response_text) {
+                case 'UC_SUCCESS':
+                {
+                    dispatch({
+                        type: 'ADD_TENDER_SUCCESS',
+                        payload: data
+                    })
+                    break;
+                }
+
+                case 'UC_MISSINGDETAILS':
+                {
+                    dispatch({
+                        type: 'ADD_TENDER_FAILURE',
+                        payload: data
+                    })
+                    break;
+                }
+                default:
+                    {
+                        dispatch({type: 'DEFAULT', payload: data});
+                        break;
+                    }
+            }
+        }).catch(error => {
+            dispatch({type: 'REQUEST_FAILED', payload: error});
+        });
+    }
+
+}
+
+export function completeTrans(transactionObj) {
+    const CONFIG_FILE = require('../../../resources/stubs/config.json');
+    const completeTransUrl = CONFIG_FILE.completeTransaction;
+    const clientConfig = CONFIG_FILE.clientConfig
+    const body = {
+        ...clientConfig,
+        ...transactionObj
+    }
+    const completeTransactionCall = callPostWebService(completeTransUrl, body);
+
+    return (dispatch) => {
+        completeTransactionCall.then((data) => {
+            switch(data.response_text) {
+                case 'UC_SUCCESS':
+                {
+                    dispatch({
+                        type: 'COMPLETE_TRANSACTION_SUCCESS',
+                        payload: data
+                    })
+                }
+
+                case 'UC_MISSINGDETAILS':
+                {
+                    dispatch({
+                        type: 'COMPLETE_TRASACTION_FAILURE',
+                        payload: data
+                    })
+                }
+                default:
+                {
+                    dispatch({type: 'DEFAULT', payload: data});
+                    break;
+                }
+            }
+        }).catch(error => {
+            dispatch({type: 'REQUEST_FAILED', payload: error});
+        });
+    }
+}
+
+export function printReceipt(data){
+    var params=data;
+    var URL = CONFIG_FILE.printReceipt
+    const request = callPostWebService(URL, params);
+
+    return (dispatch) => {
+        request.then(({data}) => {
+            console.log(data)
+            switch (data.responseCode) {
+                case 0:
+                    {
+                        dispatch({type: 'PRINT_RECEIPT_SUCCESS', payload: data});
+                        break;
+                    }
+                case 1:
+                {
+                    dispatch({type: 'PRINT_RECEIPT_FAILURE', payload: data});
+                    break;
+                }
+                }
+            }).catch(error => {
+                dispatch({type: 'REQUEST_FAILED', payload: error});
+            });
+        };
+    }
 
 export function getAurusResponse(xmlrequest) {
-    console.log("in payment action");
-    //console.log("xmlrequest" + xmlrequest);
 
     try {
         if (window.aurusplugin) {
-            console.log('window.aurusplugin present');
+            console.log('in payment action: window.aurusplugin present');
             window.aurusplugin.callAurus(xmlrequest, success, error);
         }
         else {
@@ -109,7 +214,7 @@ export function getAurusResponse(xmlrequest) {
 }
 
 var success = function (message) {
-    console.log(xml2json( message));
+    //console.log(xml2json( message));
     var storeInstance = getStore();
     var aurusresponse = xml2json(message);
     storeInstance.dispatch({

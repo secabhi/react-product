@@ -82,6 +82,46 @@ export function viewCustomerAction(updateCustDomData) {
             });
     };
 }
+// export function getStoreClientIdUpdateAction(updateCustDomData) {
+//     const CONFIG_FILE = require('../../../resources/stubs/config.json');
+//      var URL = CONFIG_FILE.apiVerifySaleCustomer;
+
+//      const apiVerifySaleCustomer = path+'apiAddressAdd.json';
+
+
+//     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, updateCustDomData):callGetWebService(apiVerifySaleCustomer, {});
+//     return (dispatch) => {
+//         request.then(({
+//                 data
+//             }) => {
+//                 switch (data.response_code) {
+
+//                     case 0:
+//                         {
+//                             dispatch({type: 'STORE_CLIENT_REQ_SUCCESS', payload: data})
+//                             dispatch(startSpinner(false));
+//                         }
+                                              
+//                     default:
+//                         {
+//                             dispatch({
+//                                 type: 'UPDATE_CUST_DEFAULT',
+//                                 payload: data
+//                             });
+//                             dispatch(startSpinner(false));
+//                             break;
+//                         }
+//                 }
+//             })
+//             .catch(error => {
+//                 dispatch({
+//                     type: 'UPDATE_CUST_REQUEST_FAIL',
+//                     payload: error
+//                 });
+//             });
+//     };
+//     return (dispatch) => dispatch({type: 'GET_STORECLIENTID_SENT'})
+// }
 
 export function getCountryList() {
     const CONFIG_FILE = require('../../../resources/stubs/config.json');

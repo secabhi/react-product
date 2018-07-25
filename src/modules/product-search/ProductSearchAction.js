@@ -12,11 +12,7 @@ import { PRODUCT_SEARCH_CATALOG_ITEM_SUCCESS } from '../common/constants/type';
 import { PRODUCT_SEARCH_CATALOG_ITEM_FAIL } from '../common/constants/type';
 
 import { ADD_ITEM_SUCCESS } from '../common/constants/type';
-
 import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
-
-
-
 
 const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
 const URL_SKU = CONFIG_FILE_ADD.cxp.getProductSearchSKU;
@@ -34,6 +30,7 @@ const body = {
 //termianl = 0168
 
 export function productSearchAction(searchitem, searchfields, successCallback) {
+    console.log("**** SearchFields*******",searchfields);
     switch (searchitem) {
 
         case "keyword_search":
@@ -63,7 +60,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             type: PRODUCT_SEARCH_KEYWORD_FAIL,
                             payload: data.data.products
                         });
-                        successCallback(data.data.totalCount)
+                        successCallback({failure:true});
                     }
                     dispatch(startSpinner(false));
 
@@ -101,6 +98,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             type: PRODUCT_SEARCH_PIMSKU_FAIL,
                             payload: data.data
                         });
+                        successCallback({failure:true});
                     }
                     dispatch(startSpinner(false));
 
@@ -135,6 +133,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             type: PRODUCT_SEARCH_UPC_FAIL,
                             payload: data
                         });
+                        successCallback({failure:true});
                     }
                     dispatch(startSpinner(false));
 
@@ -171,6 +170,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             type: PRODUCT_SEARCH_STYLE_FAIL,
                             payload: data.data
                         });
+                        successCallback({failure:true});
                     }
                     dispatch(startSpinner(false));
 
@@ -179,8 +179,9 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
             break;
 
         case "catalog_search":
-            var storeLocation = "001";
+            var storeLocation = "050,001";
             let getProductByCatalog = URL_SKU + `/lookup?version=v2&offer_item=${searchfields.search_catid}_${searchfields.search_itemid}&locationList=${storeLocation}&offset`;
+            console.log("Catalog URL", getProductByCatalog);
             var body = {
                 "AppKey": APP_KEY,
                 "AppID": "MPOS"
@@ -203,6 +204,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             type: PRODUCT_SEARCH_CATALOG_ITEM_FAIL,
                             payload: data.data
                         });
+                        successCallback({failure:true});
                     }
                     dispatch(startSpinner(false));
                 });
@@ -217,31 +219,40 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
 
 export const productImgSearchAction = (imageUrls) => {
     const skus = Object.keys(imageUrls);
-    for (let i = 0; i < skus.length; i++) {
+    const allImageRequest = [];
+
+    /* loop through and create a request for all skus that have an empty url path for image
+        push them all on to a an array see we can ensure all request complete. before dispatching */
+    for(let i = 0; i < skus.length; i++) {
         const sku = skus[i];
-        if (imageUrls[sku] === '') {
-            console.log('********************************************************sku', sku)
+        if(imageUrls[sku] === '') {
+            //Every imageURL path will be assigned image Not found until its found in cxp call.
+            imageUrls[sku] = 'Image Not Found';
+            console.log('********************************************************sku',sku)
             let getImagesURL = URL_SKU + `/search?version=v2&pimskuList=${sku}&locationList=${storeLocation}&offset`;
             let request = callGetWebService(getImagesURL, { headers: body })
-
-            return (dispatch) => {
-                request
-                    .then((response) => {
-                        //if not found or if image is null
-                        if (!response.data.data.products[0] || !response.data.data.products[0].mainImageUrl) {
-                            console.log('DISPATCHING UPDATED - Product or Image Not Found', response.data.data.products[0]);
-                            imageUrls[sku] = 'Image Not Found';
-                        } else {
-                            console.log('DISPATCHING UPDATED IMAGES response.data.data.products', response.data.data.products[0].pimstyleIdDesc);
-                            imageUrls[sku] = response.data.data.products[0].mainImageUrl;
-                        }
-                        dispatch({ type: 'UPDATED_IMAGES', payload: { updated: true, imageUrls: imageUrls } })
-                    })
-                    .catch(error => console.log('productImgSearch Error:', error))
-            }
-        }
+            allImageRequest.push(request);
+        }    
     }
-}
+
+    return (dispatch) => {
+        Promise.all(allImageRequest)
+        .then((responses) => {
+            //loop through response and modify ImageUurls value on each successful lookup
+            responses.forEach((response) => {
+                if(!response.data.data.products[0] || !response.data.data.products[0].mainImageUrl) {
+                    console.log('DISPATCHING UPDATED - Product or Image Not Found', response.data.data.products[0]);
+                } else {
+                    console.log('DISPATCHING UPDATED IMAGES response.data.data.products', response.data.data.products[0].pimstyleIdDesc);
+                    imageUrls[response.data.data.products[0].pimskuId] = response.data.data.products[0].mainImageUrl;
+                }     
+            })
+            dispatch({type: 'UPDATED_IMAGES', payload: {updated: true, imageUrls: imageUrls}})
+        })
+        .catch(error => console.log('productImgSearch Error:', error))
+    }  
+}        
+ 
 
 export const getInventoryDetails = (skuId, storeId) => {
 

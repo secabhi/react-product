@@ -18,6 +18,7 @@
       width: 38px;
       padding-left: 50px;
     }
+       
     .header-navLinks {
       display: flex;
       flex-direction: row;
@@ -235,7 +236,6 @@
     }
 
     .header-suspend-button-text{
-      position: fixed;
       top:0px;
       font-family: Roboto;
       font-size: 24px;
@@ -251,6 +251,86 @@
     .suspend-text-no{
       color: #613b8c;
     }
+  }
+
+  .header-hamburger-menu-modal {
+    position: fixed ! important;
+    left: -1px;
+    width: 500px;
+    top: -9px;
+    height: 1140px ! important;
+    padding: 0px ! important;
+  }
+
+  .header-hamburger-menu-modal-overlay {
+    background: rgba(0, 0, 0, 0) ! important;
+  }
+  .Gift-Card-Inquiry {
+    width: 267px;
+  height: 48px;
+  font-family: Roboto;
+  font-size: 36px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  padding-left:0px;
+  padding-top:66px;
+  color: #ffffff !important;
+  }
+ 
+  .Gift-Card-Inquiry:hover { 
+    font-weight: 800;
+}
+  .Unlock-Account {
+    width: 228px;
+    height: 48px;
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    padding-left:0px;
+    padding-top:66px;
+    color: #ffffff !important;
+  }
+
+  .hamburgerBackground{
+    width: 500px;
+  height: 100px;
+  background-color: #2f1748;
+  }
+  .hamburger-close-button-container {
+    position: fixed;
+    top: 40px;
+    left: 52px;
+    width:34px;
+  height: 34px;
+  border: solid 6px #ffffff;
+  border: solid 6px var(--white);
+  }
+  .hamburgerBackgroundMainContainer{
+    width: 500px;
+    height: 1040px;
+    background-color: #442962;
+    box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.77);
+  }
+  .hamburgerMainContainer{
+    width: 300px;
+    padding-left: 100px;
+  }
+  
+  .hamburger-close-button-image {
+    width: 25px;
+    height: 45px;
+    margin-top: -12px !important;
   }
   
   @media only screen and (max-width: 1080px) {

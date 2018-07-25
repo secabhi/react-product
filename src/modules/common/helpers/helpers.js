@@ -9,6 +9,10 @@ export function parsePhoneNumber(phoneNumberString) {
     return phoneNumberString;
 }
 
+export function validZip(zip){
+    return /(^[0-9\\s-]+$)/.test(zip);
+}
+
 export const formatCsrName = (str) => {
     return str.replace(/\w\S*/g, (txt) => {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

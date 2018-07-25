@@ -109,6 +109,7 @@ export default class SelectStore extends Component {
         }
 
         // renderInvalidModal = () => {
+        //     FUNCTION TO CHECK FOR A VALID STORE NUMBER
         //     if(this.state.storeNumber != valid store num) {
         //         this.setState({
         //             invalid_modal: true

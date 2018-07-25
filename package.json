@@ -37,6 +37,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "react-tooltip": "3.5.1"
+    "react-tooltip": "3.5.1",
+    "redux-logger": "^3.0.6"
   }
 }

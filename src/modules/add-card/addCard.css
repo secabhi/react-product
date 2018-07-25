@@ -265,6 +265,8 @@
     margin-left: 50px;
 }
 
+
+
 .credit-debit-title-text {
     /* width: 356px; */
     height: 42px;
@@ -471,4 +473,71 @@
     height: 22px;
     margin-right: 12.6px;
     
+}
+
+
+
+.addCard-result-modal-container{
+    width: 725px !important;
+    height: 325px !important;
+    padding: 0 !important;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    /* border: solid 1px #bfbfbf; */
+}
+
+.addCard-result-modal{
+    display: flex;
+    flex-direction: column; 
+}
+
+.addCard-result-modal-icon{
+    width: 90px;
+    height: 89.9px;
+    margin-top: 52px;
+    margin-left: 318px;
+}
+
+.addCard-result-modal-message-area{
+    margin-top: 41.1px
+}
+
+.addCard-result-modal-message{
+    height: 35px;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: center;
+    color: #070707;
+}
+
+.addCard-result-modal-close-btn-area{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 725px;
+    height: 54px;
+    background-color: #4b2b6f;
+    border: solid 1px #a87ed6;
+    margin-top : 176px
+}
+
+.addCard-result-modal-close-btn-text{
+    width: 74px;
+    height: 28px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: 2px;
+    text-align: center;
+    color: #ffffff;
+  
 }

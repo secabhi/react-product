@@ -19,7 +19,7 @@ class QuantityValidation extends Component {
 
         }
     }
-
+  
   render() {
       
     return (
@@ -32,7 +32,9 @@ class QuantityValidation extends Component {
               items = {this.props.items}
               // setCurrentItem = {this.setCurrentItem}
             />
-            {/* <div className="cart-render-status">Available</div> */}
+            {/* <div className="cart-render-status">Available</div> 
+             STILL FIGURING OUT A WAY OF DISPLAYING THE AVAILABLE, NON-OST, & MKD FLAGS ON CART ITEMS
+            */}
         </div>
       </div>
     )

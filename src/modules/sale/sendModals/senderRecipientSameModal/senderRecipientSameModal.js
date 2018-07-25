@@ -36,7 +36,7 @@ export default (props) => {
           <div className='btn-yes-no-wrapper'>
             <div className='btn-no'
               onClick={() => {
-                props.goToSendPage('frequentShippedAddress');
+                props.goToSendPage('frequentShippedAddress',false);
                 props.history.push('/send'); 
               }}
             >
@@ -44,7 +44,7 @@ export default (props) => {
             </div>
             <div className='btn-yes'
               onClick={() => {
-                props.goToSendPage('customerForm');
+                props.goToSendPage('receiverForm',true);
                 props.history.push('/send');
               }}
             >

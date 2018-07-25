@@ -16,6 +16,7 @@ export class SuccessModal extends Component {
         return (
             <Modal
             open={this.props.successModalOpen}
+            onClose={() => { }}
             little
             showCloseIcon='false'
             classNames={{
@@ -25,7 +26,7 @@ export class SuccessModal extends Component {
                 <img src={addcustsuccessicon} className='add-domcust-success-modal-icon'/>
                 <div className='add-domcust-success-modal-message'>
                     The customer
-                    <span>
+                    <span className="add-domcust-name">
                     {' '}{this.props.successModalSalutation}{' '}{this.props.successModalFname}{' '} {this.props.successModalLname}{' '}
                     </span>
                     has been added successfully.

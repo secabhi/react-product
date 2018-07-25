@@ -138,7 +138,7 @@ export default class UpdateCustomerDomView extends Component {
                                 
                                 {
                                     this.props.salutationDataDrop.map(function(item, i){
-                                         return <MenuItem className="select-field-menu-item" key={i} value={item.Value} primaryText={item.Value} />;
+                                         return <MenuItem className="select-field-menu-item" key={i} value={item} primaryText={item} />;
                                               })
                                 }
                             </SelectField>

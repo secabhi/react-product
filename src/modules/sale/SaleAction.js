@@ -9,11 +9,11 @@ export function goToSalesPage(isSkip, details) {
     };
 }
 
-export function goToSendPage(data) {
+export function goToSendPage(componentName, sameSenderReciever) {
     return (dispatch) => {
         dispatch( {
             type: NAV_TO_SEND,
-            payload: { data }
+            payload: { componentName, sameSenderReciever }
         });
     };
 };

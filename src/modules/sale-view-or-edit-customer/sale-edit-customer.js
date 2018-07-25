@@ -272,7 +272,7 @@ class SaleEditCustomer extends Component {
             'CMobile': this.state.changedAddress['cust_mobile'].replace(/[^A-Z0-9]+/ig, ""),
             'storeClientNo': '0001000284641',
             
-            'storeAssoc': '209289',
+            'storeAssoc':this.props.login.userpin,
             'donotcall': this.state.cust_text_opt,
             'flagByPASS': bypassFlag,
             
@@ -1380,8 +1380,8 @@ function isObjectEmpty(obj){
     }
     return true;
 }
-function mapStateToProps({ saleEditCustomer }) {
-    return { saleEditCustomer };
+function mapStateToProps({ saleEditCustomer,login }) {
+    return { saleEditCustomer,login };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -5,8 +5,9 @@ import { TextField, Divider } from 'material-ui';
 import './sale-keypad.css';
 import Modal from '../../UI/modal-two/modal-two';
 import SaleContent from './SaleContent';
-import keyIn from '../../resources/images/Key_In_PED_White.svg';
+import keyIn from '../../resources/images/Key_In_PED_Purple.svg';
 import keypad from '../../resources/images/Keypad_Grey.svg';
+import cameraIcon from '../../resources/images/Camera.svg'
 import productSearch from '../../resources/images/Product_Search.svg';
 
 
@@ -60,14 +61,18 @@ export default (props) => {
       <div style={props.disableHeaderOptions?props.disabledHeaderStyle:props.enabledHeaderStyle} className={props.disabled ? 'keypad-container element-disabled' : 'keypad-container'}>
       {console.log('props in keypad'+JSON.stringify(props))}
         <button className="options-button" onClick={() => openNav()} ><span className="options-button-text">Options</span></button>
+        <button className="use-camera-button" onClick={() => props.openCameraScanner()}>
+          <img className="use-camera-logo" src={cameraIcon} alt="open-camera"/>
+          <span className="use-camera-text">USE CAMERA</span>
+        </button>
         <button className="product-search-button" onClick={props.navigateToProductSearch}>
           <img className="product-search-logo" src={productSearch} alt="product-search"/>
-          <span className="product-search-text">Product Search </span>
+          <span className="product-search-text">PRODUCT SEARCH</span>
         </button>
 
         <button className="key-sku-button" onClick={() => props.openModal()}>
           <img className="key-sku-logo" src={keyIn} alt="key-sku"/>
-          <span className="key-sku-text">Key SKU</span>
+          <span className="key-sku-text">KEY SKU</span>
         </button>
       </div>
     )

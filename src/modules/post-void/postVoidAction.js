@@ -1,7 +1,7 @@
 import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
 
 /* To add customer - Domestic */
-export function postVoidFinalTransaction() {
+export function postVoidFinalTransaction(userPin,transacID) {
 
 
     const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
@@ -15,10 +15,10 @@ export function postVoidFinalTransaction() {
         "ClientID":"0010:0005:06072018:033639",
         "SourceApp":"MPOS",
         "SourceLoc":"NM-DIRECT",
-        "Store":"0010",
-        "Terminal":"0005",     
-        "StoreAssoc":"209289",
-        "TransactionId": "0004",
+        "Store":CONFIG_FILE_ADD.clientConfig.Store,
+        "Terminal":CONFIG_FILE_ADD.clientConfig.Terminal,     
+        "StoreAssoc":(userPin) ? userPin :"930924",
+        "TransactionId": transacID,
         "TransactionFile": "tran_180618223828_243_03544_20-Mar-17_Y.log"
     
     }
@@ -35,6 +35,14 @@ export function postVoidFinalTransaction() {
                         {
                             dispatch({
                                 type: 'PV_SUCCESS',
+                                payload: data
+                            });
+                            break;
+                        }
+                        case "PV_TRANSACTIONNOTFOUND":
+                        {
+                            dispatch({
+                                type: 'PV_TRANSACTIONNOTFOUND',
                                 payload: data
                             });
                             break;
@@ -59,7 +67,7 @@ export function postVoidFinalTransaction() {
     };
 }
 /* To add customer - Domestic */
-export  function postVoidDetailsTransaction(){
+export  function postVoidDetailsTransaction(userPin,transactionDetails,txnNumber){
 
 
     const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
@@ -71,13 +79,13 @@ export  function postVoidDetailsTransaction(){
      const params = {
         "SourceApp":"MPOS",
         "SourceLoc":"NM-DIRECT",
-        "Store":"0010",
-        "Terminal":"0243", 
-        "StoreAssoc":"209289",
-        "TransactionId":"0002",
-        "TransactionFile": "tran_180618223828_243_03544_20-Mar-17_Y.log"
-        }
-           
+        "Store":(transactionDetails) ? transactionDetails.store : CONFIG_FILE_ADD.clientConfig.Store,
+        "Terminal":(transactionDetails) ? transactionDetails.terminal :CONFIG_FILE_ADD.clientConfig.Terminal, 
+        "StoreAssoc":(userPin) ? userPin : CONFIG_FILE_ADD.clientConfig.StoreAssoc,
+        "TransactionId":(transactionDetails) ? transactionDetails.transactionID: txnNumber,
+        "TranFile": (transactionDetails) ? transactionDetails.transactionFile : "tran_180723040844_247_00454_20-Mar-17_N.log"
+    }
+              
      
     const request = callPostWebService(URL,params);
     return (dispatch) => {
@@ -90,8 +98,9 @@ export  function postVoidDetailsTransaction(){
                     case "IM_SUCCESS":
                         {
                             dispatch({
-                                type: 'IM_SUCCESS',
-                                payload: data
+                                type: 'TRANSACTION_DETAILS_FETCH_SUCCESS',
+                                payload: data,
+                                transacID:data.transactionId
                             });
                             break;
                         }
@@ -99,7 +108,7 @@ export  function postVoidDetailsTransaction(){
                     default:
                         {
                             dispatch({
-                                type: 'PV_TRANSDETLS_RESP_DEFAULT',
+                                type: 'TRANSACTION_DETAILS_FETCH_FAILURE',
                                 payload: data
                             });
                             break;
@@ -127,8 +136,8 @@ export  function postVoidTransactionList(){
      const params = {
         "SourceApp":"MPOS",
         "SourceLoc":"NM-DIRECT",
-        "Store":"0010",
-        "Terminal":"0243", 
+        "Store":"0006",
+        "Terminal":"0247", 
         "StoreAssoc":"209289",
         }
         
@@ -144,7 +153,7 @@ export  function postVoidTransactionList(){
                     case "TL_SUCCESS":
                         {
                             dispatch({
-                                type: 'TL_SUCCESS',
+                                type: 'TRANSACTION_LIST_FETCH_SUCCESS',
                                 payload: data
                             });
                             break;
@@ -153,7 +162,7 @@ export  function postVoidTransactionList(){
                     default:
                         {
                             dispatch({
-                                type: 'TL_INVALIDREQUEST',
+                                type: 'TRANSACTION_LIST_FETCH_FAILURE',
                                 payload: data
                             });
                             break;
@@ -162,7 +171,7 @@ export  function postVoidTransactionList(){
             })
             .catch(error => {
                 dispatch({
-                    type: 'PV_TRANSDETLS_RESP_FAIL',
+                    type: 'TRANSACTION_LIST_FETCH_FAILURE',
                     payload: error
                 });
             });

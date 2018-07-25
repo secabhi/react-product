@@ -16,7 +16,7 @@ export class GetIsellCart extends Component {
 
     updateIsellCartEntry(e) {
         this.setState({ getIsellCart: e.target.value });
-        if ((e.target.value !== "201803082365")) {
+        if ((e.target.value !== "201803081614")) {
             document.getElementById("get-isell-cartid-error").style.display = "block";
         }
         else{
@@ -93,7 +93,7 @@ export class GetIsellCart extends Component {
                         onChange={e => this.updateIsellCartEntry(e)}
                         required
                     />
-                    <p id="get-isell-cartid-error" className="get-isell-cartid-error">Please Enter 201803082365</p>
+                    <p id="get-isell-cartid-error" className="get-isell-cartid-error">Please Enter 201803081614</p>
                     <button className='get-isell-cart-modal-button' type="submit">
                         <span className="get-isell-cart-modal-text">Submit</span>
                     </button>
@@ -162,7 +162,7 @@ export class GetIsellCartScanner extends Component {
             <div className="get-isell-cart-scanner-modal-container">
                 <div>
                     <div className="get-isell-cart-modal-header">
-                        <span className="get-isell-cart-modal-close"><img class="close-icon-login-modal" src="/static/media/Cross_Black.bcb0579d.svg" onClick={() => this.props.showopenIsellcartScannerModal(false)} /></span>
+                        <span className="get-isell-cart-modal-close"><img className="close-icon-login-modal" src="/static/media/Cross_Black.bcb0579d.svg" onClick={() => this.props.showopenIsellcartScannerModal(false)} /></span>
                     </div>
                     <div className='get-isell-cart-scanner-modal-label'>Scan QR Code</div>
                     <div className="get-isell-cart-QR-scanner">

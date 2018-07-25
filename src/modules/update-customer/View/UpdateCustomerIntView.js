@@ -110,7 +110,7 @@ export default class UpdateCustomerInternationalView extends Component {
                         <MenuItem className="select-field-menu-item" key={2} value={"Mrs"} primaryText="Mrs" />*/}
                         {
                             this.props.salutationDataDrop.map(function(item, i){
-                                 return <MenuItem className="select-field-menu-item" key={i} value={item.Value} primaryText={item.Value} />;
+                                 return <MenuItem className="select-field-menu-item" key={i} value={item} primaryText={item} />;
                                       })
                         }
                     </SelectField>
@@ -322,7 +322,9 @@ export default class UpdateCustomerInternationalView extends Component {
                         refs= 'update_int_pincode'
                         value={this.props.changedAddress['update_int_pincode']}
                         onChange={this.props.handleChangeonInternational.bind(this,'update_int_pincode')} 
-                        
+                        errorText= {this.props.errors["update_int_pincode"]}
+                        errorStyle={customStyle.errorStyle}
+
 
                     />
                 </div>

@@ -40,12 +40,11 @@ export function setCustomer(custObj) {
     };
 }
 
-export function setClienteled(flag) {
-
+export function setClienteled(iclienteld) {
     return (dispatch) => {
         dispatch({
             type: "SET_CLIENTELED",
-            payload: { flag }
+            payload : iclienteld 
         });
     };
 }

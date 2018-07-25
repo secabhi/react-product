@@ -52,7 +52,7 @@ export default class VerifyCustomerDom extends React.Component {
             'Country': 'US',
             'CMobile': this.props.changedAddress['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, ""),
             'storeClientNo': '10000000257',
-            'storeAssoc': '209289',
+            'storeAssoc': this.props.login.userpin,
             'donotcall ': this.props.cust_text_opt,            
             'flagByPASS': this.props.bypassFlag
         }
@@ -90,4 +90,9 @@ export default class VerifyCustomerDom extends React.Component {
     );
   }
 }
-  
+
+function mapStateToProps({ login }) {
+    return { login };
+}
+
+export default connect(mapStateToProps)(VerifyCustomerDom);
