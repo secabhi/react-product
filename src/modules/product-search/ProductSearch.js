@@ -241,15 +241,15 @@ class ProductSearch extends Component {
 
     handleApiInvoker = () => {
         this.props.startSpinner(true);
-        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
-
+        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {   
             if (pimskuId.failure) {
                 this.setState({ isSearchHit: true });
             }
             else {
                 this.setState({ isSearchHit: false });
             }
-            //this.props.history.push("/product-details/"+pimskuId);
+            if(this.state.activeRadioBtn === 'pimsku_search' || this.state.activeRadioBtn === 'upc_search')
+               this.props.history.push("/product-details/"+pimskuId);
 
         });
     }

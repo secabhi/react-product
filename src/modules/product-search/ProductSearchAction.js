@@ -86,6 +86,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
 
             return (dispatch) => {
                 request.then(({ data }) => {
+                    debugger;
                     if (data.data.totalCount > 0) {
                         dispatch({
                             type: PRODUCT_SEARCH_PIMSKU_SUCCESS,
@@ -120,6 +121,7 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                 });
             return (dispatch) => {
                 upc_request.then(({ data }) => {
+                    debugger;
                     if (data.data.totalCount > 0) {
                         dispatch({
                             type: PRODUCT_SEARCH_UPC_SUCCESS,
