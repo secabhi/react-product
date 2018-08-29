@@ -44,6 +44,7 @@ class ProductSearch extends Component {
             selectedCategory: "",
             selectedSubCategory: "",
             selectedDetail: "",
+            searchFieldName:'',
             isSearchHit: false,
             //scanProductTab : true,
             scanProductShown: true,
@@ -251,13 +252,14 @@ class ProductSearch extends Component {
 
     handleApiInvoker = () => {
         this.props.startSpinner(true);
+        this.setState({searchFieldName:this.state.searchFields.search_keyword});
         this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
 
             if (pimskuId.failure) {
                 this.setState({ isSearchHit: true });
             }
             else {
-                this.setState({ isSearchHit: false });
+                this.setState({ isSearchHit: false});
             }
             if(!pimskuId.failure && (this.state.activeRadioBtn
                 === 'pimsku_search' || 
@@ -320,7 +322,7 @@ class ProductSearch extends Component {
                     searchType === "search" &&
                     <ProductSearchList
                         isSearchHit={this.state.isSearchHit}
-                        searchFields={this.state.searchFields}
+                        searchFieldName={this.state.searchFieldName}
                         products={this.props.products}
                         onProductClick={this.onProductClick} />
                 }
