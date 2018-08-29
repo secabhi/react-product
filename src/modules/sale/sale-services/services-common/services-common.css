@@ -98,12 +98,33 @@
   margin-top: 100px;
 }
 
+.Cancel_Purple {
+  padding: 13px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  float: left;
+}
+
+.giftwrap-modal-button-cancel-btn {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #613b8c;
+}
+
+
 .contact-modal-button-cancel,
 .contact-modal-button-ok,
 .alteration-modal-button-cancel,
 .alteration-modal-button-ok,
 .giftwrap-modal-button-cancel,
-.giftwrap-modal-button-ok,
+.giftwrap-modal-button-ok-enable,
+.giftwrap-modal-button-ok-disable,
 .customer-modal-button-no,
 .customer-modal-button-yes,
 .options-modal-button-no,
@@ -129,10 +150,19 @@
 
 .contact-modal-button-ok,
 .alteration-modal-button-ok,
-.giftwrap-modal-button-ok {
+.giftwrap-modal-button-ok-enable {
   width: 155px;
   color: #fff;
   background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px; 
+}
+
+.giftwrap-modal-button-ok-disable {
+  width: 155px;
+  opacity: 0.4;
+  background-color: #4b2b6f;
+  box-shadow: 0 -4px 6px 0 #d3d3d3;
   border: solid 2px #4b2b6f;
   margin-left: 40px; 
 }

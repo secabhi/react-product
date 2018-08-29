@@ -11,6 +11,9 @@ import {CS_SUCCESS ,CS_INVALIDEMAIL ,CS_MISSINGDETAILS ,CS_GENERALERROR ,CS_INVA
         ,ADD_CUST_INT_INVALID_PHONE,ADD_CUST_INT_RECORD_NOT_ADDED,ADD_CUST_INT_ADDR_BAD_REPLY
         ,ADD_CUST_INT_DEFAULT,ADD_CUST_COUNTRY_LIST_RETRIEVED, ADD_CUST_INT_COUNTRY_CODE_MISSING} from './constants';
 
+const clientConfig =  require('../../../resources/stubs/config.json').clientConfig;
+
+
 export function addCustomerAction(addCustDomData) {
     const CONFIG_FILE_ADD = require('../../../resources/stubs/config.json');
 
@@ -62,7 +65,7 @@ export function addCustomerAction(addCustDomData) {
                         {
                             dispatch({
                                 type: ADD_CUST_DOM_MISSING_DETAILS,
-                                payload: data
+                                payload: 'Customer Address or Email is missing.'
                             });
                             dispatch(startSpinner(false));
                             break;
@@ -73,7 +76,7 @@ export function addCustomerAction(addCustDomData) {
                         {
                             dispatch({
                                 type: ADD_CUST_DOM_GENERAL_ERROR,
-                                payload: data
+                                payload: 'Error connecting to any service or database.'
                             });
                             dispatch(startSpinner(false));
                             break;
@@ -105,6 +108,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_INVALID_ZIP,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -113,8 +117,9 @@ export function addCustomerAction(addCustDomData) {
                             dispatch({
                                 type: ADD_CUST_DOM_INVALID_STATE,
                                 payload: data
-
                             });
+                            dispatch(startSpinner(false));
+                            break;
                         }
 
                     case CS_AV_SUCCESS:
@@ -123,6 +128,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_ADDR_VALID_SUCCESS,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -130,8 +136,10 @@ export function addCustomerAction(addCustDomData) {
                         { 
                             dispatch({
                                 type: ADD_CUST_DOM_ADDR_BAD_REPLY,
-                                payload: data
+                                payload: 'Address entered is not a valid US Address'
                             })
+                            dispatch(startSpinner(false));
+                            break;
                         }
 
                     case CS_COUNTRYCODEMISSING:
@@ -140,6 +148,8 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_COUNTRY_CODE_MISSING,
                                 payload: data
                             })
+                            dispatch(startSpinner(false));
+                            break;
                         }
 
                     default:
@@ -148,6 +158,7 @@ export function addCustomerAction(addCustDomData) {
                                 type: ADD_CUST_DOM_DEFAULT,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
                 }
@@ -175,20 +186,21 @@ export function addCustomerIntAction(addCustIntData) {
     //sets url to be used for api call 
     var URL = CONFIG_FILE_ADD_INT.apiAddressAdd;
     //var fnid = CONFIG_FILE_ADD_INT.addCustomerFuncID;
-    var params = addCustIntData ;
-     var body = {
-          //"FunctionalityId" : fnid,
-          "RequestParams" : params
-    }
+    // var params = addCustIntData ;
+    //  var body = {
+    //       //"FunctionalityId" : fnid,
+    //       ...clientConfig,
+    //       ...addCustIntData
+    // }
      
-    const request = callPostWebService(URL,params);
+    const request = callPostWebService(URL, addCustIntData);
 
     return (dispatch) => {
         request.then(({
                 data
             }) => {
 
-                console.log('data',data.response_text);
+                console.log('PRANAV CUSTINT data',data);
                 switch (data.response_text) {
 
                     case CS_SUCCESS:
@@ -207,6 +219,7 @@ export function addCustomerIntAction(addCustIntData) {
                                 type: ADD_CUST_INT_INVALID_EMAIL,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -216,6 +229,7 @@ export function addCustomerIntAction(addCustIntData) {
                                 type: ADD_CUST_INT_MISSING_DETAILS,
                                 payload: data
                             });
+                              dispatch(startSpinner(false));
                             break;
                         }
 
@@ -223,8 +237,9 @@ export function addCustomerIntAction(addCustIntData) {
                         {
                             dispatch({
                                 type: ADD_CUST_INT_GENERAL_ERROR,
-                                payload: data
+                                payload: 'Error connecting to any service or database.'
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -234,6 +249,7 @@ export function addCustomerIntAction(addCustIntData) {
                                 type: ADD_CUST_INT_INVALID_PHONE,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -243,6 +259,7 @@ export function addCustomerIntAction(addCustIntData) {
                                 type: ADD_CUST_INT_RECORD_NOT_ADDED,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
 
@@ -251,16 +268,20 @@ export function addCustomerIntAction(addCustIntData) {
                         {
                             dispatch({
                                 type: ADD_CUST_INT_ADDR_BAD_REPLY,
-                                payload: data
+                                payload: 'Address entered is not a valid Address'
                             })
+                            dispatch(startSpinner(false));
+                            break;
                         }
 
                     case CS_COUNTRYCODEMISSING:
                         {
                             dispatch({
                                 type: ADD_CUST_INT_COUNTRY_CODE_MISSING,
-                                payload: data
+                                payload: 'Country Code validation for both local and international users.'
                             })
+                            dispatch(startSpinner(false));
+                            break;
                         }
 
                     default:
@@ -269,6 +290,7 @@ export function addCustomerIntAction(addCustIntData) {
                                 type: ADD_CUST_INT_DEFAULT,
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
                 }
@@ -289,7 +311,7 @@ export function getCountryList() {
 
     const CONFIG_FILE = require('../../../resources/stubs/config.json');
 
-    var URL = CONFIG_FILE.initServiceURL;
+    var URL = CONFIG_FILE.getCountryList;
     var functionalityId = CONFIG_FILE.countryListFuncId;
     var params = {
         "FunctionalityId" : functionalityId
@@ -304,12 +326,14 @@ export function getCountryList() {
                     type: ADD_CUST_COUNTRY_LIST_RETRIEVED,
                     payload: data
                 });
+                dispatch(startSpinner(false));
             })
             .catch(error => {
                 dispatch({
                     type: ADD_CUST_REQUEST_FAIL,
                     payload: error
                 });
+                dispatch(startSpinner(false));
             });
     };
 }

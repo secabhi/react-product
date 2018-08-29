@@ -16,8 +16,8 @@ export class EmailIncorrectModal extends Component {
         return (
             <Modal
                     open={this.props.emailMissingOpen}
-                    little
-                    showCloseIcon='false'
+                    onClose={() => { }} 
+                    little showCloseIcon={false}
                     classNames={{
                     modal: 'add-dom-cust-fields-missing-modal'
                 }}>

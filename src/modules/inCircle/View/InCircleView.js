@@ -40,11 +40,22 @@ export class InCircleView extends Component {
             <img className="back-arrow" src={backArrowWhite} alt="navigate-back"/>
           </div>
           <div className="divider"/>
-          <div className="customer-name">
+          {/* <div className="customer-name">
             <div className="customer-name-label">{this.props.salutation} {this.props.fname} {this.props.lname}</div>
+          </div> */}
+
+          <div className="customer-name">
+          <div className="customer-name-label"> {(this.props.customerDetails.firstName != "") ? 
+          (this.props.customerDetails.salutation + ((this.props.customerDetails.salutation != "") ? '.' : "")) : ""} {this.props.customerDetails.firstName} {this.props.customerDetails.lastName}
+          </div>   
           </div>
-          <div className="divider"/>
-          <div className="incircle-details">
+          {
+            (this.props.currentlvl > '0' ) ? 
+          <div className="divider"/> : <div></div>
+            }
+            {
+            (this.props.currentLvl > '0') ?
+            <div className="incircle-details">
             <span className="subheader-iconNum">{this.props.currentlvl}</span>
             <img
               className="subheader-circleStatusicon"
@@ -58,7 +69,9 @@ export class InCircleView extends Component {
                 Points to next point card: {this.props.pointsToNextLvl}
               </div>
             </div>
-          </div>
+          </div> : <div></div>
+          }
+
           <div className="spacer-div"/>
           <div className="product-search">
             <img
@@ -75,7 +88,7 @@ export class InCircleView extends Component {
             <div className="proceed-to-sale-label">Proceed to Sale</div>
           </div>
         </div>
-        <Tabheader history={this.props.history}/>
+        <Tabheader history={this.props.history} customerName={this.props.customerDetails.firstName}/>
         <div className="cusdet-tab-area ">
           <CSSTransition
             in={this.props.showcardPage === false}

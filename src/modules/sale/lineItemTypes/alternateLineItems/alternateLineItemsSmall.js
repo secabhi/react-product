@@ -60,7 +60,7 @@ export default class AlternateLineItems extends Component{
             </div>
             </div>) : (<div className="item-voided-container">
             <div className='item-info'>
-                <div className='item-index-void-line'>{this.props.index+1}</div>
+                <div className='item-index-void-line'>{this.props.obj.lineNumber}</div>
                 <div className='item-description-void-line'>Line Voided</div> 
             </div>
             </div>)

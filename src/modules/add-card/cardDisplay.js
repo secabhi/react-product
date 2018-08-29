@@ -6,6 +6,8 @@ import visa from '../../resources/images/Visa.svg';
 import mastercard from '../../resources/images/Mastercard.svg';
 import cards from '../../resources/images/Add_Card.svg';
 import deletebutton from '../../resources/images/Delete_Purple.svg'
+//import cardtype from "../../resources/images/Rect_Gray.svg"
+
 import './addCard.css'
 
 export default(props) => {
@@ -21,7 +23,9 @@ export default(props) => {
         <div className="card-layout-main">
             <div className="card-layout-details">
                 <div className="card-icon-div">
-                    <img src={visa} className="card-icon"/>
+                   <div className = "card-type-outer">
+                        <div className = "card-type-name">{cardType}</div>
+                   </div>
                 </div>
                 <div className="card-layout-text">
                     <label className="card-cust-name-text">{custFname}</label>

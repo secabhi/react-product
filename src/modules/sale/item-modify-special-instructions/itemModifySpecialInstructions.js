@@ -10,13 +10,14 @@ export class ItemModifySpecialInstructions extends Component {
         super(props)
         this.state = {
             specialInstructions: '',
+            isUpdate: false
         }
         this.ItemModifySpecialInstructionsSubmit = this.ItemModifySpecialInstructionsSubmit.bind(this);
     }
     
     componentDidMount(){
         if(this.props.specialInstructionsValue !== null && this.props.specialInstructionsValue !== undefined && this.props.specialInstructionsValue!= '') {
-            this.setState({specialInstructions : this.props.specialInstructionsValue});
+            this.setState({specialInstructions : this.props.specialInstructionsValue, isUpdate: true});
         }
         else {
             this.updateModifySpecialInstructionsEntry({
@@ -39,10 +40,10 @@ export class ItemModifySpecialInstructions extends Component {
     updateModifySpecialInstructionsEntry(e) {
         const { specialInstructions } = this.state;
         const { max_chars } = this.state;
-        this.setState({ specialInstructions: e.target.value,
+        this.setState({ specialInstructions: ((this.state.isUpdate === true && e.target.value === '') ? ' ' : e.target.value),
         });
         console.log("valueAt:"+e.target.value.charAt(0))
-        if ((e.target.value.length < 1 )){
+        if ((e.target.value.length < 1 && this.state.isUpdate === false)){
             document.getElementsByClassName("item-modify-special-instructions-ok")[0].disabled = true;
         }
         else {
@@ -122,7 +123,6 @@ export class ItemModifySpecialInstructionsSFF extends Component {
             specialInstructions: '',
             max_chars:'420',
             chars_left:'420'
-
         }
         this.ItemModifySpecialInstructionsSubmit = this.ItemModifySpecialInstructionsSubmit.bind(this);
     }

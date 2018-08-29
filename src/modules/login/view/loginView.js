@@ -14,13 +14,16 @@ import CrossBlack from '../../../resources/images/Cross_Black.svg';
 import CrossWhite from '../../../resources/images/Cross_White.svg';
 import AssociateLoginSVG from '../../../resources/images/Associate-Login.svg';
 
+
+
 export class LoginView extends Component {
 
-
-    componentDidUpdate(){
-        console.log("UPDATED");
-        this.props.authenticate(this.params.RequestParams.Upin, this.params.RequestParams.Upass);
-    }
+    
+    // componentDidUpdate(){
+    //     console.log("UPDATED");
+    //     //this.props.authenticate(this.params.RequestParams.Upin, this.params.RequestParams.Upass);
+    // }
+   
 
     render() {
 
@@ -66,11 +69,28 @@ export class LoginView extends Component {
             paddingBottom: (window.innerWidth > 1900) ? '0px' : '15px'
         }
 
+        var loginErrorStyle = {
+            bottom: '0',           
+            fontFamily: 'Roboto',
+            fontSize: '26px',
+            fontWeight: 'normal',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            letterSpacing: 'normal',
+            textAlign: 'right',
+            color: '#d53560',
+            position: 'absolute',
+            height: '0',
+            width: '100%',
+            bottom: '-23px'
+
+        }
             //construct paramaters to send to API
             this.params = { "FunctionalityId":this.props.funcID,
                             "RequestParams":{
                             "Upin": this.props.userPin, 
-                            "Upass": this.props.password
+                            "Upass": this.props.password,
+                            "TransactionNum": this.props.transactionId
                             }};
 
             console.log("Params", this.params.RequestParams.Upin);
@@ -96,7 +116,7 @@ export class LoginView extends Component {
 
                             <div className="inputsMargin">
                                 <TextField
-                                    required
+                                    
                                     type="tel"
                                     floatingLabelText="Sales Associate PIN"
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
@@ -106,11 +126,13 @@ export class LoginView extends Component {
                                     style={textFieldStyle}
                                     onChange={this.props.handlePinChange}
                                     value={this.props.userPin}
+                                    errorText={this.props.pinError}
+                                    errorStyle={loginErrorStyle}
                                 />
                             </div>  
                             <div className="passInputsMargin">
                                 <TextField
-                                    required
+                                    
                                     type="password"
                                     floatingLabelText="Password"
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
@@ -120,6 +142,14 @@ export class LoginView extends Component {
                                     style={textFieldStyle}
                                     onChange={this.props.handlePassChange}
                                     value={this.props.password}
+                                    errorText={this.props.passwordError}
+                                    errorStyle={loginErrorStyle}
+                                    onKeyPress={(e) => {
+                                    if(e.key === 'Enter') {
+                                        e.preventDefault();
+                                        this.props.handleSubmit(e, this.params)
+                                        }
+                                    }}
                                 />
                             </div>
                             <div  >

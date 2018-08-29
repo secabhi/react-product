@@ -1,4 +1,4 @@
-
+import giftCard from '../../../resources/images/Gift_Card_image_test.svg';
 // multiple line items from cart are combined to form one index entry that are with related items.
 export default (cartOld, productImages)=> {
     //need a copy of array we may not to send unformatted cart back if we dont have all images
@@ -12,7 +12,16 @@ export default (cartOld, productImages)=> {
     cart.forEach((object) => {
         let obj = reformatObject(object, productImages);
         let itemDesc = obj.itemDesc.trim();
-        if(!formattedLineNumber[0] || itemDesc === 'Alterations' || itemDesc === 'Gift Wrap' || itemDesc === 'delivery fee') {
+        console.log("ITEM DESCRIPTION REFORMAT",itemDesc.toLowerCase().slice(0,12))
+        if(!formattedLineNumber[0] || itemDesc === 'Alterations' || itemDesc === 'Gift Wrap' || itemDesc.toLowerCase().slice(0,12) === 'delivery fee' || itemDesc === 'NM Expss Card') {
+           //create children property for main sku to keep track of its children that it needs line item details for
+        /*    if(!formattedLineNumber[0]) {
+                obj.children = [];
+            } else {
+                if(itemDesc === 'Alterations'){formattedLineNumber[0].children.push('A')}
+                if(itemDesc === 'Gift Wrap'){formattedLineNumber[0].children.push('G')}
+            } */
+
             formattedLineNumber.push(obj)
         } else {
             formattedCart.push(formattedLineNumber);
@@ -36,11 +45,10 @@ export default (cartOld, productImages)=> {
 }
     
 const reformatObject = (object, productImages) => {
-    console.log(`********* OBJECT : ${JSON.stringify(object)}, productImages : ${JSON.stringify(productImages)}`);
     //check to see if we have a main product object
     let itemDesc = object.itemDesc.trim();
     //image check should only be done if a product object
-    if(itemDesc !== 'Alterations' && itemDesc !== 'Gift Wrap' && itemDesc !== 'delivery fee'){
+    if(itemDesc !== 'Alterations' && itemDesc !== 'Gift Wrap' && itemDesc.toLowerCase().slice(0,12) !== 'delivery fee' && itemDesc !='NM Expss Card'){
         
         if(productImages.imageUrls[object.pim_SKU_ID]){
             console.log('match found in productImage', productImages.imageUrls[object.pim_SKU_ID], object.imgLink)
@@ -52,6 +60,11 @@ const reformatObject = (object, productImages) => {
             productImages.imageUrls[object.pim_SKU_ID] = ''
         }
     }
+
+    if(itemDesc == 'NM Expss Card') {
+        object.imgLink = giftCard
+    }
+    
 
     if(object.color && (object.color.trim() === "NO")) {
         object.color = "NO COLOR"

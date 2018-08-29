@@ -7,8 +7,8 @@ import CustomerEditForm from '../../../common/customerEditForm/Controller/custom
 import SendWeightChart from '../SendWeightChart/Controller/SendWeightChart';
 import OptionSeven from '../OptionSeven/OptionSeven';
 import ServicesFooter from '../../sale-services/services-common/ServicesFooter';
-import SendTitleHeader from '../FreqShippedAddresses/SendTitleHeader/Controller/sendTitleHeader';
-import ShippingOptions from '../OptionSeven/ShippingOptions/ShippingOptions'
+import ShippingOptions from '../OptionSeven/ShippingOptions/ShippingOptions';
+import EnterBarcode from '../enterBarcode/enterBarcode';
 
 export default class SendContent extends Component {
 
@@ -17,8 +17,8 @@ export default class SendContent extends Component {
 
     this.state ={
       test : false,
-      componentName: this.props.sendComponent.componentName
-      
+      componentName: this.props.sendComponent.componentName,
+      sendType:""
     }
   }
 
@@ -44,25 +44,8 @@ export default class SendContent extends Component {
     else if(this.state.componentName === "senderForm"){
       compToDisplay = (
                         [
-                        // <SendTitleHeader 
-                        //     title = {"Recipient"} 
-                        // />,
                         <CustomerEditForm 
-                          cssId={this.props.cssId}
-                          currentLvl={this.props.currentLvl}
-                          skipCustomerInfo={this.props.isSkip}
-                          salutation={this.props.salutation}
-                          firstName={this.props.firstName}
-                          lastName={this.props.lastName}
-                          address1={this.props.address1}
-                          address2={this.props.address2}
-                          mobile={this.props.mobile}
-                          otherMobile={this.props.otherMobile}
-                          city={this.props.city}
-                          state={this.props.state}
-                          email={this.props.email}
-                          country={this.props.country}
-                          zip={this.props.zip}
+                          customerDetails={this.props.customerDetails}
                           updateObjectHandler={this.props.updateObjectHandler}
                           optionalFooter={ServicesFooter}
                           sameSenderReciever={this.props.sendComponent.sameSenderReciever}
@@ -80,25 +63,8 @@ export default class SendContent extends Component {
     else if(this.state.componentName === "receiverForm"){
       compToDisplay = (
                         [
-                        // <SendTitleHeader 
-                        //     title = {"Recipient"} 
-                        // />,
                         <CustomerEditForm 
-                          cssId={this.props.cssId}
-                          currentLvl={this.props.currentLvl}
-                          skipCustomerInfo={this.props.isSkip}
-                          salutation={this.props.salutation}
-                          firstName={this.props.firstName}
-                          lastName={this.props.lastName}
-                          address1={this.props.address1}
-                          address2={this.props.address2}
-                          mobile={this.props.mobile}
-                          otherMobile={this.props.otherMobile}
-                          city={this.props.city}
-                          state={this.props.state}
-                          email={this.props.email}
-                          country={this.props.country}
-                          zip={this.props.zip}
+                          customerDetails={this.props.customerDetails}
                           updateObjectHandler={this.props.updateObjectHandler}
                           optionalFooter={ServicesFooter}
                           sameSenderReciever={this.props.sendComponent.sameSenderReciever}
@@ -108,6 +74,8 @@ export default class SendContent extends Component {
                           history={this.props.history}
                           updateShipmentOptionsObject={this.props.updateShipmentOptionsObject}
                           formType={"Receiver"}
+                          freqShippedAddrSelected={this.props.freqShippedAddrSelected}
+                          freqShippedSelectedHandler={this.props.freqShippedSelectedHandler}
                         />,
                         
                         ])
@@ -117,7 +85,6 @@ export default class SendContent extends Component {
       compToDisplay = (<FrequentlyShippedAddresses 
                         changeComponent={this.componentToRender}
                         componentChangeHandler={(value) => {this.componentChangeHandler(value)}}
-                        customerDetails={this.props.customerDetails}
                         emailTrackingInfo={this.props.emailTrackingInfo}
                         moreCustomerData={this.props.moreCustomerData}
                         salutation={this.props.salutation}
@@ -134,12 +101,15 @@ export default class SendContent extends Component {
                         zip={this.props.zip}  
                         navigateToSale={this.props.navigate}  
                         history={this.props.history}    
+                        userPin={this.props.userPin.userPin}
+                        sendResponseObject={this.props.sendResponseObject}
+                        customerDetails={this.props.customerDetails}
+                        freqShippedSelectedHandler={this.props.freqShippedSelectedHandler}
+                        freqShippedAddressesAction={this.props.freqShippedAddressesAction}
                       />);
     }
 
     else if(this.state.componentName === "optionSeven") {
-      console.log('sendcontent state', this.state)
-      console.log('sendcontent props', this.props)
       var footerButton = (
         <div className="giftwrap-next" 
           onClick={() => {
@@ -167,7 +137,7 @@ export default class SendContent extends Component {
                         optionSevenState={this.props.optionSevenState}
                         selectStoreState={this.props.selectStoreState}
                         shippingOptionState={this.props.shippingOptionState}
-                        componentChangeHandler={(value) => {this.componentChangeHandler(value)}}
+                        componentChangeHandler={(value, typeOfSend) => {this.componentChangeHandler(value,typeOfSend)}}
                         navigate={this.props.navigate}
                       />,
                       <ServicesFooter additionalStyle='sendComponent-offset'>
@@ -181,7 +151,7 @@ export default class SendContent extends Component {
 
     else if(this.state.componentName === "sendweightchart"){
       compToDisplay = (<SendWeightChart
-                        componentChangeHandler={(value) => {this.componentChangeHandler(value)}}
+                        componentChangeHandler={(value, typeOfSend) => {this.componentChangeHandler(value,typeOfSend)}}
                         initializeOptionSeven={(value) =>{this.props.initializeOptionSeven(value)}}
                         optionalFooter={ServicesFooter}
                         updateObjectHandler={this.props.updateObjectHandler}
@@ -194,7 +164,7 @@ export default class SendContent extends Component {
     }
     else if(this.state.componentName === "shippingOptions"){
       compToDisplay = (<ShippingOptions
-                        componentChangeHandler={(value) => {this.componentChangeHandler(value)}}
+                        componentChangeHandler={(value, typeOfSend) => {this.componentChangeHandler(value,typeOfSend)}}
                         directSendRequest={this.props.directSendRequest}
                         sendApiRequestObject={this.props.sendApiRequestObject}
                         optionalFooter={ServicesFooter}
@@ -203,30 +173,43 @@ export default class SendContent extends Component {
                         shipmentOptionsReqestObject={this.props.shipmentOptionsReqestObject}
                         getShipmentOptions={this.props.getShipmentOptions}
                         sendResponseObject={this.props.sendResponseObject}
+                        itemSelectedAction={this.props.itemSelectedAction}
+                        authCodeRequest={this.props.authCodeRequest}
+                        homeReduxStore={this.props.homeReduxStore}
+                        clearForSend={this.props.clearForSend}
+                      />);
+    }
+    else if(this.state.componentName === "enterBarcode"){
+      compToDisplay = (<EnterBarcode
+                        componentChangeHandler={(value, typeOfSend) => {this.componentChangeHandler(value,typeOfSend)}}
+                        updateObjectHandler={this.props.updateObjectHandler}
+                        history={this.props.history}
+                        optionalFooter={ServicesFooter}
+                        sendType={this.state.sendType}
                       />);
     }
 
     else{
-      // compToDisplay = ([<SendWeightChart
-      //                   componentChangeHandler={(value) => {this.componentChangeHandler(value)}}
-      //                   initializeOptionSeven={(value) =>{this.props.initializeOptionSeven(value)}}
-      //                   optionalFooter={ServicesFooter}
-      //                   updateObjectHandler={this.props.updateObjectHandler}
-      //                   history={this.props.history} 
-      //                   updateShipmentOptionsObject={this.props.updateShipmentOptionsObject}
-      //                 />,
-      //                 ]);
+      compToDisplay = (<EnterBarcode
+                        componentChangeHandler={(value, typeOfSend) => {this.componentChangeHandler(value, typeOfSend)}}
+                        updateObjectHandler={this.props.updateObjectHandler}
+                        history={this.props.history}
+                        optionalFooter={ServicesFooter}
+                      />);
     }
     return compToDisplay;
   }
 
-  componentChangeHandler = (value) => {
+  componentChangeHandler = (value,typeOfSend) => {
     this.setState({
-      componentName: value
+      componentName: value,
     })
+    if(value =='enterBarcode'){
+      this.setState({sendType:typeOfSend})
+    }
     this.componentToRender();
     console.log('STATE VALUE', this.state.componentName)
-    console.log('CompRender-Val', value)
+    console.log('CompRender-Val', this.state.sendType)
   }
 
 

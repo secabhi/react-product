@@ -23,7 +23,7 @@
     transform: rotate(-135deg);
     -webkit-transform: rotate(-135deg);
     position: absolute;
-    top: 328px;
+    top: 335px;
     left: 330px;
     background: white;
 }
@@ -157,7 +157,7 @@
     opacity: 0.65;
     background-color: #000000;
     z-index: 100px;
-    z-index: 1000;
+    z-index: 998;
     position: fixed;
     top: 0;
     left: 0;
@@ -482,8 +482,6 @@
     height: 325px !important;
     padding: 0 !important;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-    background-color: #ffffff;
-    /* border: solid 1px #bfbfbf; */
 }
 
 .addCard-result-modal{
@@ -524,7 +522,7 @@
     height: 54px;
     background-color: #4b2b6f;
     border: solid 1px #a87ed6;
-    margin-top : 176px
+    margin-top : 54px
 }
 
 .addCard-result-modal-close-btn-text{
@@ -540,4 +538,137 @@
     text-align: center;
     color: #ffffff;
   
+}
+
+.addcard-modal-wrapper{
+    width: 725px !important; 
+    height: 450px !important;
+    padding: 0;
+}
+
+.addcard-Modal-Container{
+    display : flex;
+    flex-direction: column;
+
+}
+.addcard-Modal-iconArea{
+    margin-left: 303.2px;
+    margin-top: 81.2px;
+}
+
+.addcard-Modal-icon{
+    width: 120px;
+    height: 120px;
+}
+
+.addcard-Modal-text-area{
+    margin-top: 39px;
+    margin-left: 130px;
+ 
+
+}
+.addcard-Modal-text{
+ 
+    height: 38px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: 2px;
+    text-align: left;
+    color: #333333;
+}
+
+.addcard-Modal-buttons-area{
+    display: flex;
+    flex-direction: row;
+    margin-top: 63.8px;
+    justify-content: center;
+}
+
+.addcard-Modal-cancel-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 179px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    margin-right: 40px;
+}
+
+.addcard-Modal-keyin-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 345px;
+    height: 60px;width: 345px;
+    height: 60px;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+}
+
+.addcard-Modal-cancel-label{
+    height: 28px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: 2px;
+    text-align: left;
+    color: #613b8c;
+}
+
+.addcard-Modal-cancel-icon{
+    width: 27.5px;
+    height: 27.5px;
+    padding-right: 14.5px;
+}
+
+.addcard-Modal-keyin-icon{
+    height: 25px;
+    padding-right: 15.5px;
+}
+
+.addcard-Modal-keyin-label{
+    
+    height: 28px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: 2px;
+    text-align: left;
+    color: #ffffff;
+   
+
+}
+
+
+.card-type-outer{
+    background-image: url("../../resources/images/Rect_Gray.svg");
+    width: 50px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-type-name{
+    width: 36px;
+    height: 24px;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: 0.2px;
+    text-align: center;
+    color: #757575;
 }

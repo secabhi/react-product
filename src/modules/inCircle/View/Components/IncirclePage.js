@@ -39,7 +39,7 @@ export class IncirclePage extends Component {
                                 <div className="inCircle-points">
                                     <div className="point-text">
                                         <div className="inCircle-point-value">
-                                            {this.props.props.totalpoints}
+                                            {this.props.props.incircleData.tyPointsEarned}
                                             <span className="inCircle-point-label">Total Points</span>
                                         </div>
                                     </div>
@@ -83,7 +83,7 @@ export class IncirclePage extends Component {
                                             width: this.props.props.textPercent//redeemedtextPercent
                                         }}>
                                             <div className="redeemed-label">Redeemed</div>
-                                            <div className="redeemed-value">{this.props.props.totalpoints/* redeemed */}</div>
+                                            <div className="redeemed-value">{this.props.props.incircleData.tyPointsRedeemed/* redeemed */}</div>
                                         </div>
                                     </div>
                                 </div>

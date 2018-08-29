@@ -130,22 +130,23 @@ export class SaleItemGiftRegistry extends Component {
 
         return (
             <div className='sale-item-gift-registry-container'>
-                <img src={this.props.modify_type=='item'?item_Modify:trans_Modify} className='sale-item-gift-registry-icon' />
+                <img src={this.props.modify_type=='IteamRegistry'?item_Modify:trans_Modify} className='sale-item-gift-registry-icon' />
                 <div className='sale-item-gift-registry-label'>Gift Registry</div>
-                <form class="SaleItemGiftRegistryForm" onSubmit={(e) => {
+                <form className="SaleItemGiftRegistryForm" onSubmit={(e) => {
                     e.preventDefault();
                     this.SaleItemGiftRegistrySubmit(e)}}>
                     
                     <TextField
                         required
-                        type="number"
+                        type="text"
+                        maxLength="12"
                         floatingLabelText="Gift Registry #"
                         floatingLabelStyle={textFieldFloatingLabelStyle}
                         fullWidth={true}
                         inputStyle={textFieldInputStyle}
                         underlineStyle={textFieldUnderlineStyle}
                         style={textFieldStyle}
-                        value={this.state.giftitem}
+                        value={this.state.giftitem.replace(/[^0-9]+/ig, "")}
                         onChange={e => this.updateGiftRegistryEntry(e)}
                     />
                     <img className="gift-registry-scan" src={scan}/>
@@ -335,7 +336,7 @@ export class SaleItemGiftRegistrySFF extends Component {
             fontWeight: '300',
             fontStyle: 'normal',
             fontStretch: 'normal',
-            lineHeight: '1.19',
+            lineHeight: '1.34',
             letterSpacing: 'normal',
             textAlign: 'left',
             color: '#333333',

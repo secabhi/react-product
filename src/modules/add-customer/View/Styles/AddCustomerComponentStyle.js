@@ -6,11 +6,16 @@ export const customStyle= {
         fontWeight: 'normal',
         fontStyle: 'normal',
         fontStretch: 'normal',
+        overflow: 'hidden',
+        textOverflow: 'initial',
+        whiteSpace: 'nowrap',
+        width: '34px',
         lineHeight: '1.19',
         letterSpacing: '2px',
         textAlign: 'left',
         color: '#828282',
         paddingTop: '20px',
+        paddingBottom: '4.5px',
         paddingLeft: '13px'
     },
 

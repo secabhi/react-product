@@ -18,7 +18,7 @@ import { POINT_CONVERSION_UNCOMPRESSED } from 'constants';
 
 
 const emailTracking = (props) => {
-    const isCliental = props.customerInfo.details;
+    const isCliental = props.customerDetails.cCSNumber;
 
     const LargeFormFactor = () => {
         return (
@@ -38,10 +38,10 @@ const emailTracking = (props) => {
                      <img  className='modal-icon' alt='email confirm icon'  src={confirmEmailIcon} />
                      <div style={{fontSize: '38px'}}> Email tracking information?</div>
                      <div className='btn-yes-no-wrapper'> 
-                         <div className='btn-no' onClick={() => props.openRecipientSender()}>NO</div>
+                         <div className='btn-no' onClick={() => {beginUpdateTracking(false);props.openRecipientSender()}}>NO</div>
                          <div 
                             className='btn-yes'
-                            onClick={() => {beginUpdateTracking(); props.openVerifyEmail()}}
+                            onClick={() => {beginUpdateTracking(true); props.openVerifyEmail()}}
                             >YES
                         </div>
                      </div>
@@ -75,11 +75,11 @@ const emailTracking = (props) => {
         )    
     }
     
-    const beginUpdateTracking = () => {
+    const beginUpdateTracking = (toTrack) => {
         if(isCliental) {
-            props.updateTracking('CLIENT', true)
+            props.updateTracking('CLIENT', toTrack)
         } else {
-            props.updateTracking('NON_CLIENT', true)
+            props.updateTracking('NON_CLIENT', toTrack)
         }
     }
 
@@ -93,8 +93,8 @@ const emailTracking = (props) => {
 }    
 
 
-const  mapStateToProps = ({sale}) => {
-    return { customerInfo: sale.otherPageData }
+const  mapStateToProps = ({customerDetails}) => {
+    return { customerDetails }
   }
 
 const mapDispatchToProps = (dispatch) => {

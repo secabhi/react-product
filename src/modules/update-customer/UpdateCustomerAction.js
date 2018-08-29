@@ -1,4 +1,5 @@
 import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
+import { startSpinner } from '../common/loading/spinnerAction';
 const env = require('../../settings/env.js');
 const path = env.PATH;
 
@@ -43,10 +44,19 @@ export function updateCustomerAction(updateCustDomData) {
                //debugger;
                switch (data.response_text) {
 
-                    case "CS_AV_SUCCESS":
+                    case "CS_SUCCESS":
                         {
                             dispatch({
                                 type: 'UPDATE_CUST_DOM_SUCCESS',
+                                payload: data
+                            });
+                            break;
+                        }
+                    
+                    case "CS_FAIL":
+                        {
+                            dispatch({
+                                type: 'UPDATE_CUST_DOM_FAIL',
                                 payload: data
                             });
                             break;
@@ -66,6 +76,15 @@ export function updateCustomerAction(updateCustDomData) {
                         {
                             dispatch({
                                 type: 'UPDATE_CUST_DOM_MISSING_DETAILS',
+                                payload: data
+                            });
+                            break;
+                        }
+                    
+                    case "CS_CUSTNOTFOUND":
+                        {
+                            dispatch({
+                                type: 'UPDATE_CUST_DOM_NOT_FOUND',
                                 payload: data
                             });
                             break;
@@ -132,12 +151,21 @@ export function updateCustomerAction(updateCustDomData) {
                                 type: 'UPDATE_CUST_DOM_ADDR_BAD_REPLY',
                                 payload: data
                             })
+                            dispatch(startSpinner(false));
                         }
 
                     case "CS_COUNTRYCODEMISSING":
                         {
                             dispatch({
                                 type: 'UPDATE_CUST_DOM_COUNTRY_CODE_MISSING',
+                                payload: data
+                            })
+                        }
+
+                    case "CS_RECORDNOTUPDATED":
+                        {
+                            dispatch({
+                                type: 'UPDATE_CUST_DOM_FAIL',
                                 payload: data
                             })
                         }
@@ -160,15 +188,4 @@ export function updateCustomerAction(updateCustDomData) {
                 });
             });
     };
-}
-
-export function navigateToEditCustomerAction(profileData){
-
-    console.log('profileData : '+profileData)
-    return (dispatch) => {
-        dispatch({
-            type: 'SET_CUSTOMER_PROFILE_DATA',
-            payload: profileData
-        });
-    }
 }

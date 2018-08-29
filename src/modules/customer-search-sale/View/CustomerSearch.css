@@ -945,6 +945,7 @@ button[disabled]{
      letter-spacing: normal;
      text-align: left;
      color: #505050;
+     margin-right: 42px;
    }
    .customer-search-result-display-header-title6{
     flex:1;

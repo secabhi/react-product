@@ -7,6 +7,7 @@
     width: 725px !important;
     height: 837px !important;
     top: 120px;
+    padding:0px !important;
 }
 .daystext-lff{
     width: 68px;
@@ -40,7 +41,8 @@
     display: flex;
     flex-direction: row;
     margin-top: 71px;
-    margin-left: 20px;
+    margin-left: 175px;
+    margin-right: 175px;
     justify-content: center;
 
 }
@@ -63,6 +65,8 @@
     width: 28px;
     height: 28px;
     object-fit: contain;
+     /* Added padding so that it looks fine in the Tablet it may look different in the Browser */
+    padding-top: 16px;
 }
 .replishment-button-section-lff .cancelbtn{
     display: flex;
@@ -86,6 +90,8 @@
     margin-left: 6px;
     text-align: left;
     color: #613b8c;
+    /* Added padding so that it looks fine in the Tablet it may look different in the Browser */
+    padding-top: 14px;
 }
 .replishment-button-section-lff .okbtn{
     width: 155px;
@@ -110,17 +116,19 @@
     color: #333333;
 }
 .replishment-button-section-lff .oktxt{
-    width: 32px;
-    height: 32px;
-    font-family: Roboto;
-    font-size: 24px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.33;
-    letter-spacing: normal;
-    text-align: left;
-    margin-left: 60px;
+           
+        
+        margin-top: 1px;
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: 0.5px;
+        text-align: left;
+        color: #ffffff;
+    
 }
 .replishment-text-lff{
     width: 217px;
@@ -142,4 +150,31 @@
     height: 120px;
     margin-left:303px;
     margin-top:80px;
+}
+
+#okbtn:disabled {
+    border: 2px solid #a491b9;
+    background-color: #a491b9;
+    color: #fff;
+    font-size:#fff;
+}
+#okbtn{
+    
+    margin-left: 40px;
+    width: 155px;
+    height: 60px;
+    color: #ffffff;   
+    background-color: #4b2b6f;   
+}
+#ok{
+    width: 32px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
 }

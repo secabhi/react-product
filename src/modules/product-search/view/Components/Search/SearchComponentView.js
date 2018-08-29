@@ -82,10 +82,15 @@ export class SearchComponentView extends Component {
                                         // onChange={this.handleTextFieldInput}
                                         // value={this.state.pimSKU}
                                         underlineStyle={elementstyle.underlineStyle}
-                                        onKeyDown={(event) => {
-                                            event.keyCode === 13 && this.props.productSearchProps.handleApiInvoker()
-                                            }
-                                        }
+                                        onKeyPress={(e) => {
+                                            if(e.key === 'Enter') {
+                                                e.preventDefault();
+                                                this.props.productSearchProps.handleApiInvoker()
+                                                }
+                                                }}
+                                        onInput = {(e) =>{
+                                                e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,12)
+                                                }}        
                                         >
                                     </TextField>
                                 </div>
@@ -107,6 +112,9 @@ export class SearchComponentView extends Component {
                                             event.keyCode === 13 && this.props.productSearchProps.handleApiInvoker()
                                             }
                                         }
+                                        onInput = {(e) =>{
+                                            e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,12)
+                                            }} 
                                         >
                                     </TextField>
                                 </div>
@@ -127,6 +135,9 @@ export class SearchComponentView extends Component {
                                             event.keyCode === 13 && this.props.productSearchProps.handleApiInvoker()
                                             }
                                         }
+                                        onInput = {(e) =>{
+                                            e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                                            }} 
                                         >
                                     </TextField>
                                 </div>
@@ -148,6 +159,7 @@ export class SearchComponentView extends Component {
                                                 event.keyCode === 13 && this.props.productSearchProps.handleApiInvoker()
                                                 }
                                             }
+                                            maxLength="5"
                                             >
                                         </TextField>
                                     </div>
@@ -167,6 +179,7 @@ export class SearchComponentView extends Component {
                                                     event.keyCode === 13 && this.props.productSearchProps.handleApiInvoker()
                                                     }
                                                 }
+                                                maxLength="5"
                                                 >
                                         </TextField>
                                     </div>
@@ -191,6 +204,7 @@ export class SearchComponentView extends Component {
                                 </div>
                             </div>
                         </div>
+
         </div>);
     }
 }

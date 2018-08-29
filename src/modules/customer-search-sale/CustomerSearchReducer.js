@@ -25,9 +25,13 @@ const initialState = {
         addresses: [],
         myCustomer: ''
     },
+    flow:'',
     dataFrom: '',
     customer: {},
-    searchItem:''
+    searchItem:'',
+    clienteled : true,
+    error_message:'',
+    isValid : false
 };
 
 
@@ -40,7 +44,9 @@ export function CustomerSearchReducer(state = initialState, action) {
                 ...state,
                 buttonId : action.payload,
                 isSearchItemSet :  false,
-                dataFrom :''
+                dataFrom :'',
+                error_message: '',
+                isValid : true
             };
 
         case 'GET_CUSTOMERS':
@@ -48,7 +54,9 @@ export function CustomerSearchReducer(state = initialState, action) {
                 ...state,
                 data: action.payload ,
                 isSearchItemSet :  false    ,
-                dataFrom :''
+                dataFrom :'',
+                error_message:'',
+                isValid : true, 
             };
 
         case 'SET_CUSTOMER':
@@ -56,7 +64,9 @@ export function CustomerSearchReducer(state = initialState, action) {
                 ...state,
                 customer: action.payload,
                 isSearchItemSet :  false,
-                dataFrom :''
+                dataFrom :'',
+                error_message:'',
+                isValid : true
             };
        
         case 'CUST_INCIRCLE_INFO':
@@ -64,38 +74,59 @@ export function CustomerSearchReducer(state = initialState, action) {
                 ...state,
                 incircleData: action.payload,
                 isSearchItemSet :  false,
-                dataFrom : ''
+                dataFrom : '',
+                error_message:'',
+                isValid : true
             };
         case 'CUST_INCIRCLE_ERROR':
             return {
                 ...state,
                 incircleData: null,
                 isSearchItemSet :  false,
-                dataFrom :''
+                dataFrom :'',
+                error_message:'',
+                isValid : true
             };
+       
         case 'GET_ISELL_CART_REQUEST_SUCCESS': {
             console.log('**reducer: action.payload', action.payload);
-            return {
-                ...state,
-                data: action.payload,
-                dataFrom: 'GET_ISELL_CART_REQUEST_UPDATE'
-            };
+            if(action.payload === null) {
+                return {
+                    ...state,
+                    data: action.payload,
+                    dataFrom: 'GET_ISELL_CART_REQUEST_UPDATE_FAILURE',
+                    error_message:'',
+                    isValid : true
+                };
+            }
+            else {
+                return {
+                    ...state,
+                    data: action.payload,
+                    dataFrom: 'GET_ISELL_CART_REQUEST_UPDATE',
+                    error_message:'',
+                    isValid : true
+                };
+            }
         }
         case 'SET_SEARCHITEM_DATA':
             return {
             ...state,
             searchItem: action.payload,
             isSearchItemSet :  true,
-            dataFrom : ''
+            dataFrom : '',
+            error_message:'',
+            isValid : true
             
         };
 
         case 'SET_CLIENTELED':
             return {
                 ...state,
-
                 clienteled : action.payload,
-                dataFrom: 'SET_CLIENTELED'
+                dataFrom: 'SET_CLIENTELED',
+                error_message:'',
+                isValid : true
             };
 
         case 'CLEAR_SEARCH_DATA':
@@ -104,9 +135,36 @@ export function CustomerSearchReducer(state = initialState, action) {
             searchItem: '',
             isSearchItemSet :  false,
             data : {},
-            dataFrom : ''
+            dataFrom : '',
+            error_message:'',
+            isValid : true
             
         }
+        case 'SET_ISELL_FLOW':
+        return{
+            ...state,
+            flow:action.payload,
+            dataFrom:'SET_ISELL_FLOW'
+        }
+        case 'CS_CUSTNOTFOUND':
+        return {
+            ...state,
+            dataFrom : 'CS_CUSTNOTFOUND',
+            error_message:'',
+            isValid : true
+            
+        }
+
+        case 'CUSTOMSEARCH_REQUEST_VALIDFAILED':
+                return{
+                    ...state,
+                    searchItem: '',
+                    isSearchItemSet :  false,
+                    data : {},
+                    dataFrom : '',
+                    error_message: action.message,
+                    isValid : false,
+                }
         default:
             return state;
     }

@@ -68,32 +68,32 @@
 }
 
 .passwrdTitle {
-    /* font-family: HelveticaNeue; */
-    font-size: 32px;
+    font-family: roboto;
+    font-size: 38px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.19;
+    line-height: 1.32;
     letter-spacing: normal;
     text-align: center;
-    color: #505050;
-    margin-top: 20.5px;
+    color: #333333;
+    margin-top: 19px;
     width: 100%;
     display: inline-block;
 }
 
 .passwrdSubtitle {
-    /* font-family: Helvetica; */
+    font-family: roboto;
     width: 268px;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.43;
+    line-height: 0.97; 
     letter-spacing: normal;
     text-align: center;
-    color: #505050;
-    margin-top: 11.2px;
+    color: #333333;
+    /* margin-top: 11.2px; */
     margin-bottom: 15px;
     width: 100%;
     display: inline-block;
@@ -113,7 +113,7 @@
     letter-spacing: normal;
     text-align: center;
     color: #ffffff;
-    margin-top: 60.5px; 
+    margin-top: 52.5px; 
 }
 
 .spacing {

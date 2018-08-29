@@ -344,3 +344,24 @@
     }
 
   }
+  .PriceDetails_Total {
+    position: fixed;
+    left: 0;
+    bottom: 210px;
+    color: white;
+    text-align: center;
+    height: 100px;
+    width: 1491px !important;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    border: solid 2px #ededed;
+    margin-top: 20px !important;
+    margin-left: 50px !important;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}

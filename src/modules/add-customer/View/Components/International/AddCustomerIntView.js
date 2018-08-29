@@ -31,12 +31,15 @@ import { SuccessModal } from '../AlertModals/successModal';
 import { InvalidAddressModal}  from '../AlertModals/invalidAddressModal';
 import { InvalidEmailModal } from '../AlertModals/invalidEmailModal';
 import { Salutation } from '../Fields/Salutation';
-
+import CardContainer from '../../../../add-card/cardContainer'
+import cardContainer from '../../../../add-card/cardContainer';
+import {AddCardModal} from '../../../../add-card/View/Components/Modals/AddCardModal/AddCardModal'
 export class AddCustomerIntView extends Component {
     componentDidMount(){
         
     }
     render() { 
+        console.log('MIKE ADD CUST INT', this)
         var Dropdownicon = (props) => (
 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 24.4">
@@ -235,10 +238,23 @@ export class AddCustomerIntView extends Component {
                 </div>
                 <div className='add-customer-int-row4'>
                     <div className='field1'>
-                        <SelectField value={ this.props.internationalProp.selectedCountry} onChange={this.props.internationalProp.handleCountryChange} floatingLabelText="Country*" fullWidth={true} floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle} style={customStyle.selectFieldStyle} labelStyle={customStyle.selectFieldLabelStyle} menuItemStyle={customStyle.selectFieldMenuItemStyle} selectedMenuItemStyle={customStyle.selectFieldMenuItemStyle} iconStyle={customStyle.selectFieldIconStyle} //maxHeight = '105.5px'
-                            maxHeight={180} dropDownMenuProps={{
+                        <SelectField 
+                        value={ this.props.internationalProp.selectedCountry} 
+                        onChange={this.props.internationalProp.handleCountryChange} 
+                        floatingLabelText="Country*" fullWidth={true} 
+                        floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle} 
+                        style={customStyle.selectFieldStyle} 
+                        labelStyle={customStyle.selectFieldLabelStyle} 
+                        menuItemStyle={customStyle.selectFieldMenuItemStyle} 
+                        selectedMenuItemStyle={customStyle.selectFieldMenuItemStyle} 
+                        iconStyle={customStyle.selectFieldIconStyle} //maxHeight = '105.5px'
+                        maxHeight={180} 
+                        dropDownMenuProps={{
                             iconButton: <img src={arrowdownicon} alt="arror-icon"/>
-                        }} errorText={this.props.internationalProp.errorsInt["selectedCountry"]} errorStyle ={customStyle.errorStyle} underlineStyle={customStyle.underlineStyle}>
+                        }} 
+                        errorText={this.props.internationalProp.errorsInt["selectedCountry"]} 
+                        errorStyle ={customStyle.errorStyle} 
+                        underlineStyle={customStyle.underlineStyle}>
 
                             {this
                                 .props.internationalProp
@@ -270,37 +286,26 @@ export class AddCustomerIntView extends Component {
                             value={this.props.internationalProp.fieldsInt["int_cust_postal_code"]}
                             underlineStyle={customStyle.underlineStyle}
                             errorText={this.props.internationalProp.errorsInt["int_cust_postal_code"]}
-                            errorStyle
-                            ={customStyle.errorStyle}
-                            />
+                            errorStyle={customStyle.errorStyle}
+                            onKeyPress={(e) => {
+                                if(e.key === 'Enter') {
+                                    this.props.internationalProp.openModalsInt()
+                                    e.preventDefault();
+                                    }
+                                }}
+                        />
                     </div>
                     <div className='field3'></div>
                 </div>
-            </div> < div className = 'addcard-int-area' > {/* <div className='added-cards-section'>
-                        <div className="card-layout-main">
-                        <div className="card-layout-details">
-                            <div className="card-icon-div">
-                            <img src={visa} className="card-icon"/>
-                            </div>
-                            <div className="card-layout-text">
-                            <label className="card-cust-name-text">Loreum Ipsum</label>
-                            <div className="card-cust-number">
-                                <div className="card-number-star-text">****</div>
-                                <div className="card-number-text">6780</div>
-                            </div>
-                            </div>
-                        </div>
-                        <div className="card-layout-delete">
-                            <img src={deletebutton} className="delete-icon"/>
-                        </div>
-                        </div>
-                    </div> */
-                    }   <div className = 'add-card-button-section' > 
-                            <div className='add-card-icon-section'>
-                                <img src={cardicon} className='addcard-icon' alt='addcard'/>
-                            </div> 
-                            < div className = 'add-card-label-section' > <div className='addcard-label'>Add Card</div> </div>
-                        </div > 
+            </div> < div className = 'addcard-int-area' > 
+
+                    <CardContainer
+                    cardData={
+                    (this.props.internationalProp.cardDisplay.length>0) ? this.props.internationalProp.cardDisplay : '' }
+                    openCardModals = {this.props.internationalProp.openCardModals}
+                        custFname = { this.props.internationalProp.customercardDetails.length>0 ? (this.props.internationalProp.customercardDetails[0].FirstName[0] != '' && this.props.internationalProp.customercardDetails[0].FirstName[0] != undefined ? this.props.internationalProp.customercardDetails[0].FirstName[0] : '') : ''}
+                    />
+                    {this.props.internationalProp.maxCardWarningMessage()}
                     </div> 
                     <div className = 'addcust-int-subfooter-container' > <div className="addcust-int-clear-all-button">
                         <img className="addcust-int-clear-all-icon" src={clearallbtn} alt="clear-all"/>
@@ -309,11 +314,14 @@ export class AddCustomerIntView extends Component {
                             onClick={() => this.props.internationalProp.clearAllFieldsInt()}>CLEAR ALL
                         </div>
                     </div> 
-                    < div className = "addcust-int-save-button" onClick = {
-                                    this.props.internationalProp.openModalsInt
-                                } > <img className="addcust-int-save-icon" src={savebtn} alt="save"/> < div className = "addcust-int-save-label" > SAVE </div>
-                    </div > 
+                    <div className = "addcust-int-save-button"
+                        onClick = {this.props.internationalProp.openModalsInt} >
+                        <img className="addcust-int-save-icon" src={savebtn} alt="save"/>
+                        <div className = "addcust-int-save-label" > SAVE </div>
+                    </div> 
                 </div> 
+
+           
                     
   
                 <PhoneModal phoneModalOpen ={ this.props.internationalProp.phoneModalInt } 
@@ -348,8 +356,15 @@ export class AddCustomerIntView extends Component {
 
                 <InvalidEmailModal invalidEmailOpen = { this.props.internationalProp.failModalInt1 }
                             invalidEmailClose = { this.props.internationalProp.closeFailModalInt1 } 
-                            invalidEmailBypass = { this.props.internationalProp.bypassAddressValidation }
+                            invalidEmailBypass = { this.props.internationalProp.bypassAddressValidationInt }
                             isHidden = { false}/>
+
+                <AddCardModal classNames={{ modal: 'add-dom-cust-modal'}}
+                              little showCloseIcon={false}
+                              addCardModal = {this.props.internationalProp.addCardModal}
+                              done = {this.props.internationalProp.closeAddCardModal}
+                              cancelSwipeMode = {this.props.internationalProp.cancelSwipeMode}>
+                </AddCardModal>
             </div>
 
 )}

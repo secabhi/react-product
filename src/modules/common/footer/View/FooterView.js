@@ -15,17 +15,22 @@ import neimanlogo from '../../../../resources/images/NeimanWhiteLogo.svg';
 import statuslogo from '../../../../resources/images/Status_Green.svg'
 import Spinner from '../../loading/spinner';
 
+import ExceptionErrorModal from '../../exceptionErrorModal/exceptionErrorModal'
+const config = require('../../../../resources/stubs/config.json');
+const clientConfig= config.clientConfig;
+
 export default class FooterView extends Component {
     constructor(props) {
         super(props);
         this.state = {
 
         }
-    }
+    } 
     render() {
         return (
             <div className="backgroundfooter">
                 <Spinner />
+                <ExceptionErrorModal/>
                 {/*
                     (window.innerWidth > 1900) ?
                         (
@@ -42,7 +47,7 @@ export default class FooterView extends Component {
                 }
 
                 <div className="footerText">
-                    <div className="register-details-label sff-reg-number">0010/0243{this.props.getTransactioText(this.props.hideTransactionId)}</div>
+                    <div className="register-details-label sff-reg-number">0006/{clientConfig.Terminal}{this.props.transactionId === '' ? '' : `/${this.props.transactionId}` || ''}</div>
                     <div className="register-details-label sff-reg-open">Open</div>
                     <div className="register-details-label sff-reg-ready">Ready</div>
                     <div className="register-details-label sff-reg-version">v128.31</div>

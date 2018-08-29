@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TextField } from 'material-ui';
 import Modal2 from '../../../../UI/modal-two/modal-two';
 import cancelBtnImage from '../../../../resources/images/Close_Bttn_Purple.svg';
-import transModifyImage from '../../../../resources/images/Trans_Modify.svg';
+import transModifyImage from '../../../../resources/images/Trans_Modify_Black.svg';
 import './associateDiscount.css';
 import '../transDiscount/transDiscount.css'
 
@@ -12,6 +12,13 @@ export default class AssociateDiscountModal extends Component  {
         this.state = {
             pin: '',
             id: '',
+        }
+    }
+
+    onOk = e => {
+        console.log('ENTER CALLED:   ', e)
+    if(e.key === 'Enter'){
+        this.props.applyAssociateDiscount(this.state.pin, this.state.id)
         }
     }
 
@@ -81,7 +88,7 @@ export default class AssociateDiscountModal extends Component  {
                 overlay
             >    
                 <div className="modal-lff-extra-height-flex" style={{height: '702px'}}>
-                    <img className="modal-icon" style={{marginTop: "80px"}} src={transModifyImage} />
+                    <img className="modal-icon" style={{marginTop: "53px"}} src={transModifyImage} />
                     <div className="modal-title" style={{marginTop: "25px", fontWeight: "500"}} >Associate Trans</div>
                     <div className="asd-numbertext">
                         <TextField
@@ -93,9 +100,11 @@ export default class AssociateDiscountModal extends Component  {
                                 fullWidth = {true}
                                 inputStyle = {textFieldInputStyle}
                                 value={this.state.pin}
-                                onChange={(e) => this.onInputChangePin(e)}                                
+                                onChange={(e) => this.onInputChangePin(e)} 
+                                onKeyDown={(e) => this.onOk(e)}                               
                             /> 
                         </div>
+                        <p className={this.pinShouldBeDisabled() ?  'trans_error_message show-label' : 'hide-label'} style={{marginLeft: "140px"}}>Associate Pin should be between 1 to 999999</p>
                         <div className="asd-numbertext">
                         <TextField
                                 type="tel"                               
@@ -106,14 +115,19 @@ export default class AssociateDiscountModal extends Component  {
                                 fullWidth = {true}
                                 inputStyle = {textFieldInputStyle}
                                 value={this.state.id}
-                                onChange={(e) => this.onInputChangeId(e)}                                
+                                onChange={(e) => this.onInputChangeId(e)} 
+                                onKeyDown={(e) => this.onOk(e)}                               
                             />   
                         </div>
-                    
+                        <p className={this.idShouldBeDisabled() ?  'trans_error_message show-label' : 'hide-label'} style={{marginLeft: "290px"}}>ID should be between 1 to 9999</p>
+                    {/*<div className='trans_error_message'>
+                        <p className={this.pinShouldBeDisabled() ?  'trans_error_message show-label' : 'hide-label'}>* Associate Pin should be between 1 to 9999999.</p>
+                        <p className={this.idShouldBeDisabled() ?  'trans_error_message show-label' : 'hide-label'}>* ID # should be between 1 to 9999.</p>
+                    </div>*/}
                     
                     
                    
-                    <div className="modal-buttons-container-flex" style={{marginTop: "60px"}} >
+                    <div className="modal-buttons-container-flex" style={{marginTop: "15px"}}>
                         <div className='modal-cancel-btn-flex' style={{marginRight: "40px"}} onClick={()=>{done()}} >
                             <div><img className='modal-cancel-img' src={cancelBtnImage}  alt="cancel_button" /></div>
                             <div className='modal-cancel-text'>CANCEL</div>
@@ -253,6 +267,28 @@ export default class AssociateDiscountModal extends Component  {
             }else {
                return true; 
             }   
+        } else {
+           return true; 
+        }
+    }
+
+   idShouldBeDisabled(){
+       if (!this.state.id) {
+           return false; 
+       }
+        if(this.state.id.length == 0 || (this.state.id.length == 4 && this.state.id/1 >= 1)) {
+            return false;  
+        } else {
+           return true; 
+        }
+    }
+
+   pinShouldBeDisabled(){
+       if (!this.state.pin) {
+           return false; 
+       }
+        if(this.state.pin.length == 0 || (this.state.pin.length <= 6 && this.state.pin/1 >= 1)) {
+            return false;   
         } else {
            return true; 
         }

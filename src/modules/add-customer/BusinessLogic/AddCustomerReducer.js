@@ -1,7 +1,9 @@
 import {ADD_CUST_DOM_SUCCESS ,ADD_CUST_DOM_ADDR_VALID_SUCCESS, ADD_CUST_DOM_INVALID_ZIP, 
         INVALID_ZIP , ADD_CUST_DOM_ADDR_BAD_REPLY, INVALID_Address , ADD_CUST_INT_SUCCESS,
         ADD_CUST_INT_INVALID_EMAIL, ADD_CUST_INT_INVALID_ZIP ,INVALID_EMAIL, ADD_CUST_DOM_INVALID_EMAIL,
-        ADD_CUST_INT_ADDR_VALID_SUCCESS, ADD_CUST_COUNTRY_LIST_RETRIEVED, ADD_CUST_RESET} from './constants';
+        ADD_CUST_INT_ADDR_VALID_SUCCESS, ADD_CUST_COUNTRY_LIST_RETRIEVED, ADD_CUST_RESET,
+        ADD_CUST_DOM_MISSING_DETAILS, ADD_CUST_DOM_GENERAL_ERROR, ADD_CUST_INT_MISSING_DETAILS, 
+        ADD_CUST_INT_GENERAL_ERROR, } from './constants';
         
 const initialState = {
     successModalFlag: false,
@@ -14,10 +16,14 @@ const initialState = {
     errorsInt: [],
     countryList: [],
     firstName : '',
-    lastName : ''
+    lastName : '',
+    bypassResp:'',
+    getCardBinResp : '',
+    responseError: null
 };
 
 export function AddCustomerReducer(state = initialState, action) {
+
     switch (action.type) {
 
         case ADD_CUST_DOM_SUCCESS:
@@ -30,7 +36,8 @@ export function AddCustomerReducer(state = initialState, action) {
                     invalidEmail:false,
                     errors: [],
                     firstName : '',
-                    lastName : ''
+                    lastName : '',
+                    storeClientNo: action.payload.storeClientNo
                 };
                 break;
             }
@@ -79,20 +86,23 @@ export function AddCustomerReducer(state = initialState, action) {
                     dom_cust_address: INVALID_Address
                 }],
                 firstName : '',
-                lastName : ''
+                lastName : '',
+                responseError: action.payload
             }
         }
 
 
         case ADD_CUST_INT_SUCCESS:
             {
+                sessionStorage.removeItem('called');
                 return {
                     ...state,
                     successModalFlagInt: true,
                     addressValidationSuccessFlagInt: false,
                     errors: [],
                     firstName : '',
-                    lastName : ''
+                    lastName : '',
+                    storeClientNo: action.payload.storeClientNo
                 };
                 break;
             }
@@ -161,7 +171,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 ...state,
                 successModalFlag: false,
                 successModalFlagInt: false,
-                countryList: action.payload.Output.CountryList,
+                countryList: action.payload.CountryList,
                 firstName : '',
                 lastName : ''
             };
@@ -189,14 +199,118 @@ export function AddCustomerReducer(state = initialState, action) {
             };
         }
 
-        default:
+        case "GETCARDBIN" : {
+            return{
+                ...state,
+                getCardBinResp: action.payload,
+                bypassResp:'',
+                
+            }
+        }
+        break;
+        case "ADD_CARD_CLIENTELE_SUCCESS" :{
+            return{
+                ...state,
+                addCardSuccessResp: action.payload ,
+                successModalFlag: false,
+                successModalFlagInt: false,
+                invalidAddress:false,
+                invalidEmail:false,
+                addressValidationSuccessFlag: false,
+                addressValidationSuccessFlagInt: false,
+                bypassResp:'',
+                getCardBinResp :''
+            }
+        }
+        break;
+        case "ADD_CARD_CLIENTELE_FAIL" : {
+            return{
+                ...state,
+                addCardFailResp: action.payload ,
+                successModalFlag: false,
+                successModalFlagInt: false,
+                invalidAddress:false,
+                invalidEmail:false,
+                addressValidationSuccessFlag: false,
+                addressValidationSuccessFlagInt: false,
+                responseError: action.payload
+
+            }
+        }
+        break;
+        case "BYPASS" : {
+            return{
+                ...state,
+                bypassResp:action.payload,
+                isAddCardClientele : false,
+                isAddCardClienteleFail : false ,
+                getCardBinResp:'',
+                successModalFlag: false,
+                successModalFlagInt: false,
+                invalidAddress:false,
+                invalidEmail:false,
+                addressValidationSuccessFlag: false,
+                addressValidationSuccessFlagInt: false,
+
+            }
+        }
+        break;
+        case ADD_CUST_DOM_MISSING_DETAILS : {
             return {
                 ...state,
-                successModalFlag: false,
-                addressValidationSuccessFlag: false,
-                errors: [],
-                firstName : '',
-                lastName : ''
-            };
+                responseError: action.payload
+            }
+        }
+        break;
+        case ADD_CUST_DOM_GENERAL_ERROR : {
+            return {
+                ...state,
+                responseError: action.payload
+            }
+        }
+        break;
+        case 'ADD_CUST_DOM_DEFAULT' : {
+            return {
+                ...state,
+                responseError: action.payload
+            }
+        }
+        break;
+
+        case ADD_CUST_INT_MISSING_DETAILS : {
+            return {
+                ...state,
+                responseError: action.payload
+            }
+        }
+        break;
+        case ADD_CUST_INT_GENERAL_ERROR : {
+            return {
+                ...state,
+                responseError: action.payload
+            }
+        }
+        break;
+        case 'ADD_CUST_INT_DEFAULT' : {
+            return {
+                ...state,
+                responseError: action.payload
+            }
+        }
+        break;
+        default:
+            return state
+                // successModalFlag: false,
+                // successModalFlagInt: false,
+                // addressValidationSuccessFlag: false,
+                // errors: [],
+                // firstName : '',
+                // lastName : '',
+                // bypassResp:'',
+                // getCardBinResp : '',
+                // addCardFailResp:'',
+                // addCardSuccessResp:''
+
+            
     }
 }

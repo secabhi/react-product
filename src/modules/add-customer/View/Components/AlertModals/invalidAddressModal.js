@@ -18,9 +18,8 @@ export class InvalidAddressModal extends Component {
         return (
             <Modal
             open={this.props.invalidModalOpen}
-            onClose={() => { }}
-            little
-            showCloseIcon='false'
+            onClose={() => { }} 
+            little showCloseIcon={false}
             classNames={{
             modal: 'add-dom-cust-modal'
         }}>
@@ -37,7 +36,7 @@ export class InvalidAddressModal extends Component {
                     <div
                         className='add-dom-cust-modal-backtoedit-btn'
                         onClick={this.props.invalidModalBack}><img src={editIcon} className='add-dom-cust-modal-backtoedit-btn-icon' hidden={this.props.visibility}/>
-                        <span className='add-dom-cust-modal-backtoedit-btn-label'>RETURN TO EDIT</span>
+                        <span className='add-dom-cust-modal-backtoedit-btn-label'>Edit Profile</span>
                     </div>
                     <div
                         className='add-dom-cust-modal-bypass-btn'

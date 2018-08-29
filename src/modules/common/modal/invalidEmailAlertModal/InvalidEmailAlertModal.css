@@ -1,0 +1,101 @@
+.invalid-email-modal{
+    width: 725px !important;
+    height: 575px !important;
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin:auto;
+    padding: 0px !important;
+}
+
+.invalid-email-container{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    height: 575px;
+    width: 725px;
+    margin-top: -33px;
+}
+
+.invalid-email-modal-icon{
+    width: 120px;
+    height: 120px;
+    margin-top: 71px;
+    margin-left: 302px;
+}
+
+.invalid-email-fail-modal-message-area{
+    margin-top: 50px;
+    margin-left: 85px;
+    margin-right: 84px;
+}
+
+.invalid-email-fail-modal-message-text{
+    display: flex;
+    width: 556px;
+    height: 217px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: center;
+    color: #505050;
+}
+
+.invalid-email-fail-modal-button-area{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    margin-top: 37px;
+}
+
+.invalid-email-modal-backtoedit-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 159px;
+    width: 222px;
+    height: 60px;
+    border: solid 2px #613b8c;
+}
+
+.invalid-email-modal-backtoedit-btn-label{
+    width: 137px;
+    height: 24px;  
+    font-family: Roboto;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+}
+
+.invalid-email-modal-bypass-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 155px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    margin-left: 30px;
+}
+
+.invalid-email-modal-bypass-btn-label{
+    width: 81px;
+    height: 24px;
+    padding-left: 3px;
+    font-family: Roboto;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+}

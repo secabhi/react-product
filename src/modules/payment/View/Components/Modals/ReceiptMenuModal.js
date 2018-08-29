@@ -22,7 +22,9 @@ export class ReceiptMenuModal extends Component {
             classNames={{
             modal: "payment-receipt-modal" }}
             little
-            showCloseIcon={false}>
+            showCloseIcon={false}
+            closeOnOverlayClick={false}
+            >
             <div className='receipt-modal-container'>
                 <img src={receiptIcon} className='receipt-modal-icon'/>
                 <div className='receipt-modal-button-area'>

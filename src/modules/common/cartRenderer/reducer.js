@@ -1,5 +1,5 @@
 
-import { CHANGE_ITEM_SELECTED, CHANGE_ITEMS_SELECTED } from '../constants/type';
+import { CHANGE_ITEM_SELECTED, CHANGE_ITEMS_SELECTED, NON_SKU_SELECTED } from '../constants/type';
 
 export const ItemSelectorReducer = (state = [], action) => {
 
@@ -29,7 +29,13 @@ export const ItemSelectorReducer = (state = [], action) => {
       } else {
         return []
       }
-    
+      break;
+
+     case NON_SKU_SELECTED:
+     //if a NON_SKU_SELECTED we need to unselect the Main Item Sku
+      return [];
+      break;
+
     default:
       return state;
       break;

@@ -13,17 +13,19 @@ const env = require('../../settings/env.js');
 const path = env.PATH;
 const apiResumeEntry = path+'apiResumeEntry.json';
 
-export function resumeEntryUpdateAction(resumeEntry){
+export function resumeEntryUpdateAction(resumeEntry, userPin){
+    console.log('***resumeEntryUpdateAction',resumeEntry,userPin);
     const params = {
-        // ...clientConfig,
+         ...clientConfig,
         // "TransactionId":resumeEntry
-        "ClientId":"0101:0243:07112018:033639",
-        "SourceApp":"MPOS",
-        "SourceLoc":"NM-DIRECT",
-        "Store":"0010",
-        "Terminal":"168",
-        "StoreAssoc":209289,
-        "TransactionId":"00003"
+        // "ClientId":"0006:00501:07112018:033639",
+        // "SourceApp":"MPOS",
+        // "SourceLoc":"NM-DIRECT",
+        // "Store":"0006",
+        // "Terminal":"0501",
+        "StoreAssoc":userPin,
+        "TransactionId":"",
+        "resumeNumber":resumeEntry
 
     };
     console.log("****** IN ACTION ", params);
@@ -38,6 +40,12 @@ export function resumeEntryUpdateAction(resumeEntry){
                     type: 'RESUME_ENTRY_REQUEST_SUCCESS',
                     payload: data.data
                 });
+            }
+            else if(data.data.response_text == "IM_ITEMNOTFOUND"){
+                dispatch({
+                    type: 'RESUME_ENTRY_REQUEST_FAILURE',
+                    payload: data
+                }); 
             }
             else {
                 dispatch({

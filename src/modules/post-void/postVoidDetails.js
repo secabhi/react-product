@@ -1,118 +1,155 @@
-import React, {Component} from 'react'
+// Dependencies
+import React, { Component } from 'react'
+
+// Redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import './postVoid.css';
 import { startSpinner } from '../common/loading/spinnerAction';
 import { postVoidFinalTransaction } from '../post-void/postVoidAction';
-import Header from '../common/header/header'
+import { productImgSearchAction } from '../product-search/ProductSearchAction';
+
+// Components
+import CartRenderer from '../common/cartRenderer/cartRenderer';
+import {store} from '../../store/store';
+
+// Common
 import Footer from '../common/footer/footer'
-import Modal from 'react-responsive-modal';
-import {HeaderView} from '../common/header/View/HeaderView';
+import { HeaderView } from '../common/header/View/HeaderView';
+import postVoidCall from '../payment/Orders/void';
+
+// Styles
+import './postVoid.css';
+
+
 class PostVoidDetails extends Component {
-
-
-    postVoidInvoker = () => {
-      
-        this.props.PostVoidCallInvoker(this.props.login.userpin,this.props.postvoidtransdetails.transacID);
-    }
-
-    constructor(props)
-    {
+    constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            items: [],
+            total: '$0.00',
+            subTotal: '$0.00',
+            totalTax: '$0.00'
+        }
     }
     
-    componentDidMount () {
-        console.log("PostVoidDetails componentDidMount");
-        console.log(this.props);
+    componentDidMount() {
+        this.props.startSpinner(true)
+        if (this.props.cart.dataFrom === 'UPDATE_IMAGES') {
+            //this.props.startSpinner(true);
+            this.props.productImgSearchAction(this.props.cart.productImages.imageUrls);
+        }
+        else if (this.props.cart.dataFrom === '') {
+            //Do nothing
+        } else {
+            //this.props.startSpinner(false);
+            this.setState({
+                items: this.props.cart.data.cartItems.items,
+                total: this.props.cart.data.total,
+                subTotal: this.props.cart.data.subTotal,
+                totalTax: this.props.cart.data.totalTax
+            });
+        }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
+            //this.props.startSpinner(true);
+            this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
+        }
+        else if (this.props.cart.dataFrom === '') {
+            //Do nothing
+        } else {
+            this.props.startSpinner(false);
+            this.setState({
+                items: this.props.cart.data.cartItems.items,
+                total: this.props.cart.data.total,
+                subTotal: this.props.cart.data.subTotal,
+                totalTax: this.props.cart.data.totalTax
+            });
+        }
+    }
+
+    completePostVoid() {
+        const total = this.props.postvoid.selectedTransaction.total;
+        const aurusTicket = this.props.postvoid.selectedTransaction.tender_List_Info.tenders[0].chrg.aurus_whizticketnum;
+        console.log('Sweezey CompletePostVoid',total,aurusTicket);
+        const response = postVoidCall(total, aurusTicket,this.postVoidResponse);
+       
+    }
+
+    postVoidResponse(data){
+        console.log('PostVoidDetails postVoidResponse', data)
+    }
+
+ 
     render() {
+        console.log('home props'+JSON.stringify(store.getState().home));
         return (
             <div>
                 <HeaderView
-                    history = {this.props.history}
+                    history={this.props.history}
                     openPostVoidModal={this.props.openPostVoidModal}
-                    navigateToHome = {this.navigateToHome}
-                    isSale={this.state.isSale}
-                    userPin = {this.props.userPin}/>
+                    navigateToHome={this.navigateToHome}
+                    userPin={this.props.login.userpin}
+                />
                 <div className="postvoiddeetails-container">
                     <div className="postvoid-details-heading">
-                        <label className="labelCls">Post Void</label>
+                        <label className="labelCls">{store.getState().home.trans_type=='print-send'?'Print / Send Receipt':'Post Void'}</label>
                     </div>
                     <div className="isthiscls">Is this the correct transaction?</div>
-                    {this.props.postvoidtransdetails.response.cartItems.items.map(function(items) {
-                        return (
-                    <div className="cardlayout-container">
-                        <div className="rectangle-block"><label className="lineNumber">{items.lineNumber}</label></div>
-                        <img className="detailsimagecls" src='http://via.placeholder.com/114x144'/>
-                        <div className="columnone-container">
-                            <div className="rowoneitem">{items.brandDesc}</div>
-                            <div className="rowtwoitem">{items.pim_SKU_ID}</div>
-                            <div className="rowthreeitem">{items.itemDesc}</div>
-                            <div className="rowfouritem">{items.eventDescription}</div>
-                        </div>
-                        <div className="columntwo-container">
-                            <div className="rowoneitem">Qty {items.quantity}</div>
-                            <div className="rowtwoitem"></div>
-                            <div className="rowthreeitem">{items.color}</div>
-                            <div className="rowfouritem">{items.size}</div>
-                        </div>
-                        <div className="columnthree-container">
-                            <div className="rowoneitem">S</div>
-                        </div>
-                        <div className="columnfour-container">
-                            <div className="rowoneitem"></div>
-                            <div className="rowtwoitem">MKD% ({items.maxDiscount}%)</div>
-                            <div className="rowthreeitem">Savings ({items.subClass}%)</div>
-                            <div className="rowfouritem">TAX ({items.taxPercent}%)</div>
-                        </div>
-                        <div className="columnfive-container">
-                            <div className="rowoneitem">{items.itemPrice} EA</div>
-                            <div className="rowtwoitem">- {items.salesId}</div>
-                            <div className="rowthreeitem">- {items.itemsTax}</div>
-                            <div className="rowfouritem">{items.salePrice}</div>
-                        </div>
-                        <div className="columnfive-container">
-                            <div className="rowoneitem">{items.totalPrice}</div>
-                            <div className="rowtwoitem"></div>
-                            <div className="rowthreeitem"></div>
-                            <div className="rowfouritem">{items.class}T</div>
-                        </div>
-                        
-                            
-                        
-                    </div>
-                    );
-                })}
-                    <div className="priceCls">
-                    <label className="subTtl">Subtotal </label>
-                    <label className="subTtlPrice"> {this.props.postvoidtransdetails.response.subTotal}</label>
-                    <label className="tacCls">Tax </label>
-                    <label className="tacClsPrice"> {this.props.postvoidtransdetails.response.totalTax}</label>
-                    <label className="totalcls">Total</label>
-                    <label className="totalclsPrice"> {this.props.postvoidtransdetails.response.total}</label>
-                   
-                    
+
+                    {this.state.items[0] 
+                        ?   
+                            <div>
+                                <CartRenderer
+                                    style={{ boxShadow: 'none', marginLeft: '20px' }}
+                                    items={this.state.items}
+                                    subTotal={this.state.subTotal}
+                                    taxTotal={this.state.totalTax}
+                                    total={this.state.total}
+                                    setCurrentItem={this.setCurrentItem}
+                                />
+                                <div className="post-void_priceDetails_total">
+                                    <label className="subTtl">Subtotal </label>
+                                    <label className="subTtlPrice"> {this.state.subTotal}</label>
+                                    <label className="tacCls">Tax </label>
+                                    <label className="tacClsPrice"> {this.state.totalTax}</label>
+                                    <label className="totalcls">Total</label>
+                                    <label className="totalclsPrice"> {this.state.total}</label>
+                                </div> 
+                            </div>    
+                        :
+                        <div></div> 
+                    }   
+
                 </div>
-                </div>
+
                 <div className="postvoiddetails-footer-button-area">
                     <button className="nobtn">NO</button>
-                    <button className="yesbtn" onClick={this.postVoidInvoker}>YES</button>
+                    <button className="yesbtn" onClick={()=>this.completePostVoid()}>YES</button>
                 </div>
                 <Footer />
             </div>
-        );
+        )
     }
-}
+
+    postVoidInvoker = () => {
+        this.props.PostVoidCallInvoker(this.props.login.userpin);
+    }
+
+}// end of class
+
 
 function mapStateToProps(state) {
-    return { postvoid: state.postvoid, postvoidtransdetails : state.postvoidtransdetails,login:state.login};
+
+    return { cart: state.cart, login: state.login, postvoid: state.postvoid };
 }
 
- function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ PostVoidCallInvoker: postVoidFinalTransaction,
-        startSpinner:startSpinner}, dispatch);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        PostVoidCallInvoker: postVoidFinalTransaction,
+        startSpinner: startSpinner, productImgSearchAction
+    }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostVoidDetails);

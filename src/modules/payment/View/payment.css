@@ -1,4 +1,9 @@
 @media only screen and (max-width: 1920px) and (min-width: 1920px) {
+  .thirparty-card .payment-cardNumber
+  {width: 421px !important;
+    display: block;
+  }
+
   .add-dom-cust-container {
     height: 100% !important;
     margin-top: 0px !important;
@@ -133,7 +138,7 @@
   }
 
   .type-Number {
-    width: 850px;
+    width: 855px;
   }
   
   .payment-cardNumber {
@@ -152,8 +157,8 @@
   }
 
   .inputAmount {
-    width: 100%;
-    height: 38px !important;
+    width: 400px !important;
+    height: 48px !important;
     font-family: Roboto !important;
     font-size: 32px !important;
     font-weight: 300 !important;
@@ -183,6 +188,15 @@
     margin-left: 40px;
     margin-right: 40px;
   }
+
+  .card-error-modal-container {
+    position: fixed ! important;
+    top: 437px;
+    left: 598px;
+    height: 325px;
+    width: 725px;
+    padding: 0px ! important;
+}
 
   .left-content-footer {
     bottom: 0;
@@ -531,7 +545,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 180px;
+    width: 160px;
     height: 60px;
     border: solid 2px #613b8c;
     margin-right: 34px;
@@ -641,6 +655,7 @@
     width: 120px;
     height: 120px;
     margin: 0 auto;
+    margin-top: 1px;
   }
   .receipt-modal-button-area {
     margin: 0 auto;
@@ -712,6 +727,22 @@
     align-items: center;
   }
 
+  /* Print Gift Receipt */
+  .print-gift-receipt-label {
+  height: 38px;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-align: center;
+  color: #333333;
+  color: var(--Gray11);
+  padding-top: 45px;
+  }
+
   /* Email Modal */
   .email-receipt-modal {
     height: 800px !important;
@@ -736,12 +767,12 @@
     padding-bottom: 16px;
   }
 
-  .lname-receipt-input {
+  .payment-lname-receipt-input {
     width: 620px !important;
     margin: 0 auto !important;
     height: 80px !important;
   }
-  .lname-receipt-input label {
+  .payment-lname-receipt-input label {
     font-family: Roboto !important;
 
     font-size: 24px !important;
@@ -753,7 +784,7 @@
     color: #333333 !important;
     top: 15px !important;
   }
-  .lname-receipt-input label {
+  .payment-lname-receipt-input label {
     font-family: Roboto !important;
 
     font-size: 24px !important;
@@ -765,7 +796,7 @@
     color: #333333 !important;
     top: 15px !important;
   }
-  .lname-receipt-input input {
+  .payment-lname-receipt-input input {
     font-family: Roboto !important;
     font-size: 32px !important;
     font-weight: normal !important;
@@ -782,12 +813,12 @@
     height: 80px !important;
     padding-bottom: 42px;
   }
-  .fname-receipt-input {
+  .payment-fname-receipt-input {
     width: 620px !important;
     margin: 0 auto !important;
     height: 80px !important;
   }
-  .fname-receipt-input label {
+  .payment-fname-receipt-input label {
     font-family: Roboto !important;
 
     font-size: 24px !important;
@@ -799,7 +830,7 @@
     color: #333333 !important;
     top: 15px !important;
   }
-  .fname-receipt-input:hover > label {
+  .payment-fname-receipt-input:hover > label {
     font-family: Roboto !important;
 
     font-size: 24px !important;
@@ -822,12 +853,12 @@
     color: #333333 !important;
     border-bottom: solid 1px #707070;
   }
-  .email-receipt-input {
+  .payment-email-receipt-input {
     width: 620px !important;
     margin: 0 auto !important;
     height: 80px !important;
   }
-  .email-receipt-input label {
+  .payment-email-receipt-input label {
     font-family: Roboto !important;
 
     font-size: 24px !important;
@@ -840,9 +871,8 @@
     top: 15px !important;
   }
 
-  .email-receipt-input:hover label {
+  .payment-email-receipt-input:hover label {
     font-family: Roboto !important;
-    font-size: 40px !important;
     font-weight: 300 !important;
     font-style: normal !important;
     font-stretch: normal !important;
@@ -852,7 +882,7 @@
     top: 15px !important;
   }
 
-  .email-receipt-input input {
+  .payment-email-receipt-input input {
     font-family: Roboto !important;
     font-size: 32px !important;
     font-weight: normal !important;
@@ -989,6 +1019,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-left: auto;
+  }
+
+  .card-label-container{
+    width: 50%;
+  }
+  
+  .card-data-container{
+    left: 30px;
+    position: relative;
+    width: 50%;
   }
  
   .card-info-label {
@@ -1494,6 +1535,16 @@
     background-color: black; /* need to be changed */
   }
 
+  .card-error-modal-container {
+    position: fixed ! important;
+    top: 247px;
+    left: 95px;
+    height: 1426px;
+    width: 890px;
+    max-width: 890px ! important;
+    padding: 0px ! important;
+}
+
   /*Modal styles */
   .Modal-overlay-0-1-1 {
     background: rgba(0, 0, 0, 0.55) !important;
@@ -1800,7 +1851,7 @@
     height: 440.2px;
   }
 
-  .lname-receipt-input {
+  .payment-lname-receipt-input {
     width: 738px !important;
     margin: 0 auto !important;
     height: 80px !important;
@@ -1809,7 +1860,7 @@
   .modalContainer.fanme-modal-text {
     padding-top: 74px !important;
   }
-  .lname-receipt-input label {
+  .payment-lname-receipt-input label {
     height: 63px !important;
     font-family: Roboto !important;
 
@@ -1822,7 +1873,7 @@
     color: #333333 !important;
     top: -10px !important;
   }
-  .lname-receipt-input:hover label {
+  .payment-lname-receipt-input:hover label {
     height: 63px !important;
     font-family: Roboto !important;
 
@@ -1835,7 +1886,7 @@
     color: #333333 !important;
     top: -10px !important;
   }
-  .lname-receipt-input input {
+  .payment-lname-receipt-input input {
     font-family: Roboto !important;
     font-size: 48px !important;
     font-weight: normal !important;
@@ -1853,13 +1904,13 @@
     padding-bottom: 80px !important;
     padding-top: 64px !important;
   }
-  .fname-receipt-input {
+  .payment-fname-receipt-input {
     width: 738px !important;
     margin: 0 auto !important;
     height: 80px !important;
     padding-bottom: 10px !important;
   }
-  .fname-receipt-input label {
+  .payment-fname-receipt-input label {
     height: 63px !important;
     font-family: Roboto !important;
     font-size: 48px !important;
@@ -1871,7 +1922,7 @@
     color: #333333 !important;
     top: -10px !important;
   }
-  .fname-receipt-input:hover label {
+  .payment-fname-receipt-input:hover label {
     height: 63px !important;
     font-family: Roboto !important;
 
@@ -1884,7 +1935,7 @@
     color: #333333 !important;
     top: -10px !important;
   }
-  .fname-receipt-input input {
+  .payment-fname-receipt-input input {
     font-family: Roboto !important;
     font-size: 48px !important;
     font-weight: normal !important;
@@ -1895,14 +1946,14 @@
     color: #333333 !important;
   }
 
-  .email-receipt-input {
+  .payment-email-receipt-input {
     width: 738px !important;
     margin: 0 auto !important;
     height: 80px !important;
     padding-bottom: 10px !important;
   }
 
-  .email-receipt-input > label {
+  .payment-email-receipt-input > label {
     height: 63px !important;
     font-family: Roboto !important;
 
@@ -1915,10 +1966,10 @@
     color: #333333 !important;
     top: -10px !important;
   }
-  .email-receipt-input:hover > label {
+  .payment-email-receipt-input:hover > label {
     height: 63px !important;
     font-family: Roboto !important;
-    font-size: 60px !important;
+    font-size: 24px !important;
     font-weight: 300 !important;
     font-style: normal !important;
     font-stretch: normal !important;
@@ -1928,7 +1979,7 @@
     top: -10px !important;
   }
 
-  .email-receipt-input input {
+  .payment-email-receipt-input input {
     font-family: Roboto !important;
     font-size: 48px !important;
     font-weight: normal !important;

@@ -18,6 +18,17 @@ export function GiftWrapReducer(state = initialState, action) {
 
             return initialState;
             break;
+        
+            case 'SET_GIFT_WRAP_TYPE':{
+                // const datainit = ...state
+                 return {
+                    // ...state,
+                     ...state,
+                     wrapType: action.payload,
+                     dataFrom : 'SET_GIFT_WRAP_TYPE'
+                 }
+             }
+             break;
 
         default:
             return state;

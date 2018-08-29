@@ -1,12 +1,13 @@
 import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
 import stub from '../../resources/stubs/salutationList.json'
+import { startSpinner } from '../common/loading/spinnerAction';
 /* To get the country list for customer - International */
 const env = require('../../settings/env.js');
 const path = env.PATH;
 export function getCountryList() {
 
     const CONFIG_FILE = require('../../resources/stubs/config.json');
-    var URL = CONFIG_FILE.initServiceURL;
+    var URL = CONFIG_FILE.getCountryList;
     var functionalityId = CONFIG_FILE.countryListFuncId;
     var params = {
         "FunctionalityId" : functionalityId
@@ -52,8 +53,8 @@ export function updateInternationalApi(updateCustDomData) {
         request.then(({
                 data
             }) => {
-                console.log('data',data.Output.Response_Code);
-                switch (data.Output.Response_Code) {
+                console.log('data',data.response_text);
+                switch (data.response_text) {
 
                     case "CS_SUCCESS":
                         {
@@ -71,6 +72,7 @@ export function updateInternationalApi(updateCustDomData) {
                                 type: 'UPDATE_INT_CUST_DOM_INVALID_EMAIL',
                                 payload: data
                             });
+                            dispatch(startSpinner(false));
                             break;
                         }
                     case "CS_GENERALERROR":

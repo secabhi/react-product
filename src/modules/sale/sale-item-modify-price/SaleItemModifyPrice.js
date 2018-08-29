@@ -88,133 +88,134 @@ export class SaleItemModifyPriceSFF extends Component {
         var itemPrice = this.props.item.itemPrice;
         var fieldValue = this.state.fieldValue;
         var validValueCheckFlag = false;
-        if(this.props.title === "Price : Mkd % Off") {            
+        var discountedSalePrice = this.props.item.itemPrice;
+        if(this.props.item.discounts.length > 0) {
+            discountedSalePrice = this.props.item.discounts[this.props.item.discounts.length-1].newPrice;
+        }
+        else {
+            discountedSalePrice = this.props.item.itemPrice;
+        }
+        console.log(this.props.item);
+        if (this.props.title === "Price : Mkd % Off") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_MKDPEROFF.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
-            var discountedPrice = itemPrice - ((fieldValue/100)*itemPrice);
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
+            var discountedPrice = discountedSalePrice - ((fieldValue / 100) * discountedSalePrice);
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
             }
-            if(fieldValue > 0 && fieldValue <= 100) {
+            if (fieldValue > 0 && fieldValue <= 100) {
                 validValueCheckFlag = true;
             }
             else {
                 validValueCheckFlag = false;
             }
         }
-        else if(this.props.title === "Price : Mkd $ Off") {
+        else if (this.props.title === "Price : Mkd $ Off") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_MKDDOLOFF.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
-            var discountedPrice = itemPrice - fieldValue;
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
+            var discountedPrice = discountedSalePrice - fieldValue;
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
-            }            
-            if(fieldValue > 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
+            }
+            if (fieldValue > 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
                 validValueCheckFlag = false;
             }
         }
-        else if(this.props.title === "Price : Price Override") {
+        else if (this.props.title === "Price : Price Override") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_PRICEOVERRIDE.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
             var discountedPrice = fieldValue;
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
             }
-            if(fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
                 validValueCheckFlag = false;
             }
         }
-        else if(this.props.title === "Price : Mkd New Price") {
+        else if (this.props.title === "Price : Mkd New Price") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_MKDNEWPRICE.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
             var discountedPrice = fieldValue;
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
             }
-            if(fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
                 validValueCheckFlag = false;
             }
         }
-        else if(this.props.title === "Price : Omni Mkd % Off") {
+        else if (this.props.title === "Price : Omni Mkd % Off") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_OMNIMKDPEROFF.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
-            var discountedPrice = itemPrice - ((fieldValue/100)*itemPrice);
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
+            var discountedPrice = discountedSalePrice - ((fieldValue / 100) * discountedSalePrice);
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
             }
-            if(fieldValue > 0 && fieldValue <= 100) {
+            if (fieldValue > 0 && fieldValue <= 100) {
                 validValueCheckFlag = true;
             }
             else {
                 validValueCheckFlag = false;
             }
         }
-        else if(this.props.title === "Price : Omni Mkd $ Off") {
+        else if (this.props.title === "Price : Omni Mkd $ Off") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_OMNIMKDDOLOFF.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
-            var discountedPrice = itemPrice - fieldValue;
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
+            var discountedPrice = discountedSalePrice - fieldValue;
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
             }
-            if(fieldValue > 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue > 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
                 validValueCheckFlag = false;
             }
         }
-        else if(this.props.title === "Price : Omni Mkd New Price") {
+        else if (this.props.title === "Price : Omni Mkd New Price") {
             var maximumDiscountPercentage = this.props.itemPromotionDetails.pP_OMNIMKDNEWPRICE.maxItemPercentDisc;
-            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage/100)*itemPrice);
+            var maximumRevisablePrice = itemPrice - ((maximumDiscountPercentage / 100) * itemPrice);
             var discountedPrice = fieldValue;
-            if(discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
+            if (discountedPrice < maximumRevisablePrice) //This means discount is greater than threshold
             {
                 showManagerModalFlag = true;
             }
-            else 
-            {
+            else {
                 showManagerModalFlag = false;
             }
-            if(fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
@@ -225,16 +226,16 @@ export class SaleItemModifyPriceSFF extends Component {
             //DO NOTHING
         }
 
-        if(validValueCheckFlag) {
-            if(showManagerModalFlag === false) {
-                this.props.modifyPrice(this.state.fieldValue,this.props.title); 
+        if (validValueCheckFlag) {
+            if (showManagerModalFlag === false) {
+                this.props.modifyPrice(this.state.fieldValue, this.props.title);
             }
             else {
-                this.props.showManagerApprovalModal(true,this.state.fieldValue,this.props.title);
+                this.props.showManagerApprovalModal(true, this.state.fieldValue, this.props.title);
             }
         }
         else {
-            this.setState({ errorText : "Discount not allowed" });
+            this.setState({ errorText: "Discount not allowed" });
         }
     }
 

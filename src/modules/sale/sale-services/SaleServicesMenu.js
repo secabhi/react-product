@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-
+import Modal from 'react-responsive-modal';
 import accordianOpen from '../../../resources/images/Accordian_Open.svg';
 import accordianClose from '../../../resources/images/Accordian_Closed.svg';
 import services from '../../../resources/images/Services.svg';
 import selectedServices from '../../../resources/images/Services_Selected.svg';
-
+import {ModifyPriceErrorModal} from '../../sale/modal-component/modalComponent'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {navigate, setCurrnetItem} from '../SalesCartAction';
+import {giftWrapType, getGiftWrap} from './sale-services-gift-wrap/GiftWrapActions';
+
 import { startSpinner } from '../../common/loading/spinnerAction';
 // import { setCurrnetItem } from './SalesCartAction';
 
@@ -25,7 +27,9 @@ class SaleServicesMenu extends Component {
             giftWrapMode : false,
             alerationMode : false,
             activated: false,
-            isSelected: ''
+            isSelected: '',
+            gifwrapError:false
+            
         };
     }
 
@@ -44,9 +48,23 @@ class SaleServicesMenu extends Component {
         this.setState({altDropDown: !this.state.altDropDown})
     }
 
-    renderGiftWrap = (data) => {
-        this.props.navigate(data)
+    renderGiftWrap = (data,type) => {
+       if(data.currentItem!=="" && data.cart.data.cartItems.items[data.currentItem].length>1 && data.cart.data.cartItems.items[data.currentItem][1].print_GWGR_Msg!==null)
+       {
+        this.props.showGiftWrapError();
+       }
+       else{
+        this.props.navigate(data);
+        this.props.giftWrapType(type);
         this.props.history.push('/gift-wrap')
+       }
+    }
+    renderGiftWrapCom = (data,type) => {
+        this.props.navigate(data)
+        this.props.giftWrapType(type);
+        this.props.startSpinner(true);
+        this.props.getGiftWrap(501);
+        this.props.history.push('/gift-wrap-com')
     }
     
     renderAlterations = (data) => {
@@ -73,10 +91,11 @@ class SaleServicesMenu extends Component {
 
     
     render() {
-       const isEnabled  = this.props.items[0] && this.props.items[0].length !== 0 
+       //isEnabled - true, only if we have items in cart and a nonSkuItem is not Selected 
+       const isEnabled  = this.props.items[0] && !this.props.nonSkuSelection;
         return (
-            <div className="services-enabled-style">
-            {/* <div className={(this.props.currentItem !== '')?"services-enabled-style":"services-disabled-style"}> */}
+            //<div className="services-enabled-style">
+            <div className={ isEnabled ?"services-enabled-style":"services-disabled-style"}>
                 <div className="option-list services-menu">
                     <img onClick={this.handleDropDown} className="services-icon" src={this.state.dropDown?selectedServices:services} alt="services"/>
                     <div onClick={this.handleDropDown} className="services-text">Services</div>
@@ -88,12 +107,17 @@ class SaleServicesMenu extends Component {
 
                         <div className={isEnabled ? "drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
                             if(isEnabled) {
-                                this.renderGiftWrap(this.props); 
+                                this.renderGiftWrap(this.props,"giftwrap"); 
                                 this.activeLink(e);
                             }
                         }}>Gift Wrap</div>
                       
-                        <div className="drop-menu-items" onClick={this.activeLink}>Gift Wrap COM</div>
+                        <div className={isEnabled ? "drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
+                            if(isEnabled) {
+                                this.renderGiftWrapCom(this.props,"giftwrapcom"); 
+                                this.activeLink(e);
+                            }
+                        }}>Gift Wrap COM</div>
                     
                         <div className={isEnabled ? "drop-menu-items services-enabled-style":"drop-menu-items services-disabled-style"} onClick={(e) => {
                             if(isEnabled) {
@@ -114,6 +138,7 @@ class SaleServicesMenu extends Component {
                                 : (null) }
                     </div>
                     : (null)}
+                    
             </div>
                
     )
@@ -129,6 +154,8 @@ function mapStateToProps(state) {
     return bindActionCreators(
         {
             navigate: navigate,
+            giftWrapType: giftWrapType,
+            getGiftWrap: getGiftWrap,
             setCurrnetItemInvoker : setCurrnetItem,
             startSpinner: startSpinner 
         }, dispatch)

@@ -69,11 +69,11 @@ export function updateReplishmentData(daysValue,description,index,transactionId)
 }
 
 
-export function getReplenishment(index){
+export function getReplenishment(userpin, index){
     const params = {
-        "AssociateNumber":"209289",
+        "AssociateNumber": userpin,
         "PIMSKUID":index.pim_SKU_ID,
-        "ClientNumber":"0001000360908",
+        "ClientNumber":"0001000360908"    
        } 
        
     const request = callPostWebService(getURL, params);
@@ -100,7 +100,7 @@ export function getReplenishment(index){
                                 payload: data
                             });
                             break;
-                        }
+                        } 
                 }
             })
             .catch(error => {

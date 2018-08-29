@@ -16,6 +16,8 @@ import './VerifyCustomerDomestic.css';
 import { testAction } from './VerifyCustomerDomesticActions';
 import { updateCustomerAction } from '../.././update-customer/Controller-Dom/UpdateCustomerAction';
 import { parsePhoneNumber } from '../../common/helpers/helpers';
+const CONFIG_FILE = require('../../../resources/stubs/config.json');
+var clientConfig = CONFIG_FILE.clientConfig;
 
 
 class VerifyCustomerDomestic extends React.Component{
@@ -56,10 +58,7 @@ class VerifyCustomerDomestic extends React.Component{
 
     updateDomesticCustomerInvoker = (bypassFlag) => {
         let addCustDomData = {
-            'ClientID': '0101:0169:04042018:033639',
-            'ClientTypeID': '1000',
-            'SourceApp': 'CMOS',
-            'SourceLoc': 'NM-DIRECT',
+            ...clientConfig,
             'CFirstName': this.props.changedAddress['cust_dom_fname'],
             'CLastName': this.props.changedAddress['cust_dom_lname'],
             'Salutation ': this.props.cust_dom_salutation,

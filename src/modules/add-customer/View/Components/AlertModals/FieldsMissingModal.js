@@ -17,8 +17,8 @@ export class FieldsMissingModal extends Component {
             
             <Modal
             open={this.props.fieldsMissingOpen}
-            little
-            showCloseIcon='false'
+            onClose={() => { }} 
+            little showCloseIcon={false}
             classNames={{
             modal: 'add-dom-cust-fields-missing-modal'
         }}>

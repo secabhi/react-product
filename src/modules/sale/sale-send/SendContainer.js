@@ -4,9 +4,10 @@ import Modal from 'react-responsive-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import {getShipmentOptions, directSendRequest} from './sendActions'
+import {getShipmentOptions, directSendRequest, freqShippedAddressesAction, authCodeRequest, clearForSend} from './sendActions'
 import {addCustomerAction} from '../../add-customer/BusinessLogic/AddCustomerAction'
 import { startSpinner } from '../../common/loading/spinnerAction';
+import {itemSelectedAction} from '../../common/cartRenderer/actions';
 
 import Header from '../../common/header/header';
 import SaleHeader from '../SaleHeader';
@@ -17,6 +18,7 @@ import ServicesFooter from '../sale-services/services-common/ServicesFooter';
 import Footer from '../../common/footer/footer';
 
 import backArrow from '../../../resources/images/Back.svg';
+import warningIcon from '../../../resources/images/Warning.svg';
 import {InsufficientQnty} from './OptionSeven/OptionSevenModals';
 import FrequentlyShippedAddresses from './FreqShippedAddresses/Controller/frequentlyShippedAddresses';
 
@@ -28,45 +30,54 @@ class SendContainer extends Component {
         // this.inCircleDetails = require("../../../resources/stubs/incircleConfig.json");
         // this.data = this.inCircleDetails.data;
         // this.currentlvl = this.inCircleInfo.currentlvl;
-        console.log("customerDetails", this.props.customerDetails);
 
         this.state = {
-            isSkip: this.props.otherPageData.isSkip,
-            cssId: this.props.customerDetails.profileData ? this.props.customerDetails.cssId : '',
-            salutation: this.props.otherPageData.details ? this.props.otherPageData.details.salutation : '',
-            firstname: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.names[0].firstName : '',
-            lastname: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.names[0].lastName : '',
-            address1: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.physicalAddresses[0].addressLines[0] : '',
-            address2: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.physicalAddresses[0].addressLines[1] : '',
-            mobile: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.phoneNumbers[0].rawValue : '',
+            isSkip: !this.props.customerDetails.clientNumber,
+            cssId: this.props.customerDetails.cCSNumber,
+            salutation: this.props.customerDetails.salutation,
+            firstname: this.props.customerDetails.firstName,
+            lastname: this.props.customerDetails.lastName,
+            address1: this.props.customerDetails.selectedAddress.Addr1,
+            address2: this.props.customerDetails.selectedAddress.Addr2,
+            mobile: this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 ?this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneNumber:'',
             otherMobile: '',
-            zip: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.physicalAddresses[0].postalCode : '',
-            state: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.physicalAddresses[0].state : '',
-            city: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.physicalAddresses[0].cityName : '',
-            country: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.physicalAddresses[0].countryName : '',
-            email: this.props.customerDetails.profileData ? this.props.customerDetails.profileData.emailAddresses[0].rawValue : '',
+            zip: this.props.customerDetails.selectedAddress.Zip,
+            state: this.props.customerDetails.selectedAddress.State,
+            city: this.props.customerDetails.selectedAddress.City,
+            country: this.props.customerDetails.selectedAddress.Country,
+            email: this.props.customerDetails.selectedAddress. EmailAddress,
+            //frequentlyShippedAddress will change when API is ready
+            frequentlyShippedAddresses: Object.values(this.props.customerDetails.addresses),
             currentLvl: this.props.incircleData ? this.props.incircleData.data.lyBenefitLevelCode: '',
             itemsArray: [],
             insufficientQunty:false,
             optionSeven: false,
             shippingOption: false,
             selectStore: false,
+            useFreqShippedAddr:false,
+            freqShippedAddrSelected:[],
+            errorThrown : false,
+            errorDescription:'',
 
         };
+
 
 
        this.sendApiRequestObject = {
             "ItemList": [{}],
             "Sender":{
-                    "FirstName":'test',
-                    "LastName":"test", 
-                    "Email": "test@gmail.com",
+                    "FirstName":'',
+                    "LastName":"", 
+                    "Email": "",
                     "Address_Line1":"",
                     "Address_Line2":"",
                     "Contact": "",
                     "City": "",
                     "State":"",
                     "Zip":'',
+                    "Province":"",
+                    "PostalCode":"",
+                    "Country":"",
                 },
             "Receiver": 
                 {
@@ -79,20 +90,24 @@ class SendContainer extends Component {
                     "City": "",
                     "State":"",
                     "Zip":'',
+                    "Province":"",
+                    "PostalCode":"",
+                    "Country":"US",
                 },
             "ShippingOption":
                 {
-                    "Option":"1",
-                    "Description":"Overnight Air",
-                    "PriceType":"ZONE2",
-                    "InternationalFlag":'false',
-                    "SurfaceFlag":'false',
-                    "Price":"51" 
+                    "Option":"",
+                    "Description":"",
+                    "PriceType":"",
+                    "InternationalFlag":'',
+                    "SurfaceFlag":'',
+                    "Price":"" 
                 },
             "sendBarcode":"9783351639",
-            "EmailTrackingFlag": 'true',
-            "SendWeight": "10",
+            "EmailTrackingFlag": this.props.emailTrackingInfo.tracking,
+            "SendWeight": "",
             "TransactionId":this.props.cart.data.transactionId,
+            "AuthCode":""
         };
 
         /* TEST DATA TO CHECK CONNECTIVITY FOR API */
@@ -100,9 +115,28 @@ class SendContainer extends Component {
             "Surface":true,
             "Weight":"",
             "ZIP":'',
+            "International":"",
+            "Country":"",
             "TransactionId":this.props.cart.data.transactionId
         }
         
+    }
+
+    componentWillMount() {
+        this.getOptionalFields();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log('MIKE SEND DIDUPDATE', prevProps)
+        if(prevProps.sendResponseObject.error != this.props.sendResponseObject.error && this.props.sendResponseObject.error !== null && this.props.sendResponseObject.error !== "AC_FAIL"){
+            this.setState({errorDescription: this.props.sendResponseObject.error});
+            this.setState({errorThrown:true});
+        }
+
+        if(prevProps.addCustomer.responseError != this.props.addCustomer.responseError) {
+            this.setState({errorDescription: this.props.addCustomer.responseError.response_text});
+            this.setState({errorThrown:true});
+        }
     }
 
     updateObjectHandler = (key, value) =>{
@@ -117,7 +151,7 @@ class SendContainer extends Component {
     updateShipmentOptionsObject = (key, value) =>{
         console.log("UPDATING SHIPMENT OBJECT KEY:", key)
         console.log("UPDATING SHIPMENT OBJECT VALUE:", value)
-        if(key === "Weight" || key==="ZIP" || key==="Surface"){
+        if(key === "Weight" || key==="ZIP" || key==="Surface" || key=="International" || key==="Country"){
             var fields = this.shipmentOptionsReqestObject;
             fields[key]= value;
             this.shipmentOptionsReqestObject = fields;
@@ -125,20 +159,28 @@ class SendContainer extends Component {
         console.log("SHIPMENT REQUEST OBJECT UPDATED",this.shipmentOptionsReqestObject);
     }
 
-    componentWillMount() {
-        console.log("customerDetails", this.props.customerDetails);
-        this.getOptionalFields();
+    freqShippedSelectedHandler = (selectedAddress) =>{
+        console.log("SHIV SELECTEDADDR",selectedAddress)
+        if(this.state.useFreqShippedAddr == false){
+            this.setState({ useFreqShippedAddr: true });
+            this.setState({freqShippedAddrSelected : selectedAddress});
+        }else{
+            this.setState({ useFreqShippedAddr: false});
+        }
     }
 
+
     getOptionalFields = () =>{
-        if(this.props.customerDetails.profileData){
-            if(this.props.customerDetails.profileData.phoneNumbers.length > 1){
-                this.setState({otherMobile: this.props.customerDetails.profileData.phoneNumbers[1].rawValue})
+        if(this.props.customerDetails.clientNumber){
+            if(this.props.customerDetails.selectedAddress.PhoneNumbers.length > 1){
+                this.setState({otherMobile: this.props.customerDetails.selectedAddress.PhoneNumbers[1].phoneNumber})
             }
         }
     }
 
     render() {
+
+        console.log("SHIV state SELECTEDADDR",this.state.freqShippedAddrSelected)
         return (
         <div>
         
@@ -160,7 +202,11 @@ class SendContainer extends Component {
 
         <ServicesHeader>
             <div className="giftwrap-header-container">
-                <img className="giftwrap-header-arrow" src={backArrow} alt="backarrow" onClick={() => this.props.history.goBack()}/>
+                <img className="giftwrap-header-arrow" src={backArrow} alt="backarrow" onClick={() => 
+                {
+                    this.props.history.goBack();
+                    this.props.itemSelectedAction('');
+                    }}/>
                 <div className="giftwrap-header-divider"></div>
                 <div className="giftwrap-header-text">Send</div>
           </div>
@@ -193,11 +239,13 @@ class SendContainer extends Component {
             email={this.state.email}
             country={this.state.country}
             zip={this.state.zip}
+            homeReduxStore={this.props.homeReduxStore}
             customerDetails={this.props.customerDetails}
+            frequentlyShippedAddresses={this.state.frequentlyShippedAddresses}
             sendComponent={this.props.sendComponent}
             navigate={() => {this.navigateToSale()}}
             emailTrackingInfo={this.props.emailTrackingInfo}
-            moreCustomerData={this.props.moreCustomerData}
+            authCodeRequest={this.props.authCodeRequest}
             userPin={this.props.userPin.userPin}
             startSpinner={this.props.startSpinner}
             shipmentOptionsReqestObject={this.shipmentOptionsReqestObject}
@@ -205,6 +253,11 @@ class SendContainer extends Component {
             sendResponseObject={this.props.sendResponseObject}
             directSendRequest={this.props.directSendRequest}
             sendApiRequestObject={this.sendApiRequestObject}
+            itemSelectedAction={this.props.itemSelectedAction}
+            freqShippedAddressesAction={this.props.freqShippedAddressesAction}
+            freqShippedAddrSelected={this.state.freqShippedAddrSelected}
+            freqShippedSelectedHandler={this.freqShippedSelectedHandler}
+            clearForSend={this.props.clearForSend}
         /> 
         
         <Footer />
@@ -215,7 +268,24 @@ class SendContainer extends Component {
                     closeModal={this.exitModals} 
                     /> 
                 </Modal>
-        </div>  
+        </div>
+
+        <Modal open={this.state.errorThrown} little classNames={{ modal: 'sale-errorModal' }} onClose={() => { }}
+            little showCloseIcon={false}>
+            <div className='sale-errorModal-container'>
+              <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+              <div className="sale-errorModal-text">{this.state.errorDescription}</div>
+              <button className="sale-errorModal-button" onClick={() => { 
+                  this.setState({errorThrown:false});
+                  this.setState({errorDescription: ''});
+                    this.props.clearForSend('CLEAR_ERROR');  
+                  }}>
+                <div className="sale-errorModal-button-text">CLOSE</div>
+              </button>
+            </div>
+
+          </Modal>
+
         </div>
         )
     }
@@ -264,17 +334,17 @@ class SendContainer extends Component {
 };
 
 
-function mapStateToProps({cart, sale, customerDetails, customerSearch, emailTrackingInfo, userPin, selectedItems, send}) {
+function mapStateToProps({cart, sale, customerDetails, customerSearch, emailTrackingInfo, userPin, send, home, addCustomer}) {
     console.log("MAPSTATETOPROPS", sale)
     return { cart,
-             otherPageData: sale.otherPageData,
              sendComponent: sale.sendComponent,
-             customerDetails:customerDetails,
+             customerDetails,
              incircleData: customerSearch.incircleData,
-             moreCustomerData: customerDetails.profileData,
              emailTrackingInfo,
              userPin,
-             sendResponseObject:send
+             sendResponseObject:send,
+             homeReduxStore:home,
+             addCustomer
             }
   }
   
@@ -284,6 +354,10 @@ function mapStateToProps({cart, sale, customerDetails, customerSearch, emailTrac
             directSendRequest,
             getShipmentOptions,
             startSpinner,
+            itemSelectedAction,
+            freqShippedAddressesAction,
+            authCodeRequest,
+            clearForSend
         }, dispatch)
   }
   

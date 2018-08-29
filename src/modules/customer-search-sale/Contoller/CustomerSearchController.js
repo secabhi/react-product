@@ -86,7 +86,7 @@ class CustomerSearch extends Component {
                 <div key={customer.cssId}>
                     <div className='customer-search-result-panel'>
                     {
-                        (customer.myCustomer === true) ? 
+                        (customer.myClient === "Y") ? 
                     <img src={martkedTrangle} className='customer-search-triangle-icon'></img> : null
                     }
                     <div className='customer-search-result-panel-content'>                   

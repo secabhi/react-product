@@ -1,8 +1,9 @@
 .historySlide {
     margin-bottom: 18px;
+    margin-left: 4px;
     width: 230px;
     height: 266px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 3px 13px 0 rgba(0, 0, 0, 0.25);
     background-color: #ffffff;
     background-color: var(--white);
     border: solid 1px var(--Gray3)
@@ -28,15 +29,16 @@
 
 .image {
   width: 127px;
-  height: 159px;
+  height: 164px;
   margin: auto;
   margin-top: 7px;
-  margin-left: 51px;
+  margin-right: 40px;
+  padding: 10px;
 }
 
 .image-details {
   width: 154px;
-  height: 42px;
+  height: 47px;
   font-family: Roboto;
   font-size: 18px;
   font-weight: normal;
@@ -48,7 +50,7 @@
   text-align: center;
   margin-left: 38px;
   margin-top: 7.7px;
-  margin-bottom: 7px;
+  margin-bottom: 7px; 
 }
 
 .brand {
@@ -60,6 +62,8 @@
   overflow: hidden;
   font-weight: 500;
   max-height: 60px;
-  max-width: 210px;
+  max-width: 150px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   text-align: left;
 }

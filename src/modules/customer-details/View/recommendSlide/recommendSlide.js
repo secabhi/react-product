@@ -16,7 +16,7 @@ export default (props) =>{
         <img src={imageURL} className='img' alt={imageURL} />
         <div className='img-details'>
             <div className='brand'>{props.vendor}</div>
-            <div className='descrip'>{props.proddesc}</div>
+            <div className='.reccomendSlide-descrip'>{props.productname}</div>
         </div>    
     </div>
 )

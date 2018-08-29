@@ -4,7 +4,8 @@ import './popup.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import VerifyCustomerDomestic from '../verify_customer/View/VerifyCustomerDomView';
-
+const CONFIG_FILE = require('../../../resources/stubs/config.json');
+var clientConfig = CONFIG_FILE.clientConfig;
 
 export default class VerifyCustomerDom extends React.Component {
   render() 
@@ -37,10 +38,7 @@ export default class VerifyCustomerDom extends React.Component {
 
     updateDomesticCustomerInvoker = (bypassFlag) => {
         let addCustDomData = {
-            'ClientID': '0101:0169:04042018:033639',
-            'ClientTypeID': '1000',
-            'SourceApp': 'CMOS',
-            'SourceLoc': 'NM-DIRECT',
+            ...clientConfig,
             'CFirstName': this.props.changedAddress['cust_dom_fname'],
             'CLastName': this.props.changedAddress['cust_dom_lname'],
             'Salutation ': this.props.cust_dom_salutation,

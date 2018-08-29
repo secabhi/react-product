@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { viewCustomerAction, getCountryList } from './vieweditCustomerAction';
+import { attachCustomerAction } from '../../home/HomeAction.js'
 //import { getStoreClientIdUpdateAction } from './vieweditCustomerAction';
 import Header from '../../common/header/header'
 import Footer from '../../common/footer/footer'
@@ -19,6 +20,7 @@ import Popup from '../../popup/popup';
 import Modal from 'react-responsive-modal';
 import VerifyCustomerDomestic from '../../verify_customer/View/VerifyCustomerDomView';
 import { startSpinner } from '../../common/loading/spinnerAction';
+import { zipToCitySateAction, clearZipToCitySateDataAction } from '../../home/HomeAction.js'
 
 /* View Components import */
 import ViewEditCustomerView from '../View/vieweditCustomerView'
@@ -29,6 +31,7 @@ import { setClienteled } from '../../customer-search-sale/actions.js';
 import profileselected from '../../../resources/images/Profile_Selected.svg';
 import profileunselected from '../../../resources/images/Profile.svg';
 import remainderselected from '../../../resources/images/Reminder.svg';
+
 
 class ViewEditCustomer extends Component {
 
@@ -57,6 +60,11 @@ class ViewEditCustomer extends Component {
             selectedSalutation: "",
             errors: {},
             salutationDataDrop: [],
+            zipOverride: false,
+            cityModal: false,
+            citystateList: [],
+            stateList: [],
+            failModal1: false,
             changedAddress: {
                 cust_cssId: '',
                 cust_dom_salutation: '',
@@ -77,22 +85,24 @@ class ViewEditCustomer extends Component {
             },
 
             profileData: {
-                cust_cssId: '',
-                cust_dom_salutation: '',
-                cust_dom_fname: '',
-                cust_dom_lname: '',
-                cust_dom_address1: '',
-                cust_dom_address2: '',
-                cust_dom_mobile: '',
-                cust_dom_email: '',
-                cust_dom_otherMobile: '',
-                cust_dom_countryCode: '',
-                cust_dom_city: '',
-                cust_dom_state: '',
-                cust_dom_country: '',
-                cust_dom_postal: '',
-                cust_dom_province: '',
-                cust_dom_zip: ''
+                    cust_cssId: this.props.customerDetails.cCSNumber,
+                    international: this.props.customerDetails.selectedAddress.international,
+                    AddressSeque:this.props.customerDetails.selectedAddress.sequenceKey,
+                    cust_dom_salutation: this.props.customerDetails.salutation ? this.props.customerDetails.salutation : '',
+                    cust_dom_fname: this.props.customerDetails.firstName ? this.props.customerDetails.firstName: '',
+                    cust_dom_lname: this.props.customerDetails.lastName? this.props.customerDetails.lastName : '',
+                    cust_dom_address1: this.props.customerDetails.selectedAddress.Addr1 ? this.props.customerDetails.selectedAddress.Addr1: '',//'9303 Spring Hollow Dr',
+                    cust_dom_address2: this.props.customerDetails.selectedAddress.Addr2 ? this.props.customerDetails.selectedAddress.Addr2 : '',
+                    cust_dom_mobile: this.props.customerDetails.selectedAddress.PhoneNumbers.length >= 1 ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneNumber : '',
+                    cust_dom_email: this.props.customerDetails.emailAddress ? this.props.customerDetails.emailAddress : '',
+                    cust_dom_otherMobile: this.props.customerDetails.selectedAddress.PhoneNumbers[1] ? this.props.customerDetails.selectedAddress.PhoneNumbers[1].phoneNumber : '',
+                    cust_dom_city: this.props.customerDetails.selectedAddress.City ? this.props.customerDetails.selectedAddress.City : '', //"New york"
+                    cust_dom_state: this.props.customerDetails.selectedAddress.State ? this.props.customerDetails.selectedAddress.State : '', //'NY'
+                    cust_dom_country: this.props.customerDetails.selectedAddress.Country ? this.props.customerDetails.selectedAddress.Country : '', //'CANADA',
+                    cust_dom_countryCode: this.props.customerDetails.selectedAddress.Country ? this.props.customerDetails.selectedAddress.Country : '', //'CANADA',
+                    cust_dom_province: this.props.customerDetails.selectedAddress.province ? this.props.customerDetails.selectedAddress.province : '', //'ON',
+                    cust_dom_postal: this.props.customerDetails.selectedAddress.zip ? this.props.customerDetails.selectedAddress.zip : '', //'78750',
+                    cust_dom_zip: this.props.customerDetails.selectedAddress.Zip ? this.props.customerDetails.selectedAddress.Zip : '', //'78750',
             },
 
             changedAddressForVerify: {},
@@ -124,17 +134,18 @@ class ViewEditCustomer extends Component {
             mobile: this.state.changedAddress.cust_dom_mobile,
             otherMobile: this.state.changedAddress.cust_dom_otherMobile,
         });
-        this.setState({ succesModal: false });
+        this.setState({ succesModal: false, failModal1: false });
+        this.callAttachCustomerActionInvoker();
         this.props.history.push('/sale', { isClienteled: true });
         this.setState({ isClienteled: true });
 
     }
     componentWillReceiveProps = nextProps => {
-
+        
         console.log('Update Customer: componentWillReceiveProps', nextProps);
         if (nextProps.viewEditCustomer.successModalFlag === true && nextProps.viewEditCustomer.clienteleUpdateFlag === true) {
             this.setState({
-                emailModal: false, phoneModal: false, textoptModal: false, succesModal: true
+                emailModal: false, phoneModal: false, textoptModal: false, succesModal: true, failModal1: false
             });
         }
         else if (nextProps.viewEditCustomer.successModalFlag === true && nextProps.viewEditCustomer.clienteleUpdateFlag === false) {
@@ -155,45 +166,118 @@ class ViewEditCustomer extends Component {
         }
         else {
 
-            var profile = nextProps.viewEditCustomer.profileData;
-            if (profile && JSON.stringify(profile) != "{}" && nextProps.viewEditCustomer.isProfileData == true) {
-                var profileData = {
-                    cust_cssId: profile.css_id,
-                    //cust_dom_salutation : (profile.names && profile.names.length > 0 && profile.names[0].salutation !== '') ? profile.names[0].salutation : '',
-                    cust_dom_salutation: (profile.names && profile.names.length > 0 && profile.names[0].prefix !== undefined) ? this.toCamelCase(profile.names[0].prefix) : '',
-                    cust_dom_fname: (profile.names && profile.names.length > 0) ? profile.names[0].firstName : '',
-                    cust_dom_lname: (profile.names && profile.names.length > 0) ? profile.names[0].lastName : '',
-                    cust_dom_address1: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 0) ? profile.physicalAddresses[0].addressLines[0] : '',//'9303 Spring Hollow Dr',
-                    cust_dom_address2: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 1) ? profile.physicalAddresses[0].addressLines[1] : '',
-                    cust_dom_mobile: (profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].id : '',
-                    cust_dom_email: (profile.emailAddresses && profile.emailAddresses.length > 0) ? profile.emailAddresses[0].id : '',
-                    cust_dom_otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].id : '',
-                    cust_dom_city: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].cityName : '', //"New york"
-                    cust_dom_state: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'NY'
-                    cust_dom_country: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].countryName : '', //'CANADA',
-                    cust_dom_countryCode: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].countryCode : '', //'CANADA',
-                    cust_dom_postal: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '', //'78750',
-                    cust_dom_province: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'ON',
-                    cust_dom_zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '', //'78750',
-                }
-                this.setState({ profileData: profileData }, () => {
-                    this.getAddress();
-
-                });
-
-
+            if (nextProps.viewEditCustomer.countryList.length > 0) {
+                this.setState({ countryList: nextProps.viewEditCustomer.countryList });
             }
-            if (nextProps.viewEditCustomer.isCountryList == true) {
-                this.setState({
-                    countryList: nextProps.viewEditCustomer.countryList
-                });
-            }
+        }
+
+        if (nextProps.viewEditCustomer.verifyEmailFlag === true && nextProps.viewEditCustomer.successModalFlag === false) {
+            console.log("33333");
+            this.setState({
+                emailModal: false
+            });
+            this.setState({
+                phoneModal: false
+            });
+            this.setState({
+                textoptModal: false
+            });
+            this.setState({
+                failModal1: true,
+                addrEmailMOdal: false
+            })
         }
         if (nextProps.incircleData !== null && nextProps.incircleData !== undefined) {
             var circleData = nextProps.incircleData.data;
-            this.setState({ currentLvl: circleData.lyBenefitLevelCode, pointsToNextLvl: circleData.pointsAwayToNextPointCard });
+            var currentLvl = (circleData.lyBenefitLevelCode > circleData.tyBenefitlevelCode) ? circleData.lyBenefitLevelCode : circleData.tyBenefitlevelCode;
+	        this.setState({ currentLvl: currentLvl, pointsToNextLvl: circleData.pointsAwayToNextPointCard });
         }
 
+        if (nextProps.cityStateData !== undefined && nextProps.cityStateData !== null) {
+            var cityData = [];
+            var stateData = [];
+            var obj = nextProps.cityStateData.CityState1;
+            let fields = this.state.fields;
+            let changedAddress = this.state.changedAddress;
+            var CityArrayLen = 0
+            for (var key in nextProps.cityStateData) {
+                if (nextProps.cityStateData.hasOwnProperty(key)) {
+                    ++CityArrayLen;
+                }
+            }
+            if (CityArrayLen > 1) {
+                for (var index = 0; index < CityArrayLen; index++) {
+                    cityData.push(nextProps.cityStateData[Object.keys(nextProps.cityStateData)[index]][0]);
+                    stateData.push(nextProps.cityStateData[Object.keys(nextProps.cityStateData)[index]][1]);
+                }
+                this.setState({ citystateList: cityData, stateList: stateData });
+            }
+            console.log("fieldsss", fields)
+            /* if (obj) {
+                if (fields['cust_dom_city'] == ""){
+                    fields['cust_dom_city'] = obj[0];
+                    fields['cust_dom_state'] = obj[1];
+                    changedAddress['cust_dom_city'] = obj[0];
+                    changedAddress['cust_dom_state'] = obj[1];
+                    this.setState({ fields: fields, dom_cust_state: obj[1], changedAddress: changedAddress });
+                    if (CityArrayLen > 1) {
+                        this.setState({ cityModal: true });
+                    }
+                }
+                else {
+                    if ((fields['cust_dom_city'] && fields['cust_dom_city'].toString().toLowerCase() !== obj[0].toString().toLowerCase()) || (this.state.dom_cust_state !== "" && this.state.dom_cust_state !== obj[1])) {
+                        this.setState({ zipOverride: true });
+                        fields['cust_dom_city'] = obj[0];
+                        fields['cust_dom_state'] = obj[1];
+                        changedAddress['cust_dom_city'] = obj[0];
+                        changedAddress['cust_dom_state'] = obj[1];
+                        this.setState({ fields: fields, dom_cust_state: obj[1], changedAddress:changedAddress });
+                    }
+                }
+            } */
+            if (obj) {
+                if (fields['cust_dom_city'] == ""){
+                    if (CityArrayLen > 1) {
+                        this.setState({ cityModal: true });
+                    }
+                    else {
+                        fields['cust_dom_city'] = obj[0];
+                        fields['cust_dom_state'] = obj[1];
+                        changedAddress['cust_dom_city'] = obj[0];
+                        changedAddress['cust_dom_state'] = obj[1];
+                        this.setState({ changedAddress:changedAddress, fields: fields, dom_cust_state: obj[1] });
+                    }
+                }
+                else {
+                    var isCityStateExist = false;
+                    if (fields['cust_dom_city'] && CityArrayLen > 1) {
+                        if (cityData.filter(obj => obj.toString().toLowerCase() === fields['cust_dom_city'].toString().toLowerCase()).length > 0 && stateData.filter(obj => obj === this.state.dom_cust_state).length > 0) {
+                            isCityStateExist = true;
+                        }
+                    }
+                    else {
+                        if ((fields['cust_dom_city'] && fields['cust_dom_city'].toString().toLowerCase() === obj[0].toString().toLowerCase()) && (this.state.dom_cust_state !== "" && this.state.dom_cust_state === obj[1])) {
+                            isCityStateExist = true;
+                        }
+                    }
+
+                    if (!isCityStateExist) {
+                        if (CityArrayLen > 1) {
+                            this.setState({ cityModal: true });
+                        }
+                        else {
+                            this.setState({ zipOverride: true });
+                            fields['cust_dom_city'] = obj[0];
+                            fields['cust_dom_state'] = obj[1];
+                            changedAddress['cust_dom_city'] = obj[0];
+                            changedAddress['cust_dom_state'] = obj[1];
+                            this.setState({ changedAddress: changedAddress, fields:fields, dom_cust_state: obj[1] });
+                        }
+                    }
+                }
+            }
+            this.props.clearZipToCitySateDataActionInvoker();
+        }
 
 
     }
@@ -227,6 +311,78 @@ class ViewEditCustomer extends Component {
     //     this.props.getStoreClientIdUpdateActionInvoker(addCustDomData);
 
     // }
+
+    bypassEmailValidation = () => {
+        //alert('bypass')
+        this.closeFailModal();
+        this.failModal1 = false,
+        this.viewDomesticCustomerInvoker(true);
+        return;
+    }
+
+    closeFailModal = () => {
+        this.setState({
+            failModal1: false
+        });
+    }
+
+    closeZipOverideModal = (showFlag) => {
+        if (showFlag == false) {
+            this.setState({
+                zipOverride: false
+            })
+        }
+    }
+
+    cityModalClose = () => {
+
+        this.setState({
+            cityModal: false,
+        })
+    }
+
+    populateCity = (selectedTransactionDetails, selectedCityState) => {
+        let fields = this.state.changedAddress
+        fields['cust_dom_city'] = selectedTransactionDetails;
+        fields['cust_dom_state'] = selectedCityState;
+        this.state.dom_cust_state = selectedCityState;
+        this.setState({
+            changedAddress: fields,
+            cityModal: false
+        })
+    }
+
+  /*  handleChange = (field, e) => {
+        let fields = this.state.fields;
+        fields[field] = e.target.value;
+        let errors = this.state.errors;
+        errors[field] = "";
+        var changedAddress = this.state.changedAddress;
+        changedAddress[field] = e.target.value;
+        this.setState({ errors: errors, fields: fields, changedAddress: changedAddress });
+    } */
+
+    handleChange = (field, e) => {
+        let fields = this.state.fields;
+        var changedAddress = this.state.changedAddress;
+        let errors = this.state.errors;
+        if (field === 'cust_dom_zip_blur') {
+            fields['cust_dom_zip'] = e.target.value;
+            changedAddress['cust_dom_zip'] = e.target.value;
+            errors['cust_dom_zip'] = "";
+            if (fields['cust_dom_zip'].length > 4) {
+                this.props.zipToCitySateActionInvoker(e.target.value);
+            }
+        }
+        else {
+            fields[field] = e.target.value;
+            changedAddress[field] = e.target.value;
+            errors[field] = "";
+            this.setState({ errors: errors });
+        }
+        this.setState({ fields: fields, errors: errors, changedAddress :changedAddress });
+    }
+
     /* Country change - International */
     handleCountryChange = (value, e) => {
         console.log(e.target.textContent);
@@ -255,14 +411,15 @@ class ViewEditCustomer extends Component {
 
         this.fetchSalutation();
         this.fetchStates();
-        if (this.props.viewEditCustomer.profileData != {} && this.props.viewEditCustomer.profileData != undefined && this.props.viewEditCustomer.profileData != null) {
+        if (this.props.customerDetails != {} && this.props.customerDetails != undefined && this.props.customerDetails != null) {
             var profileDataLocal = Object.assign({}, this.state.profileData)
-            profileDataLocal.cust_dom_country = this.props.viewEditCustomer.profileData.country;
+            // profileDataLocal.cust_dom_country = this.props.viewEditCustomer.profileData.country;
             this.profileData = profileDataLocal;
-            this.setState({ profileData: this.profileData, currentAddress1: this.profileData, changedAddress: this.profileData });
+            this.setState({ currentAddress1: this.profileData, changedAddress: this.profileData });
         }
-        //this.getAddress();
+        this.getAddress();
         // this.props.startSpinner(false);
+        console.log("SHIV SALUTATION", this.state.selectedSalutation)
     }
 
     fetchSalutation() {
@@ -280,7 +437,7 @@ class ViewEditCustomer extends Component {
         }
     }
 
-    getAddress() {
+    getAddress = () => {
         var profile = Object.assign({}, this.state.profileData);
         var changedProfile = Object.create(profile);
         // var changedProfileForVerify = Object.create(profileForVerify);
@@ -289,7 +446,7 @@ class ViewEditCustomer extends Component {
         // }, function () {
         //     this.getCustomerDataforUpdate();
         });
-        if (profile.cust_dom_country == null || profile.cust_dom_country == undefined || profile.cust_dom_country == "" || profile.cust_dom_countryCode == 'US') {
+        if (profile.international == '0') {
             console.log("we are dealing with a domestic customer")
             this.setState({
                 userType: 'dom'
@@ -301,7 +458,6 @@ class ViewEditCustomer extends Component {
             this.setState({
                 userType: 'int'
             })
-
             this.props.getCountriesInvoker();
         }
     }
@@ -313,7 +469,11 @@ class ViewEditCustomer extends Component {
                 this.setState({ showPopup: !this.state.showPopup });
             }
             else {
-                this.viewDomesticCustomerInvoker();
+                this.callAttachCustomerActionInvoker();
+                // this.viewDomesticCustomerInvoker();
+                this.props.history.push('/sale', { isClienteled: true });
+                this.props.setClienteled(true);
+                this.setState({ isClienteled: true });
             }
         }
     }
@@ -455,15 +615,7 @@ class ViewEditCustomer extends Component {
             profileselect: profileselected
         });
     }
-    handleChange = (field, e) => {
-        let fields = this.state.fields;
-        fields[field] = e.target.value;
-        let errors = this.state.errors;
-        errors[field] = "";
-        var changedAddress = this.state.changedAddress;
-        changedAddress[field] = e.target.value;
-        this.setState({ errors: errors, fields: fields, changedAddress: changedAddress });
-    }
+   
 
     closePhoneModal = () => {
         this.setState({
@@ -522,23 +674,67 @@ class ViewEditCustomer extends Component {
             && this.state.currentAddress1.cust_dom_zip === this.state.changedAddress.cust_dom_zip) {
             ClienteleUpdateFlag = false;
         }
+        
+        let changedCustomerDetails = {
+            addresses: this.props.customerDetails.addresses,
+            clientNumber: this.props.customerDetails.clientNumber,
+            cCSNumber: this.props.customerDetails.cCSNumber,
+            myClient: this.props.customerDetails.myClient,
+            saluationCode: this.props.customerDetails.saluationCode,
+            salutation: this.props.customerDetails.salutation,
+            lastName: this.props.customerDetails.lastName,
+            firstName: this.props.customerDetails.firstName,
+            emailAddress: this.props.customerDetails.emailAddress,
+            selectedAddress: {
+                sequenceKey: this.props.customerDetails.selectedAddress.sequenceKey,
+                Addr1: this.props.customerDetails.selectedAddress.Addr1,
+                Addr2: this.props.customerDetails.selectedAddress.Addr2,
+                City: this.props.customerDetails.selectedAddress.City,
+                State: this.props.customerDetails.selectedAddress.State,
+                Country: this.props.customerDetails.selectedAddress.Country,
+                Zip: this.props.customerDetails.selectedAddress.Zip,
+                PhoneNumbers: this.props.customerDetails.selectedAddress.PhoneNumbers
+            },
+        }
+
+        // for (var key in this.state.profileData){
+        //     if(this.state.currentAddress1[key] !== this.state.changedAddress[key]){
+        //         if(key === 'Addr1' || key === 'Addr2' || key === 'City', 
+        //             key === 'State'|| key === 'Country'|| key === 'Zip' || key === 'PhoneNumbers' ||){
+        //                 changedCustomerDetails.selectedAddress[key] = this.state.changedAddress[key];
+        //             }
+        //         changedCustomerDetails[key] = this.state.changedAddress[key];
+        //         ClienteleUpdateFlag = true;
+        //     }
+        //     console.log("SHIV COMPARE:",this.state.currentAddress1[key] )
+        //     console.log("SHIV COMPARE changed:",this.state.changedAddress[key] )
+        // }
+
         return ClienteleUpdateFlag;
+    }
+
+    callAttachCustomerActionInvoker = () => {
+        var storeClientNumber = (this.props.customerDetails.clientNumber) ? this.props.customerDetails.clientNumber : "";
+        var phoneSequence = (this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != "") ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence : "0"
+        this.props.attachCustomerActionInvoker(this.props.login.userpin, this.props.transactionId, storeClientNumber, this.props.customerDetails.selectedAddress.sequenceKey, phoneSequence);
     }
 
     /*** update customer data */
     /* Submit add customer data - Domestic */
-    viewDomesticCustomerInvoker = () => {
-       // this.props.setClienteled(true);
+    viewDomesticCustomerInvoker = (bypassFlag) => {
+        const config = require('../../../resources/stubs/config.json');
+        let clientConfig = config.clientConfig;
+
+        this.props.setClienteled(true);
         this.setState({ emailModal: false });
+        this.setState({failModal1: false});
         //alert(ClienteleUpdateFlag);
         this.props.startSpinner(true);
         let addCustDomData = {
-            "ClientID": "0010:0169:06062018:013639",
-            "ClientTypeID": "1000",
-            "SourceApp": "POS",
-            "Country": this.state.changedAddress['cust_dom_country'],
+            ...clientConfig,
             "storeAssoc": this.props.login.userpin,
-            "SourceLoc": "0010",
+            "ClientTypeID":"1000",
+            "Country": this.state.changedAddress['cust_dom_countryCode'],
             "CFirstName": this.state.changedAddress['cust_dom_fname'],
             "CLastName": this.state.changedAddress['cust_dom_lname'],
             "CEmail": this.state.changedAddress['cust_dom_email'],
@@ -547,18 +743,21 @@ class ViewEditCustomer extends Component {
             "City": this.state.changedAddress['cust_dom_city'],
             "Zip5": this.state.changedAddress['cust_dom_zip'],
             "CCssNo": this.state.changedAddress['cust_cssId'],
-            "StoreClientNo": (this.props.viewEditCustomer.storeClientNumber) ? this.props.viewEditCustomer.storeClientNumber : "",
+            "StoreClientNo": (this.props.customerDetails.clientNumber) ? this.props.customerDetails.clientNumber : "",
             "flagByPASS": true,
+            "EmailFlagByPass": bypassFlag,
             //"ClienteleUpdateFlag": this.getClienteleUpdateFlag()
             //"ClienteleUpdateFlag": (this.props.viewEditCustomer.storeClientNumber) ? true : false
-            "ClienteleUpdateFlag": true
+            "ClienteleUpdateFlag": true,
+            "AddressSeque": this.state.profileData.AddressSeque,
+            'Salutation': this.state.changedAddress['cust_dom_salutation'],
+            'State_Abbr': this.state.changedAddress['cust_dom_state'],
+            'CMobile': this.state.changedAddress['cust_dom_mobile'],
+            'donotcall': true
         }
-
         this.props.viewCustomerActionInvoker(addCustDomData);
-
     }
     render() {
-
         return (
             <ViewEditCustomerView
                 statesList={this.state.statesList}
@@ -597,6 +796,7 @@ class ViewEditCustomer extends Component {
                 emailModal={this.state.emailModal}
                 succesModal={this.state.succesModal}
                 failModal={this.state.failModal}
+                failModal1={this.state.failModal1}
                 addrEmailMOdal={this.state.addrEmailMOdal}
                 handleChange={this.handleChange}
                 openModals={this.openModals}
@@ -605,6 +805,14 @@ class ViewEditCustomer extends Component {
                 currentLvl={this.state.currentLvl}
                 pointsToNextLvl={this.state.pointsToNextLvl}
                 cancelViewEdit={this.cancelViewEdit}
+                zipOverride={this.state.zipOverride}
+                cityModal={this.state.cityModal}
+                cityModalClose={this.cityModalClose}
+                citystateList={this.state.citystateList}
+                stateList={this.state.stateList}
+                populateCity={this.populateCity}
+                closeZipOverideModal={this.closeZipOverideModal}
+                bypassEmailValidation={this.bypassEmailValidation}
             />
         );
     }
@@ -620,15 +828,17 @@ function isObjectEmpty(obj) {
     return true;
 }
 
-function mapStateToProps({ viewEditCustomer, customerSearch, home, login }) {
-
-    return { viewEditCustomer, incircleData: customerSearch.incircleData, salutationData: home.salutationData, login };
+function mapStateToProps({ viewEditCustomer, customerSearch, home, login, customerDetails }) {
+    return { viewEditCustomer, customerDetails, incircleData: customerSearch.incircleData, cityStateData: home.cityStateData, salutationData: home.salutationData, login,
+    transactionId: home.transactionData ? home.transactionData.transactionNumber : '' };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ getCountriesInvoker: getCountryList, viewCustomerActionInvoker: viewCustomerAction, 
-        //getStoreClientIdUpdateActionInvoker: getStoreClientIdUpdateAction, 
-        goToSalesPage: goToSalesPage, startSpinner: startSpinner, setClienteled: setClienteled }, dispatch);
+    return bindActionCreators({ getCountriesInvoker: getCountryList, viewCustomerActionInvoker: viewCustomerAction,
+    //getStoreClientIdUpdateActionInvoker: getStoreClientIdUpdateAction,
+    attachCustomerActionInvoker: attachCustomerAction,
+    goToSalesPage: goToSalesPage, startSpinner: startSpinner, setClienteled: setClienteled, zipToCitySateActionInvoker: zipToCitySateAction,
+    clearZipToCitySateDataActionInvoker: clearZipToCitySateDataAction }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewEditCustomer);

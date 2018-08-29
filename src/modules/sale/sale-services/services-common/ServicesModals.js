@@ -8,6 +8,7 @@ import calendar from '../../../../resources/images/Calendar.svg';
 import confirmEmail from '../../../../resources/images/Confirm_Email.svg';
 import success from '../../../../resources/images/Success.svg';
 import warning from '../../../../resources/images/Warning_101.svg';
+import Cancel_Purple_SFF from '../../../../resources/images/Cancel_Purple_SFF.svg';
 import './services-common.css';
 import moment from 'moment';
 
@@ -116,6 +117,19 @@ const underlineStyle = {
     borderColor: '#757575'
 }
 
+const errorStyle = {
+    bottom: '0',
+    fontFamily: 'Roboto',
+    fontSize: '26px',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontStretch: 'normal',
+    letterSpacing: 'normal',
+    textAlign: 'right',
+    color: '#d53560',
+    lineHeight: '20px !important'
+}
+
 
 export class ContactDetailsModal extends Component {
     constructor(props) {
@@ -174,7 +188,9 @@ export class ContactDetailsModal extends Component {
                         inputStyle = {textFieldInputStyle}
                         underlineStyle= {underlineStyle}
                         refs="contact-details-modal"
-                        required
+                        errorStyle={errorStyle}
+                        errorText={this.props.contactNameErrorMsg}
+                        //required
                     />
 
                     <TextField className="contact-modal-textfield" 
@@ -186,9 +202,16 @@ export class ContactDetailsModal extends Component {
                         style = {textFieldStyle}
                         inputStyle = {textFieldInputStyle}
                         underlineStyle= {underlineStyle}
-                        refs="contact-details-modal" 
-                        required>
-                        <InputMask mask="999999999" maskChar=""/></TextField>
+                        refs="contact-details-modal"
+                        maxLength="4" 
+                        errorStyle={errorStyle}
+                        errorText={this.props.contactExtErrorMsg} 
+                        //required
+                        >
+                        <InputMask mask="9999" maskChar="" 
+                        onChange={(e) => {this.getContactExt(e)}}
+                        value={this.state.contactDetails.contactExt}/>
+                        </TextField>
                 
                     <div className="contact-modal-button-container">
                         <button className="contact-modal-button-cancel" 
@@ -216,48 +239,6 @@ export class AlterationDetailsModal extends Component {
         }
         this.state.alterationData = this.props.alterationObject
     }
-   
-    // componentWillReceiveProps(nextprops) {
-    //     if(nextprops.formData) {
-    //         this.setState({
-    //             alterationID: nextprops.formData.alterationID,
-    //             quotedPrice: nextprops.formData.quotedPrice,
-    //             promiseDate: nextprops.formData.promiseDate
-    //         })
-    //     }
-    //     //passed in from alteration container but really comes from calendar
-    //     console.log('Sweezey : ServicesModal : nextprops.promiseDate', nextprops.promisedDate);
-        
-    //     if(nextprops.promisedDate){
-    //         const formatedDate = this.formatToMMDDYYYY(nextprops.promisedDate);
-    //         console.log('Sweezey : ServicesModal: formatedDate ',  formatedDate);
-    //         const newAlteration = {...this.state.alterationData, promiseDate: formatedDate}
-    //         this.setState({alterationData: newAlteration})
-    //     }
-    // }
-
-    // componentWillMount() {
-    //     console.log('ALTERATIONS COMPONENT MOUNT', this.state.alterationData.promiseDate)
-    // }
-
-    // componentDidMount() {
-    //     if(this.state.alterationData.promiseDate){
-    //         const formatedDate = this.formatToMMDDYYYY(this.state.alterationData.promiseDate);
-    //         console.log('Sweezey : ServicesModal: formatedDate ',  formatedDate);
-    //         const newAlteration = {...this.state.alterationData, promiseDate: formatedDate}
-    //         this.setState({alterationData: newAlteration})
-    //     }
-    // }
-
-    // formatToMMDDYYYY = (stringDate) => {
-    //        //date from calendar comes in with month at m/DD/YYY
-    //     console.log('sweezey : formatToMMDDYYY : stringDate',stringDate);
-    //    if(stringDate.split('/')[0].length < 2) {
-    //     return '0'+stringDate;
-    //    } else {
-    //        return stringDate;
-    //    }
-    // }
 
     getAlterationId = (e) => {
         let altId = e.target.value
@@ -297,7 +278,8 @@ export class AlterationDetailsModal extends Component {
                 <img src={services} alt="services" className='alteration-modal-icon'/>        
                 <form onSubmit={(e) => {
 			            e.preventDefault();
-			            this.props.alterationsApiCall(this.state.alterationData)}
+			            this.props.alterationsApiCall(this.state.alterationData)
+                        }
 		  }>
                 <div className='alteration-modal-label'>Alteration Details</div>
                
@@ -312,7 +294,9 @@ export class AlterationDetailsModal extends Component {
                     underlineStyle= {underlineStyle}
                     refs="alteration-details-modal" 
                     required
-                ><InputMask mask="999999999" maskChar=""/>
+                ><InputMask mask="999999999" maskChar="" 
+                  onChange={(e) => {this.getAlterationId(e)}}
+                  value={this.state.alterationData.alterationID}/>
                 </TextField>
 
                 <img src={scanItem} className="scan-item-img" alt="scanner"/>
@@ -320,7 +304,7 @@ export class AlterationDetailsModal extends Component {
                 <TextField className="alteration-modal-textfield" 
                     type="text"
                     onChange={(e)=> {this.getQuotedPrice(e)}}
-                    value={this.state.alterationData.quotedPrice}
+                    value={(this.state.alterationData.quotedPrice) ? this.state.alterationData.quotedPrice.replace(/[^0-9]+/ig, "") :""}
                     floatingLabelText="Quoted Price"
                     floatingLabelStyle={textFieldFloatingLabelStyle}                    
                     style = {textFieldStyle}
@@ -366,7 +350,7 @@ export class AlterationDetailsModal extends Component {
                         onClick={this.props.closeModal}>CANCEL
                     </button> 
 
-                    <button type="submit" className="alteration-modal-button-ok">
+                    <button type="submit" className={this.state.alterationData.alterationID && this.state.alterationData.quotedPrice && this.state.alterationData.promiseDate ?"alteration-modal-button-ok" :"alteration-ok-disabled"}>
                         OK
                     </button>
                 </div>
@@ -386,6 +370,8 @@ export class CustomerDetailsModal extends Component {
                 phoneNumber: '',
             }
         }
+
+        this.state.customerData = this.props.customerDetailsObject
     }
 
     getLastName = (e) => {
@@ -417,6 +403,11 @@ export class CustomerDetailsModal extends Component {
             }
         })
     }
+
+    // REMOVE FOR NOW
+    // MORE INFORMATION NEEDED AS TO WHICH API TO CALL IF AT ALL
+    // this.props.addCustomerApiCall(this.state.customerData)
+    // AlterationModal CALLED INSTEAD OF API
     
     render() {
     return (
@@ -476,7 +467,7 @@ export class CustomerDetailsModal extends Component {
                     </div> 
 
                     <div className="customer-modal-button-yes" 
-                        onClick={() => {this.props.changeModal(true); this.props.apiCustomerDetails(this.state.customerData)}}>YES
+                        onClick={() => {this.props.changeModal()}}>YES
                     </div>
                 </div>
           </form>
@@ -517,7 +508,7 @@ export class MessagePromptModal extends Component {
             <div className="message-modal-button-container">
 
                 <div className="message-modal-button-no" 
-                    onClick={() => {this.props.apiGift(false); this.props.changeModal(true);}}>NO
+                    onClick={() => {this.props.apiGift(true); this.props.changeModal(true);}}>NO
                 </div> 
                 
                 <div className="message-modal-button-yes" 
@@ -546,7 +537,8 @@ export class GiftWrapOptionsModal extends Component {
                     onClick={() => {
                         this.props.apiOption7(false); 
                         if(this.props.needGiftMessage) {
-                            this.props.changeModal(true);
+                            this.props.changeModal(false);
+                            this.props.giftWrapCall();
                         } else {
                             this.props.giftWrapCall();
                         }
@@ -606,18 +598,19 @@ export class GiftWrapMessageModal extends Component {
                     multiLine={true}
                     rows={8}  
                     rowsMax={10}
-                    maxLength="150"
+                    maxLength="42"
                     refs="giftwrap-message-modal" 
                     required
                 />
-                <div className="giftwrap-modal-maxchar">Maximum Characters: [150]</div>
+                <div className="giftwrap-modal-maxchar">Maximum Characters: [42]</div>
                 <div className="giftwrap-modal-button-container">
 
                     <div className="giftwrap-modal-button-cancel" 
-                        onClick={() => {this.props.closeModal(true);}}>CANCEL
+                        onClick={() => {this.props.closeModal(true);}}><img src={Cancel_Purple_SFF} className="Cancel_Purple" />
+                        <div className="giftwrap-modal-button-cancel-btn">CANCEL</div>
                     </div> 
 
-                    <div className="giftwrap-modal-button-ok" 
+                    <div className={(this.state.giftWrapMessage.trim()?"giftwrap-modal-button-ok-enable":"giftwrap-modal-button-ok-disable")} 
                         onClick={() => {this.props.apiMessage(this.state.giftWrapMessage); this.props.giftWrapCall();}}>OK
                     </div>
                 </div>

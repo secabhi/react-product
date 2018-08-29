@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import KeyIn from '../../../resources/images/Key_In_PED_White.svg';
 import cards from '../../../resources/images/Add_Card.svg';
-import purpleCross from '../../../resources/images/Cross_Purple.svg';
+import purpleCross from '../../../resources/images/Close_Bttn_Purple.svg';
 
 import  './addCardContext.css';
 
@@ -26,20 +26,21 @@ class  addCardContext extends Component {
   chooseDisplay(){
     if (this.state.processing ==='false'){
       return (
-        <div>
-            <img className="cardsmodal" src={cards} width="61.5" height="2.8" alt="cards" />
-              <img className="cardsModalImage" src={cards} alt="cards" />
-            <h1 className="swipe">Swipe Or Insert Card Information</h1>
-            <div className="cancelAddCard">
-              <img className="cancelImage" src={purpleCross} alt="cancel" onClick={() => this.props.done()} />
-              <div className="cancelText" onClick={() => this.props.done()} >CANCEL</div>
+        <div className = "addcard-Modal-Container">
+          <div className = "addcard-Modal-iconArea">
+            <img src={cards} className = "addcard-Modal-icon" />
+          </div>
+          <div className = "addcard-Modal-text-area">
+            <div className = "addcard-Modal-text">Swipe or Insert Card Information</div>
+          </div>
+          <div className = "addcard-Modal-buttons-area">
+            <div className ="addcard-Modal-cancel-button" onClick={() => this.props.done()}>
+              <div className = "addcard-Modal-cancel-label"><img src = {purpleCross}  className= "addcard-Modal-cancel-icon"/>CANCEL</div>
             </div>
-
-            <div className="addCardButtonClass"><div className="sendAddCardDiv">
-              <img className="sendAddCard" src={KeyIn} alt="send" onClick={() => this.setState({processing: 'true'})}/>
-            <div className="onPedText" onClick={() => {
-                this.props.addCard(1)
-              }}>KEY IN CARD ON PED</div></div></div>
+            <div className ="addcard-Modal-keyin-button" onClick={() => {this.props.cancelSwipeMode()}}>
+              <div className = "addcard-Modal-keyin-label"><img src = {KeyIn}  className= "addcard-Modal-keyin-icon"/>KEY IN CARD ON PED</div>
+            </div>
+          </div>           
         </div>
       )
     }

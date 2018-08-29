@@ -30,6 +30,18 @@
     color: #333333;
 }
 
+/* (1920) */
+@media  screen and (width: 1920px) and ( height: 1200px ) {  
+    .tax-exempt-text-field-custom>label {
+        font-size: 30px !important;
+        width: 400px !important;
+        height: 32px !important;
+    }
+    .tax-exempt-text-field-custom>input {
+        padding: 0 !important;
+    }
+}
+
 .Cancel_Purple_SFF {
     padding: 13px;
     width: 28px;

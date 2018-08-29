@@ -37,7 +37,14 @@ export class PrintReceiptModal extends Component {
                         type="telephone"
                         hintText="Enter Register ID"
                         className="print-receipt-input"
-                        onChange={(e)=> this.handleChange(e) }/>
+                        onChange={(e)=> this.handleChange(e) }
+                        onKeyPress={(e) => {
+                                    if(e.key === 'Enter') {
+                                        e.preventDefault();
+                                        this.props.props.printReceipt(this.state.inputVal)
+                                        }
+                                    }}
+                        />
                     <div className='add-dom-cust-modal-email-button-area'>
                         <div
                             className='payment-signature-modal-cancel-btn'

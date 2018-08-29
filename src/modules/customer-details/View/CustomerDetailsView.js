@@ -67,7 +67,6 @@ let carouselSettingsPurchaseHistory = {
 };
 
 const PurchaseSlider = (props) => {
-  console.log('Sweezey: CustomerDetailsView props', props);
   let slides = [];
   if(props.purchases) {
     slides = props.purchases.map((product, index) => {
@@ -85,11 +84,11 @@ const PurchaseSlider = (props) => {
         />
       )
     })
-    return (
-      <Slider {...carouselSettingsPurchaseHistory} >
-        {slides} 
-      </Slider>  
-    )
+      return (
+        <Slider {...carouselSettingsPurchaseHistory} >
+          {slides} 
+        </Slider>  
+      )
   }
   return null;
 }
@@ -105,9 +104,9 @@ const RecommendationSlider = (props) => {
           url={product.url}
           vendor={product.vendor}
           proddesc={product.proddesc} 
+	        productname = {product.productname}
           displayModal={props.displayModal}
           navigateToProductDummy={props.navigateToProductDummy}
-
         />   
      )
     })
@@ -121,21 +120,21 @@ const RecommendationSlider = (props) => {
 }
 
 export class CustomerDetailsView extends Component {
-  constructor(props) {
-     super(props);
-    
-  }
-
-
 
   render() {
-    console.log('Render-this.props-view',this.props);
+    if(this.props.customerDetails.updatedCustomer){
+      this.props.customerDetails.emailAddress = this.props.customerDetails.updatedCustomer.CEmail;
+      this.props.customerDetails.name = this.props.customerDetails.updatedCustomer.name;
+    }
+    //debugger;
+    console.log('Sweezey: customerDetailsView Render props',this.props);
     
     return (
       <div className="cusdet-container">
         <div className="cusdet-header">
           <Header history={this.props.history}></Header>
         </div>
+        
         <div className="cusdet-sub-header">
           <div className="back-button" onClick={this.props.navigateBack} >
             <img
@@ -146,31 +145,34 @@ export class CustomerDetailsView extends Component {
           </div>
           <div className="divider" />
           <div className="customer-name">
-          <div className="customer-name-label"> {(this.props.profileData.cust_dom_fname != "") ? (this.props.profileData.cust_dom_salutation + ((this.props.profileData.cust_dom_salutation != "") ? '.' : "")) : ""} {this.props.profileData.cust_dom_fname} {this.props.profileData.cust_dom_lname}</div>   </div>
-          
-          {
-            (this.props.currentlvl != '0') ?
-          <div className="divider" /> : <div></div>
-          }
-          {
-            (this.props.currentlvl != '0') ?
-          <div className="incircle-details">
-            <span className="subheader-iconNum">{this.props.currentlvl}</span>
-            <img
-              className="subheader-circleStatusicon"
-              src={incircle_purple_large_bttn}
-              alt="profile-tab-icon"
-            />
-            <div className="incircle-description">
-              <div className="incircle-description-level">
-                CIRCLE {this.props.currentlvl}
-              </div>
-              <div className="incircle-description-points">
-                Points to next point card: {this.props.pointsToNextLvl}
-              </div>
+          <div className="customer-name-label"> {(this.props.customerDetails.firstName != "") ? (this.props.customerDetails.salutation + ((this.props.customerDetails.salutation != "") ? '.' : "")) : ""} {this.props.customerDetails.firstName} {this.props.customerDetails.lastName}</div>   </div>
+          {this.props.currentlvl > '0' ? 
+         <div> {
+          (this.props.currentlvl > '0' ) ?
+        <div className="divider" /> : <div></div>
+        }
+
+        {
+          (this.props.currentlvl > '0') ?
+        <div className="incircle-details">
+          <span className="subheader-iconNum">{this.props.currentlvl}</span>
+          <img
+            className="subheader-circleStatusicon"
+            src={incircle_purple_large_bttn}
+            alt="profile-tab-icon"
+          />
+          <div className="incircle-description">
+            <div className="incircle-description-level">
+              CIRCLE {this.props.currentlvl}
             </div>
-            </div> : <div></div>
-          }
+            <div className="incircle-description-points">
+              Points to next point card: {this.props.pointsToNextLvl}
+            </div>
+          </div>
+          </div> : <div></div>
+        }
+      </div>: <div></div>}
+         
           <div className="spacer-div" />
           <div className="product-search" onClick={this.props.navigateToProductSearch}>
             <img
@@ -189,23 +191,20 @@ export class CustomerDetailsView extends Component {
             <div className="proceed-to-sale-label" >Proceed to Sale</div>
           </div>
         </div>
+
         <div className="cusdet-tab-area">
-            <Tabheader history={this.props.history} customerName={this.props.profileData.cust_dom_fname} reminderCount={this.props.remindersCount}></Tabheader>
+            <Tabheader history={this.props.history} customerName={this.props.customerDetails.firstName} reminderCount={this.props.remindersCount}></Tabheader>
             <div className="cusdet-tab-content">
               <div className="content-left-part">
-                <Details profileData={this.props.profileData} navigateToViewEditCustomer = {this.props.navigateToUpdateCustomer}/> 
+                <Details customerDetails={this.props.customerDetails} navigateToViewEditCustomer = {this.props.navigateToUpdateCustomer}/> 
                 <div className="content-left-lower">
                   <div className="recommended-prod-carousel-header">
-                    Recommendations for {this.props.toCamelCase(this.props.profileData.cust_dom_fname)}
-                    
+                    Recommendations for {this.props.toCamelCase(this.props.customerDetails.firstName)}
                   </div>
                   <div className="recommended-prod-carousel">
                      <RecommendationSlider recommendations={this.props.customerDetails.recommendations} displayModal={(index) => this.props.displayRecommendsModal(index)} navigateToProductDummy={this.props.navigateToProductDummy} />
                   </div>
-                  </div>
-                  <div className="content-left-last-shopped-section">
-                    <span className="last-shopped-label">Last Shopped:</span>   With me:  {this.props.salesSummaryDetails.lastDateShoppedWithMe }&nbsp;&nbsp;|&nbsp;&nbsp;At NMG:  {this.props.salesSummaryDetails.lastDateShoppedAtNMG}
-                  </div>
+                </div>
               </div>
               <div className="content-right-part">
                 <div className="purchase-history">
@@ -217,11 +216,11 @@ export class CustomerDetailsView extends Component {
                   </div>
                 </div>
               </div>          
+            </div>
           </div>
-        </div>
        <Footer />
       </div>
-    );
+      );
   }
 
 

@@ -5,41 +5,41 @@
     "CCTID": "402",
     "HeaderMessage": "Insert or Swipe Card",
     "LookUpFlag": "0",
-    "AllowKeyedEntry": "",
+    "AllowKeyedEntry": "N",
     "AllowManualFallback": "Y",
-    "EntrySource": "",
-    "CardNumber": "",
-    "KI": "",
-    "KIType": "",
-    "TenderAmount": "",
+    "EntrySource": "B",
+    "CardNumber": " ",
+    "KI": " ",
+    "KIType": " ",
+    "TenderAmount": " ",
     "PromptConfirmFlag": "1",
     "ProcessingMode": "0",
     "CardDataInfo": {
       "CardDataSource": "6",
       "EncryptionMode": "1",
-      "TrackData": "",
-      "EMVDetailsData": ""
+      "TrackData": " ",
+      "EMVDetailsData": " "
     },
     "ECOMMInfo": {
-      "MerchantIdentifier": "",
-      "StoreId": "",
-      "TerminalId": "",
-      "CVV": "",
-      "CardIdentifier": ""
+      "MerchantIdentifier": " ",
+      "StoreId": " ",
+      "TerminalId": " ",
+      "CVV": " ",
+      "CardIdentifier": " "
     },
     "CustomerInfoValidation": {
-      "ValidateEmail": "",
-      "ValidatePhoneNum": "",
-      "ValidateZipCode": "",
-      "Reserved1": "",
-      "Reserved2": ""
+      "ValidateEmail": " ",
+      "ValidatePhoneNum": " ",
+      "ValidateZipCode": " ",
+      "Reserved1": " ",
+      "Reserved2": " "
     },
-    "ClerkID": "",
+    "ClerkID": " ",
     "AdditionalTags": {
       "Tags": {
         "Tag": {
-          "Key": "",
-          "Value": ""
+          "Key": " ",
+          "Value": " "
         }
       }
     }

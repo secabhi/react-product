@@ -168,6 +168,7 @@ field3.zip_field {
     line-height: 1.21;
     text-align: left;
     justify-content: space-evenly;
+    align-items: center;
     color: #fff;
     background-color: #4b2b6f;
 }
@@ -184,6 +185,7 @@ field3.zip_field {
     font-style: normal;
     font-stretch: normal;
     justify-content: space-evenly;
+    align-items: center;
     line-height: 1.21;
     text-align: left;
     color: #612e9b;

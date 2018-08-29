@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
  */
 import CustomerEditFormView from '../View/customerEditFormView.js';
 
-import { parsePhoneNumber } from '../../../common/helpers/helpers';
+import { parsePhoneNumber, validPostalCode,validInterPostalCode } from '../../../common/helpers/helpers';
 
 /**
  * SVGs
@@ -26,58 +26,97 @@ class CustomerEditForm extends Component {
 
     constructor(props){
         super(props)
-
         this.state = {
             changedAddress: {
-                cust_cssId: this.props.cssId ? this.props.cssId: '',
-                cust_dom_salutation  : this.props.salutation ? this.props.salutation: '',
-                cust_dom_fname       : this.props.firstName ? this.props.firstName: '',
-                cust_dom_lname       : this.props.lastName ? this.props.lastName: '',
-                cust_dom_address1    : this.props.address1 ? this.props.address1: '',
-                cust_dom_address2    : this.props.address2 ? this.props.address2: '',
-                cust_dom_mobile      : this.props.mobile ? this.props.mobile: '',
-                cust_dom_email       : this.props.email ? this.props.email: '',
-                cust_dom_otherMobile  : this.props.otherMobile ? this.props.otherMobile: '',
-                cust_dom_city        : this.props.city ? this.props.city: '',
-                cust_dom_state    : this.props.state ? this.props.state: '',
-                cust_dom_country     : this.props.country ? this.props.country: '',
-                cust_dom_postal : this.props.zip ? this.props.zip.slice(0,5): '',
-                cust_dom_province: this.props.state ? this.props.state: '',
-                cust_dom_zip    : this.props.zip ? this.props.zip.slice(0,5): ''
+                cust_cssId: this.props.customerDetails.cCSNumber ? this.props.customerDetails.cCSNumber: '',
+                cust_dom_salutation  : this.props.customerDetails.salutation ? this.props.customerDetails.salutation: '',
+                firstName: this.props.customerDetails.firstName ? this.props.customerDetails.firstName: '',
+                lastName : this.props.customerDetails.lastName ? this.props.customerDetails.lastName: '',
+                address1    : this.props.customerDetails.selectedAddress.Addr1 ? this.props.customerDetails.selectedAddress.Addr1: '',
+                address2    : this.props.customerDetails.selectedAddress.Addr2 ? this.props.customerDetails.selectedAddress.Addr2: '',
+                cust_dom_mobile      : this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneNumber: '',
+                email       : this.props.customerDetails.emailAddress ? this.props.customerDetails.emailAddress: '',
+                cust_dom_otherMobile  : this.props.customerDetails.selectedAddress.PhoneNumbers.length > 1  ? this.props.customerDetails.selectedAddress.PhoneNumbers[1].phoneNumber: '',
+                city        : this.props.customerDetails.selectedAddress.City ? this.props.customerDetails.selectedAddress.City: '',
+                state    : this.props.customerDetails.selectedAddress.State ? this.props.customerDetails.selectedAddress.State: '',
+                country     : this.props.customerDetails.selectedAddress.Country ? this.props.customerDetails.selectedAddress.Country: '',
+                postal : this.props.customerDetails.selectedAddress.Postal ? this.props.customerDetails.selectedAddress.Postal.slice(0,5): '',
+                province: this.props.customerDetails.selectedAddress.Province ? this.props.customerDetails.selectedAddress.Province: '',
+                zip    : this.props.customerDetails.selectedAddress.Zip ? this.props.customerDetails.selectedAddress.Zip.slice(0,5): ''
             },
-            selectedSalutation : "",
+            selectedSalutation : this.props.customerDetails.salutation?this.props.customerDetails.salutation:'',
             salutationDataDrop:[],
             errors: {},
             fields : {},
             statesList:[],
-            cust_dom_state:'',
+            state:'',
             countryList: [],
             addrEmailMOdal:false,
-            custType: 'dom',
+            custType: 'Domestic',
             addCustImage: addcustomerselected,
             addIntCustImage: addintcustomer,
         }
+
+        this.isValid = false;
     }
 
     componentWillMount() {
         this.fetchSalutation();
         this.fetchStates();
-        this.props.getCountriesInvoker();
+        !this.props.addGiftCardCall? this.props.getCountriesInvoker(): "";
         console.log("first name", this.props)
+        console.log("SHIV LOG CHANGEDADDRESS", this.state.changedAddress)
         // if(this.props.viewEditCustomer.profileData != {} && this.props.viewEditCustomer.profileData != undefined && this.props.viewEditCustomer.profileData != null) {
         //     var profileDataLocal = Object.assign({}, this.state.profileData)
-        //     profileDataLocal.cust_dom_country = this.props.viewEditCustomer.profileData.country;
+        //     profileDataLocal.country = this.props.viewEditCustomer.profileData.country;
         //     this.profileData = profileDataLocal;          
         // }     
         //this.getAddress();
         // this.props.startSpinner(false);
+        // console.log("SHIV CUSTDEETS", this.state.changedAddress)
     }
 
     componentWillReceiveProps(nextProps){
         if (nextProps.addCustomer.countryList.length > 0) {
             this.setState({ countryList: nextProps.addCustomer.countryList });
         }
+
+        if (nextProps.addCustomer.addressValidationSuccessFlag === true) {
+            // alert("yes hello?")
+            this.addDomCustomer(true);
+            this.setState({ emailModal: false, succesModal: true });
+            this.props.startSpinner(false);
+            this.props.componentChangeHandler("itemsToBeShipped");
+        }
+
+        // if (nextProps.addCustomer.addressValidationSuccessFlag === true && this.state.custType == 'International') {
+        //     this.addInternationalCustomerInvoker(true);
+        //     this.setState({ emailModal: false, succesModal: true });
+        //     this.props.startSpinner(false);
+        //     alert("WAZZZUP")
+        //     this.props.componentChangeHandler("itemsToBeShipped");
+        // }
         
+    }
+
+    componentDidUpdate() {
+        console.log("THE SHIV:"+this.props.formType, this.props.freqShippedAddrSelected)
+        if(this.props.freqShippedAddrSelected){
+            this.switchToFreqAddress();
+        }
+    }
+
+    switchToFreqAddress = () =>{
+        let tempAddress = this.state.changedAddress;
+
+        for(var key in this.props.freqShippedAddrSelected){
+            console.log("SHIV TYPEOF:", typeof(this.props.freqShippedAddrSelected[key]));
+            console.log("THE SHIV tempAddress:", key+this.props.freqShippedAddrSelected[key])
+            tempAddress[key] = this.props.freqShippedAddrSelected[key];
+        }
+        this.setState({changedAddress: tempAddress})
+        this.props.freqShippedSelectedHandler();
+
     }
 
     handleSalutationChange = (value, e) => {
@@ -88,40 +127,40 @@ class CustomerEditForm extends Component {
         });
     }
 
-    formatPhoneint = (intPhone) => {
+    // formatPhoneint = (intPhone) => {
 
-        var phoneint = intPhone.replace(/[^A-Z0-9]+/ig, "");
-        var formattedPhone = phoneint;
-        var lastTen = formattedPhone.substr(formattedPhone.length - 13);
-        return parseInt(lastTen);
-    }
+    //     var phoneint = intPhone.replace(/[^A-Z0-9]+/ig, "");
+    //     var formattedPhone = phoneint;
+    //     var lastTen = formattedPhone.substr(formattedPhone.length - 13);
+    //     return parseInt(lastTen);
+    // }
 
     /* Country change - International */
     handleCountryChange = (event, index, value) => {
         console.log(value);
         let errors = this.state.errors;
-        errors['cust_dom_country'] = "";
+        errors['country'] = "";
         var changedAddress = this.state.changedAddress;
-        changedAddress['cust_dom_country'] = value;
+        changedAddress['country'] = value;
         this.setState({errors:errors,changedAddress:changedAddress});
     }
 
     clearAllFields = () => {
         this.setState({
             changedAddress: {
-                cust_dom_fname: "",
-                cust_dom_lname: "",
-                cust_dom_address1: "",
-                cust_dom_address2: "",
-                cust_dom_city: "",
-                cust_dom_email: "",
+                firstName: "",
+                lastName: "",
+                address1: "",
+                address2: "",
+                city: "",
+                email: "",
                 cust_dom_mobile: "",
                 cust_dom_otherMobile: "",
-                cust_dom_postal: "",
-                cust_dom_province: "",
-                cust_dom_country:"",
-                cust_dom_state:"",
-                cust_dom_zip:"",
+                postal: "",
+                province: "",
+                country:"",
+                state:"",
+                zip:"",
             },
             errors: {
                 cust_fname: "",
@@ -139,9 +178,8 @@ class CustomerEditForm extends Component {
     }
 
     fetchSalutation = () => {
-        var salutationData = require('../../../../resources/stubs/salutationList.json');
-        if(salutationData){
-            this.setState({ salutationDataDrop: salutationData.Salutation});
+        if(this.props.salutationData){
+            this.setState({ salutationDataDrop: this.props.salutationData.Salutations});
         }
     }
 
@@ -154,11 +192,11 @@ class CustomerEditForm extends Component {
 
     handleStateChange = (event, index, value) => {
         let fields = this.state.fields;
-        fields['cust_dom_state'] = value;
+        fields['state'] = value;
         let errors = this.state.errors;
-        errors['cust_dom_state'] = "";
+        errors['state'] = "";
         var changedAddress = this.state.changedAddress;
-        changedAddress['cust_dom_state'] = value;
+        changedAddress['state'] = value;
         this.setState({errors:errors,fields : fields ,changedAddress:changedAddress});
     }
 
@@ -174,18 +212,19 @@ class CustomerEditForm extends Component {
 
     handleCustTypeChange = () =>{
             console.log("initial",this.state.custType)
-        if(this.state.custType === "dom"){
+        if(this.state.custType === "Domestic"){
             console.log("int",this.state.custType)
             this.setState({
-                custType: "int",
+                custType: "International",
                 addCustImage: addcustomer,
                 addIntCustImage: addintcustomerselected
+
             })
         }
-        else if(this.state.custType === "int"){
+        else if(this.state.custType === "International"){
             console.log("domestic",this.state.custType)
             this.setState({
-                custType: "dom",
+                custType: "Domestic",
                 addCustImage: addcustomerselected,
                 addIntCustImage: addintcustomer,
             })
@@ -208,60 +247,157 @@ class CustomerEditForm extends Component {
         let fields = this.state.changedAddress;
         let errors = {};
         let fnameValidation = true, lnameValidation = true, phoneValidation = true
-        , emailValidation = true, addrValidation = true;
+        , emailValidation = true, addrValidation = true, zipValidation = true;
         this.isValid = false;
-        if (!fields['cust_dom_fname']) {
-            errors['cust_dom_fname'] = 'First Name cannot be empty';  
+
+
+        if (!fields['firstName']) {
+            errors['firstName'] = 'First Name cannot be empty';  
             fnameValidation = false;
         }
     
-        if (!fields['cust_dom_lname']) {
-            errors['cust_dom_lname'] = 'Last Name cannot be empty';
+        if (!fields['lastName']) {
+            errors['lastName'] = 'Last Name cannot be empty';
             lnameValidation = false;     
         }
         
-        if (fields['cust_dom_email'] == '' ||  fields['cust_dom_email'] == undefined ||  fields['cust_dom_email'] == null) {
-                //errors["cust_dom_email"] = "Email missing";
+        if (fields['email'] == '' ||  fields['email'] == undefined ||  fields['email'] == null) {
+                errors["email"] = "Email missing";
                 emailValidation = false;
         }
         
-        if(fields['cust_dom_address1'] == '' ||  fields['cust_dom_address1'] == undefined ||  fields['cust_dom_address1'] == null) {
-                //errors['cust_dom_address1'] = 'Address missing';
+        if(fields['address1'] == '' ||  fields['address1'] == undefined ||  fields['address1'] == null) {
+                errors['address1'] = 'Address missing';
                 addrValidation = false;
+        }
+
+        if(fields['address1']){
+            if (!fields['zip']) {
+                errors['zip'] = 'zipcode cannot be empty';   
+                zipValidation = false; 
+                // this.openFieldsMissingModal();
+                
             }
+        }
 
         if(emailValidation === false && addrValidation === false) {
-            errors["cust_dom_email"] = "";
-            errors['cust_dom_address1'] = "";
+            errors["email"] = "";
+            errors['address1'] = "";
             this.openCloseAddrEmailMOdal();
         }
         else if(emailValidation === true && addrValidation === false) {
-            if(!this.validateEmail(fields["cust_dom_email"])) {
-                errors["cust_dom_email"] = "Invalid Email";
+            if(!this.validateEmail(fields["email"])) {
+                errors["email"] = "Invalid Email";
                 emailValidation = false;
             }
             addrValidation = true;
         }
         else if(emailValidation === true && addrValidation === true) {
-            if(!this.validateEmail(fields["cust_dom_email"])) {
-                errors["cust_dom_email"] = "Invalid Email";
+            if(!this.validateEmail(fields["email"])) {
+                errors["email"] = "Invalid Email";
                 emailValidation = false;
             }
             addrValidation = true;
         }
         else if(emailValidation === false && addrValidation === true) {
-            errors["cust_dom_email"] = "";
+            errors["email"] = "";
             emailValidation = true;
         }
 
-        if(fnameValidation && lnameValidation && emailValidation && addrValidation) {
-                errors["cust_dom_email"] = "";
+        if(fnameValidation && lnameValidation && emailValidation && addrValidation && zipValidation) {
+                errors["email"] = "";
                 errors = {};
                 this.isValid = true;
         }
 
         this.setState({errors: errors});
+        console.log("SHIV FIELDS",this.isValid)
         return this.isValid;
+    }
+
+    handleValidationIntCustomer = () => {
+        let fieldsInt = this.state.changedAddress;
+        let errors = {};
+        this.isValid = false;
+        console.log("fieldsINT",fieldsInt)
+       
+        if (!fieldsInt['firstName']) {
+            errors['firstName'] = 'First Name cannot be empty';
+        }
+
+        if (!fieldsInt['lastName']) {
+            errors['lastName'] = 'Last Name cannot be empty';
+        }
+
+        if (!fieldsInt['address1']) {
+            errors['address1'] = 'Address Line1 cannot be empty';
+        }
+
+
+        if (!fieldsInt['country']) {
+            errors['country'] = 'Country cannot be empty';
+        }
+
+        if (!fieldsInt['province']) {
+            errors['province'] = 'Province cannot be empty';
+        }
+
+
+        if (!fieldsInt['city']) {
+            errors['city'] = 'City cannot be empty';
+        }
+        
+        if(!fieldsInt['postal'])
+        {
+            errors['postal'] = 'Invalid postal code';
+            
+        }else{
+            if(!validInterPostalCode(fieldsInt['postal']))
+            {
+                errors['postal'] = 'Invalid postal code';
+            }
+        }
+        
+        if (fieldsInt['cust_dom_mobile'] !== '' && fieldsInt['cust_dom_mobile'] !== undefined) {
+            if (fieldsInt['cust_dom_mobile'].length < 10 || fieldsInt['cust_dom_mobile'].length > 15) {
+                errors['cust_dom_mobile'] = 'Please enter the correct phone number';
+            }
+        }
+
+        if (fieldsInt['cust_dom_otherMobile'] !== '' && fieldsInt['cust_dom_otherMobile'] !== undefined) {
+            if (fieldsInt['cust_dom_otherMobile'].length < 10 || fieldsInt['cust_dom_otherMobile'].length > 15) {
+                errors['cust_dom_otherMobile'] = 'Please enter the correct phone number';
+            }
+        }
+
+        if (fieldsInt["email"] !== '' && fieldsInt["email"] !== undefined && fieldsInt["email"] !== null) {
+            let lastAtPos = fieldsInt["email"].lastIndexOf('@');
+            let lastDotPos = fieldsInt["email"].lastIndexOf('.');
+            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fieldsInt["email"].indexOf('@@') == -1 && lastDotPos > 2 && (fieldsInt["email"].length - lastDotPos) > 2)) {
+                errors["email"] = "Email is not valid";
+            }
+        }
+        console.log("shiv isValid b4", this.isValid)
+        this.isValid = this.isObjectEmpty(errors);
+        this.setState({ errors: errors });
+        console.log("shiv isValid after", this.isValid)
+        return this.isValid;
+    }
+
+    validateEmail(email) {
+        var re = /^(([^<>!*&%$^#()\[\]\\._,;:\s@"]+([\._][^<>()\[\]\\._,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    isObjectEmpty(obj) {
+        if (obj == null) return true;
+        if (obj.length === 0) return false;
+        if (obj.length > 0) return false;
+        if (typeof obj !== "object") return true;
+        for (var key in obj) {
+            if (hasOwnProperty.call(obj, key)) return false;
+        }
+        return true;
     }
 
     toCamelCase(str) {
@@ -272,38 +408,87 @@ class CustomerEditForm extends Component {
     }
 
     handleClientele =()=> {
-        console.log("SHIV:custType:", this.state.custType)
-        if(this.props.sameSenderReciever && /*this.isValid &&*/ !(this.state.changedAddress['cust_cssId'])){
-            this.constructCustomerObject("Receiver",this.state.changedAddress)
-            this.constructCustomerObject("Sender",this.state.changedAddress)
-            this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['cust_dom_zip']);
-            if(this.state.custType === "dom"){
+        // console.log("SHIV:custType:", this.state.custType)
+        //     console.log('SHIV SAMESENDERRECIVER:',this.isValid);
+        //     console.log('SHIV SAMESENDERRECIVER1:',this.state.changedAddress['cust_cssId']);
+        if(this.props.sameSenderReciever && this.isValid && !(this.state.changedAddress['cust_cssId'])){
+            if(this.state.custType === "Domestic"){
+                this.constructCustomerObject("Receiver",this.state.changedAddress)
+                this.constructCustomerObject("Sender",this.state.changedAddress)
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['zip']);
                 this.addDomCustomer();
-                this.props.componentChangeHandler("itemsToBeShipped"); 
+                // this.props.componentChangeHandler("itemsToBeShipped"); 
             }
-            else if(this.state.custType === "int"){
+            else if(this.state.custType === "International"){
+                this.constructCustomerObject("Receiver",this.state.changedAddress)
+                this.constructCustomerObject("Sender",this.state.changedAddress)
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['postal']);
+                this.props.updateShipmentOptionsObject("International", true)
                 this.addInternationalCustomerInvoker();
+                
                 this.props.componentChangeHandler("itemsToBeShipped"); 
             }
         }
         else if(this.props.sameSenderReciever && this.isValid){
-            this.props.constructCustomerObject("Receiver",this.state.changedAddress)
-            this.props.constructCustomerObject("Sender",this.state.changedAddress)
-            this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['cust_dom_zip']);
-            this.props.componentChangeHandler("itemsToBeShipped"); 
+            if(this.state.custType === "International"){
+                
+                this.constructCustomerObject("Receiver",this.state.changedAddress)
+                this.constructCustomerObject("Sender",this.state.changedAddress)
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['postal']);
+                this.props.updateShipmentOptionsObject("International", true)
+                this.props.updateShipmentOptionsObject("Country", this.state.changedAddress['country']);
+                this.props.componentChangeHandler("itemsToBeShipped");
+            }else{ 
+                this.constructCustomerObject("Receiver",this.state.changedAddress)
+                this.constructCustomerObject("Sender",this.state.changedAddress)
+                this.props.updateShipmentOptionsObject("International", false);
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['zip']);
+                this.props.componentChangeHandler("itemsToBeShipped");
+            }
         }
-        else if(!this.props.sameSenderReciever /*&& this.isValid*/ && this.props.formType=="Sender" && !(this.state.changedAddress['cust_cssId'])){
+        else if(!this.props.sameSenderReciever && this.isValid && this.props.formType=="Sender" && !(this.state.changedAddress['cust_cssId'])){
             this.constructCustomerObject("Sender",this.state.changedAddress)
-            this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['cust_dom_zip']);
+            this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['zip']);
 
-            if(this.state.custType === "dom"){
+            if(this.state.custType === "Domestic"){
                 this.addDomCustomer();
                 this.props.componentChangeHandler("receiverForm");
                 this.clearAllFields(); 
             }
-            else if(this.state.custType === "int"){
+            else if(this.state.custType === "International"){
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['postal']);
                 this.addInternationalCustomerInvoker();
                 this.props.componentChangeHandler("receiverForm"); 
+                this.clearAllFields();
+            }
+        }
+        else if(!this.props.sameSenderReciever && this.isValid && this.props.formType =="Sender"){
+            this.constructCustomerObject("Sender",this.state.changedAddress)
+            this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['zip']);
+            
+            if(this.state.custType === "Domestic"){
+                this.props.componentChangeHandler("receiverForm");
+                this.clearAllFields(); 
+            }
+            else if(this.state.custType === "International"){
+                console.log("SHIV POSTAL", this.changedAddress['postal'])
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['postal']);
+                this.props.componentChangeHandler("receiverForm"); 
+                this.clearAllFields();
+            }
+        }
+        else if(!this.props.sameSenderReciever && this.isValid && this.props.formType =="Receiver"){
+            this.constructCustomerObject("Sender",this.state.changedAddress)
+            this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['zip']);
+            
+            if(this.state.custType === "Domestic"){
+                this.props.componentChangeHandler("itemsToBeShipped");
+                this.clearAllFields(); 
+            }
+            else if(this.state.custType === "International"){
+                console.log("SHIV POSTAL", this.changedAddress['postal'])
+                this.props.updateShipmentOptionsObject("ZIP", this.state.changedAddress['postal']);
+                this.props.componentChangeHandler("itemsToBeShipped"); 
                 this.clearAllFields();
             }
         }
@@ -314,23 +499,22 @@ class CustomerEditForm extends Component {
         // this.setState({ emailModal: false });
         let addCustDomData = {
             ...clientConfig,
-            "ClientTypeID":"1000",
-            'CFirstName': this.state.fields['cust_dom_fname']?this.state.fields['cust_dom_fname']:"",
-            'CLastName': this.state.fields['cust_dom_lname'],
+            'CFirstName': this.state.fields['firstName']?this.state.fields['firstName']:"",
+            'CLastName': this.state.fields['lastName'],
             'Salutation ': this.state.selectedSalutation,
-            'Address_Ln1': this.state.fields['cust_dom_address1']?this.state.fields['cust_dom_address1']:'',
-            'Address_Ln2': this.state.fields['cust_dom_address2']?this.state.fields['cust_dom_address2']:"",
-            'City': this.state.fields['cust_dom_city']?this.state.fields['cust_dom_city']:"",
-            'State_Abbr': this.state.fields['cust_dom_state']?this.state.fields['cust_dom_state']:"",
-            'Zip5': this.state.fields['cust_dom_zip']?this.state.fields['cust_dom_zip']:"",
-            'CEmail': this.state.fields['cust_dom_email']?this.state.fields['cust_dom_email']:"",
+            'Address_Ln1': this.state.fields['address1']?this.state.fields['address1']:'',
+            'Address_Ln2': this.state.fields['address2']?this.state.fields['address2']:"",
+            'City': this.state.fields['city']?this.state.fields['city']:"",
+            'State_Abbr': this.state.fields['state']?this.state.fields['state']:"",
+            'Zip5': this.state.fields['zip']?this.state.fields['zip']:"",
+            'CEmail': this.state.fields['email']?this.state.fields['email']:"",
             'Country': "US",
-            'CPhone': (this.state.fields['cust_dom_phone1'] !== '' && this.state.fields['cust_dom_phone1'] != undefined && this.state.fields['cust_dom_phone1'] != null) ? parsePhoneNumber(this.state.fields['cust_dom_phone1']) : undefined,
-            'COtherPhone': (this.state.fields['cust_dom_phone2'] !== '' && this.state.fields['cust_dom_phone2'] != undefined && this.state.fields['cust_dom_phone2'] != null) ? parsePhoneNumber(this.state.fields['cust_dom_phone2']) : undefined,
-            'storeClientNo': '10000000257', /* Hardcoded, to be removed */
+            'CPhone': (this.state.fields['cust_dom_mobile'] !== '' && this.state.fields['cust_dom_mobile'] != undefined && this.state.fields['cust_dom_mobile'] != null) ? parsePhoneNumber(this.state.fields['cust_dom_mobile']) : undefined,
+            'COtherPhone': (this.state.fields['cust_dom_otherMobile'] !== '' && this.state.fields['cust_dom_phone2'] != undefined && this.state.fields['cust_dom_otherMobile'] != null) ? parsePhoneNumber(this.state.fields['cust_dom_otherMobile']) : undefined,
+            'storeClientNo': '', /* Hardcoded, to be removed */
             'StoreAssoc': this.props.userPin.userPin,
             'donotcall ': 'N',
-            'flagByPASS': false
+            'flagByPASS': bypassFlag
         }
         console.log('addcustdata ',addCustDomData)
         this.props.addCustomerActionInvoker(addCustDomData);
@@ -338,24 +522,23 @@ class CustomerEditForm extends Component {
 
     addInternationalCustomerInvoker = (bypassFlag) => {
         // this.setState({ emailModalInt: false });
-        console.log("SHIV: country", this.state.fields["cust_dom_country"])
+        console.log("SHIV: country", this.state.fields["country"])
         this.props.startSpinner(true);
         let addCustIntData = {
             ...clientConfig,
-            'ClientTypeID': '1000', /* Hardcoded, to be removed */
-            'CFirstName': this.state.fields['cust_dom_fname'],
-            'CLastName': this.state.fields['cust_dom_lname'],
+            'CFirstName': this.state.fields['firstName'],
+            'CLastName': this.state.fields['lastName'],
             'Salutation ': this.state.selectedSalutation,
-            'Address_Ln1': this.state.fields['cust_dom_address1'],
-            'Address_Ln2': this.state.fields['cust_dom_address2'],
-            'City': this.state.fields['cust_dom_city'],
-            'Province': this.state.fields['cust_dom_province'],
-            'Zip5': this.state.fields['cust_dom_postal'],
-            'CEmail': this.state.fields['cust_dom_email'],
-            'Country': this.state.changedAddress['cust_dom_country'],
-            'CPhone': (this.state.fields['cust_dom_phone1'] !== '' && this.state.fields['cust_dom_phone1'] != undefined && this.state.fields['cust_dom_phone1'] != null) ? this.formatPhoneint(this.state.fields['cust_dom_phone1']) : undefined,
-            'COther': (this.state.fields['cust_dom_phone2'] !== '' && this.state.fields['cust_dom_phone2'] != undefined && this.state.fields['cust_dom_phone2'] != null) ? this.formatPhoneint(this.state.fields['cust_dom_phone2']) : undefined,
-            'storeClientNo': '10000000257', /* Hardcoded, to be removed */
+            'Address_Ln1': this.state.fields['address1'],
+            'Address_Ln2': this.state.fields['address2'],
+            'City': this.state.fields['city'],
+            'Province': this.state.fields['province'],
+            'Zip5': this.state.fields['postal'],
+            'CEmail': this.state.fields['email'],
+            'Country': this.state.changedAddress['country'],
+            'CPhone': (this.state.fields['cust_dom_mobile'] !== '' && this.state.fields['cust_dom_mobile'] != undefined && this.state.fields['cust_dom_mobile'] != null) ? this.state.fields['cust_dom_mobile'] : undefined,
+            'COther': (this.state.fields['cust_dom_otherMobile'] !== '' && this.state.fields['cust_dom_otherMobile'] != undefined && this.state.fields['cust_dom_otherMobile'] != null) ? this.state.fields['cust_dom_otherMobile'] : undefined,
+            'storeClientNo': '', /* Hardcoded, to be removed */
             'storeAssoc': this.props.userPin.userPin, 
             'donotcall ': 'N',
             //'flagByPASS': bypassFlag
@@ -366,16 +549,22 @@ class CustomerEditForm extends Component {
     }
 
     constructCustomerObject = (type,obj) => {
+        
         var customerObject = {
-            "FirstName":obj.cust_dom_fname,
-            "LastName":obj.cust_dom_lname, 
-            "Email": obj.cust_dom_email,
-            "Address_Line1":obj.cust_dom_address1,
-            "Address_Line2":obj.cust_dom_address2,
-            "Contact": obj.cust_dom_mobile,
-            "City": obj.cust_dom_city,
-            "State": obj.cust_dom_state,
-            "Zip": obj.cust_dom_zip, 
+            "FirstName":obj.firstName,
+            "LastName":obj.lastName, 
+            "Email": obj.email,
+            "Address_Line1":obj.address1,
+            "Address_Line2":obj.address2,
+            "City": obj.city,
+            "State": obj.state,
+            "Zip": obj.zip, 
+            "Province":obj.province,
+            "PostalCode":obj.postal,
+            "Country":this.state.custType == "International"?obj.country:"US",
+            "Mobile": obj.cust_dom_mobile,
+            "OtherPhone":obj.cust_dom_otherMobile,
+
         }
         console.log("Shiv construct shippingOBJ", customerObject)
         this.props.updateObjectHandler(type, customerObject);
@@ -383,10 +572,12 @@ class CustomerEditForm extends Component {
     }
 
     render() {
-        console.log('mike cust form props', this.props)
         return (
             <CustomerEditFormView 
-            component={this.props.component}
+                validDLNumber={this.props.validDLNumber}
+                component={this.props.component}
+                toggleInternational={this.props.toggleInternational}
+                intlState={this.props.intlState}
                 changedAddress = {this.state.changedAddress}
                 handleSalutationChange = {this.handleSalutationChange}
                 handleChange = {this.handleChange}
@@ -406,24 +597,30 @@ class CustomerEditForm extends Component {
                 custType={this.state.custType}
                 isValid={this.isValid}
                 handleValidation={this.handleValidation}
+                handleValidationIntCustomer={this.handleValidationIntCustomer}
                 handleCountryChange={this.handleCountryChange}
                 countryList={this.state.countryList}
                 history={this.props.history}
                 handleClientele={this.handleClientele}
                 formType={this.props.formType}
+                giftCardAction={ this.props.addGiftCardAction}
+                navigateToSale = {this.props.navigateToSale}
+                getGiftCardCartItems ={this.props.getGiftCardCartItems}
+                addGiftCardCall = {this.props.addGiftCardCall}
                 updateShipmentOptionsObject={this.props.updateShipmentOptionsObject}
                 addrEmailMOdal={this.state.addrEmailMOdal}
                 openCloseAddrEmailMOdal={this.openCloseAddrEmailMOdal}
-                handleCustTypeChange={this.handleCustTypeChange}
+                //handleCustTypeChange={this.handleCustTypeChange}
                 addCustImage={this.state.addCustImage}
                 addIntCustImage={this.state.addIntCustImage}
+                changeForm={this.handleCustTypeChange}
             />
         );
     }
 }
 
-function mapStateToProps({ saleEditCustomer, addCustomer }) {
-    return { saleEditCustomer, addCustomer };
+function mapStateToProps({ saleEditCustomer, addCustomer, home }) {
+    return { saleEditCustomer, addCustomer, salutationData: home.salutationData };
 }
 
 function mapDispatchToProps(dispatch) {

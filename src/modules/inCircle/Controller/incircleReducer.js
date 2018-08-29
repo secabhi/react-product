@@ -28,8 +28,7 @@ export function incircleReducer(state = initialState, action) {
       }
       case 'ERROR':
       {
-        return { ...state
-        }
+        return state
       }
     default:
       return "";

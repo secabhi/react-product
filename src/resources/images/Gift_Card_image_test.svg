@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10040.45 -14010 108.589 78.657">
+    <defs>
+        <style>
+            .cls-1{fill:#fff}.cls-2,.cls-3{fill:#9ebe1d}.cls-2{font-size:12px;font-family:Roboto-Black,Roboto;font-weight:800}.cls-3{font-size:19px;font-family:Roboto-Medium,Roboto;font-weight:500}.cls-4,.cls-5{stroke:none}.cls-5{fill:#8fac1a}.cls-6{filter:url(#Path_6436)}
+        </style>
+        <filter id="Path_6436" width="108.589" height="78.657" x="10040.45" y="-14010" filterUnits="userSpaceOnUse">
+            <feOffset dy="1"/>
+            <feGaussianBlur result="blur" stdDeviation="2"/>
+            <feFlood flood-opacity=".404"/>
+            <feComposite in2="blur" operator="in"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+    </defs>
+    <g id="Gift_Card_image" transform="translate(-246 2702.279)">
+        <g class="cls-6" transform="translate(246 -2702.28)">
+            <g id="Path_6436-2" class="cls-1" data-name="Path 6436">
+                <path d="M90.15 46.158H6.44c-3.276 0-5.94-2.63-5.94-5.864v-53.93C.5-16.87 3.164-19.5 6.44-19.5h83.71c3.274 0 5.938 2.63 5.938 5.863v53.931c0 3.233-2.664 5.864-5.939 5.864z" class="cls-4" transform="translate(10046.45 -13985)"/>
+                <path d="M90.15 45.658c2.998 0 5.439-2.406 5.439-5.364v-53.93c0-2.958-2.44-5.364-5.44-5.364H6.44C3.44-19 1-16.594 1-13.637v53.931c0 2.958 2.44 5.364 5.44 5.364h83.71m0 1H6.44c-3.557 0-6.44-2.85-6.44-6.364v-53.93C0-17.152 2.883-20 6.44-20h83.71c3.556 0 6.439 2.849 6.439 6.363v53.931c0 3.515-2.883 6.364-6.44 6.364z" class="cls-5" transform="translate(10046.45 -13985)"/>
+            </g>
+        </g>
+        <text id="NM_GIFT_CARD" class="cls-2" data-name="NM GIFT CARD" transform="translate(10299.054 -16686.16)">
+            <tspan x="0" y="0">NM GIFT</tspan><tspan x="0" y="14">CARD</tspan>
+        </text>
+        <text id="_900" class="cls-3" data-name="900" transform="translate(10378.783 -16649.104)">
+            <tspan x="-32.396" y="0">900</tspan>
+        </text>
+    </g>
+</svg>

@@ -44,6 +44,16 @@
     margin: 80px 0 0 50px;
 }
 
+.optional-textfields {
+    margin: 80px 0 0 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.recipient-lname-textfield {
+    margin-right: 315px;
+}
 
 
 

@@ -4,15 +4,15 @@
     "APPID": "402",
     "CCTID": "402",
     "CloseReasonCode": "No Reason",
-    "OrigAurusPayTicketNum": "",
-    "InvoiceNumber": "",
-    "TransactionDate": "",
-    "TransactionTime": "",
+    "OrigAurusPayTicketNum": " ",
+    "InvoiceNumber": " ",
+    "TransactionDate": " ",
+    "TransactionTime": " ",
     "ECOMMInfo": {
-      "MerchantIdentifier": "",
-      "StoreId": "",
-      "TerminalId": ""
+      "MerchantIdentifier": " ",
+      "StoreId": " ",
+      "TerminalId": " "
     },
-    "ClerkID": ""
+    "ClerkID": " "
   }
 }

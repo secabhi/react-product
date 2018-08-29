@@ -20,16 +20,24 @@ import SaleHeader from '../../SaleHeader';
 
 import './Alterations.css';
 import backArrow from '../../../../resources/images/Back.svg';
+import warningIcon from '../../../../resources/images/Warning.svg';
 
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addAlterations, resetAlterationComplete } from './AlterationActions';
 import { startSpinner } from '../../../common/loading/spinnerAction';
-import {itemSelectedAction} from '../../../common/cartRenderer/actions'
+import {itemSelectedAction} from '../../../common/cartRenderer/actions';
+import { addCustomerAction } from '../../../add-customer/BusinessLogic/AddCustomerAction';
+
 import { setCurrnetItem } from '../../SalesCartAction';
 import CartRenderer from '../../../common/cartRenderer/cartRenderer';
 import Calendar from './Calendar/Calendar';
+import moment from 'moment';
+
+import {pluck,indexOf} from 'underscore';
+const CONFIG_FILE = require('../../../../resources/stubs/config.json');
+var clientConfig = CONFIG_FILE.clientConfig;
 
 class Alterations extends Component {
   constructor(props) {
@@ -39,8 +47,8 @@ class Alterations extends Component {
     this.inCircleDetails = require("../../../../resources/stubs/incircleConfig.json");
     this.data = this.inCircleDetails.data;
     this.currentlvl = this.inCircleInfo.currentlvl;
-
     this.state = {
+      alteration_errorModal: false,
       contact_modal: false,
       alterations_modal : false,
       customer_details_modal: false,
@@ -54,6 +62,8 @@ class Alterations extends Component {
       lastname: this.props.otherPageData.details ? this.props.otherPageData.details.lastname : '',
       address1: this.props.otherPageData.details ? this.props.otherPageData.details.address1 : '',
       address2: this.props.otherPageData.details ? this.props.otherPageData.details.address2 : '',
+      contactNameErrorMsg : '',
+      contactExtErrorMsg : ''
       // proposedDate: undefined
     }
 
@@ -64,6 +74,12 @@ class Alterations extends Component {
       contactName: undefined,
       contactExt: undefined
     }
+
+    this.customerDetailsObject = {
+      customerFirstName: undefined,
+      customerLastName: undefined,
+      customerPhoneNumber: undefined
+    }
     
   }
 
@@ -71,15 +87,23 @@ class Alterations extends Component {
   componentWillReceiveProps(nextprops) {
     console.log("NEXT PROPS", nextprops)
     
-    /* if(nextprops.alterationComplete) {
+    /*if(!nextprops.alterationComplete) {
       this.setState({alteration_success_modal: true})
       this.props.startSpinner(false);
+      this.setState({alteration_success_modal: false})
     } */
     if(nextprops.cart.dataFrom === 'ALTERATION_SUCCESS') {
       /* debugger;
       this.startSpinner(false); */
-      this.setState({alteration_success_modal: true})
-      this.props.startSpinner(false);
+      // TEMPORARY FIX UNTIL CUSTOMERDETAILS IS UPDATED
+      if(this.state.firstname === '' || nextprops.otherPageData.details.mobile === '') {
+        this.setState({customer_details_modal: true})
+        this.props.startSpinner(false);
+      }
+      else {
+        this.setState({alteration_success_modal: true})
+        this.props.startSpinner(false);
+      }
       //this.props.history.push('/sale');
     }
     else if(nextprops.cart.dataFrom === 'WEB_SERVICE_ERROR') {
@@ -116,19 +140,32 @@ class Alterations extends Component {
   }
 
   render() {
+    console.log('Alterations Props before next',this.props);
+    const isAlterationNextBtnEnabled = () => {
+      console.log('Alterations Props after next',this.props);
+      if (this.props.selectedItems.length >=1){return true};
+      if (this.props.cart.dataFrom === 'LINE_VOID') return false;
+      return false;
+    }
+
     console.log('MIKE----------ALTERATION PROPS',this.props)
+    console.log('state: ALTERATION', this.state.alteration_success_modal )
     return (
       <div>
-        <Modal classNames={{modal: "contact-details-modal"}} open={this.state.contact_modal} onClose={() => this.setState({contact_modal: false})} closeOnOverlayClick={false}>
+        <Modal classNames={{modal: "contact-details-modal"}} open={this.state.contact_modal} onClose={() => this.setState({contact_modal: false})} closeOnOverlayClick={false}
+    little showCloseIcon = {false}>
           <ContactDetailsModal
-            changeModal={this.renderAlterationsModal}
             closeModal={() => {this.exitModals()}}
             setObject={(value) => {this.setObject(value)}}
             alterationObject={this.alterationObject}
+            contactNameErrorMsg={this.state.contactNameErrorMsg}
+            contactExtErrorMsg={this.state.contactExtErrorMsg}
+            changeModal={this.renderAlterationsModal}
           />
         </Modal>
 
-        <Modal classNames={{modal: "alteration-details-modal"}} open={this.state.alterations_modal} onClose={() => this.setState({alterations_modal: false})} closeOnOverlayClick={false}>
+        <Modal classNames={{modal: "alteration-details-modal"}} open={this.state.alterations_modal} onClose={() => this.setState({alterations_modal: false})} closeOnOverlayClick={false}
+    little showCloseIcon = {false}>
           <AlterationDetailsModal 
             changeModal={this.props.otherPageData ? this.renderAlterationsSuccessModal : this.renderCustomerModal} 
             closeModal={() => this.setState({alterations_modal: false})}
@@ -139,23 +176,41 @@ class Alterations extends Component {
             />
         </Modal>
 
-        <Modal classNames={{modal: "customer-details-modal"}} open={this.state.customer_details_modal}  closeOnOverlayClick={false}>
+        <Modal classNames={{modal: "customer-details-modal"}} open={this.state.customer_details_modal}  closeOnOverlayClick={false} little showCloseIcon = {false}>
           <CustomerDetailsModal  
-            closeModal={(values) => {this.setState({customer_details_modal: false}); this.addToAlteration(values)}} />
+            changeModal={this.renderAlterationsSuccessModal}
+            closeModal={() => {this.exitModals()}}
+            addCustomerApiCall= {(values) => {this.addCustomer(values)}}
+            setObject={(value) => {this.setObject(value)}}  
+            customerDetailsObject={this.customerDetailsObject}
+            alterationObject={this.alterationObject}
+            />
         </Modal>
 
-        <Modal classNames={{modal: "alteration-success-modal"}} open={this.state.alteration_success_modal} closeOnOverlayClick={false}>
+        {this.props.alterationComplete && <Modal classNames={{modal: "alteration-success-modal"}} open={this.state.alteration_success_modal} closeOnOverlayClick={false} little showCloseIcon = {false}>
           <AlterationSuccessModal
-            closeModal={() => {this.props.resetAlterationComplete(); this.navigateToSale()}} />
-        </Modal>
+            closeModal={() => {this.props.resetAlterationComplete(); this.navigateToSale()
+            }} />
+        </Modal>}
 
-        <Modal classNames={{modal: "invalid-tag-modal"}} open={this.state.invalidTag_modal} onClose={() => this.setState({invalid_modal: false})} closeOnOverlayClick={false}>
+        <Modal open={this.state.alteration_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
+        <div className='sale-errorModal-container'>
+          <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+          <div className="sale-errorModal-text">Alteration already requested on item</div>
+          <button className="sale-errorModal-button" onClick={() => { this.setState({ alteration_errorModal: false }) }}>
+            <div className="sale-errorModal-button-text">CLOSE</div>
+          </button>
+        </div>
+
+      </Modal>
+
+        <Modal classNames={{modal: "invalid-tag-modal"}} open={this.state.invalidTag_modal} onClose={() => this.setState({invalid_modal: false})} closeOnOverlayClick={false} little showCloseIcon = 'false'>
           <InvalidAlterationTagModal
             closeModal={() => {this.exitModals()}}
           />
         </Modal>
 
-        <Modal classNames={{modal: "res-error-modal"}} open={this.state.error_modal} onClose={() => this.setState({error_modal: false})} closeOnOverlayClick={false}>
+        <Modal classNames={{modal: "res-error-modal"}} open={this.state.error_modal} onClose={() => this.setState({error_modal: false})} closeOnOverlayClick={false} little showCloseIcon = 'false'>
           <ErrorModal
             closeModal={() => {this.exitModals()}}
           />
@@ -203,7 +258,14 @@ class Alterations extends Component {
 
           <ServicesFooter>
             <div className="alterations-cancel" onClick={() => {this.navigateToSale()}}><span className="alterations-cancel-text">Cancel</span></div>
-            <div className="alterations-next" onClick={() => {this.renderContactDetailsModal()}}><span className="alterations-next-text">Next</span></div>
+            {/* <div className="alterations-next" onClick={() => {this.renderAlterationsModal()}}><span className="alterations-next-text">Next</span></div> */}
+            <div className={isAlterationNextBtnEnabled() ? 'alterations-next' : 'alterations-next-disabled'}
+              onClick={() => {
+                this.renderAlterationsModal();
+              }}
+            >
+              <span className="giftwrap-next-text">NEXT</span>
+            </div>
           </ServicesFooter>
         </div> 
 
@@ -225,19 +287,30 @@ class Alterations extends Component {
   }
 
   setCurrentItem = (itemNumber, itemPrice, itemSku, selectedItem, index) => {
-
-    this.props.itemSelectedAction(index);
+    let itemsList = pluck(this.props.cart.data.cartItems.items[index],'itemDesc');
+    let trimmedList = itemsList.map(Function.prototype.call, String.prototype.trim);
+    let alterationIndex = indexOf(trimmedList,'Alterations');
+    if(alterationIndex !== -1){
+      this.setState({alteration_errorModal:true});
+    }else{
+      this.props.itemSelectedAction(index);
+    }  
   }
 
   addToAlteration = (values) => {
+    
     console.log('VALUES FROM MODALS', values)
     this.setState({alterations_modal: false});
     
-    var apiDateFormat = values.promiseDate.split('/');
-    console.log('API DATE FORMAT', apiDateFormat);
-    apiDateFormat[2] = apiDateFormat[2].slice(2);
-    //apiDateFormat = apiDateFormat.join('');
-    var finalApiDateFormat = apiDateFormat[0] + apiDateFormat[1] + apiDateFormat[2];
+    // var apiDateFormat = values.promiseDate.split('/');
+    // console.log('API DATE FORMAT', apiDateFormat);
+    // console.log('API DATE FORMAT FIRST PARAM', apiDateFormat[0])
+    // apiDateFormat[2] = apiDateFormat[2].slice(2);
+    // //apiDateFormat = apiDateFormat.join('');
+    
+    var apiFormatDate = moment(values.promiseDate).format('MMDDYY');
+    var finalApiDateFormat = apiFormatDate;
+
     console.log('API DATE FORMAT', finalApiDateFormat);
 
     const index = this.props.selectedItems[0];
@@ -256,13 +329,13 @@ class Alterations extends Component {
     const alterationsObj = {
       "transactionId": transId,
       "ItemNumber": sku,
-      "LineNumber": lineNum,
+      "LineNumber": selectedItem.lineNumber,
       "PromisedDate": finalApiDateFormat,
       "QuotedPrice": this.alterationObject.quotedPrice,
       "AlterationTag": this.alterationObject.alterationID,
       "AlterationType" : "",
-      "AssociateName" :this.alterationObject.contactName,
-      "AssociateExtn": this.alterationObject.contactExt,
+      "AssociateName" :"mmmm",
+      "AssociateExtn": 1234567,
       "ClientTypeID": "1000",
       "Description": "",
       "RfaComments": ""
@@ -288,9 +361,26 @@ class Alterations extends Component {
   }
 
   renderAlterationsModal = () => {
+    const { contactExt, contactName } = this.alterationObject;
+
+  /*  if(this.contactName == '' || this.contactName == undefined){
+      this.setState({contactNameErrorMsg: "Please enter" });
+      return;
+    }
+    if(contactExt == '' || contactExt == undefined){
+      this.setState({contactExtErrorMsg : 'Please enter contact extension'});
+      return;
+    } */
+    if(contactExt && contactExt.length < 4){
+      this.setState({contactExtErrorMsg : 'Contact extension should be 4 digit'});
+      return;
+    }
+
     this.setState({
       alterations_modal: true,
-      contact_modal: false
+      contact_modal: false,
+      contactNameErrorMsg : '',
+      contactExtErrorMsg : ''
     })
   }
 
@@ -333,13 +423,44 @@ class Alterations extends Component {
     })
   }
 
+  addCustomer = (values) => {
+    // REMOVE FOR NOW
+    // MORE INFORMATION NEEDED AS TO WHICH API TO CALL IF AT ALL
+    //
+    let addCustData = {
+      ...clientConfig,
+      "StoreAssoc":this.props.login.userpin,/* Hardcoded, to be removed */
+      'CFirstName': this.customerDetailsObject.customerFirstName,
+      'CLastName':this.customerDetailsObject.customerLastName,
+      'Salutation ': '',
+      'Address_Ln1': '',
+      'Address_Ln2': '',
+      'City': '',
+      'Province': '',
+      'Zip5': '',
+      'CEmail':'',
+      'Country': '',
+      'CMobile': this.customerDetailsObject.customerPhoneNumber,
+      'COther': '',
+      'storeClientNo': '', /* Hardcoded, to be removed */
+      'storeAssoc': '', /* Hardcoded, to be removed */
+      'donotcall ': '',
+      //'flagByPASS': bypassFlag
+      'flagByPASS': "true"
+  }
+  console.log(addCustData)
+  this.props.addCustomerActionInvoker(addCustData);
+  }
+
 }// end of class
 
 function mapStateToProps({ alterationComplete, cart, sale, selectedItems,  }) {
   return { alterationComplete, 
            cart, 
            otherPageData: sale.otherPageData,
-           selectedItems
+          //  customerDetails:customerDetails,
+           selectedItems,
+          //  addCustomer
           }
 }
 
@@ -349,8 +470,10 @@ function mapDispatchToProps(dispatch) {
         addAlterations,
         resetAlterationComplete,
         startSpinner,
-        itemSelectedAction
+        itemSelectedAction,
+        // addCustomerActionInvoker: addCustomerAction,
       }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Alterations);
+

@@ -13,6 +13,25 @@
 .product-search-main .headerMainCls{
     position: fixed;
 }
+.product-search-root-content{
+    overflow: scroll;
+    position: absolute;
+    top: 135px;
+}
+
+.product-serach-result-count-header{
+    margin: -20px;
+    height: 40px;
+    padding: -25px;
+    font-size: 30px;
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 20px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+}
 
 .product-search-subheader-area-lff{
     height: 219.3px;
@@ -23,7 +42,7 @@
     top: 90px;
     z-index: 5;
     background-color: #ffffff;
-    border-bottom: solid 27px #4b2b6f;
+    border-bottom: solid 24px #4b2b6f;
 }
 
 .product-search-subheader-title-area-lff{

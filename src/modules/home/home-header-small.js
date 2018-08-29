@@ -5,7 +5,6 @@ import React, {Component} from 'react'
 /* Importing the local files*/
 
 import './home-header-small.css';
-import {testAction} from './actions';
 
 /* Importing the resource images and icons*/
 import ReceiptIcon from '../../resources/images/Receipt.svg';
@@ -43,10 +42,21 @@ export default class HomeHeaderSmall extends Component {
     const {match, location, history, sale} = this.props
 
     var navLinks=(
-      <div className="header-navLinks"><div className="suspendIconContainer" ><img src={suspendIcon} className="suspend-Icon">
-      </img><span className="suspendLabel">Suspend</span> </div><div className="accountLookupIconContainer" ><img src={accountLookup} className="accountLookup-Icon"></img><span className="accountLookupLabel">Account Lookup</span></div>
-      <div className="voidIconContainer" ><img src={postVoidIcon} className="void-Icon"></img><span className="voidLabel">Void</span></div></div>
+      <div className="header-navLinks">
+        <div className="suspendIconContainer" >
+          <img src={suspendIcon} className="suspend-Icon"></img>
+          <span className="suspendLabel">Suspend</span> 
+        </div>
+        <div className="accountLookupIconContainer" >
+          <img src={accountLookup} className="accountLookup-Icon"></img>
+          <span className="accountLookupLabel">Account Lookup</span></div>
+        <div className="voidIconContainer" >
+          <img src={postVoidIcon} className="void-Icon"></img>
+          <span className="voidLabel">Void</span>
+        </div>
+      </div>
     );
+    
     return (
       <div className="headerMainCls">
         <div className="div-hamberger">

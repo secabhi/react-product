@@ -182,7 +182,6 @@ export class SaleItemSplitCommissionSFF extends Component {
                 </div>
                 <div className="splitinputssecond-sff">
                     <TextField
-                        required
                         type="text"
                         floatingLabelText="Enter Second Commission Pin"
                         floatingLabelStyle={textFieldFloatingLabelStylesplit}
@@ -237,7 +236,7 @@ export class SaleItemSplitCommission extends Component {
             spliterror1: "",
             spliterror2: ""
         }
-
+        this.handleValidation=this.handleValidation.bind(this, this.state.userPin1, this.state.userPin2)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -246,7 +245,12 @@ export class SaleItemSplitCommission extends Component {
         this.setState({spliterror1 : nextProps.spliterror["spliterror1"], spliterror2 : nextProps.spliterror["spliterror2"]})
     }
 
-    handleValidation = () => {
+
+    hideSplitCommisionModal=()=>{
+        this.props.showSplitCommissionModal(false);
+    }
+
+    handleValidation = (e) => {
   
 
         var spliterror1, spliterror2;
@@ -376,7 +380,9 @@ export class SaleItemSplitCommission extends Component {
         }
         return (
             <div>
-                <form>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    this.handleValidation(e)}}>
                     {(this.props.type_split_commission == 'transmodifysplit') ? (<div className="split">
                         <img className="split-commission-icon" src={trans_Modify} alt="split-commission1" />
                     </div>) : (<div className="split">
@@ -398,11 +404,14 @@ export class SaleItemSplitCommission extends Component {
                             errorText={this.state.spliterror1}
                             maxLength={6}
                             errorStyle={errorsplitStyle}
+                            onKeyDown={(event) => {
+                                event.keyCode === 13 && this.props.onSubmitshowSplitCommissionModal(this.state.userPin1, this.state.userPin2);
+                                }
+                            }
                         />
                     </div>
                     <div className="splitinputssecond">
                         <TextField
-                            required
                             type="text"
                             floatingLabelText="Enter Second Commission Pin"
                             floatingLabelStyle={textFieldFloatingLabelStyle}
@@ -415,18 +424,18 @@ export class SaleItemSplitCommission extends Component {
                             value={this.state.userPin2.replace(/[^0-9]+/ig, "")}
                             errorText={this.state.spliterror2}
                             errorStyle={errorsplitStyle}
+                            disabled={this.state.userPin1 === ''}
                         />
                     </div>
                     <div className='split-commission-button-area'>
-                        <div className='split-commission-cancel-btn' onClick={this.props.showSplitCommissionModal.bind(this, false)}
-                        >
+                        <div className='split-commission-cancel-btn' onClick={this.hideSplitCommisionModal.bind(this)}>
                             <div className="cross-icon-style"> <img className="close-icon-style" src={Cancel_Purple_SFF} /></div>
                             <div className='split-commission-cancel-btn-label'>CANCEL</div>
                         </div>
-                        <div className='split-commission-ok-btn button-disabler' onClick={this.handleValidation.bind(this, this.state.userPin1, this.state.userPin2)}
-                        >
-                            <div className='split-commission-ok-btn-label'>OK</div>
-                        </div>
+                        <button className="split-commission-ok-btn-label split-commission-ok-btn button-disabler" type="submit" >OK</button>
+                    {/*  <div className='split-commission-ok-btn button-disabler'>}
+                            
+                </div>*/}
                     </div>
                 </form>
             </div>

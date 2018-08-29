@@ -20,7 +20,7 @@ export class PhoneModal extends Component {
             classNames = {{
                                 modal: 'add-dom-cust-modal'
                             }}
-            little showCloseIcon = 'false' > 
+            little showCloseIcon={false} > 
                 <div className='add-dom-cust-container'>
                     <img src={phonemodalicon} className='add-dom-cust-modal-icon'/>
                     <div className='add-dom-cust-phone-modal-label'>Is this your correct phone number?</div>

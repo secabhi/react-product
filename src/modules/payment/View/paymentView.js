@@ -1,6 +1,7 @@
 // Dependencies
 import React, {Component} from "react";
 import { Button} from "reactstrap";
+import Modal from 'react-responsive-modal';
 
 
 // CSS
@@ -17,9 +18,13 @@ import {EmailReceiptModal} from './Components/Modals/EmailReceiptModal';
 import {PrintReceiptModal} from './Components/Modals/PrintReceiptModal';
 import {SignatureModal} from './Components/Modals/SignatureModal';
 import {VerifyEmailModal} from './Components/Modals/VerifyEmailModal';
-//import {CardAuthorizationModal} from './Components/Modals/CardAuthorizationModal';
+import {CardAuthorizationModal} from './Components/Modals/CardAuthorizationModal';
+import GiftCardScanSwipeModal from './Components/Modals/GiftCardScanSwipeModal';
+import ReasonsCardNotSwiped from './Components/Modals/ReasonsCardNotSwiped';
 import {SFFHeader} from './Components/SFFHeader';
 import {SFFPaymentCard} from './Components/SFFPaymentCard';
+import {CardErrorModal} from './Components/Modals/cardErrorModal';
+import {PrintGiftReceiptModal} from './Components/Modals/printGiftReceiptModal';
 
 // Images
 import backArrowWhite from "../../../resources/images/Back_White.svg";
@@ -39,6 +44,10 @@ export class PaymentView extends Component {
       }
 
     render() {
+        
+        console.log('cards in payment view'+JSON.stringify(this.props.otherCards.kiNum));
+        console.log('path in payment view'+this.props.path);
+        console.log('usestoredcard in payment vieww'+this.props.useStoredCard);
         var leftContentHeader = (
             <div className="left-content-header">
                 <span className="amountDueLabel">Amount Due&nbsp;
@@ -51,15 +60,15 @@ export class PaymentView extends Component {
         var emptyCardContainer = (
             <p className="emptyCardContainer"> Insert / Swipe Card <br /> or Select Tender Type </p>
         );
-
+        
         if (this.screenWidth === 1920) {
             return (
                 <div className="cusdet-container">
                     <div className="cusdet-header">
-                        <Header sale="true" history={this.props.history} />
+                        <Header sale="true" startMidVoid={this.props.startMidVoid} history={this.props.history} inTransaction={this.props.transInfo.length>0?true:false}/>
                     </div>
                     <div className="cusdet-sub-header">
-                        <div className="back-button" onClick={this.props.navigateBack}>
+                        <div className="back-button" onClick={this.props.transInfo.length>0?"":this.props.navigateBack}>
                             <img className="back-arrow" src={backArrowWhite} alt="navigate-back" />
                         </div>
                         <div className="divider" />
@@ -71,15 +80,24 @@ export class PaymentView extends Component {
                         < div className="payment-spacer-div" />
                         <div className="subheader-right-container">
                             <div className="customer-name">
-                             {/* <div className="customer-name-label">{this.toCamelCase(this.props.salutation)} {this.toCamelCase(this.props.firstName)} {this.toCamelCase(this.props.lastName)}</div> */}
+                             <div className="customer-name-label">{this.toCamelCase(this.props.salutation)} {this.toCamelCase(this.props.fname)} {this.toCamelCase(this.props.lname)}</div>
                             </div>
                             <div className="divider" />
                             <div className="incircle-details">
-                                <span className="subheader-iconNum">{this.props.currentLvl}</span>
-                                <img
+                            {
+                                   (this.props.currentLvl != 0) ?
+                                   (<span className="subheader-iconNum">{this.props.currentLvl}</span>):
+                                   (<span></span>)
+                               }
+                               {
+                                   (this.props.currentLvl != 0) ?
+                                   (<img
                                     className="subheader-circleStatusicon"
                                     src={incircle_purple_large_bttn}
-                                    alt="profile-tab-icon" />
+                                    alt="profile-tab-icon" />):
+                                    (<span></span>)
+                            }
+
                              <div className="payment-cust-address-container">
                                 <div className="payment-cust-address">
                                 <div>{this.props.address1}</div>
@@ -94,17 +112,18 @@ export class PaymentView extends Component {
                                 ? leftContentHeader
                                 : <div/>}
                             <div className="payment-cards-container">
-                                {this.props.isCards === true
+                                {
+                                    
+                                    this.props.isCards === true 
                                     ? this.props.cards.map((card, index) => {
                                         return <PaymentCard props={this.props} index = {index} card={card} />
                                         })
-                                    : emptyCardContainer}
-                                     {/*added for testing purpose ( for delete isell cart)
-                                        <button className="acceptAmountbttn" type="button" onClick={this.props.updateCartStatus}>ACCEPT AMOUNT</button>
-                                     */}
+                                    : this.props.otherCards.kiNum && (this.props.useStoredCard || this.props.path=='/payment')
+                                    ? <PaymentCard props={this.props} otherCards={true} card={this.props.otherCards}/>
+                                        :emptyCardContainer}
                             </div >
                             <div className="left-content-footer">
-                                <button className="gift-cards" onClick={this.props.giftCard}>GIFT CARDS</button>
+                                <button className="gift-cards" onClick={this.props.handleGiftCardModal}>GIFT CARDS</button>
                                 <img className="keypad" src={keyPad} onClick={this.props.keyPad}></img>
                             </div>
                         </div>
@@ -115,12 +134,28 @@ export class PaymentView extends Component {
                     < div className="cusdet-footer">
                         <Footer />
                     </div>
+                    <ReasonsCardNotSwiped props={this.props} />
                     <ReceiptMenuModal props={this.props}/>
                     <EmailReceiptModal props={this.props} />
                     <PrintReceiptModal props={this.props} />
                     <SignatureModal props={this.props} />
                     <VerifyEmailModal props={this.props} />
-                    {/* <CardAuthorizationModal props={this.props} /> */}
+                    <CardAuthorizationModal props={this.props} />
+                    {this.props.giftCardModal && (!this.props.useStoredCard || this.props.path=='/payment') ?<GiftCardScanSwipeModal props={this.props} onClose={() => { }} showCloseIcon={false}
+                        closeOnOverlayClick={false} /> : null}
+                    <Modal classNames={{ modal: 'card-error-modal-container' }}
+                        open={this.props.errorModal}
+                        onClose={this.props.closeErrorModal}
+                        showCloseIcon={false}
+                        closeOnOverlayClick={false}>
+                        <CardErrorModal
+                            errorText={<div>{this.props.cardErrorMsg}</div>}
+                            props={this.props}
+                            onClose={() => { }}
+                            showCloseIcon={false}
+                            closeOnOverlayClick={false}/>
+                    </Modal>
+                    <PrintGiftReceiptModal props={this.props}/>
                 </div >
 
 
@@ -193,8 +228,18 @@ export class PaymentView extends Component {
                     <PrintReceiptModal props={this.props} />
                     <SignatureModal props={this.props} />
                     <VerifyEmailModal props={this.props} />
-                    {/* <CardAuthorizationModal props={this.props} /> */}
                     {/* <SFFPurchasesModal props={this.props} /> */}
+                    <CardAuthorizationModal props={this.props} />
+                    {this.props.giftCardModal?<GiftCardScanSwipeModal props={this.props} />:null}
+                    <Modal classNames={{ modal: 'card-error-modal-container' }}
+                        open={this.props.errorModal}
+                        onClose={this.props.closeErrorModal}
+                    >
+                     <CardErrorModal
+                            errorText={<div>{this.props.cardErrorMsg}</div>}
+                            props={this.props}
+                                    />  
+                    </Modal>
                 </div>
             )
 

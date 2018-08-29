@@ -1,0 +1,38 @@
+{
+
+    "response_code": 0,
+
+    "response_text": "AD_SUCCESS",
+
+    "cardList": [
+
+        {
+
+            "kiNum": "112501343456",
+
+            "lastFour": "1000",
+
+            "chargeType": "NM CHARGE"
+
+        },
+{
+
+            "kiNum": "112501343456",
+
+            "lastFour": "2000",
+
+            "chargeType": "NM CHARGE"
+
+        },
+{
+
+            "kiNum": "112501343456",
+
+            "lastFour": "3000",
+
+            "chargeType": "NM CHARGE"
+
+        }
+
+    ]
+}

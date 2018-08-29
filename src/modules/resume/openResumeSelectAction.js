@@ -13,14 +13,15 @@ const env = require('../../settings/env.js');
 const path = env.PATH;
 const apiResumeEntry = path+'apiResumeEntry.json';
 
-export function openResumeSelectAction(){
+export function openResumeSelectAction(userPin){
     const params = {
-        "ClientID": "0010:0216:06082018:033639",
-        "SourceApp": "MPOS",
-        "SourceLoc": "NM-DIRECT",
-        "Store": "0010",
-        "Terminal": "0216",
-        "StoreAssoc": "209289",
+        ...clientConfig,
+        // "ClientID": "0010:0501:06082018:033639",
+        // "SourceApp": "MPOS",
+        // "SourceLoc": "NM-DIRECT",
+        // "Store": "0010",
+        // "Terminal": "0501",
+        "StoreAssoc": userPin,
     }
       
     console.log("****** IN ACTION ", params);

@@ -85,7 +85,7 @@ export function viewCustomerAction(updateCustDomData) {
 
 export function getCountryList() {
     const CONFIG_FILE = require('../../../resources/stubs/config.json');
-    var URL = CONFIG_FILE.initServiceURL;
+    var URL = CONFIG_FILE.getCountryList;
     var functionalityId = CONFIG_FILE.countryListFuncId;
     console.log("functionalityId CountryList: " + functionalityId + " " + CONFIG_FILE.countryListFuncId)
     var params = {

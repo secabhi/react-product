@@ -1,6 +1,6 @@
 export var ENV_MODE;
 export var PATH = '/json/';
-console.log(process.env.NODE_ENV)
+console.log('env mode',process.env.NODE_ENV);
 
 var envType = "dev1";
 

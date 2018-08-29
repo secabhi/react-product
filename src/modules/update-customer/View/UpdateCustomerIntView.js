@@ -37,7 +37,10 @@ import PhoneModal from '../../update-customer/View/Components/AlertModals/PhoneM
 import TextOptModal from '../../update-customer/View/Components/AlertModals/TextOptModal';
 import EmailModal from '../../update-customer/View/Components/AlertModals/EmailModal';
 import SuccessModal from '../../update-customer/View/Components/AlertModals/SuccessModal';
-import {AddrEmailModal} from '../View/Components/AlertModals/AddressModal'
+import {Salutation} from '../../add-customer/View/Components/Fields/Salutation';
+import {AddrEmailModal} from '../View/Components/AlertModals/AddressModal';
+import { UpdateInvalidEmailModal } from '../View/Components/AlertModals/UpdateInvalidEmailModal';
+
 export default class UpdateCustomerInternationalView extends Component {
     componentDidMount(){
         
@@ -86,34 +89,9 @@ export default class UpdateCustomerInternationalView extends Component {
   <div className='update-custdom-inputarea'>
             <div className='update-custdom-row1'>
                 <div className='field1'>
-                    <SelectField
-                    
-                        floatingLabelText="Sal.."
-                        fullWidth = {true}
-                        dropDownMenuProps={{
-                            
-                            iconButton:<Dropdownicon/>,
-                        }}
-                        onChange={this.props.salutationChange.bind(this,"update_int_salutation")}
-                        floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle}
-                        style = {customStyle.selectFieldStyle}
-                        underlineStyle = {customStyle.underlineStyle}
-                        labelStyle = {customStyle.selectFieldLabelStyle}
-                        menuItemStyle = {customStyle.selectFieldMenuItemStyle}
-                        selectedMenuItemStyle = {customStyle.selectFieldMenuItemStyle}
-                        iconStyle = {customStyle.selectFieldIconStyle}
-                        maxHeight = {190.5}
-                        value={this.props.changedAddress["update_int_salutation"]}
-                       
-                    >
-                       {/* <MenuItem className="select-field-menu-item" key={1} value={"Mr"} primaryText="Mr" />
-                        <MenuItem className="select-field-menu-item" key={2} value={"Mrs"} primaryText="Mrs" />*/}
-                        {
-                            this.props.salutationDataDrop.map(function(item, i){
-                                 return <MenuItem className="select-field-menu-item" key={i} value={item} primaryText={item} />;
-                                      })
-                        }
-                    </SelectField>
+                <Salutation salutationDataDrop = { this.props.salutationDataDrop }
+                                        selectedSalutation = {this.props.selectedSalutation} 
+                                        handleSalutationChange = {this.props.handleSalutationChange} />
                 </div>
                 <div className='field2'>
                     <TextField
@@ -129,6 +107,7 @@ export default class UpdateCustomerInternationalView extends Component {
                         value={this.props.changedAddress["update_int_fname"]}
                         errorStyle ={customStyle.errorStyle}
                         onChange={this.props.handleChangeonInternational.bind(this, "update_int_fname")}
+                        maxLength= {14}
                         
                     />
                     
@@ -177,7 +156,7 @@ export default class UpdateCustomerInternationalView extends Component {
                 <div className='field1'>
                     <TextField
                         type="text"
-                        floatingLabelText="Address Line 1*"
+                        floatingLabelText="Address Line 1"
                         floatingLabelStyle={customStyle.textFieldFloatingLabelStyle}
                         style = {customStyle.textFieldStyle}
                         underlineStyle = {customStyle.underlineStyle}
@@ -275,6 +254,12 @@ export default class UpdateCustomerInternationalView extends Component {
                         errorText= {this.props.errors["update_int_email"]}
                         onChange={this.props.handleChangeonInternational.bind(this,'update_int_email')} 
                         value={this.props.changedAddress['update_int_email']}
+                        onKeyPress={(e) => {
+                            if(e.key === 'Enter') {
+                                this.props.togglePopup.bind(this);
+                                e.preventDefault();
+                                }
+                            }}
                     />
                 </div>
             </div>
@@ -378,6 +363,9 @@ export default class UpdateCustomerInternationalView extends Component {
                 invokedFrom = "updateCustomerInternational"
                 closeSuccessModal={this.props.closeSuccessModal}
                 />
+                <UpdateInvalidEmailModal failModal1={this.props.failModal1}
+                closeFailModal={this.props.closeFailModal}
+                bypassEmailValidation={this.props.bypassEmailValidation} />
         <Footer></Footer>
     </div >
 

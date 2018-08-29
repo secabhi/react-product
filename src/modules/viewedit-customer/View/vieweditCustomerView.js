@@ -16,6 +16,8 @@ import cardicon from '../../../resources/images/Add_Card.svg';
 import clearallbtn from '../../../resources/images/Close_Bttn_Purple.svg';
 import VerifyCustomerDomestic from '../../verify_customer/View/VerifyCustomerDomView';
 import VerifyCustomer from '../../verify_customer/View/VerifyCustomerIntView';
+import { ModifyPriceErrorModal } from '../../sale/modal-component/modalComponent'; 
+import { UpdateInvalidEmailModal } from '../../update-customer/View/Components/AlertModals/UpdateInvalidEmailModal';
 
 import savebtn from '../../../resources/images/Save.svg';
 import incircle_purple_large_bttn from '../../../resources/images/Incircle_Level_purple_large_bttn.svg';
@@ -41,6 +43,10 @@ import './vieweditCustomerStyle.css';
 export default class ViewEditCustomerView extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedCity : "",
+            selectedCityDetails : {}
+        }
         this.inCircleInfo = require("../../../resources/stubs/cust-incircleinfo.json");
         this.inCircleDetails = require("../../../resources/stubs/incircleConfig.json");
         this.data = this.inCircleDetails.data;
@@ -50,8 +56,31 @@ export default class ViewEditCustomerView extends Component {
         this.pointsToNextLvl = this.nextLvl - this.totalpoints;
     }
 
+    toggle = (index) => {
+      if (this.state.selectedCity === index) {
+          this.setState({ selectedCity: '', selectedCityDetails : {} })
+          document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = ".4";
+      } else {
+          this.setState({ selectedCity: index, selectedTransactionDetails :   this.props.citystateList[index] , selectedCityState : this.props.stateList[1]})
+          document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = "1";
+      }
+  }
 
     render() {
+        var selectedStyle = {
+            background: "#4b2b6f"
+        }
+        var unselectedStyle = {
+            background: "#FFFFFF"
+        }
+        var selectedTextStyle = {
+            color : "#FFFFFF"
+        }
+        var unselectedTextStyle = {
+            color : "#000000"
+        }
+        const ZipCodeOverrideText = "overwriting the city and state entered" 
+
         var selectFieldFloatingLabelStyle = {
             height: '28px',
             fontSize: '30px',
@@ -191,7 +220,7 @@ export default class ViewEditCustomerView extends Component {
                 update_int_province: this.props.currentAddress.cust_dom_province, //province need to be changed
                 CCssNo: this.props.currentAddress.CCssNo
             }
-            console.log('currentAddress in view' + JSON.stringify(currentAddress));
+            // console.log('currentAddress in view' + JSON.stringify(currentAddress));
             var changedAddress = {
                 update_int_salutation: this.props.changedAddress.cust_dom_salutation, //(profile.personNames && profile.personNames.length > 0) ? profile.personNames[0].salutation : '',
                 update_int_fname: this.props.changedAddress.cust_dom_fname,
@@ -253,10 +282,16 @@ export default class ViewEditCustomerView extends Component {
                     <div className="divider" />
 
                     {/* <div className="customer-name-labels"> {console.log("this.props.changedAddress['cust_dom_fname'] =====" + this.props.changedAddress['cust_dom_fname'])} {(this.props.changedAddress['cust_dom_fname'] != "") ? this.props.changedAddress['cust_dom_salutation'] : ""} </div><div className={(this.props.changedAddress['cust_dom_fname'] != "") ? "display-visible" : "display-none"}>.</div><div className="customer-name-labels"> {this.props.changedAddress['cust_dom_fname']} {this.props.changedAddress['cust_dom_lname']}</div>*/}
-                    <div className="customer-name-labels"> {(this.props.changedAddress['cust_dom_fname'] != "") ? (this.props.changedAddress['cust_dom_salutation'] + ((this.props.changedAddress['cust_dom_salutation'] != "") ? '.' : "")) : ""} {this.props.toCamelCase(this.props.changedAddress['cust_dom_fname'])} {this.props.toCamelCase(this.props.changedAddress['cust_dom_lname'])}</div>
+                    <div className="customer-name-labels"> {(this.props.currentAddress['cust_dom_fname'] != "") ? (this.props.currentAddress['cust_dom_salutation'] + ((this.props.currentAddress['cust_dom_salutation'] != "") ? '.' : "")) : ""} {this.props.toCamelCase(this.props.currentAddress['cust_dom_fname'])} {this.props.toCamelCase(this.props.currentAddress['cust_dom_lname'])}</div>
 
-                    <div className="divider" />
-                    <div className="viewedit-incircle-details">
+                    {
+                       (this.props.currentLvl != 0) ?
+                       (<div className="divider" />):
+                       (<div></div>)
+                   }
+                   {
+                       (this.props.currentLvl != 0) ?
+                       (<div className="viewedit-incircle-details">
                         <span className="subheader-iconNum">{this.props.currentLvl}</span>
                         <img
                             className="vieweditpoint-circleicon"
@@ -271,7 +306,9 @@ export default class ViewEditCustomerView extends Component {
                                 Points to next point card: <b>{this.props.pointsToNextLvl}</b>
                             </div>
                         </div>
-                    </div>
+                        </div>):
+                (<div></div>)
+                       }
                     <div className="spacer-div" />
 
                 </div>
@@ -498,12 +535,18 @@ export default class ViewEditCustomerView extends Component {
                                         refs='cust_dom_zip'
                                         value={this.props.changedAddress['cust_dom_zip'].replace(/[^0-9]/g, '')}
                                         onChange={this.props.handleChange.bind(this, "cust_dom_zip")}
+                                        maxLength="9"
+                                        onBlur={this.props.handleChange
+                                            .bind(this, "cust_dom_zip_blur")}
                                         floatingLabelStyle={textFieldFloatingLabelStyle}
                                         style={textFieldStyle}
                                         underlineStyle={underlineStyle}
                                         fullWidth={true}
                                         inputStyle={textFieldInputStyle}
                                     />
+                                  
+                            
+
                                 </div>
 
                             </div> :
@@ -708,7 +751,58 @@ export default class ViewEditCustomerView extends Component {
                     </Modal>
                 </div>
 
+                <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
+                    open={this.props.zipOverride}
+                    onClose={() => { }}
+                >
+                    <ModifyPriceErrorModal
+                        errorText={ZipCodeOverrideText}
+                        showModifyErrorModal={this.props.closeZipOverideModal}
+                    />
+                </Modal>
 
+            <Modal classNames={{ modal: 'post-void-modal-container' }} open={this.props.cityModal} onClose={() => {
+
+            }}>
+
+                <div className='post-void-modalselect-container'>
+                    <div className="postvoid-modalselect-header">
+                        <div className="postvoid-modalselect-label">Please select a City</div>
+                    </div>
+                    <div className="postvoid-selectionarea">
+
+                        {
+                            this.props.citystateList.map(function (item, index) {
+                                var rowObject = (
+                                    <div style={(this.state.selectedCity === index) ? (selectedStyle) : (unselectedStyle)} onClick={() => this.toggle(index)} key={index} className="carditemlayoutinitial">
+                                        <label style={(this.state.selectedCity === index) ? (selectedTextStyle) : (unselectedTextStyle)} className="labelcardlayout" >
+                                            {item}
+                                        </label>
+                                    </div>
+                                )
+                                return (
+                                    rowObject
+                                );
+                            }, this)
+                        }
+
+                        {/* <div style={unselectedStyle} className="carditemlayoutinitial"><label className="labelcardlayout">{'1234'}</label></div>
+                            <div style={unselectedStyle} className="carditemlayoutinitial"><label className="labelcardlayout">{'12386784'}</label></div>
+                            <div style={unselectedStyle} className="carditemlayoutinitial"><label className="labelcardlayout">{'1234634'}</label></div> */}
+
+
+                    </div>
+                    <div className='post-void-modalselect-button-area'>
+                        <button className='post-void-modalselect-cancelbtn' onClick={this.props.cityModalClose} ><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>CANCEL</span></button>
+                        <button className='post-void-modalselect-okbtn' onClick={()  => this.props.populateCity(this.state.selectedTransactionDetails, this.state.selectedCityState)}><span className='post-void-ok-label' disabled>OK</span></button>
+                    
+                    </div>
+                </div>
+
+            </Modal>
+            <UpdateInvalidEmailModal failModal1={this.props.failModal1}
+                closeFailModal={this.props.closeFailModal}
+                bypassEmailValidation={this.props.bypassEmailValidation} />
                 <Footer></Footer>
             </div>
         );

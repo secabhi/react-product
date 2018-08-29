@@ -50,19 +50,23 @@ export class RemindersView extends Component {
                 />
               </div>
               <div className="divider" />
-              <div className="customer-name">
+              {/* <div className="customer-name">
               <div className="customer-name-label"> 
               {(this.props.profileData.cust_dom_fname != "") ? (this.props.profileData.cust_dom_salutation + ((this.props.profileData.cust_dom_salutation != "") ? '.' : "")) : ""} {this.props.profileData.cust_dom_fname} {this.props.profileData.cust_dom_lname}
-              </div>   </div>
+              </div>   </div> */}
+
+              <div className="customer-name">
+             <div className="customer-name-label"> {(this.props.customerDetails.firstName != "") ? 
+             (this.props.customerDetails.salutation + ((this.props.customerDetails.salutation != "") ? '.' : "")) : ""} {this.props.customerDetails.firstName} {this.props.customerDetails.lastName}</div>   </div>
               
               {
-                (this.props.currentlvl != '0') ?
+                (this.props.profileData.currentLvl > '0') ?
               <div className="divider" /> : <div></div>
               }
               {
-                (this.props.currentlvl != '0') ?
+                (this.props.profileData.currentLvl > '0') ?
               <div className="incircle-details">
-                <span className="subheader-iconNum">{this.props.currentlvl}</span>
+                <span className="subheader-iconNum">{this.props.profileData.currentLvl}</span>
                 <img
                   className="subheader-circleStatusicon"
                   src={incircle_purple_large_bttn}
@@ -70,10 +74,10 @@ export class RemindersView extends Component {
                 />
                 <div className="incircle-description">
                   <div className="incircle-description-level">
-                    CIRCLE {this.props.currentlvl}
+                    CIRCLE {this.props.profileData.currentLvl}
                   </div>
                   <div className="incircle-description-points">
-                    Points to next point card: {this.props.pointsToNextLvl}
+                    Points to next point card: {this.props.profileData.pointsToNextLvl}
                   </div>
                 </div>
                 </div> : <div></div>
@@ -97,7 +101,7 @@ export class RemindersView extends Component {
               </div>
             </div>
             <div className="cusdet-tab-area">
-                <Tabheader history={this.props.history} customerName={this.props.profileData.cust_dom_fname} reminderCount={this.props.remindersCount}></Tabheader>
+                <Tabheader history={this.props.history} customerName={this.props.customerDetails.firstName} reminderCount={this.props.remindersCount}></Tabheader>
                 <div className="cusdet-tab-content">
                  <ReminderList reminderList ={this.props.reminderList} />
 

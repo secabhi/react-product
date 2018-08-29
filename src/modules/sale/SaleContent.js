@@ -34,9 +34,10 @@ class SaleContent extends Component {
   showVoidLineConfirmModal = (showFlag,item) => {
     this.props.showVoidLineConfirmModal(showFlag,item);
   }
-
+        
   render() {
-
+    console.log('giftWrapFlagDisplayObject SaleContent',this.props.giftWrapFlagDisplayObject);
+    console.log('gp SaleContent',this.props.gp);
     return(
       <CartRenderer 
         items = {this.props.items}
@@ -46,10 +47,22 @@ class SaleContent extends Component {
         setCurrentItem = {this.props.setCurrentItem}
         voidLineItem={this.voidLineItem}
         scrollCheck={this.props.scrollCheck}
+        nonSkuItemsAreClickable
+        autoreplenishflag={this.props.autoreplenishflag}
+        getisellFlagDisplayObject={this.props.getisellFlagDisplayObject}
+        GetisellFlag = {this.props.GetisellFlag}
+        gp={this.props.gp}
       />
     )
   }
 };
+
+// SaleContent.defaultProps = {
+//   giftWrapFlagDisplayObject: [{
+//       skuId: '',
+//       displayFlag: false
+//   }]
+// }
 
 function mapStateToProps(state) {
   return { cart : state.cart }

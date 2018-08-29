@@ -56,3 +56,14 @@ export function addToGiftWrap(optionsObj) {
 export function clearGiftWraps() {
     return {type: CLEAR_GIFT_WRAP}
 }
+
+export function giftWrapType(type)
+{
+    
+    return (dispatch) => {
+        dispatch({
+            type: 'SET_GIFT_WRAP_TYPE',
+            payload: type
+        });
+    };
+}

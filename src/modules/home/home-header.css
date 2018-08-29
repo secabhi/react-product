@@ -274,6 +274,59 @@
     .neimanlogo-width{
       margin-left: 700px;
     }
+
+    /* battery indicators area */
+    .battery-indicator-area{
+      display: flex;
+      width:115.5px;
+      flex-direction: row;
+      margin-right: 49.7px;
+      height: 18px;
+    
+    }
+
+    .ped-battery-indicator{
+      width: 57.3px;
+      height: 18.7px;
+      margin-right: 19px;
+      background-image: url('../../resources/images/Battery_PED_Outline.svg');
+      background-repeat: no-repeat;
+    }
+
+    .device-battery-indicator{
+      width: 57.3px;
+      height: 18.7px;
+      background-image: url('../../resources/images/Battery_Outline.svg');
+      background-repeat: no-repeat;
+    }
+    
+    .ped-battery-color-area{ 
+      width: 26.5px;
+      height: 10.2px;
+      margin-left: 17px;
+      margin-top: 3.3px;
+      margin-bottom: .5px;
+     
+    }
+    .ped-battery-color-area-inner{
+     /* width:  100%; */
+     height: 9.5px;
+      /* background-color: green; */
+    }
+
+    .device-battery-color-area{ 
+      width: 24.5px;
+      height: 10.2px;
+      margin-left: 6px;
+      margin-top: 5.2px;
+      margin-bottom: .5px;
+     
+    }
+    .device-battery-color-area-inner{
+     width:  100%;
+     height: 9.5px;
+      background-color: green;
+    }
   }
   
   

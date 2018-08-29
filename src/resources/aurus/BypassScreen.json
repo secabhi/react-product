@@ -1,9 +1,9 @@
 {
   "ByPassScreenRequest": {
-    "POSID": "",
-    "APPID": "",
-    "CCTID": "",
-    "ByPassReason": "",
-    "ClerkID": ""
+    "POSID": " ",
+    "APPID": " ",
+    "CCTID": " ",
+    "ByPassReason": " ",
+    "ClerkID": " "
   }
 }

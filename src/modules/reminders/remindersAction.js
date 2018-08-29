@@ -15,18 +15,16 @@ const body = {
 
 
 
-export function getReminders(userPin)
+export function getReminders(userPin,ClientNumber)
 {
+    const CONFIG_FILE = require('../../resources/stubs/config.json');
+    const clientConfig = CONFIG_FILE.clientConfig;
     var params =
         {
-            "ClientID":"0101:0169:04042018:033639",
-            "SourceApp":"MPOS",
-            "SourceLoc":"NM-DIRECT",
-            "Store":"0101",
-            "Terminal":"0169",
+            ...clientConfig,
             "StoreAssoc":userPin,
-            "ClientNumber": "1000039774"
-            }
+            "StoreClientNo": ClientNumber
+        }
     
     const getRemindersApi = CONFIG_FILE_ADD.getRemindersURL;
     //console.log('reminders api'+getRemindersApi)

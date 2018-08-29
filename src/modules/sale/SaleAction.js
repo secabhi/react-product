@@ -18,3 +18,12 @@ export function goToSendPage(componentName, sameSenderReciever) {
     };
 };
 
+
+export function setOption7(flag) {
+    return (dispatch) => {
+        dispatch( {
+            type: 'SET_OPTION_7',
+            isOption7: flag
+        });
+    };
+}

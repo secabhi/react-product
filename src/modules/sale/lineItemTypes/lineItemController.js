@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import MainItemLarge from '../lineItemTypes/mainItem/mainItemLarge';
 import MainItemSmall from '../lineItemTypes/mainItem/mainItemSmall';
+import MainItemLargeQuantityValidation from '../lineItemTypes/mainItem/mainItemLargeQuantityValidation'
 import AlternateLineItems from '../lineItemTypes/alternateLineItems/alternateLineItems.js';
 import AlternateLineItemsSmall from '../lineItemTypes/alternateLineItems/alternateLineItemsSmall.js';
 
@@ -30,6 +31,10 @@ export default class LineItemController extends Component{
     
     
     saleItemType(){
+        
+        console.log('giftWrapFlagDisplayed LineitemController',this.props.giftWrapFlagDisplayed);
+
+        console.log('mike-props-lineitem', this.props)
         console.log("ITEMTYPE:", this.state.itemType);
         if(this.state.itemType == "alterations"){
             // console.log('IN ALTERATIONS', this.props);
@@ -82,10 +87,13 @@ export default class LineItemController extends Component{
                         descriptionLine1 = {"NP "+this.props.obj.department+' '+this.props.obj.class+"-"+this.props.obj.subClass+" "+this.props.obj.alterationID}
                         descriptionLine2 = {"Promised: " + day + '/' + month + '/' + year}
                         pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
-                        pricingLine2 = {"TAX(" + (parseFloat(this.props.tax * 100).toFixed(3)) + "%" + ")" + "101000"}
+                        pricingLine2 = {"TAX(" + (parseFloat(this.props.tax * 100).toFixed(3)) + "%" + ")"}
+                        taxParcent = {parseFloat(this.props.tax * 100).toFixed(3)}
                         qtyPrice = {this.props.qtyPrice}
                         itemsTax = {parseFloat(this.props.obj.itemsTax).toFixed(2) + " T"}
                         lastStatusIndicatorFunction = {this.props.lastStatusIndicatorFunction}
+                        nonSkuItemsAreClickable = {this.props.nonSkuItemsAreClickable}
+                        selectNonSkuItem = {this.props.selectNonSkuItem}
                     />
                 )
             }
@@ -113,6 +121,8 @@ export default class LineItemController extends Component{
                 )
             }
             else{
+                
+                let displayWrapNumber = (this.props.obj.wrapNumber.toString().length === 1 && this.props.obj.wrapNumber.toString().charAt(0)!=="0" ) ||  this.props.obj.wrapNumber==0?"0"+this.props.obj.wrapNumber : this.props.obj.wrapNumber;
 
                 return(
                     <AlternateLineItems
@@ -124,30 +134,88 @@ export default class LineItemController extends Component{
                         spaceStyle = {"giftWrap-space"}
                         containerStyle = {"giftWrap-container"}
                         title = {"Gift Wrap:"}
-                        descriptionLine1 = {this.props.obj.pim_SKU_ID}
+                        descriptionLine1 = {this.props.obj.department + '-'+ this.props.obj.class + '-' + this.props.obj.subClass + '-' + displayWrapNumber + '-' + this.props.obj.wrapDescription}
                         descriptionLine2 = {this.props.obj.comment[0] ? this.props.obj.print_GWGR_Msg : ""}
                         pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
-                        //pricingLine2 = {"TAX(" + (this.props.tax * 100) + "%" + ")" + "101000"} 
+                        pricingLine2 = {" "} 
+                        comment = {this.props.obj.comment[0]}
                         qtyPrice = {this.props.qtyPrice}
                         lastStatusIndicatorFunction = {this.props.lastStatusIndicatorFunction}
+                        nonSkuItemsAreClickable = {this.props.nonSkuItemsAreClickable}
+                        selectNonSkuItem = {this.props.selectNonSkuItem}
                     />
                 )
                 
             }
         }
-        else if(this.state.itemType == "deliveryFee"){
+        else if(this.state.itemType.slice(0,11) == "deliveryfee"){
             if(this.state.smallFormFactor){
-
-            }
-            else{
                 
             }
-        }
-        else if(this.state.itemType == "giftCard"){
-            if(this.state.smallFormFactor){
-
-            }
             else{
+                return(
+                    <AlternateLineItems
+                        obj = {this.props.obj}
+                        selectedItemStyle = {this.props.selectedItemStyle}
+                        index = {this.props.index}
+                        indexStyle = {this.state.itemType.slice(0,11)}
+                        titleStyle = {"deliveryFee-title"}
+                        spaceStyle = {"deliveryFee-space"}
+                        containerStyle = {"delieveryFee-container"}
+                        title = {"Delievery Fee"}
+                        descriptionLine1 = {this.props.obj.department + '-'+ this.props.obj.class + '-' + this.props.obj.subClass }
+                        descriptionLine2 = {this.props.obj.comment[0] ? this.props.obj.print_GWGR_Msg : ""}
+                        pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
+                        pricingLine2 = {"TAX(" + (parseFloat(this.props.tax * 100).toFixed(3)) + "%" + ")"}
+                        itemsTax = {parseFloat(this.props.obj.itemsTax).toFixed(2) + " T"} 
+                        qtyPrice = {this.props.qtyPrice}
+                        lastStatusIndicatorFunction = {this.props.lastStatusIndicatorFunction}
+                    />
+                )
+            }
+        }
+        else if(this.state.itemType == "nmexpsscard"){
+            if(this.state.smallFormFactor){
+                return(
+                    <AlternateLineItemsSmall
+                        obj = {this.props.obj}
+                        selectedItemStyle = {this.props.selectedItemStyle}
+                        img={this.props.obj.imgLink}
+                        index = {this.props.index}
+                        indexStyle = {this.state.itemType}
+                        titleStyle = {"giftcard-title"}
+                        spaceStyle = {"giftcard-space"}
+                        containerStyle = {"giftcard-container"}
+                        // title = {"Gift Wrap:"}
+                        descriptionLine1 = {this.props.obj.egcAccountNum}
+                        // descriptionLine2 = {this.props.obj.comment[0] ? this.props.obj.print_GWGR_Msg
+                        //     : ""}
+                        pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
+                        pricingLine2 = {""} 
+                        qtyPrice = {this.props.qtyPrice}
+                        lastStatusIndicatorFunction = {this.props.lastStatusIndicatorFunction}
+                    />
+                )
+            }
+            else {
+                return (
+                    <AlternateLineItems
+                        obj = {this.props.obj}
+                        giftCardItem={'giftCardIndex'}
+                        selectedItemStyle = {this.props.selectedItemStyle}
+                        index = {this.props.index}
+                        indexStyle = {this.state.itemType}
+                        titleStyle = {"giftcard-title"}
+                        spaceStyle = {"giftcard-space"}
+                        containerStyle = {"giftcard-container"}
+                        title = {"NM Gift Card"}
+                        descriptionLine1 = {this.props.obj.egcAccountNum}
+                        pricingLine1 = {parseFloat(this.props.obj.salePrice).toFixed(2) + "  EA"}
+                        pricingLine2 = {""} 
+                        qtyPrice = {this.props.qtyPrice}
+                        lastStatusIndicatorFunction = {this.props.lastStatusIndicatorFunction}
+                    />
+                )
                 
             }
         }
@@ -157,6 +225,7 @@ export default class LineItemController extends Component{
                     <MainItemSmall 
                         selectedItemStyle = {this.props.selectedItemStyle}
                         selectedItemIndexStyle = {this.props.selectedItemIndexStyle}
+                        selectedContentStyle = {this.props.selectedContentStyle}
                         voidLineItem = {this.props.voidLineItem}
                         setCurrentItem = {this.props.setCurrentItem}
                         qtyPrice = {this.props.qtyPrice}
@@ -182,34 +251,77 @@ export default class LineItemController extends Component{
                 )
             }
             else{
-                
-                return(
-                    <MainItemLarge
-                        selectedItemStyle = {this.props.selectedItemStyle}
-                        selectedItemIndexStyle = {this.props.selectedItemIndexStyle}
-                        voidLineItem = {this.props.voidLineItem}
-                        setCurrentItem = {this.props.setCurrentItem}
-                        tax = {this.props.tax}
-                        qtyPrice = {this.props.qtyPrice}
-                        salesDiscountAmount = {this.props.salesDiscountAmount}
-                        transactionDiscount = {this.props.transactionDiscount}
-                        transactionDiscountAmount = {this.props.transactionDiscountAmount}    
-                        associateDiscount = {this.props.associateDiscount}
-                        associateDiscountAmount = {this.props.associateDiscountAmount}                    
-                        taxAmount = {this.props.taxAmount}
-                        isDiscount = {this.props.isDiscount}
-                        isREPL = {this.props.isREPL}
-                        isGiftReg = {this.props.isGiftReg}
-                        isGiftRec = {this.props.isGiftRec}
-                        saleID = {this.props.saleID}
-                        isSplInstn = {this.props.isSplInstn}
-                        index = {this.props.index}
-                        currentItem = {this.props.currentItem}
-                        obj = {this.props.obj}
-                        comments = {this.props.comments}
-                        showItemGiftReceiptModal = {this.props.showItemGiftReceiptModal}
-                    />
-                )
+                if(this.props.quantityValidationFlag === true) {
+                    return(
+                        <MainItemLargeQuantityValidation
+                            selectedItemStyle = {this.props.selectedItemStyle}
+                            selectedItemIndexStyle = {this.props.selectedItemIndexStyle}
+                            selectedContentStyle = {this.props.selectedContentStyle}
+                            voidLineItem = {this.props.voidLineItem}
+                            setCurrentItem = {this.props.setCurrentItem}
+                            tax = {this.props.tax}
+                            qtyPrice = {this.props.qtyPrice}
+                            salesDiscountAmount = {this.props.salesDiscountAmount}
+                            transactionDiscount = {this.props.transactionDiscount}
+                            transactionDiscountAmount = {this.props.transactionDiscountAmount}    
+                            associateDiscount = {this.props.associateDiscount}
+                            associateDiscountAmount = {this.props.associateDiscountAmount}                    
+                            taxAmount = {this.props.taxAmount}
+                            isDiscount = {this.props.isDiscount}
+                            isREPL = {this.props.isREPL}
+                            isGiftReg = {this.props.isGiftReg}
+                            isGiftRec = {this.props.isGiftRec}
+                            saleID = {this.props.saleID}
+                            isSplInstn = {this.props.isSplInstn}
+                            index = {this.props.index}
+                            currentItem = {this.props.currentItem}
+                            obj = {this.props.obj}
+                            comments = {this.props.comments}
+                            showItemGiftReceiptModal = {this.props.showItemGiftReceiptModal}
+                            itemAvailability = {this.props.itemAvailability}
+                        />
+                    )
+                }
+                else {                    
+                    return(
+                        <MainItemLarge
+                            selectedItemStyle = {this.props.selectedItemStyle}
+                            selectedItemIndexStyle = {this.props.selectedItemIndexStyle}
+                            selectedContentStyle = {this.props.selectedContentStyle}
+                            voidLineItem = {this.props.voidLineItem}
+                            setCurrentItem = {this.props.setCurrentItem}
+                            tax = {this.props.tax}
+                            qtyPrice = {this.props.qtyPrice}
+                            salesDiscountAmount = {this.props.salesDiscountAmount}
+                            transactionDiscount = {this.props.transactionDiscount}
+                            transactionDiscountAmount = {this.props.transactionDiscountAmount}    
+                            associateDiscount = {this.props.associateDiscount}
+                            associateDiscountAmount = {this.props.associateDiscountAmount}                            
+                            percentageMarkdownDiscount={this.props.percentageMarkdownDiscount}
+                            percentageMarkdownDiscountAmount={this.props.percentageMarkdownDiscountAmount}
+                            dollarMarkdownDiscount={this.props.dollarMarkdownDiscount}
+                            dollarMarkdownDiscountAmount={this.props.dollarMarkdownDiscountAmount}
+                            priceOverrideMarkdownDiscount={this.props.priceOverrideMarkdownDiscount}
+                            priceOverrideMarkdownDiscountAmount={this.props.priceOverrideMarkdownDiscountAmount}
+                            newPriceMarkdownDiscount={this.props.newPriceMarkdownDiscount}
+                            newPriceMarkdownDiscountAmount={this.props.newPriceMarkdownDiscountAmount}                   
+                            taxAmount = {this.props.taxAmount}
+                            isDiscount = {this.props.isDiscount}
+                            isREPL = {this.props.isREPL}
+                            isGiftReg = {this.props.isGiftReg}
+                            isGiftRec = {this.props.isGiftRec}
+                            saleID = {this.props.saleID}
+                            isSplInstn = {this.props.isSplInstn}
+                            index = {this.props.index}
+                            currentItem = {this.props.currentItem}
+                            obj = {this.props.obj}
+                            comments = {this.props.comments}
+                            showItemGiftReceiptModal = {this.props.showItemGiftReceiptModal}
+                            getisellFlagDisplayed={this.props.getisellFlagDisplayed}
+                            gp={this.props.gp}
+                        />
+                    )
+                }
             }
         }
     }

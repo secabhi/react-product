@@ -16,12 +16,6 @@ export class GetIsellCart extends Component {
 
     updateIsellCartEntry(e) {
         this.setState({ getIsellCart: e.target.value });
-        if ((e.target.value !== "201803081614")) {
-            document.getElementById("get-isell-cartid-error").style.display = "block";
-        }
-        else{
-            document.getElementById("get-isell-cartid-error").style.display = "none"; 
-        }
     }
 
     GetIsellCartForm(e) {
@@ -93,7 +87,6 @@ export class GetIsellCart extends Component {
                         onChange={e => this.updateIsellCartEntry(e)}
                         required
                     />
-                    <p id="get-isell-cartid-error" className="get-isell-cartid-error">Please Enter 201803081614</p>
                     <button className='get-isell-cart-modal-button' type="submit">
                         <span className="get-isell-cart-modal-text">Submit</span>
                     </button>

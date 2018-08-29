@@ -9,7 +9,7 @@ export class CardAuthorizationModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        
+            isDisabled:true,
         }
 
     }
@@ -66,7 +66,7 @@ export class CardAuthorizationModal extends Component {
             classNames={{modal: 'card-auth-modal'}}
             little
             showCloseIcon={false}
-            closeOnOverlayClick={true}
+            closeOnOverlayClick={false}
         >
             <div>
 
@@ -81,24 +81,37 @@ export class CardAuthorizationModal extends Component {
                     inputStyle={textFieldInputStyle}
                     underlineStyle={textFieldUnderlineStyle}
                     style={textFieldStyle}
-                    onChange={(e)=>{this.handleAuthorizationCodeInput(e)}} 
+                    onChange={(e)=>{
+                        if(e.target.value == ""){
+                            this.handleAuthorizationCodeInput(e)
+                            this.setState({isDisabled:true})
+                        }else{
+                            this.handleAuthorizationCodeInput(e)
+                            this.setState({isDisabled:false})
+                        }}}
+                        onKeyPress={(e) => {
+                                    if(e.key === 'Enter') {
+                                        e.preventDefault();
+                                        this.props.props.getAmountDue.bind(this, this.props.props.currentCard)
+                                        }
+                                    }}
                 />
 
                 <div className="card-info-container">
                     <div className="card-label-container">
-                        <div className="card-info-label">Tender</div>
-                        <div className="card-info-label">Phone</div>  
-                        <div className="card-info-label">Merchant#</div>
-                        <div className="card-info-label">Amt</div>
-                        <div className="card-info-label">Referral#</div> 
+                        <div className="card-info-label">Tender </div>
+                        <div className="card-info-label">Phone </div>  
+                        <div className="card-info-label">Merchant# </div>
+                        <div className="card-info-label">Amt </div>
+                        <div className="card-info-label">Referral# </div> 
                     </div>
 
                     <div className="card-data-container">
-                        <div className="card-info-data">1</div>{/* {this.props.props.cards[this.props.props.currentCard].GetCardBINResponse.CardType}</div> */}
-                        <div className="card-info-data">1</div>{/*{this.props.props.transInfo[this.props.props.currentCard].ReferralDialInformation}</div>*/}
-                        <div className="card-info-data">1</div>{/*{this.props.props.cards[this.props.props.currentCard].GetCardBINResponse.ECOMMInfo[0].MerchantIdentifier}</div>*/}
-                        <div className="card-info-data">$1</div>{/*{this.props.props.payValues[this.props.props.currentCard]}</div>*/}
-                        <div className="card-info-data">1</div>{/*{this.props.props.transInfo[this.props.props.currentCard].ReferralNum}</div>*/}
+                        <div className="card-info-data">{this.props.props.transInfo.length>0?this.props.props.transInfo[this.props.props.currentCard].CardType:""}</div>{/* {this.props.props.transInfo[this.props.props.currentCard].CardType}</div> */}
+                        <div className="card-info-data">1</div>
+                        <div className="card-info-data">{this.props.props.transInfo.length>0?this.props.props.transInfo[this.props.props.currentCard].ProcessorMerchantId:""}</div>{/*{this.props.props.transInfo[this.props.props.currentCard].GetCardBINResponse.ECOMMInfo[0].MerchantIdentifier}*/}
+                        <div className="card-info-data">${this.props.props.payValues.length>0?this.props.props.payValues[this.props.props.currentCard]:""}</div>{/*{this.props.props.payValues[this.props.props.currentCard]}*/}
+                        <div className="card-info-data">{this.props.props.transInfo.length>0?this.props.props.transInfo[this.props.props.currentCard].ReferralNUM:""}</div>{/*{this.props.props.transInfo[this.props.props.currentCard].ReferralNum}*/}
                     </div>
                 </div>
 
@@ -106,7 +119,7 @@ export class CardAuthorizationModal extends Component {
                     <div className="card-auth-button-cancel"
                         onClick={this.props.props.closeCardAuthorizationModal}>CANCEL</div>
 
-                    <div onClick={(e)=>this.props.props.getDueAmount(this, this.props.props.currentCard,"T")} className="card-auth-button-ok">OK</div>
+                    <button onClick={this.props.props.getAmountDue.bind(this, this.props.props.currentCard)} className={this.state.isDisabled?"scan-giftCard-acceptButton giftCard-disabled":"scan-giftCard-acceptButton"} disabled={this.state.isDisabled}>OK</button>
                 </div>
 
             </div>

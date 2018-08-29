@@ -4,24 +4,17 @@
   width: 1920px;
   height: 1030px;
   background-color: #ffffff;
-  background-image: url('../../resources/images/Butterfly_LargeGroup_LargeFF.png'),
-                    url('../../resources/images/Butterfly_single_LargeFF.png'),
-                    url('../../resources/images/Neiman_Marcus_logo.svg');
-  background-repeat: no-repeat,
-      no-repeat,
-      no-repeat;
-  background-position: bottom 40px left 1300px,
-      center bottom 630px,
-      left 438px top 320px ;
-  background-size: auto, auto, 500px 180px;
-  
+  background-image: url('../../resources/images/Neiman_Marcus_logo.svg');
+  background-repeat: no-repeat;
+  background-position: left 250px top 260px ;
+  background-size: 1378px 343px;
 }
 
 .neiman-logo-section {
   display: none;
 }
 
-.landingPageButton{
+.landingPageButton {
   /* margin-left:25% */
 }
 
@@ -30,7 +23,7 @@
     height: 1200px;
 }
 .buttonIcon{
-    margin-left: 200px;
+    margin-left: 400px;
     margin-top: 620px;
     margin-right: 770px;
     display: flex;
@@ -224,6 +217,69 @@ input:focus {
 }
 .mr150-adjust{
   margin-left: 150px
+}
+
+.transaction-limit-modal{
+  width: 725px !important;
+  height: 500px !important;
+  box-shadow: 0 6px 35px 0 rgba(247, 47, 47, 0.6);
+  background-color: #ffffff;
+  border: solid 1px #bfbfbf;
+  margin: auto !important;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-limit-modal-img {
+  width: 101px;
+  height: 90px;
+  margin: 100px auto;
+}
+
+.transaction-limit-modal-msg {
+  font-family: Roboto;
+  font-size: 30px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.37;
+  letter-spacing: normal;
+  text-align: center;
+  color: #333333;
+  margin-top: -50px;
+}
+
+.transaction-limit-modal-btn {
+  width: 725px;
+  height: 60px;
+  background-color: #4b2b6f;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.transaction-limit-modal-txt {
+  width: 172px;
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  text-align: center;
+  color: #ffffff;
+  margin-top: 15px;
+}
+.product-searchicon {
+  opacity: 0.4;
+}
+
+.product-search {
+  opacity: 0.4;
 }
 
 @media only screen and (max-width: 1900px) {

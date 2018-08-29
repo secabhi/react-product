@@ -22,8 +22,7 @@ export class TextOptModal extends Component {
                 classNames = {{
                                         modal: 'add-dom-cust-modal'
                                     }}
-                little
-                showCloseIcon = 'false' > <div className='add-dom-cust-container'>
+                little showCloseIcon={false} > <div className='add-dom-cust-container'>
                     <img src={textopticon} className='add-dom-cust-modal-icon'/>
                     <div className='add-dom-cust-phone-modal-label'>Text Opt In/ Out</div>
                     < div className='add-dom-cust-text-opt-message-area'>

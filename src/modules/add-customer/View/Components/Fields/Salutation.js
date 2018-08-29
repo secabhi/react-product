@@ -40,8 +40,8 @@ export class Salutation extends Component {
                         return <MenuItem
                             className="select-field-menu-item"
                             key={i}
-                            value={toCamelCase(item)}
-                            primaryText={toCamelCase(item)}/>;
+                            value={item}
+                            primaryText={item}/>;
                     })
                 }
 

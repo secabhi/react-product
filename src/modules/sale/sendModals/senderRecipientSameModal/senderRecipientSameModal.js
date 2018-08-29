@@ -1,5 +1,6 @@
 // Dependecies
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
 
 // UI components
 import Modal2 from '../../../../UI/modal-two/modal-two';
@@ -11,7 +12,7 @@ import confirmEmailIcon from '../../../../resources/images/Confirm_Email.svg';
 import '../sendModal.css';
 
 
-export default (props) => {
+const SenderRecipientSameModal = (props) => {
 
   const LargeFormFactor = () => {
     return (
@@ -36,7 +37,12 @@ export default (props) => {
           <div className='btn-yes-no-wrapper'>
             <div className='btn-no'
               onClick={() => {
-                props.goToSendPage('frequentShippedAddress',false);
+                console.log("SHIV:ISCLIENTELED",props)
+                if(props.customerDetails.cCSNumber){
+                  props.goToSendPage('frequentShippedAddress',false);
+                }else{
+                  props.goToSendPage('senderForm',false);
+                }
                 props.history.push('/send'); 
               }}
             >
@@ -106,3 +112,9 @@ export default (props) => {
     )
   }
 }    
+
+function mapStateToProps({customerDetails}) {
+    return { customerDetails }
+  }
+
+export default connect(mapStateToProps,null)(SenderRecipientSameModal);

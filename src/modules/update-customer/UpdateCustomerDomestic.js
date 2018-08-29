@@ -1,52 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Footer from '../common/footer/footer';
-import { startSpinner } from '../common/loading/spinnerAction';
-import Spinner from '../common/loading/spinner';
 
-import backicon from '../../resources/images/Back.svg';
-import verifyicon from '../../resources/images/Verify_White.svg';
-import reseticon from '../../resources/images/Reset_All.svg';
+import {store} from '../../store/store'
 
-import { updateCustomerAction } from './UpdateCustomerAction';
-import ReactTooltip from 'react-tooltip'
-import cardicon from '../../resources/images/Add_Card.svg';
-import clearallbtn from '../../resources/images/Clear_All.svg';
-import savebtn from '../../resources/images/Save.svg';
-import backarrow from '../../resources/images/Back.svg';
-import updatecustomer from '../../resources/images/Add_Customer.svg';
+/* Images/Icons */
 import updatecustomerselected from '../../resources/images/Add_Customer_Selected.svg';
 import updateintcustomer from '../../resources/images/Add_International_Customer.svg';
-import updateintcustomerselected from '../../resources/images/Add_International_Customer_Selected.svg';
 
-import Modal from 'react-responsive-modal';
-
-import phonemodalicon from '../../resources/images/Confirm_Phone.svg';
-import crossicon from '../../resources/images/Cross_Purple.svg';
-import tickicon from '../../resources/images/Tick_White.svg';
-import textopticon from '../../resources/images/Text_Opt_In.svg';
-import emailmodalicon from '../../resources/images/Confirm_Email.svg';
-import updatecustsuccessicon from '../../resources/images/Success_Green.svg';
-import erroricon from '../../resources/images/Error_Red.svg';
-import editIcon from '../../resources/images/Edit_Profile.svg';
-import info from '../../resources/images/Info.svg';
-
-
-import arrowDown from '../../resources/images/Arrow_Down.svg';
-
-import Popup from '../popup/popup';
-import VerifyCustomerDomestic from '../verify_customer/View/VerifyCustomerDomView';
-import Header from '../common/header/header';
-import SelectField from 'material-ui/SelectField';
-import SvgIcon from 'material-ui/SvgIcon';
-
-import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
-import InputMask from 'react-input-mask';
-import { parsePhoneNumber } from '../common/helpers/helpers';
-import { UpdateCustomerDomesticView } from '../update-customer/View/UpdateCustomerDomView'
+/* Actions */
 import { navigateToDomesticCustomer } from '../customer-details/CustomerDetailsActions.js'
+import { zipToCitySateAction, clearZipToCitySateDataAction } from '../home/HomeAction.js'
+import { startSpinner } from '../common/loading/spinnerAction';
+import { updateCustomerAction } from './UpdateCustomerAction';
 
 /* View Components import */
 import UpdateCustomerDomView from '../update-customer/View/UpdateCustomerDomView';
@@ -81,13 +47,21 @@ class UpdateCustomer extends Component {
             closeaddrEmailMOdal: false,
             succesModalFlag: false,
             failModal: false,
+            failModal1: false,
             salutationDataDrop: [],
-            selectedSalutation: '',
             dom_cust_state: '',
             dom_cust_country: 'US',
             cust_text_opt: 'N',
             showPopup: false,
+            zipOverride: false,
+            cityModal: false,
+            failedToUpdateModal: false,
+            citystateList: [],
+            stateList: [],
             currentAddress: {
+
+            },
+            UpdatedCustomerData:{
 
             },
             changedAddress: {
@@ -104,6 +78,26 @@ class UpdateCustomer extends Component {
                 cust_dom_country: '',
                 cust_dom_zip: ''
             },
+            profileData: {
+                cust_cssId: this.props.customerDetails.cCSNumber,
+                    international: this.props.customerDetails.selectedAddress.international,
+                    AddressSeque:this.props.customerDetails.selectedAddress.sequenceKey,
+                    cust_dom_salutation: this.props.customerDetails.salutation ? this.props.customerDetails.salutation : '',
+                    cust_dom_fname: this.props.customerDetails.firstName ? this.props.customerDetails.firstName: '',
+                    cust_dom_lname: this.props.customerDetails.lastName? this.props.customerDetails.lastName : '',
+                    cust_dom_address1: this.props.customerDetails.selectedAddress.Addr1 ? this.props.customerDetails.selectedAddress.Addr1: '',//'9303 Spring Hollow Dr',
+                    cust_dom_address2: this.props.customerDetails.selectedAddress.Addr2 ? this.props.customerDetails.selectedAddress.Addr2 : '',
+                    cust_dom_mobile: this.props.customerDetails.selectedAddress.PhoneNumbers.length >= 1 ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneNumber : '',
+                    cust_dom_email: this.props.customerDetails.emailAddress ? this.props.customerDetails.emailAddress : '',
+                    cust_dom_otherMobile: this.props.customerDetails.selectedAddress.PhoneNumbers[1] ? this.props.customerDetails.selectedAddress.PhoneNumbers[1].phoneNumber : '',
+                    cust_dom_city: this.props.customerDetails.selectedAddress.City ? this.props.customerDetails.selectedAddress.City : '', //"New york"
+                    cust_dom_state: this.props.customerDetails.selectedAddress.State ? this.props.customerDetails.selectedAddress.State : '', //'NY'
+                    cust_dom_country: this.props.customerDetails.selectedAddress.Country ? this.props.customerDetails.selectedAddress.Country : '', //'CANADA',
+                    cust_dom_countryCode: this.props.customerDetails.selectedAddress.countryCode ? this.props.customerDetails.selectedAddress.countryCode : '', //'CANADA',
+                    cust_dom_postal: this.props.customerDetails.selectedAddress.Zip ? this.props.customerDetails.selectedAddress.Zip : '', //'78750',
+                    cust_dom_province: this.props.customerDetails.selectedAddress.province ? this.props.customerDetails.selectedAddress.province : '', //'ON',
+                    cust_dom_zip: this.props.customerDetails.selectedAddress.Zip ? this.props.customerDetails.selectedAddress.Zip : '', //'78750',
+                },
             fields: {},
             errors: {}
         }
@@ -114,8 +108,11 @@ class UpdateCustomer extends Component {
         console.log("UpdateCustomer Domestic Will mount");
         this.fetchSalutation();
         this.fetchStates();
-        console.log('Update Customer: componentWillmount', this.props);
+        console.log('Update Customer: componentWillmount', this.state.profileData);
         this.props.startSpinner(false);
+        //this.state.prevData
+        // this.setState({prevData:this.props.customerDetails})
+        // console.log('cust prev props'+JSON.stringify(this.props));
     }
 
     /* This method is invoked if any of the props changes, via reducer */
@@ -123,9 +120,9 @@ class UpdateCustomer extends Component {
     componentWillReceiveProps = nextProps => {
         console.log('Update Customer: componentWillReceiveProps', nextProps);
         console.log(this.state.currentAddress)
-        //debugger;
         if (nextProps.updateCustomer.successModalFlag === true) {
             console.log("11111");
+            this.props.startSpinner(false);
             this.setState({
                 emailModal: false
             });
@@ -135,6 +132,9 @@ class UpdateCustomer extends Component {
             this.setState({
                 textoptModal: false
             });
+            this.setState({
+                failModal1: false
+            })
             this.setState({
                 succesModal: true
             })
@@ -146,6 +146,15 @@ class UpdateCustomer extends Component {
             this.updateDomesticCustomerInvoker(true);
             //this.props.startSpinner(false);
 
+        }
+        if (nextProps.updateCustomer.updateFailModalFlag === true && nextProps.updateCustomer.successModalFlag === false) {
+            console.log("22222");
+            this.failedToUpdate();
+        }
+
+        if (nextProps.updateCustomer.notFoundFlag === true && nextProps.updateCustomer.successModalFlag === false) {
+            console.log("PURNIMA: When updating customer not found");
+            this.custNotFound();
         }
 
         if (nextProps.updateCustomer.verifyAddressFlag === true) {
@@ -161,6 +170,23 @@ class UpdateCustomer extends Component {
             });
             this.setState({
                 failModal: true
+            })
+        }
+
+        if (nextProps.updateCustomer.verifyEmailFlag === true && nextProps.updateCustomer.successModalFlag === false) {
+            console.log("33333");
+            this.setState({
+                emailModal: false
+            });
+            this.setState({
+                phoneModal: false
+            });
+            this.setState({
+                textoptModal: false
+            });
+            this.setState({
+                failModal1: true,
+                addrEmailMOdal: false
             })
         }
         /*if(nextProps.updateCustomer.addressValidationSuccessFlag === false) {
@@ -208,20 +234,144 @@ class UpdateCustomer extends Component {
             this.setState({ errors: nextProps.updateCustomer.errors });
         }
 
-        if ((nextProps.updateCustomer.isProfileLoaded) && (nextProps.updateCustomer.customerProfile != '{}')) {
-            // debugger
-            console.log(Object.keys(this.state.currentAddress).length);
-            if (Object.keys(this.state.currentAddress).length == 0) {
-                //  debugger
-                this.setState({ profileData: nextProps.updateCustomer.customerProfile }, function () {
-                    this.getAddress();
-                })
-            }
 
+        if (nextProps.cityStateData !== undefined && nextProps.cityStateData !== null) {
+            var cityData = [];
+            var stateData = [];
+            var obj = nextProps.cityStateData.CityState1;
+            let fields = this.state.changedAddress;
+            var CityArrayLen = 0
+            for (var key in nextProps.cityStateData) {
+                if (nextProps.cityStateData.hasOwnProperty(key)) {
+                    ++CityArrayLen;
+                }
+            }
+            if (CityArrayLen > 1) {
+                for (var index = 0; index < CityArrayLen; index++) {
+                    cityData.push(nextProps.cityStateData[Object.keys(nextProps.cityStateData)[index]][0]);
+                    stateData.push(nextProps.cityStateData[Object.keys(nextProps.cityStateData)[index]][1]);
+                }
+                this.setState({ citystateList: cityData, stateList: stateData });
+            }
+            console.log("fieldsss", fields)
+          /*  if (obj) {
+                if (fields['cust_dom_city'] == ""){
+                    fields['cust_dom_city'] = obj[0];
+                    fields['cust_dom_state'] = obj[1];
+                    this.setState({ changedAddress: fields, dom_cust_state: obj[1] });
+                    if (CityArrayLen > 1) {
+                        this.setState({ cityModal: true });
+                    }
+                }
+                else {
+                    if ((fields['cust_dom_city'] && fields['cust_dom_city'].toString().toLowerCase() !== obj[0].toString().toLowerCase()) || (this.state.dom_cust_state !== "" && this.state.dom_cust_state !== obj[1])) {
+                        this.setState({ zipOverride: true });
+                        fields['cust_dom_city'] = obj[0];
+                        fields['cust_dom_state'] = obj[1];
+                        this.setState({ changedAddress: fields, dom_cust_state: obj[1] });
+                    }
+                }
+            } */
+            if (obj) {
+                if (fields['cust_dom_city'] == ""){
+                    if (CityArrayLen > 1) {
+                        this.setState({ cityModal: true });
+                    }
+                    else {
+                        fields['cust_dom_city'] = obj[0];
+                        fields['cust_dom_state'] = obj[1];
+                        this.setState({ changedAddress: fields, dom_cust_state: obj[1] });
+                    }
+                }
+                else {
+                    var isCityStateExist = false;
+                    if (fields['cust_dom_city'] && CityArrayLen > 1) {
+                        if (cityData.filter(obj => obj.toString().toLowerCase() === fields['cust_dom_city'].toString().toLowerCase()).length > 0 && stateData.filter(obj => obj === this.state.dom_cust_state).length > 0) {
+                            isCityStateExist = true;
+                        }
+                    }
+                    else {
+                        if ((fields['cust_dom_city'] && fields['cust_dom_city'].toString().toLowerCase() === obj[0].toString().toLowerCase()) && (this.state.dom_cust_state !== "" && this.state.dom_cust_state === obj[1])) {
+                            isCityStateExist = true;
+                        }
+                    }
+
+                    if (!isCityStateExist) {
+                        if (CityArrayLen > 1) {
+                            this.setState({ cityModal: true });
+                        }
+                        else {
+                            this.setState({ zipOverride: true });
+                            fields['cust_dom_city'] = obj[0];
+                            fields['cust_dom_state'] = obj[1];
+                            this.setState({ changedAddress: fields, dom_cust_state: obj[1] });
+                        }
+                    }
+                }
+            }
+            this.props.clearZipToCitySateDataActionInvoker();
+        }
+
+        // if ((nextProps.updateCustomer.isProfileLoaded) && (nextProps.updateCustomer.customerProfile != '{}')) {
+        //     // debugger
+        //     console.log(Object.keys(this.state.currentAddress).length);
+        //     if (Object.keys(this.state.currentAddress).length == 0) {
+        //         //  debugger
+        //         // this.setState({ profileData: nextProps.updateCustomer.customerProfile }, function () {
+        //         //     //this.getAddress();
+        //         // })
+        //     }
+
+        // }
+    }
+
+    failedToUpdate = () => {
+        this.setState({ failedToUpdateModal: true});
+    }
+
+    closeFailedToUpdate = () => {
+        this.setState({ failedToUpdateModal: false});
+    }
+
+    custNotFound = () => {
+        this.props.startSpinner(false);
+        this.setState({
+            custNotFoundModal: true
+        });
+    }
+
+    closeNotFoundModal = () => {
+        this.setState({
+            custNotFoundModal: false
+        })
+        this.props.history.push('/customer-details');
+    }
+
+    closeZipOverideModal = (showFlag) => {
+        if (showFlag == false) {
+            this.setState({
+                zipOverride: false
+            })
         }
     }
 
+    cityModalClose = () => {
 
+        this.setState({
+            cityModal: false,
+        })
+    }
+
+    populateCity = (selectedTransactionDetails, selectedCityState) => {
+        let fields = this.state.changedAddress
+        fields['cust_dom_city'] = selectedTransactionDetails;
+        fields['cust_dom_state'] = selectedCityState;
+        this.state.dom_cust_state = selectedCityState;
+        this.setState({
+            changedAddress: fields,
+            cityModal: false
+        })
+    }
     /**Fetch the salutations list*/
 
     fetchSalutation() {
@@ -243,31 +393,36 @@ class UpdateCustomer extends Component {
     /*** update customer data */
     /* Submit add customer data - Domestic */
     updateDomesticCustomerInvoker = (bypassFlag) => {
+        
         //alert('update '+bypassFlag)
         //  console.log(this.state.changedAddress);
+        const config = require('../../resources/stubs/config.json');
+        const clientConfig = config.clientConfig;
+
         this.props.startSpinner(true);
         this.setState({ emailModal: false });
+        this.setState({failModal1: false});
         let addCustDomData = {
-            'ClientID': '0101:0169:04042018:033639',
+            ...clientConfig,
             'ClientTypeID': '1000',
-            'SourceApp': 'CMOS',
-            'SourceLoc': 'NM-DIRECT',
+            "AddressSeque":this.props.customerDetails.selectedAddress.sequenceKey,
             'CFirstName': this.state.changedAddress['cust_dom_fname'],
             'CLastName': this.state.changedAddress['cust_dom_lname'],
             'Salutation': this.state.selectedSalutation,
             'Address_Ln1': this.state.changedAddress['cust_dom_address1'],
             'City': this.state.changedAddress['cust_dom_city'],
             'State_Abbr': this.state.changedAddress['cust_dom_state'],
-            'Zip5': this.state.changedAddress['cust_dom_zip'],
+            'Zip9': this.state.changedAddress['cust_dom_zip'],
             'CEmail': this.state.changedAddress['cust_dom_email'],
             'Country': 'US',
             'CMobile': this.state.changedAddress['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, ""),
-            'storeClientNo': '',//'10000000257',
+            'storeClientNo': this.props.customerDetails.clientNumber,
             'storeAssoc': this.props.login.userpin,
             'donotcall': this.state.cust_text_opt,
             'flagByPASS': bypassFlag,
+            'EmailFlagByPass': bypassFlag,
             "ClienteleUpdateFlag":true,
-            "CCssNo":this.props.customerDetails.cssId,
+            "CCssNo":this.props.customerDetails.cCSNumber,
             "COtherPhone":this.state.changedAddress['cust_dom_otherMobile'].replace(/[^A-Z0-9]+/ig, "")
 
             /* "ClientID":"0101:0169:04042018:033639",
@@ -352,7 +507,7 @@ class UpdateCustomer extends Component {
             var phoneValid = fields['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, "")
             if (phoneValid.length < 10 || phoneValid.length > 10) {
                 console.log('cust_dom_mobile' + phoneValid.length);
-                errors['cust_phone1'] = 'Invalid Phone Number';
+                errors['cust_phone1'] = 'Please enter the correct phone number';
                 // this.isValid = false;    
             }
         }
@@ -381,12 +536,21 @@ class UpdateCustomer extends Component {
     }
 
     /**functions  by manjunath, for validate customer popup */
-    handleChange = (name, event) => {
-        var changedAddress = this.state.changedAddress;
-        changedAddress[name] = event.target.value;
-        this.setState({ changedAddress });
-        //console.log(this.state.changedAddress);
+    handleChange = (field, e) => {
+
+        let fields = this.state.changedAddress;
+        if (field === 'cust_dom_zip_blur') {
+            fields['cust_dom_zip'] = e.target.value;
+            if (fields['cust_dom_zip'].length > 4) {
+                this.props.zipToCitySateActionInvoker(e.target.value);
+            }
+        }
+        else {
+            fields[field] = e.target.value;
+        }
+        this.setState({ changedAddress: fields });
     }
+
     togglePopup = () => {
         this.setState({
             emailModal: false
@@ -420,6 +584,7 @@ class UpdateCustomer extends Component {
         //     cust_dom_country     : 'US',
         //     cust_dom_zip    : '78750'
         // }
+        console.log("SHIV PROFILEDATA",this.state.profileData)
         var profile = {
             cust_dom_salutation: this.state.profileData.cust_dom_salutation,
             cust_dom_fname: this.state.profileData.cust_dom_fname,
@@ -454,7 +619,7 @@ class UpdateCustomer extends Component {
         this.setState({ changedAddress: Object.create(this.state.currentAddress) })
     }
     componentDidMount() {
-        // this.getAddress();
+        this.getAddress();
 
     }
 
@@ -601,13 +766,31 @@ class UpdateCustomer extends Component {
         });
         this.props.startSpinner(false);
     }
-
+    
     closeSuccessModal = () => {
         this.setState({
-            succesModal: false
+            succesModal: false,
+            failModal1: false
         })
         this.props.startSpinner(false);
         this.setState({ succesModal: false });
+        var UpdatedCustomerData = store.getState().customerDetails;
+        UpdatedCustomerData.selectedAddress.Addr1 = this.state.changedAddress['cust_dom_address1'];
+        UpdatedCustomerData.selectedAddress.Addr2 = this.state.changedAddress['cust_dom_address2'];
+        UpdatedCustomerData.selectedAddress.City = this.state.changedAddress['cust_dom_city'];
+        UpdatedCustomerData.selectedAddress.State = this.state.changedAddress['cust_dom_state'];
+        UpdatedCustomerData.selectedAddress.Zip = this.state.changedAddress['cust_dom_zip'];
+        UpdatedCustomerData.lastName = this.state.changedAddress['cust_dom_lname'];
+        UpdatedCustomerData.firstName = this.state.changedAddress['cust_dom_fname'];
+        UpdatedCustomerData.emailAddress = this.state.changedAddress['cust_dom_email'];
+        if (UpdatedCustomerData.selectedAddress.PhoneNumbers.length === 1) {
+            UpdatedCustomerData.selectedAddress.PhoneNumbers[0].phoneNumber = this.state.changedAddress['cust_dom_mobile'];
+        }
+        if (UpdatedCustomerData.selectedAddress.PhoneNumbers.length > 1) {
+            UpdatedCustomerData.selectedAddress.PhoneNumbers[1].phoneNumber = this.state.changedAddress['cust_dom_otherMobile'];
+        }
+        console.log('profile-prev-data',JSON.stringify(store.getState().customerDetails));
+        this.props.navigateToDomesticCustomerInvoker(UpdatedCustomerData);
         this.props.history.push('/customer-details');
     }
 
@@ -635,11 +818,12 @@ class UpdateCustomer extends Component {
     }
 
     closeFailModal = () => {
-
         this.setState({
             textoptModal: false
         });
-
+        this.setState({
+            failModal1: false
+        });
         this.setState({
             failModal: false
         });
@@ -648,6 +832,9 @@ class UpdateCustomer extends Component {
         });
         this.setState({
             phoneModal: false
+        });
+        this.setState({
+            addrEmailMOdal: false
         });
     }
 
@@ -665,7 +852,6 @@ class UpdateCustomer extends Component {
     }
 
     setCustTextOpt = () => {
-        // debugger;
         this.setState({
             cust_text_opt: 'Y'
         });
@@ -682,14 +868,18 @@ class UpdateCustomer extends Component {
     bypassAddressValidation = () => {
         //alert('bypass')
         this.closeFailModal();
-
-        //debugger;
         this.cust_addr_validation_bypass = false;
         this.updateDomesticCustomerInvoker(true);
-        //debugger
         return;
     }
 
+    bypassEmailValidation = () => {
+        //alert('bypass')
+        this.closeFailModal();
+        this.failModal1 = false,
+        this.updateDomesticCustomerInvoker(true);
+        return;
+    }
 
 
     render() {
@@ -709,6 +899,7 @@ class UpdateCustomer extends Component {
             phoneModal={this.state.phoneModal}
             emailModal={this.state.emailModal}
             failModal={this.state.failModal}
+            failModal1={this.state.failModal1}
             goBacktoCustDetails={this.goBacktoCustDetails}
             resetAll={this.resetAll}
             closePhoneModal={this.closePhoneModal}
@@ -721,6 +912,7 @@ class UpdateCustomer extends Component {
             closeSuccessModal={this.closeSuccessModal}
             closeFailModal={this.closeFailModal}
             bypassAddressValidation={this.bypassAddressValidation}
+            bypassEmailValidation={this.bypassEmailValidation}
             closeaddrEmailMOdal={this.closeaddrEmailMOdal}
             addrEmailMOdal={this.state.addrEmailMOdal}
             togglePopup={this.togglePopup}
@@ -735,6 +927,18 @@ class UpdateCustomer extends Component {
             sele={this.state.sele}
             statesDataDrop={this.state.statesDataDrop}
             succesModal={this.state.succesModal}
+            zipOverride={this.state.zipOverride}
+            cityModal={this.state.cityModal}
+            cityModalClose={this.cityModalClose}
+            populateCity={this.populateCity}
+            citystateList={this.state.citystateList}
+            stateList={this.state.stateList}
+            closeZipOverideModal={this.closeZipOverideModal}
+            custNotFoundModal={this.state.custNotFoundModal}
+            closeNotFoundModal={this.closeNotFoundModal}
+            failedToUpdateModal={this.state.failedToUpdateModal}
+            closeFailedToUpdate={this.state.closeFailedToUpdate}
+            failedToUpdate={this.failedToUpdate}
         />);
     }
 
@@ -750,14 +954,16 @@ function isObjectEmpty(obj) {
     return true;
 }
 function mapStateToProps({ updateCustomer, customerDetails, home, login}) {
-    return { updateCustomer, customerDetails, salutationData: home.salutationData, login };
+    return { updateCustomer, customerDetails, salutationData: home.salutationData, login, cityStateData: home.cityStateData };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         updateCustomerActionInvoker: updateCustomerAction,
         startSpinner: startSpinner,
-        navigateToDomesticCustomerInvoker: navigateToDomesticCustomer
+        navigateToDomesticCustomerInvoker: navigateToDomesticCustomer,
+        zipToCitySateActionInvoker: zipToCitySateAction,
+        clearZipToCitySateDataActionInvoker: clearZipToCitySateDataAction
     }, dispatch);
 }
 

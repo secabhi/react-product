@@ -1,5 +1,5 @@
 .verify-customer-popup {
-  z-index: 99;
+  z-index: 999999;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;

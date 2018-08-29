@@ -24,15 +24,8 @@ class VerifyEmailModal extends Component {
   constructor(props){
     super(props)
     this.email='';
-    this.customer = this.props.customerInfo.details;
-    console.log('sweezey : verfifyEmail Modal this customer: ', this.customer);
-    this.isCliental = this.customer;
-    if(this.isCliental) {
-      this.customer.firstname !== '';
-      if(this.customer.email) {
-        this.email = this.customer.email;
-      }
-    }
+    this.isCliental = this.props.customerDetails.clientNumber;
+    this.email = this.props.customerDetails.emailAddress;
     this.state = { email: this.email, Lname: '', Fname: ''};
     this.isSFF = window.innerWidth < 1900;
   }
@@ -148,7 +141,7 @@ class VerifyEmailModal extends Component {
       >
         <div className='send-flex-3 lff-size' style={this.isCliental ? {height: '575px'} : {height: '800px'}}>
           <img className='modal-icon' style={{marginTop: '50px'}} alt='email confirm icon' src={confirmEmailIcon} />
-          <div style={{ fontSize: '38px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.customer.firstname +' '+this.customer.lastname) : 'Customer Email'}</div>
+          <div style={{ fontSize: '38px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.props.customerDetails.firstName +' '+this.props.customerDetails.lastName) : 'Customer Email'}</div>
           {this.isCliental ? <this.ClientalContent /> : <this.NonClientalContent />}
           <div className='btn-yes-no-wrapper' style={{marginBottom: '30px'}}>
             <div className='btn-no' onClick={() => this.props.close()} >NO</div>
@@ -187,7 +180,7 @@ class VerifyEmailModal extends Component {
         >
         <div className='send-flex-3 sff-size' style={this.isCliental ? {height: '1198px'} : {height: '1526px'}}>
           <img className='modal-icon-sff' alt='email confirm icon' src={confirmEmailIcon} />
-          <div style={{ fontSize: '60px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.customer.firstname +' '+this.customer.lastname) : 'Customer Email'}</div>
+          <div style={{ fontSize: '60px', marginTop: '15px', fontWeight: '500' }}>{this.isCliental ? formatCsrName(this.props.customerDetails.firstName +' '+this.props.customerDetails.lastName) : 'Customer Email'}</div>
           {this.isCliental ? <this.ClientalContent /> : <this.NonClientalContent />}
           <div className='btn-yes-no-wrapper-sff'>
             <div className='btn-no-sff' onClick={() => this.props.close()}>NO</div>
@@ -205,8 +198,8 @@ class VerifyEmailModal extends Component {
 
 
 
-const  mapStateToProps = ({sale}) => {
-  return { customerInfo: sale.otherPageData }
+const  mapStateToProps = ({customerDetails}) => {
+  return { customerDetails}
 }
 
 const mapDispatchToProps = (dispatch) =>{

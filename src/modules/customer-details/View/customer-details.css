@@ -155,7 +155,7 @@ right: -70px !important;
 width: 47.9px !important;
 height: 25px !important;
 margin: auto;
-margin-top: 5.2px;
+margin-top: 8px;
 background-image: url('../../../resources/images/Arrow_Down.svg') !important;
 background-size: cover;
 background-repeat: no-repeat;
@@ -166,7 +166,7 @@ width: 47.9px !important;
 height: 25px !important;
 margin: auto;
 margin-bottom: 35px;
-margin-top: 33.6px;
+margin-top: 20.6px;
 margin-bottom: 25.4px;
 background-image: url('../../../resources/images/Arrow_Up.svg') !important;
 background-size: cover;
@@ -249,6 +249,7 @@ background-repeat: no-repeat;
   color: #333333;
   padding-left: 15px;
   margin-bottom: 15px;
+  margin-top: -16px;
 }
 
 .cusdet-tab-content  .purchase-history-carousel {

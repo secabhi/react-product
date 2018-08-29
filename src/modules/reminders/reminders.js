@@ -48,8 +48,8 @@ class Reminders extends Component {
                 cust_dom_salutation: this.props.customerDetails.profileData.names[0].salutation,
                 cust_dom_fname: this.props.customerDetails.profileData.names[0].firstName,
                 cust_dom_lname: this.props.customerDetails.profileData.names[0].lastName,        
-                currentlvl:'',
-                pointsToNextLvl: '',              
+                currentLvl: this.props.incircleData ? ((this.props.incircleData.data.lyBenefitLevelCode > this.props.incircleData.data.tyBenefitlevelCode) ? this.props.incircleData.data.lyBenefitLevelCode : this.props.incircleData.data.tyBenefitlevelCode) : 0,
+                pointsToNextLvl: this.props.incircleData ? this.props.incircleData.data.pointsAwayToNextPointCard : 0,            
                 cust_dom_address1: (this.props.customerDetails.profileData.physicalAddresses && this.props.customerDetails.profileData.physicalAddresses.length > 0 && this.props.customerDetails.profileData.physicalAddresses[0].addressLines.length > 0) ? this.props.customerDetails.profileData.physicalAddresses[0].addressLines[0] : '',//'9303 Spring Hollow Dr',
                  cust_dom_address2: (this.props.customerDetails.profileData.physicalAddresses && this.props.customerDetails.profileData.physicalAddresses.length > 0 && this.props.customerDetails.profileData.physicalAddresses[0].addressLines.length > 1) ? this.props.customerDetails.profileData.physicalAddresses[0].addressLines[1] : '',
                 cust_dom_mobile: (this.props.customerDetails.profileData.phoneNumbers && this.props.customerDetails.profileData.phoneNumbers.length > 0) ? this.props.customerDetails.profileData.phoneNumbers[0].rawValue : '',
@@ -68,7 +68,7 @@ class Reminders extends Component {
        
       
         
-        this.props.getReminderInvoker(this.props.login.userpin)
+        this.props.getReminderInvoker(this.props.login.userpin,this.props.customerDetails.clientNumber)
         
     }
 
@@ -125,6 +125,7 @@ class Reminders extends Component {
                  navigateToSale={this.navigateToSale}
                  navigateToProductSearch = {this.navigateToProductSearch}
                  reminderList = {this.state.reminderList}
+                 customerDetails={this.props.customerDetails}
                  profileData = {this.state.profileData}
                  navigateBack =  {this.navigateBack}
                  remindersCount = {(this.props.reminders.remindersList != undefined)?this.props.reminders.remindersList.length:0}
@@ -136,9 +137,9 @@ class Reminders extends Component {
 
 }
 
-function mapStateToProps({ reminders,customerDetails,login }) {
-  return { reminders ,customerDetails,login }
-}
+function mapStateToProps({ reminders,customerDetails,login, customerSearch }) {
+    return { reminders ,customerDetails,login, incircleData: customerSearch.incircleData }
+  }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({

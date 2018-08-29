@@ -20,12 +20,11 @@ export class EmailConfirmModal extends Component {
         return (
             <Modal
                 open={this.props.emailModalOpen}
-                onClose={this.emailModal}
+                onClose={() => { }}
                 classNames={{
                 modal: 'add-dom-cust-modal'
             }}
-                little
-                showCloseIcon='false'>
+            little showCloseIcon={false}>
                 <div className='add-dom-cust-container'>
                     <img src={emailmodalicon} className='add-dom-cust-modal-icon'/>
                     <div className='add-dom-cust-email-modal-label'>Is this your correct email address?</div>

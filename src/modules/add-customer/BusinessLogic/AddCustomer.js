@@ -10,20 +10,30 @@ import addintcustomer from '../../../resources/images/Add_International_Customer
 import addcustomerselected from '../../../resources/images/Add_Customer_Selected.svg';
 import addcustomer from '../../../resources/images/Add_Customer.svg';
 import addintcustomerselected from '../../../resources/images/Add_International_Customer_Selected.svg';
+import error from '../../../resources/images/Error_Red.svg'
 
 /**/
-import { parsePhoneNumber,validZip } from '../../common/helpers/helpers'
+import { parsePhoneNumber, validZip, validPostalCode, validInterPostalCode } from '../../common/helpers/helpers'
 
 /* View Components import */
 import { AddCustomerView } from '../View/AddCustomerView'
 
+
 /* Actions import */
 import { addCustomerAction, addCustomerIntAction, resetAddCustomerPage, getCountryList } from './AddCustomerAction';
+import { navigateToDomesticCustomer } from '../../customer-details/CustomerDetailsActions.js';
 import { startSpinner } from '../../common/loading/spinnerAction';
-import { goToSalesPage } from '../../sale/SaleAction.js'
-
+import { goToSalesPage } from '../../sale/SaleAction.js';
+import { attachCustomerAction, zipToCitySateAction, clearZipToCitySateDataAction } from '../../home/HomeAction.js'
 import { ADD_CUSTOMER } from '../../../pathConstants.js';
 import { INVALID_ZIP } from './constants';
+import Overlay from "../../../UI/overlay/overlay.js";
+import AddCardContext from "../../add-card/addCardContext/addCardContext"
+import {json2xml} from "../../common/helpers/helpers"
+import {getAurusResponse} from '../../payment/Controller/paymentActions'
+import {addCardDetailsToClientele} from "../../add-card/actions";
+const CONFIG_FILE = require('../../../resources/stubs/config.json');
+var clientConfig = CONFIG_FILE.clientConfig;
 
 
 class AddCustomer extends Component {
@@ -40,12 +50,15 @@ class AddCustomer extends Component {
         this.state = {
             functId: this.configFile.addFuncID,
             addDomesticShown: true,
+            selectedState: '',
             selectedProvince: '',
             selectedSalutationInt: '',
             selectedCountry: '',
             addCustImage: addcustomerselected,
             addIntCustImage: addintcustomer,
-
+            toShowSuccessModal: true,
+            citystateList: [],
+            stateList: [],
             fields: {},
             errors: {},
 
@@ -67,8 +80,8 @@ class AddCustomer extends Component {
             succesModalInt: false,
             failModalInt: false,
             failModalInt1: false,
-
-
+            zipOverride: false,
+            cityModal: false,
             selectedSalutation: '',
             dom_cust_state: '',
             dom_cust_country: 'US',
@@ -76,14 +89,29 @@ class AddCustomer extends Component {
 
             countryList: [],
             salutationDataDrop: [],
-            statesList: []
+            statesList: [],
+            storeClientNo: '0',
+            addCardModal: '',
+            maxCardWarning: '',
+            customercardDetails: [],
+            isDomestic : false,
+            cardDisplay : [],
+
+            errorThrown: false,
+            errorDescription: ''
+
         }
 
         this.cust_addr_validation_bypass = false;
         this.isValid = true;
         this.isValidInt = true;
-
-
+        this.aurusVars = require("../../../resources/aurus/aurusVars")
+        this.getCardBinJson = require("../../../resources/aurus/GetCardBINRequest.json");
+        this.CloseTran = require("../../../resources/aurus/CloseTran.json");
+        this.bypass = require("../../../resources/aurus/BypassScreen.json");
+        const addCardScuccessMessage = "The card has been added.";
+        const addCardFailMessage = "The card has been added.";
+       
     }
 
     /* This method is invoked when the page is loaded */
@@ -104,13 +132,24 @@ class AddCustomer extends Component {
     /* This method is invoked if any of the props changes, via reducer */
 
     componentWillReceiveProps = nextProps => {
-        console.log('Add Customer: componentWillReceiveProps', nextProps);
 
+        console.log('Add Customer: componentWillReceiveProps', nextProps);
         if (nextProps.addCustomer.successModalFlag === true) {
-            this.openSuccesModal();
+            this.setState({ storeClientNo: nextProps.addCustomer.storeClientNo });
+            if (this.state.customercardDetails.length > 0) {
+                this.setState({isDomestic: true})
+                this.addCardDetailsToClienteleInvoker(nextProps.addCustomer.storeClientNo);
+            } else {
+                this.openSuccesModal();
+            }
         }
-        if (nextProps.addCustomer.successModalFlagInt === true) {
-            this.openSuccesModalInt();
+        if (nextProps.addCustomer.successModalFlagInt === true && !sessionStorage.getItem('called')) {
+            this.setState({ storeClientNo: nextProps.addCustomer.storeClientNo });
+            if (this.state.customercardDetails.length > 0) {
+                this.addCardDetailsToClienteleInvoker(nextProps.addCustomer.storeClientNo);
+            } else {
+                this.openSuccesModalInt();
+            }
         }
 
         if (nextProps.addCustomer.addressValidationSuccessFlag === true) {
@@ -130,7 +169,8 @@ class AddCustomer extends Component {
             this.setState({ errors: errors })
 
         }
-        if (nextProps.addCustomer.countryList.length > 0) {
+
+        if (nextProps.addCustomer.countryList && nextProps.addCustomer.countryList.length > 0) {
             this.setState({ countryList: nextProps.addCustomer.countryList });
         }
 
@@ -143,6 +183,91 @@ class AddCustomer extends Component {
             this.openFailModal1();
             this.openFailModalInt1();
         }
+
+
+
+        if(nextProps.addCustomer.getCardBinResp && nextProps.addCustomer.getCardBinResp != '' && nextProps.addCustomer.getCardBinResp != undefined && nextProps.addCustomer.getCardBinResp != this.props.addCustomer.getCardBinResp){
+            this.processGetCardBinResponse(nextProps.addCustomer.getCardBinResp);
+        }
+
+        if(nextProps.addCustomer.bypassResp && nextProps.addCustomer.bypassResp != '' && nextProps.addCustomer.bypassResp != undefined ){
+            this.processBypassResp(nextProps.addCustomer.bypassResp);
+        }
+
+        if (nextProps.addCustomer.addCardSuccessResp && nextProps.addCustomer.addCardSuccessResp != '' && nextProps.addCustomer.addCardSuccessResp != undefined) {
+            {this.state.isDomestic ?  this.openSuccesModal() : this.openSuccesModalInt() }
+        }
+
+        if (nextProps.addCustomer.addCardFailResp && nextProps.addCustomer.addCardFailResp != '' && nextProps.addCustomer.addCardFailResp != undefined)  {
+            {this.state.isDomestic ?  this.openSuccesModal() : this.openSuccesModalInt() }
+        }
+
+
+        if (nextProps.cityStateData !== undefined && nextProps.cityStateData !== null) {
+            var cityData = [];
+            var stateData = [];
+            var obj = nextProps.cityStateData.CityState1;
+            let fields = this.state.fields;
+            var CityArrayLen = 0
+            for (var key in nextProps.cityStateData) {
+                if (nextProps.cityStateData.hasOwnProperty(key)) {
+                    ++CityArrayLen;
+                }
+            }
+            if (CityArrayLen > 1) {
+                for (var index = 0; index < CityArrayLen; index++) {
+                        cityData.push(nextProps.cityStateData[Object.keys(nextProps.cityStateData)[index]][0]);
+                        stateData.push(nextProps.cityStateData[Object.keys(nextProps.cityStateData)[index]][1]);
+                }
+                this.setState({ citystateList: cityData, stateList: stateData });
+            }
+            console.log("fieldsss", fields)
+            if (obj) {
+                if (fields['cust_city'] == ""){
+                    if (CityArrayLen > 1) {
+                        this.setState({ cityModal: true });
+                    }
+                    else {
+                        fields['cust_city'] = obj[0];
+                        fields['dom_cust_state'] = obj[1];
+                        this.setState({ fields: fields, dom_cust_state: obj[1] });
+                    }
+                }
+                else {
+                    var isCityStateExist = false;
+                    if (fields['cust_city'] && CityArrayLen > 1) {
+                        if (cityData.filter(obj => obj.toString().toLowerCase() === fields['cust_city'].toString().toLowerCase()).length > 0 && stateData.filter(obj => obj === this.state.dom_cust_state).length > 0) {
+                            isCityStateExist = true;
+                        }
+                    }
+                    else {
+                        if ((fields['cust_city'] && fields['cust_city'].toString().toLowerCase() === obj[0].toString().toLowerCase()) && (this.state.dom_cust_state !== "" && this.state.dom_cust_state === obj[1])) {
+                            isCityStateExist = true;
+                        }
+                    }
+
+                    if (!isCityStateExist) {
+                        if (CityArrayLen > 1) {
+                            this.setState({ cityModal: true });
+                        }
+                        else {
+                            this.setState({ zipOverride: true });
+                            fields['cust_city'] = obj[0];
+                            fields['dom_cust_state'] = obj[1];
+                            this.setState({ fields: fields, dom_cust_state: obj[1] });
+                        }
+                    }
+                }
+            }
+
+            this.props.clearZipToCitySateDataActionInvoker();
+        }
+        // MIKE - testing for add cust form within in Send - can be removed if not working
+        if(nextProps.addCustomer.responseError !== null) {
+            this.setState({errorDescription: nextProps.addCustomer.responseError.response_text});
+            this.setState({errorThrown:true});
+        }
+
 
     }
 
@@ -166,31 +291,33 @@ class AddCustomer extends Component {
             });
         }
 
-        console.log('AddCustomer componentDidMount: ',this.props.addCustomer.firstName);
+        console.log('AddCustomer componentDidMount: ', this.props.addCustomer.firstName);
 
-        if(this.props.addCustomer.firstName !== '') {
-            this.setState({fields : {
-                cust_fname: this.props.addCustomer.firstName,
-                cust_lname: this.props.addCustomer.lastName,
-                cust_addr1: "",
-                cust_addr2: "",
-                cust_city: "",
-                cust_email: "",
-                cust_phone1: "",
-                cust_phone2: "",
-                dom_cust_zip: ""
-            }});
+        if (this.props.addCustomer.firstName !== '') {
+            this.setState({
+                fields: {
+                    cust_fname: this.props.addCustomer.firstName,
+                    cust_lname: this.props.addCustomer.lastName,
+                    cust_addr1: "",
+                    cust_addr2: "",
+                    cust_city: "",
+                    cust_email: "",
+                    cust_phone1: "",
+                    cust_phone2: "",
+                    dom_cust_zip: ""
+                }
+            });
         }
     }
 
     /**Fetch the salutations list from local json */
 
-    fetchSalutation() {      
+    fetchSalutation() {
         if (this.props.salutationData) {
             this.setState({
-                salutationDataDrop:  this.props.salutationData.Salutations
+                salutationDataDrop: this.props.salutationData.Salutations
             });
-        }    
+        }
     }
 
     /**Fetch the states list from local json */
@@ -228,8 +355,8 @@ class AddCustomer extends Component {
 
     /* Switch tab to International */
 
-    switchToInternational = () => {
-
+    switchToInternational = (val) => {
+        this.props.startSpinner(true);
         this.clearAllFields();
         this.clearAllFieldsInt();
         this.closeFailModalInt();
@@ -281,8 +408,33 @@ class AddCustomer extends Component {
             errors: {}
             ,
             selectedSalutation: "",
-            dom_cust_state: ""
+            dom_cust_state: "",
+            cardDisplay : [],
+            maxCardWarning: false,
+            customercardDetails:[]
         });
+    }
+    closeZipOverideModal = (showFlag) => {
+        if (showFlag == false) {
+            this.setState({
+                zipOverride: false
+            })
+        }
+    }
+    cityModalClose = () => {
+            this.setState({
+                cityModal: false
+            })
+    }
+    populateCity = (selectedTransactionDetails, selectedCityState) => {
+        let fields = this.state.fields
+        fields['cust_city'] = selectedTransactionDetails;
+        fields['dom_cust_state'] = selectedCityState;
+        this.state.dom_cust_state = selectedCityState;
+        this.setState({
+            fields: fields,
+            cityModal: false
+        })
     }
 
     /* Open confirmation modals - Domestic */
@@ -292,13 +444,15 @@ class AddCustomer extends Component {
         if (this.handleValidationDomCustomer()) {
             if (this.state.fields['cust_phone1']) {
                 this.setState({
-                    phoneModal: true
+                    phoneModal: true,
+                    filedsMissingModal: false
                 });
 
 
             } else if (this.state.fields['cust_email']) {
                 this.setState({
-                    emailModal: true
+                    emailModal: true,
+                    filedsMissingModal: false
                 });
 
             } else {
@@ -386,22 +540,60 @@ class AddCustomer extends Component {
         this.setState({
             succesModal: false
         });
-        if (this.props.customerSearch.buttonId == '1') {
-            this.props.goToSalesPage(false, {
-                salutation: this.state.fields.selectedSalutation,
-                firstname: this.state.fields['cust_fname'],
-                lastname: this.state.fields['cust_lname'],
-                address1: this.state.fields['cust_addr1'],
-                city: this.state.fields['cust_city'],
-                state: this.state.fields.dom_cust_state,
-                zip: this.state.fields['dom_cust_zip'],
-                address2: this.state.fields['cust_addr2']
-            });
-            this.props.history.push('/sale');
-        }
-        else {
-            this.props.history.push('/customer-search');
-        }
+            let selectedCustomer = {
+                addresses: {},
+                clientNumber: "",
+                cCSNumber: "",
+                myClient: "N",
+                saluationCode: "",
+                salutation: this.state.selectedSalutation,
+                lastName: this.state.fields['cust_lname'],
+                firstName: this.state.fields['cust_fname'],
+                emailAddress: this.state.fields['cust_email'],
+                selectedAddress: {
+                    sequenceKey: 1,
+                    international: '0',
+                    Addr1: this.state.fields['cust_addr1'],
+                    Addr2: this.state.fields['cust_addr2'],
+                    City: this.state.fields['cust_city'],
+                    State: this.state.fields.dom_cust_state,
+                    Country: "US",
+                    Zip: this.state.fields['dom_cust_zip'],
+                    PhoneNumbers: [{
+                        phoneNumber : this.state.fields['cust_phone1'],
+                        phoneSequence : "",
+                        phoneType: ""
+                    },
+                    {
+                        phoneNumber : this.state.fields['cust_phone2'],
+                        phoneSequence : "",
+                        phoneType: ""
+                    }]
+                }
+                // salutation: this.state.fields.selectedSalutation,
+                // firstname: this.state.fields['cust_fname'],
+                // lastname: this.state.fields['cust_lname'],
+                // address1: this.state.fields['cust_addr1'],
+                // city: this.state.fields['cust_city'],
+                // state: this.state.fields.dom_cust_state,
+                // zip: this.state.fields['dom_cust_zip'],
+                // address2: this.state.fields['cust_addr2']
+              }
+
+              this.props.navigateToDomesticCustomerInvoker(selectedCustomer);
+
+                if(this.props.customerSearch.buttonId == '1' || this.props.customerSearch.flow === "sale") {
+                this.props.history.push('/sale');
+              } else {
+                this.props.history.push('/customer-details');
+              }
+              
+        
+            // this.props.custIncircleInfoRequestInvoker(data.CCSNumber);
+
+             this.callAttachCustomerActionInvoker();
+            // this.props.history.push('/customer-details/domestic');
+        // }
     }
 
     /* Open fail modal - Domestic - For all error conditions */
@@ -437,9 +629,9 @@ class AddCustomer extends Component {
     }
 
     openFieldsMissingModal = () => {
-
         this.setState({
-            filedsMissingModal: true
+            filedsMissingModal: true,
+            textoptModalInt: false
         });
     }
 
@@ -451,19 +643,37 @@ class AddCustomer extends Component {
         });
     }
 
+    openErrorModal = () => {
+        this.setState({
+            errorThrown: true
+        })
+    }
 
+    closeErrorModal = () => {
+        this.setState({
+            errorThrown: false
+        })
+    }
 
     /* Handle input change in form - Domestic */
 
     handleChange = (field, e) => {
 
         let fields = this.state.fields;
-        fields[field] = e.target.value;
-        this.setState({ fields: fields });
         let errors = this.state.errors;
-        errors[field] = "";
-        this.setState({ errors: errors });
-        
+        if (field === 'dom_cust_zip_blur') {
+            fields['dom_cust_zip'] = e.target.value;
+            errors['dom_cust_zip'] = "";
+            if (fields['dom_cust_zip'].length > 4) {
+                this.props.zipToCitySateActionInvoker(e.target.value);
+            }
+        }
+        else {
+            fields[field] = e.target.value;
+            errors[field] = "";
+            this.setState({ errors: errors });
+        }
+        this.setState({ fields: fields, errors: errors });
     }
 
     /* Set text opt in/out flag - Domestic */
@@ -493,113 +703,141 @@ class AddCustomer extends Component {
     handleValidationDomCustomer() {
         let fields = this.state.fields;
         let errors = {};
-        let fnameValidation = true, lnameValidation = true, phoneValidation = true
-        , phone1Validation = true, phone2Validation = true, emailValidation = true, addrValidation = true, zipValidation = true;
+        let fnameValidation = true, lnameValidation = true, phoneValidation = true, emailEmpty=true,
+         phone1Validation = true, phone2Validation = true, emailValidation = true, addrValidation = true, zipValidation = true, cityValidation = true, stateValidation = true;
         this.isValid = false;
         if (!fields['cust_fname']) {
-            errors['cust_fname'] = 'First Name cannot be empty';  
+            errors['cust_fname'] = 'First Name cannot be empty';
             fnameValidation = false;
         }
-    
+
         if (!fields['cust_lname']) {
             errors['cust_lname'] = 'Last Name cannot be empty';
-            lnameValidation = false;     
+            lnameValidation = false;
         }
-    
+
         if (fields['cust_phone1'] !== '' && fields['cust_phone1'] !== undefined) {
             if (fields['cust_phone1'].length < 14 || fields['cust_phone1'].length > 14) {
                 console.log('cust_phone1' + fields['cust_phone1'].length);
-                errors['cust_phone1'] = 'Invalid Phone Number';
+                errors['cust_phone1'] = 'Please enter the correct phone number';
                 phone1Validation = false;
             }
         }
-    
+
         if (fields['cust_phone2'] !== '' && fields['cust_phone2'] !== undefined) {
             if (fields['cust_phone2'].length < 14 || fields['cust_phone2'].length > 14) {
-            console.log('cust_phone2' + fields['cust_phone2'].length);
-            errors['cust_phone2'] = 'Invalid Phone Number';
-            phone2Validation = false;
+                console.log('cust_phone2' + fields['cust_phone2'].length);
+                errors['cust_phone2'] = 'Please enter the correct phone number';
+                phone2Validation = false;
             }
         }
 
         if (fields['dom_cust_zip']) {
-            if(fields['dom_cust_zip'].length<5)
-            {
-            errors['dom_cust_zip'] = 'Invalid Zip';   
-            zipValidation = false; 
-            //this.setState({emailMissingModal: true});
+
+            if (!(fields['dom_cust_zip'].length == 5 || fields['dom_cust_zip'].length == 9)) {
+                errors['dom_cust_zip'] = 'Invalid Zip';
+                zipValidation = false;
+                //this.setState({emailMissingModal: true});
+            }
+
+        }
+
+
+        if (fields["cust_email"] !== '' && fields["cust_email"] !== undefined && fields["cust_email"] !== null) {
+            emailEmpty=false;
+            let lastAtPos = fields["cust_email"].lastIndexOf('@');
+            let lastDotPos = fields["cust_email"].lastIndexOf('.');
+            if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["cust_email"].indexOf('@@') == -1 && lastDotPos > 2 && (fields["cust_email"].length - lastDotPos) > 2)) {
+                errors["cust_email"] = "Email is not valid";
+
+                //this.openFieldsMissingModal();
             }
         }
 
 
-        if (fields['cust_email'] == '' ||  fields['cust_email'] == undefined ||  fields['cust_email'] == null) {
-               // errors["cust_email"] = "Email missing";
-                emailValidation = false;
+        if (fields['cust_addr1'] == '' || fields['cust_addr1'] == undefined || fields['cust_addr1'] == null) {
+            errors['missing fields'] = 'Address missing';
+            addrValidation = false;
         }
-        
-        if(fields['cust_addr1'] == '' ||  fields['cust_addr1'] == undefined ||  fields['cust_addr1'] == null) {
-                errors['missing fields'] = 'Address missing';
-                addrValidation = false;
-            }
 
-        if(fields['cust_addr1']){
+
+        if (fields['cust_addr1']) {
             if (!fields['dom_cust_zip']) {
-                errors['dom_cust_zip'] = 'zipcode cannot be empty';   
-                zipValidation = false; 
-                this.openFieldsMissingModal();
-                
-            }
-        }
-        
+                errors['dom_cust_zip'] = 'zipcode cannot be empty';
+                zipValidation = false;
+                //this.openFieldsMissingModal();
 
-        if(emailValidation === false && addrValidation === false && (fields['cust_fname']) && (fields['cust_lname']) ) {
+            }
+        }
+
+        // if(!fields['cust_city']){
+        //     errors['cust_city'] = 'City is missing';
+        //     cityValidation = false;
+        //    // alert(this.state.dom_cust_state);
+        //     this.openFieldsMissingModal();
+
+        // }
+
+        // if(this.state.dom_cust_state === ''){
+        //     errors['dom_cust_state'] = 'State is missing';
+        //     stateValidation = false;
+
+        // }
+
+        if(emailEmpty === true && addrValidation === false// && (fields['cust_fname']) && (fields['cust_lname'])
+     ) {
             errors["cust_email"] = "";
-            
+
             errors['cust_dom_address1'] = 'Address and Email missing';
-            this.setState({emailMissingModal: true});
+            this.setState({ emailMissingModal: true });
         }
-        else if(emailValidation === true && addrValidation === false) {
-            if(!this.validateEmail(fields["cust_email"])) {
-                errors["cust_email"] = "";
+        else if (emailValidation === true && addrValidation === false) {
+            if (!this.validateEmail(fields["cust_email"])) {
+                errors["cust_email"] = "Please enter a valid email";
                 emailValidation = false;
-                this.setState({ emailMissingModal: true });
+                //this.setState({ filedsMissingModal: true });
             }
-            addrValidation = true;
-        }
-        else if(emailValidation === true && addrValidation === true) {
-            if(!this.validateEmail(fields["cust_email"])) {
-                errors["cust_email"] = "";
-                emailValidation = false;
-                this.setState({ emailMissingModal: true });
+            else{
+                addrValidation = true;
             }
-            addrValidation = true;
         }
-        else if(emailValidation === false && addrValidation === true) {
+        // else if (emailValidation === true && addrValidation === true) {
+        //     if (!this.validateEmail(fields["cust_email"])) {
+        //         errors["cust_email"] = "";
+        //         emailValidation = false;
+        //         //this.setState({ emailMissingModal: true });
+        //     }
+        //     addrValidation = true;
+        // }
+        else if (emailEmpty === true && addrValidation === true) {
             errors["cust_email"] = "";
             emailValidation = true;
         }
 
-        if(fnameValidation && lnameValidation && phone1Validation && phone2Validation && emailValidation && addrValidation && zipValidation) {
-                errors["cust_email"] = "";
-                errors["dom_cust_zip"] = "";
-                errors = {};
-                this.isValid = true;
+        if (fnameValidation && lnameValidation && phone1Validation && phone2Validation && emailValidation && addrValidation && zipValidation && cityValidation) {
+            errors["cust_email"] = "";
+            errors["dom_cust_zip"] = "";
+            errors = {};
+            this.isValid = true;
         }
 
-        this.setState({errors: errors});
+        this.setState({ errors: errors });
         return this.isValid;
     }
 
+    callAttachCustomerActionInvoker = () => {
+        var storeClientNumber = this.state.storeClientNo;
+        var phoneSequence = (this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != "" && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != undefined) ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence : "0"
+        var addrSequence = (this.props.customerDetails.selectedAddress.Addr1 != "") ? "1" : "0";
+        this.props.attachCustomerActionInvoker(this.props.login.userpin, this.props.transactionId, storeClientNumber, addrSequence, phoneSequence);
+    }
     /* Submit add customer data - Domestic */
 
     addDomesticCustomerInvoker = (bypassFlag) => {
         this.props.startSpinner(true);
         this.setState({ emailModal: false });
         let addCustDomData = {
-            'ClientID': '0101:0169:04042018:033639', /* Hardcoded, to be removed */
-            'ClientTypeID': '1000', /* Hardcoded, to be removed */
-            'SourceApp': 'MPOS', /* Hardcoded, to be removed */
-            'SourceLoc': '', /* Hardcoded, to be removed */
+            ...clientConfig,
             'CFirstName': this.state.fields['cust_fname'],
             'CLastName': this.state.fields['cust_lname'],
             'Salutation ': this.state.selectedSalutation,
@@ -607,7 +845,8 @@ class AddCustomer extends Component {
             'Address_Ln2': this.state.fields['cust_addr2'],
             'City': this.state.fields['cust_city'],
             'State_Abbr': this.state.dom_cust_state,
-            'Zip9': this.state.fields['dom_cust_zip'],
+            'Zip5': this.state.fields['dom_cust_zip'].length ==9 ? this.state.fields['dom_cust_zip'].substr(0,5) :this.state.fields['dom_cust_zip'],
+            'Zip4':this.state.fields['dom_cust_zip'].length ==9 ? this.state.fields['dom_cust_zip'].substr(5) :'',
             'CEmail': this.state.fields['cust_email'],
             'Country': this.state.dom_cust_country,
             'CMobile': (this.state.fields['cust_phone1'] !== '' && this.state.fields['cust_phone1'] != undefined && this.state.fields['cust_phone1'] != null) ? parsePhoneNumber(this.state.fields['cust_phone1']) : undefined,
@@ -615,7 +854,8 @@ class AddCustomer extends Component {
             'storeClientNo': '', /* Hardcoded, to be removed */
             'storeAssoc': this.props.login.userpin, /* Hardcoded, to be removed */
             'donotcall ': this.state.cust_text_opt,
-            'flagByPASS': bypassFlag
+            'flagByPASS': bypassFlag,
+            'EmailFlagByPASS': bypassFlag
         }
         console.log('addcustdata ' + JSON.stringify(addCustDomData))
         this.props.addCustomerActionInvoker(addCustDomData);
@@ -664,7 +904,7 @@ class AddCustomer extends Component {
     handleValidationIntCustomer = () => {
         let fieldsInt = this.state.fieldsInt;
         let errorsInt = {};
-       
+
         if (!fieldsInt['cust_fname']) {
             errorsInt['cust_fname'] = 'First Name cannot be empty';
         }
@@ -686,24 +926,22 @@ class AddCustomer extends Component {
         if (!fieldsInt['cust_city']) {
             errorsInt['cust_city'] = 'City cannot be empty';
         }
-        
-        if(fieldsInt['int_cust_postal_code'])
-        {
-            if(!validZip(fieldsInt['int_cust_postal_code']))
-            {
+
+        if (fieldsInt['int_cust_postal_code']) {
+            if (!validInterPostalCode(fieldsInt['int_cust_postal_code'])) {
                 errorsInt['int_cust_postal_code'] = 'Invalid postal code';
             }
         }
-        
+
         if (fieldsInt['cust_phone1'] !== '' && fieldsInt['cust_phone1'] !== undefined) {
             if (fieldsInt['cust_phone1'].length < 10 || fieldsInt['cust_phone1'].length > 15) {
-                errorsInt['cust_phone1'] = 'Invalid Phone Number';
+                errorsInt['cust_phone1'] = 'Please enter the correct phone number';
             }
         }
 
         if (fieldsInt['cust_phone2'] !== '' && fieldsInt['cust_phone2'] !== undefined) {
             if (fieldsInt['cust_phone2'].length < 10 || fieldsInt['cust_phone2'].length > 15) {
-                errorsInt['cust_phone2'] = 'Invalid Phone Number';
+                errorsInt['cust_phone2'] = 'Please enter the correct phone number';
             }
         }
 
@@ -813,25 +1051,55 @@ class AddCustomer extends Component {
     /* Close success modal - International */
 
     closeSuccessModalInt = () => {
+        console.log('PRANAV INT MODAL')
         this.setState({
             succesModalInt: false
         });
-        if (this.props.customerSearch.buttonId == '1') {
-            this.props.goToSalesPage(false, {
-                salutation: this.state.fields.selectedSalutationInt,
-                firstname: this.state.fields['cust_fname'],
-                lastname: this.state.fields['cust_lname'],
-                address1: this.state.fields['cust_addr1'],
-                city: this.state.fields['cust_city'],
-                state: this.state.fields['int_cust_province'],
-                zip: this.state.fields['int_cust_postal_code'],
-                address2: this.state.fields['cust_addr2']
-            });
+        let selectedCustomer = {
+            addresses: {},
+            clientNumber: "",
+            cCSNumber: "",
+            myClient: "N",
+            saluationCode: "",
+            salutation: this.state.selectedSalutation,
+            lastName: this.state.fieldsInt['cust_lname'],
+            firstName: this.state.fieldsInt['cust_fname'],
+            emailAddress: this.state.fieldsInt['cust_email'],
+            selectedAddress: {
+                sequenceKey: 1,
+                international: '1',
+                Addr1: this.state.fieldsInt['cust_addr1'],
+                Addr2: this.state.fieldsInt['cust_addr2'],
+                City: this.state.fieldsInt['cust_city'],
+                State: this.state.fieldsInt['int_cust_province'],
+                Country: this.state.selectedCountry,
+                Zip: this.state.fieldsInt['int_cust_postal_code'],
+                PhoneNumbers: [{
+                    phoneNumber : this.state.fieldsInt['cust_phone1'],
+                    phoneSequence : "",
+                    phoneType: ""
+                },
+                {
+                    phoneNumber : this.state.fieldsInt['cust_phone2'],
+                    phoneSequence : "",
+                    phoneType: ""
+                }]
+            }
+          }
+
+          this.props.navigateToDomesticCustomerInvoker(selectedCustomer);
+
+          if(this.props.customerSearch.buttonId == '1') {
             this.props.history.push('/sale');
-        }
-        else {
-            this.props.history.push('/customer-search');
-        }
+          } else {
+            this.props.history.push('/customer-details');
+          }
+    
+        // this.props.custIncircleInfoRequestInvoker(data.CCSNumber);
+
+         this.callAttachCustomerActionInvoker();
+        // this.props.history.push('/customer-details/domestic');
+    // }
     }
 
     /* Open fail modal - International - For all error conditions */
@@ -850,6 +1118,7 @@ class AddCustomer extends Component {
         this.setState({
             failModalInt: false
         });
+        this.props.resetAddCustomer();
     }
 
     openFailModalInt1 = () => {
@@ -866,6 +1135,7 @@ class AddCustomer extends Component {
         this.setState({
             failModalInt1: false
         });
+        this.props.resetAddCustomer();
     }
 
 
@@ -908,6 +1178,9 @@ class AddCustomer extends Component {
             },
             selectedSalutationInt: "",
             selectedCountry: "",
+            cardDisplay : [],
+            maxCardWarning: false,
+            customercardDetails:[]
         });
     }
 
@@ -917,10 +1190,7 @@ class AddCustomer extends Component {
         this.setState({ emailModalInt: false });
         this.props.startSpinner(true);
         let addCustIntData = {
-            'ClientID': '0101:0169:04042018:033639', /* Hardcoded, to be removed */
-            'ClientTypeID': '1000', /* Hardcoded, to be removed */
-            'SourceApp': 'MPOS', /* Hardcoded, to be removed */
-            'SourceLoc': '', /* Hardcoded, to be removed */
+            ...clientConfig,
             'CFirstName': this.state.fieldsInt['cust_fname'],
             'CLastName': this.state.fieldsInt['cust_lname'],
             'Salutation ': this.state.selectedSalutationInt,
@@ -931,30 +1201,167 @@ class AddCustomer extends Component {
             'Zip5': this.state.fieldsInt['int_cust_postal_code'],
             'CEmail': this.state.fieldsInt['cust_email'],
             'Country': this.state.selectedCountry,
-            'CMobile': (this.state.fieldsInt['cust_phone1'] !== '' && this.state.fieldsInt['cust_phone1'] != undefined && this.state.fieldsInt['cust_phone1'] != null) ? formatPhoneint(this.state.fieldsInt['cust_phone1']) : undefined,
-            'COther': (this.state.fieldsInt['cust_phone2'] !== '' && this.state.fieldsInt['cust_phone2'] != undefined && this.state.fieldsInt['cust_phone2'] != null) ? formatPhoneint(this.state.fieldsInt['cust_phone2']) : undefined,
+            'CMobile': (this.state.fieldsInt['cust_phone1'] !== '' && this.state.fieldsInt['cust_phone1'] != undefined && this.state.fieldsInt['cust_phone1'] != null) ? this.state.fieldsInt['cust_phone1'] : undefined,
+            'COtherPhone': (this.state.fieldsInt['cust_phone2'] !== '' && this.state.fieldsInt['cust_phone2'] != undefined && this.state.fieldsInt['cust_phone2'] != null) ? this.state.fieldsInt['cust_phone2'] : undefined,
             'storeClientNo': '', /* Hardcoded, to be removed */
             'storeAssoc': this.props.login.userpin, /* Hardcoded, to be removed */
             'donotcall ': this.state.cust_text_opt,
-            //'flagByPASS': bypassFlag
-            'flagByPASS': "true"
+            'flagByPASS': bypassFlag,
+            // 'flagByPASS': "true",
+            'EmailFlagByPASS': bypassFlag
         }
         console.log(addCustIntData)
         this.props.addCustomerInternationalActionInvoker(addCustIntData);
     }
 
     bypassAddressValidationInt = () => {
-        this.closeFailModal();
-        this.closeFailModal1();
+        this.closeFailModalInt();
+        this.closeFailModalInt1();
         this.addInternationalCustomerInvoker(true);
     }
+     // AddCard Methods
+
+     maxCardWarningMessage = () => {
+        return ((this.state.maxCardWarning === true)
+            ? (
+                <div className="addcard-warning-container">
+                    <img src={error} className='addcard-warning-icon'/>
+                    <div className='addcard-warning-message'>
+                        The maximum allowed cards are on file. To add another card, please remove an
+                        existing card first
+                    </div>
+                </div>
+            )
+            : (null));
+    };
+
+
+    openCardModals = () => {
+        if (document.getElementsByClassName('add-card-button-section')[0].classList.contains('button-disabler')) {
+            console.log("AddCard : Button Disabled")
+        }else{
+            if (this.state.customercardDetails.length>3) {
+                    this.setState({maxCardWarning: true})
+            }else{
+                this.setState({addCardModal: true}, 
+                     () => { this.addCard("N") })
+            }
+        }
+    }
+
+
+    closeAddCardModal = () => {
+        this.setState({addCardModal: false});
+    }
+
+    addCard = (entrymode) => {
+        this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
+        this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
+        this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
+        this.getCardBinJson.GetCardBINRequest.LookUpFlag = 0;
+        this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = entrymode;
+        var request = json2xml(this.getCardBinJson);
+        this
+            .props
+            .aurusActionInvoker(request, "GETCARDBIN");
+        console.log("AddCard:GetCardBin Request ", request);
+        this.timer = setTimeout(function () {
+            console.log("add card timeout");
+        }, 240000);
+    }
+
+    cancelSwipeMode = () => {
+        clearTimeout(this.timer);
+        var bypassrequest = json2xml(this.bypass);
+        this.props.aurusActionInvoker(bypassrequest,"BYPASS");
+        this.timer = setTimeout(function(){ console.log("AddCustomer : cancelSwipeMode timeout"); }, 35000);
+    }
+
+    processBypassResp = (data) =>{
+        console.log("AddCard: processBypassResp response returned",data);
+        clearTimeout(this.timer);
+        try{
+            if (data.ByPassScreenResponse.ResponseCode == "00000") {
+                this.addCard("Y");
+                this.timer = setTimeout(function(){ console.log("AddCustomer : CLOSETRANSACTION timeout"); }, 45000);
+            }else{
+                console.log("AddCustomer: processBypassResp returned error code ",data.ByPassScreenResponse.ResponseCode)
+            }  
+        }catch(err){
+            console.log("AddCustomer: processBypassResp Catch block",err)
+        }
+    }
+
+
+    processGetCardBinResponse = (data) => {
+        console.log("AddCustomer>AddCard:processGetCardBinResponse response returned", data);
+        try {
+            if(data.GetCardBINResponse.ResponseCode == "00000"){
+                    document.getElementsByClassName('add-card-button-section')[0].classList.add('button-disabler');
+                    var cardResponse = this.state.customercardDetails;
+                    cardResponse.push(data.GetCardBINResponse);
+                    var lastd4igits = data.GetCardBINResponse.CardToken[0].substr(data.GetCardBINResponse.CardToken[0].length - 4);
+                    var cardObj= {
+                            "kiNum" : data.GetCardBINResponse.KI[0],
+                            "lastFour" : lastd4igits,
+                            "chargeType" : data.GetCardBINResponse.CardType[0]
+                        }
+                    var cardObj2 = this.state.cardDisplay;
+                    cardObj2.push(cardObj);
+                    this.setState({addCardModal: false, customercardDetails: cardResponse,cardDisplay : cardObj2});
+            }else {
+                    this.setState({addCardModal: false});
+            }
+        }catch (err) {
+                console.log("AddCustomer>AddCard: processGetCardBinResponse catch block", err);
+        }
+                console.log("AddCustomer>AddCard: processGetCardBinResponse", this.state.customercardDetails);
+    }
+
+    addCardDetailsToClienteleInvoker = (clientno) => {
+        if (this.state.customercardDetails.length > 0) {
+            let req = {
+                "expiration": (this.state.customercardDetails[0].CardExpiryDate[0])
+                    ? (this.state.customercardDetails[0].CardExpiryDate[0])
+                    : '',
+                "cardToken": (this.state.customercardDetails[0].CardToken[0])
+                    ? (this.state.customercardDetails[0].CardToken[0])
+                    : '',
+                "responseCode": (this.state.customercardDetails[0].ResponseCode[0])
+                    ? (this.state.customercardDetails[0].ResponseCode[0])
+                    : '',
+                "kiNum": (this.state.customercardDetails[0].KI[0])
+                    ? (this.state.customercardDetails[0].KI[0])
+                    : '',
+                "lastname": ((this.state.customercardDetails[0].LastName[0]).trim())
+                    ? ((this.state.customercardDetails[0].LastName[0]).trim())
+                    : '',
+                "cardType": (this.state.customercardDetails[0].CardType[0])
+                    ? (this.state.customercardDetails[0].CardType[0])
+                    : '',
+                "hashAcct": "",
+                "transNum": "",
+                "hashType": "",
+                "sigonFile": "",
+                "storeClientNo": (clientno)
+                    ? clientno
+                    : ''
+            }
+            this
+                .props
+                .addCardDetailsToClienteleActionInvoker(req);
+        } else {
+            console.log("AddCustomer: No Card info available");
+        }
+    }
+
 
 
 
     /* Render method for the component */
 
     render() {
-
+        console.log('MIKE ADD CUST sPROPS', this.props.addCustomer)
         return (
             <AddCustomerView
                 statesList={this.state.statesList}
@@ -969,9 +1376,16 @@ class AddCustomer extends Component {
                 fields={this.state.fields}
                 errors={this.state.errors}
                 dom_cust_state={this.state.dom_cust_state}
+                zipOverride={this.state.zipOverride}
+                cityModal={this.state.cityModal}
+                cityModalClose={this.cityModalClose}
+                populateCity={this.populateCity}
                 handleCustStateChange={this.handleCustStateChange}
-                clearAllFields={this.clearAllFields}
+                closeZipOverideModal={this.closeZipOverideModal}
+                citystateList={this.state.citystateList}
+                stateList={this.state.stateList}
                 clearAllFieldsInt={this.clearAllFieldsInt}
+                clearAllFields ={this.clearAllFields}
                 openModals={this.openModals}
                 openModalsInt={this.openModalsInt}
                 phoneModal={this.state.phoneModal}
@@ -1022,7 +1436,18 @@ class AddCustomer extends Component {
                 addCustImage={this.state.addCustImage}
                 addIntCustImage={this.state.addIntCustImage}
                 addDomesticShown={this.state.addDomesticShown}
+		        addCardModal={this.state.addCardModal} 
+		        maxCardWarning={this.state.maxCardWarning} 
+		        openCardModals={this.openCardModals}
+                closeAddCardModal = {this.closeAddCardModal}
+                cancelSwipeMode = {this.cancelSwipeMode}
+		        customercardDetails={this.state.customercardDetails} 
+                maxCardWarningMessage = {this.maxCardWarningMessage}
+                cardDisplay = {this.state.cardDisplay}
             // testprops ="helloworld"
+                errorDescription={this.state.errorDescription}
+                openErrorModal={this.openErrorModal}
+                closeErrorModal={this.closeErrorModal}
 
             />
         )
@@ -1032,13 +1457,16 @@ class AddCustomer extends Component {
 }
 
 
-function formatPhoneint(intPhone) {
+// function formatPhoneint(intPhone) {
+//     console.log('PRANAV FORMATPHONEINT ORIGINAL', intPhone)
+//     var phoneint = intPhone.replace(/[^A-Z0-9]+/ig, "");
+//     var formattedPhone = phoneint;
+//     console.log('PRANAV FORMATPHONEINT REPLACE', formattedPhone)
+//     var lastTen = formattedPhone.substr(formattedPhone.length - 13);
+//     console.log('PRANAV FORMATPHONEINT LAST10', lastTen)
+//     return lastTen;
+// }
 
-    var phoneint = intPhone.replace(/[^A-Z0-9]+/ig, "");
-    var formattedPhone = phoneint;
-    var lastTen = formattedPhone.substr(formattedPhone.length - 13);
-    return parseInt(lastTen);
-}
 function isObjectEmpty(obj) {
     if (obj == null) return true;
     if (obj.length === 0) return false;
@@ -1050,17 +1478,28 @@ function isObjectEmpty(obj) {
     return true;
 }
 
-function mapStateToProps({ addCustomer, customerSearch, home, login }) {
-    return { addCustomer, customerSearch, salutationData: home.salutationData, login };
+function mapStateToProps({ addCustomer, customerSearch, home, login, customerDetails }) {
+    return {
+        addCustomer, customerSearch, salutationData: home.salutationData, login, customerDetails,
+        transactionId: home.transactionData ? home.transactionData.transactionNumber : '',
+        cityStateData: home.cityStateData
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
+        aurusActionInvoker: getAurusResponse,
+        navigateToDomesticCustomerInvoker: navigateToDomesticCustomer,
         addCustomerActionInvoker: addCustomerAction,
         addCustomerInternationalActionInvoker: addCustomerIntAction,
         getCountryListActionInvoker: getCountryList,
         goToSalesPage: goToSalesPage,
-        startSpinner: startSpinner, resetAddCustomer: resetAddCustomerPage
+        attachCustomerActionInvoker: attachCustomerAction,
+        zipToCitySateActionInvoker: zipToCitySateAction,
+        clearZipToCitySateDataActionInvoker: clearZipToCitySateDataAction,
+	startSpinner: startSpinner,
+	 resetAddCustomer: resetAddCustomerPage,
+	addCardDetailsToClienteleActionInvoker: addCardDetailsToClientele
     }, dispatch);
 }
 

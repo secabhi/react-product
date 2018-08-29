@@ -10,20 +10,26 @@ export default class SendWeightChartView extends Component{
 
         this.state = {
             doneWithApiCall:false,
+            componentToNavigateTo:""
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.sendResponseObject != prevProps.sendResponseObject){
-            this.setState({doneWithApiCall:true});
-            console.log('SHIV:SENDWEIGHT OPTIONS OBJECT',this.props.sendResponseObject.shippingOptionsResponse)
-            console.log('SHIV:SENDWEIGHT OPTIONS OBJECT',this.props.sendResponseObject.shippingOptionsResponse.data.shippingOptions)
-            this.setState({doneWithApiCall:true})
-        }
+        if(this.props.sendResponseObject.shippingOptionsResponse != prevProps.sendResponseObject.shippingOptionsResponse){
+            if(this.props.sendResponseObject.shippingOptionsResponse.data.responseText === "IM_SUCCESS"){
+                // this.setState({doneWithApiCall:true});
+                console.log("SHIV",prevState);
+                this.props.componentChangeHandler("enterBarcode",prevState.componentToNavigateTo);
 
-        if(this.state.doneWithApiCall != prevState.doneWithApiCall){
-            this.props.componentChangeHandler(this.props.componentToNavigateTo)
+            }
+            console.log('SHIV:SENDWEIGHT OPTIONS OBJECT',this.props.sendResponseObject.shippingOptionsResponse)
+            // console.log('SHIV:SENDWEIGHT OPTIONS OBJECT',this.props.sendResponseObject.shippingOptionsResponse.data.shippingOptions)
         }
+    }
+
+    sendTypeHandler = (e) =>{
+        console.log("SHIV COMPTONAV:",e.target.value)
+        this.setState({componentToNavigateTo: e.target.value})
     }
 
     render(){
@@ -160,8 +166,8 @@ export default class SendWeightChartView extends Component{
                                     value="shippingOptions"
                                     label={"From This Store"}
                                     onClick={(e) => {
-                                         console.log(e.target.value) 
-                                         this.props.sendTypeHandler(e)
+                                         console.log("SHIV TARGET",e.target.value) 
+                                         this.sendTypeHandler(e)
                                         //this.setShippingFee(e);
                                     }}
                                     iconStyle={iconStyle}
@@ -174,7 +180,7 @@ export default class SendWeightChartView extends Component{
                                     onClick={(e) => {
                                         //this.setShippingFee(e);
                                         console.log(e.target.value)
-                                        this.props.sendTypeHandler(e)
+                                        this.sendTypeHandler(e)
                                         {/* this.props.initializeOptionSeven("optionSeven") */}
                                     }}
                                     iconStyle={iconStyle}
@@ -186,7 +192,7 @@ export default class SendWeightChartView extends Component{
                                     label={"Precious Jewelry"}
                                     onClick={(e) => {
                                         console.log(e.target.value) 
-                                         this.props.sendTypeHandler(e)
+                                         this.sendTypeHandler(e)
                                         //this.setShippingFee(e);
                                     }}
                                     iconStyle={iconStyle}
@@ -198,7 +204,7 @@ export default class SendWeightChartView extends Component{
                                     label={"Leased Departments"}
                                     onClick={(e) => {
                                         console.log(e.target.value) 
-                                         this.props.sendTypeHandler(e)
+                                         this.sendTypeHandler(e)
                                         //this.setShippingFee(e);
                                     }}
                                     iconStyle={iconStyle}

@@ -15,7 +15,7 @@ import send_selected from '../../resources/images/Send_Selected.svg';
 import ItemModifyDropdown from './ItemModifyDropdown';
 import SaleServicesMenu from './sale-services/SaleServicesMenu';
 import TransModifyDropDown from './transModifiy/transModifyDropDown/transModifyDropDown';
-
+import {each} from 'underscore';
 // Styles
 import './sale-menu.css';
 
@@ -39,11 +39,11 @@ export default class SaleMenu extends Component {
   }
 
   voidLineItem = (index) => {
+    console.log('MIKE CART ITEMS ', this.props.items)
+    console.log('MIKE CART ITEMS + INDEX', this.props.items[index]);
 
-    var clickedItem = Object.assign({},this.props.items[index][0])
-    //clickedItem.LineNumber = "100";
+    var clickedItem = Object.assign({},this.props.items[index[0]][index[1]]);
     console.log('Void Line clickedItem: ', clickedItem);
-    console.log('Void Line props: ', this.props.items[index][0]);
     this.props.voidLineItem(clickedItem);
   }
 
@@ -62,11 +62,13 @@ export default class SaleMenu extends Component {
   }
 
   render() {
+    console.log('Sweezey SalesMenu ATM', this.props.activeTransModify);
     return (
       [
         <div className="sidenav" key='lff'>
               <ItemModifyDropdown history={this.props.history} 
               currentItem={this.props.currentItem} 
+              selectedItem = {this.props.selectedItem}
 	            registryCLickStyle = {this.props.registryCLickStyle}
               voidLineItem={this.voidLineItem}
               showQuantityModal={this.props.showQuantityModal}
@@ -76,14 +78,18 @@ export default class SaleMenu extends Component {
               handleChangedropdownColor = {this.props.handleChangedropdownColor}
               showSplitCommissionModal={this.props.showSplitCommissionModal}
               showItemModifyPriceModal={this.props.showItemModifyPriceModal}
+              showItemModifyTaxModal={this.props.showItemModifyTaxModal}
               showItemGiftRegistryModal={this.props.showItemGiftRegistryModal}
               showItemGiftReceiptModal = {this.props.showItemGiftReceiptModal}
               showSpecialInstructionsModal={this.props.showSpecialInstructionsModal}
               isItemSelected={this.props.isItemSelected}
               loadPriceDrpDown={this.props.loadPriceDrpDown}
               itemPromotionDetails = {this.props.itemPromotionDetails}
+              disableGiftReceipt = {this.props.disableGiftReceipt}
               item={this.props.items[this.props.currentItem]}
+              items={this.props.items}
               showModifyErrorModal={this.props.showModifyErrorModal}
+              nonSkuSelection={this.props.nonSkuSelection}
               />
     
               <SaleServicesMenu
@@ -91,6 +97,8 @@ export default class SaleMenu extends Component {
                 currentItem={this.props.currentItem} 
                 voidLineItem={this.voidLineItem}
                 items={this.props.items}
+                nonSkuSelection={this.props.nonSkuSelection}
+                showGiftWrapError = {this.props.showGiftWrapError}
               />
 
               <div className="option-list">
@@ -104,12 +112,17 @@ export default class SaleMenu extends Component {
                   showSplitCommissionModal={this.props.showSplitCommissionModal}
                   showTransDiscount={() => this.props.showTransDiscount()}
                   showAssociateDiscount={() => this.props.showAssociateDiscount()}
+                  activeTransModify={this.props.activeTransModify}
                   active={this.props.active}
+                  disableGiftReceipt ={this.props.disableGiftReceipt}
+                  items={this.props.items}
                   TransTaxExempt={() => this.props.TransTaxExempt()}
                   transGiftRegistry={() => this.props.transGiftRegistry('transGiftregistry')}
                   transGiftReceipt={() => this.props.transGiftReceipt()}
                   splitCommissionOpened={() => this.props.splitCommissionOpened('transmodifysplit')}
                   handleChangeTransdropdownColor = {this.props.handleChangeTransdropdownColor}
+                  currentItem={this.props.currentItem} 
+                  nonSkuSelection={this.props.nonSkuSelection}
                 />
               </div>
 
@@ -127,7 +140,7 @@ export default class SaleMenu extends Component {
               >
                 <img className='icon-send' src={this.props.isSendOptionSelected ? send_selected : send} alt="send"/>Send
               </div>
-              <div className="option-list"><img className="icon-gift-card" src={giftCard} alt="gift-card" onClick={this.renderGiftCard}/>Gift Card</div> 
+              <div className="option-list"><img className="icon-gift-card" src={giftCard} alt="gift-card" onClick={ () =>this.renderGiftCard()}/>Gift Card</div> 
               
         </div>,
         

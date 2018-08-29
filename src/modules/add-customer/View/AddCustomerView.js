@@ -22,6 +22,7 @@ import '../View/Styles/AddCustomerStyle.css';
 /* path import */
 import {ADD_CUSTOMER} from '../../../pathConstants';
 
+
 export class AddCustomerView extends Component {
 
     constructor(props) {
@@ -45,6 +46,13 @@ export class AddCustomerView extends Component {
             statesList: this.props.statesList,
             dom_cust_state : this.props.dom_cust_state,
             handleCustStateChange :this.props.handleCustStateChange,
+            zipOverride:this.props.zipOverride,
+            closeZipOverideModal:this.props.closeZipOverideModal,
+            cityModal:this.props.cityModal,
+            cityModalClose:this.props.cityModalClose,
+            citystateList:this.props.citystateList,
+            stateList:this.props.stateList,
+            populateCity:this.props.populateCity,
             clearAllFields :this.props.clearAllFields,
             openModals :this.props.openModals,
             phoneModal :this.props.phoneModal,
@@ -66,7 +74,19 @@ export class AddCustomerView extends Component {
             bypassAddressValidation :this.props.bypassAddressValidation,
             filedsMissingModal :this.props.filedsMissingModal,
             closeFieldsMissingModal : this.props.closeFieldsMissingModal,
-            emailMissingModal :this.props.emailMissingModal}
+            emailMissingModal :this.props.emailMissingModal,
+            addCardModal : this.props.addCardModal,
+            maxCardWarning : this.props.maxCardWarning,
+            openCardModals : this.props.openCardModals,
+            closeAddCardModal : this.props.closeAddCardModal,
+            cancelSwipeMode : this.props.cancelSwipeMode,
+            customercardDetails : this.props.customercardDetails,
+            maxCardWarningMessage : this.props.maxCardWarningMessage,
+            cardDisplay : this.props.cardDisplay,
+            errorDescription : this.props.errorDescription,
+            openErrorModal : this.props.openErrorModal,
+            closeErrorModal : this.props.closeErrorModal
+        }
 
         //Props for international form
         var internationalProps = {
@@ -101,7 +121,16 @@ export class AddCustomerView extends Component {
             failModalInt1 : this.props.failModalInt1,
             closeFailModalInt : this.props.closeFailModalInt,
             closeFailModalInt1 : this.props.closeFailModalInt1,
-           
+            addCardModal : this.props.addCardModal,
+            maxCardWarning : this.props.maxCardWarning,
+            openCardModals : this.props.openCardModals,
+            closeAddCardModal : this.props.closeAddCardModal,
+            cancelSwipeMode : this.props.cancelSwipeMode,
+            customercardDetails : this.props.customercardDetails,
+            maxCardWarningMessage : this.props.maxCardWarningMessage,
+            cardDisplay : this.props.cardDisplay,
+            errorDescription : this.props.errorDescription,
+            errorThrown : this.props.errorThrown
         }
 
         return (

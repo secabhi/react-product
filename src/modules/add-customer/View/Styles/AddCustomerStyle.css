@@ -4,6 +4,10 @@
     overflow-x: hidden;
 }
 
+div[role=presentation] {
+    width: auto !important;
+}
+
 .addcust-header {
     width: 1920px;
     max-width: 1920px;
@@ -561,7 +565,7 @@ input:focus {
 
 .add-customer-dom-row1 .field1 {
     flex: 1;
-    max-width: 145px;
+    max-width: 144px;
 }
 
 .add-customer-dom-row1 .field2 {
@@ -891,7 +895,7 @@ input:focus {
     height: 38px;
     font-family: Roboto;
     font-size: 32px;
-    font-weight: normal;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.19;
@@ -944,14 +948,15 @@ input:focus {
     width: 558px;
     height: 135px;
     font-family: Roboto;
-    font-size: 24px;
-    font-weight: normal;
+    font-size: 25px;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.58;
-    letter-spacing: 1px;
     text-align: center;
     color: #505050;
+    text-align: center;
+    word-break: break-word;
 }
 
 .add-dom-cust-modal-textopt-button-area{
@@ -999,7 +1004,7 @@ input:focus {
     height: 28px;
     font-family: Roboto;
     font-size: 24px;
-    font-weight: normal;
+    font-weight: 600;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.21;
@@ -1251,8 +1256,8 @@ input:focus {
 
 .add-domcust-fail-modal-message-text{
     display: flex;
-    width: 556px;
-    height: 217px;
+    width: 606px;
+    height: 235px;
     font-family: Roboto;
     font-size: 32px;
     font-weight: normal;
@@ -1262,6 +1267,8 @@ input:focus {
     letter-spacing: normal;
     text-align: center;
     color: #505050;
+    margin-top: -23px;
+
 }
 
 
@@ -1635,4 +1642,14 @@ span.select-field-menu-item
 
 .new-modal-height{
     height: 200px !important;
+}
+
+.add-card-modal-container{
+    margin-top:374px
+}
+
+
+
+.button-disabler {
+    opacity: 0.4;
 }

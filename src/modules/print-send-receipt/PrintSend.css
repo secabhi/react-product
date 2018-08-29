@@ -1,0 +1,1112 @@
+
+/*---sff postvoid--*/
+@media only screen and (max-width: 1900px){ 
+    .enabled {
+        opacity: 1 !important;
+    }
+    .Disable {
+        opacity: 0.4;
+    }
+    .post-void-modal-container{
+        padding: 0px !important;
+        width: 890px !important;
+        max-width: 890px !important;
+        height: 1200px;
+        top: 298px;
+        display: flex;
+        flex-direction: column;
+    }
+    .post-void-modal-iconenter{
+        width: 300px;
+        height: 300px;
+        margin-left: 303px;
+        margin-top: 141px;
+    }
+    .post-void-modal-icon{
+        width: 300px;
+         height: 300px;
+        margin-left: 295px;
+        margin-top: 50px;
+    }
+    .closeicon{
+        float: right;
+        width: 45px;
+        height: 45px;
+        margin-top: 40px;
+         margin-right: 40px;
+    }
+
+    .post-void-modal-label{
+        width: 306px;
+        height: 98px;
+        font-family: Roboto;
+        font-size: 74px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+        margin-left: 146px;
+        margin-top: 102px;
+    }
+    .post-void-modal-button-area{
+        display: flex;
+        flex-direction: column;
+    }
+    .post-void-modal-button-select{
+        width: 626.5px;
+        height: 120px;
+         background-color: #4b2b6f;
+        
+        margin-top: 137px;
+        margin-left:132px;
+        
+    }
+    .post-void-modal-button-area .post-void-modal-button-select-label{
+        width: 352px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: 10px;
+        text-align: center;
+        color: #ffffff;
+    }
+    .post-void-modal-button-area .post-void-modal-button-enter-label {
+        width: 352px;
+  height: 58px;
+  font-family: Roboto;
+  font-size: 44px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.32;
+  letter-spacing: 10px;
+  text-align: center;
+  color: #ffffff;
+    }
+    .post-void-modal-button-enter{
+        width: 626.5px;
+         height: 120px;
+        margin-top: 70px;
+        margin-left:132px;
+        background-color: #4b2b6f;
+    }
+
+    .post-void-modalselect-container{
+        width: 890px !important;
+        max-width:890px !important;
+        height: 1250px !important;
+    }
+    .postvoid-modalselect-header{
+        width: 890px;
+        height: 150px;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+      background-color: #4b2b6f;
+      border: solid 1px #a87ed6;
+     
+    }
+    .postvoid-modalselect-label{
+        font-family: Roboto;
+            font-size: 56px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.32;
+            letter-spacing: normal;
+            text-align: center;
+            color: #ffffff;
+            margin-top: 30px;
+    }
+    .postvoid-selectionarea{
+        height:900px;
+        max-height: 900px;
+        overflow: scroll !important;
+
+    }
+    .carditemlayoutinitial{
+        margin-left: 70px;
+        width: 890px;
+        height: 150px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+        margin-left: 0px;
+        margin-top: 2px;
+        margin-right: 0px;
+    }
+    .carditemlayoutremain{
+        margin-left: 70px;
+        width: 890px;
+        height: 150px;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+        margin-left: 0px;
+        margin-top: 2px;
+        margin-right: 0px;
+    }
+    .labelcardlayout{
+        background-color: none;
+        font-family: Roboto;
+        font-size: 56px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 2.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #333333;
+        padding-left: 80px;
+        
+    }
+    .post-void-modalselect-button-area{
+        width: 890px;
+        height: 200px;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        /* margin-top: 150px; */
+        background-color: #ffffff;
+        -webkit-box-shadow: 0 -1px 6px 0 #d3d3d3;
+        box-shadow: 0 -1px 6px 0 #d3d3d3;
+        /* margin-top: 360px; */
+    }
+    .post-void-modalselect-cancelbtn{
+       
+        width: 375px;
+         height: 120px;
+        border: solid 2px #613b8c;
+        margin-top: 40px;
+        margin-left: 81px;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+    }
+    .reseticonselectrans{
+        margin-right: 32.6px;
+        margin-top: 5px;
+        width: 47.3px;
+        height: 47.3px;
+    }
+    .post-void-cancel-label{
+        width: 165px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #612e9b;
+        margin-left: 23px;
+    }
+    .post-void-modalselect-okbtn{
+        width: 304px;
+        height: 120px;
+        background-color: #4b2b6f;
+        margin-top: 40px;
+        margin-left: 50px;
+        opacity:0.4;
+        display: flex;
+        justify-content: center;
+
+    }
+    .post-void-ok-label{
+        width: 59px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        text-align: left;
+        color: #ffffff;
+    }
+    .postvoidmodal-enter-container{
+        display: flex;
+        flex-direction: column;
+        width: 890px !important;
+        max-width: 890px !important;
+         height: 1200px;
+        background-color: #ffffff;
+    
+    }
+    .post-void-modalenter-labelcont{
+        margin-top:102px;
+    }
+    .post-void-modalenter-label{
+        width: 446px;
+        height: 98px;
+        font-family: Roboto;
+        font-size: 74px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+        margin-left: 222px;
+        }
+        .textfield-scan-cls{
+            margin-left: 75.5px;
+            margin-top: 100px;
+        }
+        .postvoid-scan{
+            width: 90px;
+            position: relative;
+            right: 76px;
+            float: right;
+            bottom: 0px;
+        }
+        .entertrans-button-area{
+            margin-top:122.5px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+        .entercancelbtn{
+            width: 375px;
+            height: 120px;
+            border: solid 2px #613b8c;
+            margin-top: 40px;
+            margin-left: 12px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+        }
+        .reseticonselectrans{
+            margin-right: 3.6px;
+            width: 47.3px;
+            height: 47.3px;
+
+        }
+        .cancellabel{
+            width: 165px;
+            height: 58px;
+            font-family: Roboto;
+            font-size: 44px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.32;
+            letter-spacing: normal;
+            text-align: left;
+            color: #612e9b;
+
+        }
+
+        .oklable-disable{
+            opacity:0.4;
+        }
+        .enterokbtn{
+            width: 304px;
+            height: 120px;
+            background-color: #4b2b6f;
+            margin-top: 40px;
+            margin-left: 50px;
+            display: flex;
+            justify-content: center;
+
+        }
+        .oklabel{
+            width: 59px;
+            height: 58px;
+            font-family: Roboto;
+            font-size: 44px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.32;
+            letter-spacing: 10px;
+            text-align: left;
+            color: #ffffff;
+
+        }
+
+
+} 
+
+
+/*--lff postvoid---*/
+@media only screen and (min-width: 1920px){
+.post-void-modal-container{
+    padding: 0px !important;
+    width: 725px;
+    height: 575px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.priceCls{
+    position: fixed;
+    left: 0;
+    bottom: 210px;
+    color: white;
+    text-align: center;
+    height: 100px;
+    width: 1820px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    border: solid 2px #ededed;
+    margin-top: 20px !important;
+    margin-left: 50px !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    }
+    .subTtl{
+      font-family: Roboto;
+      font-size: 30px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.3;
+      letter-spacing: normal;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: right;
+      color: #51515b;
+    }
+    .subTtlPrice{
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 25px !important;
+    }
+    .tacCls{
+      font-family: Roboto;
+      font-size: 30px;
+      font-weight: normal;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.3;
+      letter-spacing: normal;
+      text-align: right;
+      color: #51515b;
+      margin-left: 30px !important;
+    }
+    .tacClsPrice{
+      font-family: Roboto;
+      font-size: 30px;
+      font-weight: bold;
+      font-style: normal;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-stretch: normal;
+      line-height: 1.3;
+      letter-spacing: normal;
+      text-align: left;
+      color: #333333;
+      margin-left: 25px !important;
+  
+    }
+    .totalcls{
+      font-family: Roboto;
+      font-size: 30px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      line-height: 1.3;
+      letter-spacing: normal;
+      text-align: right;
+      color: #51515b;
+      margin-left: 30px !important;
+    }
+    .totalclsPrice{
+    font-family: Roboto;
+    font-size: 30px;
+    margin-right: 83.8px;
+    font-weight: bold;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 25px !important;
+    
+  }
+.closeicon{
+    float: right;
+    margin-right: 30px;
+    margin-top: 30px;
+    width: 24.7px;
+    height: 24.7px;
+}
+.post-void-modal-icon{
+    width: 120px;
+    height: 120px;
+    margin-left: 303px;
+    margin-top: 29px;
+}
+.post-void-modal-iconenter{
+    width: 120px;
+    height: 120px;
+    margin-left: 303px;
+    margin-top: 67px;
+}
+.postvoid-details-heading{
+    width: 1920px;
+    height: 130px;
+    background-color: #4b2b6f;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+
+}
+.post-void-modal-label{
+    display: flex;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-left: 210px;
+    margin-top: 38px;
+}
+.postvoid-details-heading .labelCls{
+    width: 222px;
+    height: 68px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    color: #ffffff;
+    margin-left: 50px;
+    padding-top: 31px;
+    display: flex;
+}
+.postvoiddetails-footer-button-area{
+    width: 1920px;
+    height: 125px;
+    margin-top: 0px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.lineNumber{
+    margin-left: 35px;
+}
+.nobtn{
+    width: 155px;
+    height: 60px;
+    margin-top: 33px;
+    background-color: #ffffff;
+    border: solid 2px #613b8c;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    margin-right: 40px;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #613b8c;
+}
+.yesbtn{
+    width: 155px;
+    height: 60px;
+    margin-top: 33px;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    margin-right: 50px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+.isthiscls{
+    width: 668px;
+    height: 66px;
+    font-family: Roboto;
+    font-size: 50px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 50px;
+    margin-top: 40px;
+}
+.post-void-modal-button-select{
+    width: 346px;
+    height: 60px;
+    margin-top: 65px;
+    margin-left:190px;
+    background-color: #4b2b6f;
+}
+.post-void-modal-button-enter{
+    width: 346px;
+    height: 60px;
+    margin-top: 29px;
+    margin-left:190px;
+    background-color: #4b2b6f;
+}
+
+.post-void-modal-button-area{
+    display: flex;
+    flex-direction: column;
+}
+.post-void-modal-button-area .post-void-modal-button-select-label{
+    width: 192px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #ffffff;
+}
+.post-void-modal-button-area .post-void-modal-button-enter-label {
+    height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #ffffff;
+}
+.postvoid-modalselect-header{
+    width: 725px;
+  height: 90px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+  background-color: #4b2b6f;
+  border: solid 1px #a87ed6;
+ 
+}
+.postvoid-modalselect-label{
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 19.5px;
+}
+.post-void-modalselect-button-area{
+    width: 720px;
+    height: 120px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    /* margin-top: 150px; */
+    background-color: #ffffff;
+    -webkit-box-shadow: 0 -1px 6px 0 #d3d3d3;
+    box-shadow: 0 -1px 6px 0 #d3d3d3;
+    /* margin-top: 360px; */
+}
+.post-void-modalselect-cancelbtn{
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    margin-top: 30px;
+    margin-left: 175px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+}
+.post-void-modalselect-okbtn{
+    width: 155px;
+    opacity:0.4;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-top: 30px;
+    margin-left: 40px;
+    display: flex;
+    justify-content: center;
+}
+.reseticonselectrans{
+    width: 28px;
+    height: 28px;
+}
+.post-void-cancel-label{
+    width: 92px;
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #613b8c;
+  margin-left: 15px;
+}
+.post-void-ok-label{
+    width: 32px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #ffffff;
+}
+.postvoid-selectionarea{
+    height:365px;
+    max-height: 365px;
+    overflow: scroll !important;
+}
+.post-void-modalselect-container{
+    width: 725px !important;
+    height: 575px !important;
+}
+.carditemlayoutinitial{
+    width: 625px;
+    height: 60px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    margin-left: 50px;
+    margin-top: 34px;
+}
+.carditemlayoutremain{
+    width: 625px;
+    height: 60px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    margin-left: 50px;
+    margin-top: 10px;
+}
+.labelcardlayout{
+    background-color: none;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 2.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    padding:7px
+}
+
+.postvoidmodal-enter-container{
+    display: flex;
+    flex-direction: column;
+    width: 725px;
+    height: 575px;
+    background-color: #ffffff;
+
+}
+.post-void-modalenter-label{
+width: 193px;
+  height: 43px;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.34;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  margin-left: 261px;
+}
+.post-void-modalenter-labelcont{
+    margin-top:38px;
+}
+.textfield-scan-cls{
+    margin-left: 52.5px;
+    margin-top: 77px;
+}
+.entertrans-button-area{
+    margin-top:70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.entercancelbtn{
+    width: 180px;
+    height: 60px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+}
+.entercancelbtn .cancellabel{
+    font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #613b8c;
+  margin-left: 15px;
+}
+.enterokbtn .oklabel{
+    font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #ffffff;
+}
+.enterokbtn{
+    width: 155px;
+    height: 60px;
+    display: flex;
+    margin-left: 40px;
+    justify-content: center;
+    background-color: #4b2b6f;
+    
+}
+.enabled {
+    opacity: 1 !important;
+}
+.Disable {
+    opacity: 0.4;
+}
+.buttons-area{
+    bottom: 34px !important;
+  }
+.postvoid-scan{
+    width: 50px;
+    position: relative;
+    right: 76px;
+    float: right;
+    bottom: 0px;
+}
+.labelcardlayoutActive{
+    color: #fff;
+    background-color: #4b2b6f;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+}
+.carditemlayoutinitialActive{
+    background-color: #4b2b6f;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.5);
+    width: 625px;
+    height: 60px;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    margin-left: 50px;
+    margin-top: 34px;
+
+}
+.cardlayout-container{
+    width: 1820px;
+    height: 196px;
+    margin-top: 30px;
+    margin-left: 50.2px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    border: solid 2px #ededed;
+    display: flex;
+}
+.rectangle-block{
+    width: 54.9px;
+    height: 196px;
+    display: flex;
+    flex-direction: column;
+    font-size: 24px;
+    justify-content: center;
+    background-color: #ffffff;
+}
+.detailsimagecls{
+    margin-left:20.7px;
+}
+.columnone-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 42px;
+}
+.columnone-container .rowoneitem{
+    height: 37px;
+    font-family: Roboto;
+    font-size: 28px;
+    margin-top: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.columnone-container .rowtwoitem{
+    height: 39px;
+    font-family: Roboto;
+    margin-top: 1px;
+    font-size: 30px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.columnone-container .rowthreeitem{
+    width: 306px;
+  height: 34px;
+  margin-top: 6px;
+  font-family: Roboto;
+  font-size: 26px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.columnone-container .rowfouritem{
+    width: 150px;
+  height: 34px;
+  margin-top: 6px;
+  font-family: Roboto;
+  margin-top: 1px;
+  font-size: 26px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.columntwo-container{
+    width:180px !important;
+    margin-left:135.2px;
+}
+.columntwo-container .rowoneitem{
+    width: 148px;
+    height: 37px;
+    font-family: Roboto;
+    font-size: 28px;
+    margin-top: 18px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.columntwo-container .rowtwoitem{
+    height: 39px;
+    font-family: Roboto;
+    margin-top: 1px;
+    font-size: 30px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.columntwo-container .rowthreeitem{
+    width: 306px;
+  height: 34px;
+  margin-top: 6px;
+  font-family: Roboto;
+  font-size: 26px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.columntwo-container .rowfouritem{
+    width: 150px;
+  height: 34px;
+  margin-top: 6px;
+  font-family: Roboto;
+  margin-top: 1px;
+  font-size: 26px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.columnthree-container{
+    margin-left:85.9px;
+}
+.columnfour-container{
+    margin-left: 173.1px;
+}
+.columnfive-container{
+    margin-left: 48.4px;
+}
+.columnthree-container .rowoneitem{
+    width: 18px;
+    height: 37px;
+    margin-top: 18px;
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: right;
+    color: #4b2b6f;
+}
+.columnfour-container .rowtwoitem{
+    width: 148px;
+  height: 34px;
+  font-family: Roboto;
+  font-size: 26px;
+  font-weight: normal;
+  font-style: normal;
+  margin-top: 61px;
+  font-stretch: normal;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: right;
+  color: #349815;
+}
+.columnfour-container .rowthreeitem{
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: right;
+    color: #349815;
+}
+.columnfour-container .rowfouritem{
+    font-family: Roboto;
+  font-size: 26px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: right;
+  color: #333333;
+}
+.columnfive-container .rowoneitem{
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: right;
+    color: #333333;
+}
+.columnfive-container .rowtwoitem{
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: right;
+    color: #333333;
+}
+.columnfive-container .rowthreeitem{
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: right;
+    color: #333333;
+}
+.columnfive-container .rowfouritem{
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: right;
+    color: #333333;
+}
+.Modal-overlay-0-1-1{
+    height: 1100px !important;
+  }
+
+}
+    .post-void_priceDetails_total {
+        position: fixed;
+        left: 0;
+        bottom: 210px;
+        color: white;
+        text-align: center;
+        height: 75px;
+        width: 1491px !important;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+        background-color: #ffffff;
+        border: solid 2px #ededed;
+        margin-top: 20px !important;
+        margin-left: 50px !important;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+    }

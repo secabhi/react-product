@@ -52,5 +52,6 @@
     }
     ],
     "MAX_ITEM_COUNT":"50",
-    "WARNING_COUNT":"45"
+    "WARNING_COUNT":"45",
+    "REMAINING_COUNT": "5"
 }

@@ -6,12 +6,11 @@ const path = env.PATH;
 /* To add customer - Domestic */
 export function viewCustomerAction(updateCustDomData) {
     const CONFIG_FILE = require('../../../resources/stubs/config.json');
-     var URL = CONFIG_FILE.apiVerifySaleCustomer;
+     var URL = CONFIG_FILE.apiAddressUpdate;
 
-     const apiVerifySaleCustomer = path+'apiAddressAdd.json';
+     const apiAddressUpdate = path+'apiAddressAdd.json';
 
-
-    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, updateCustDomData):callGetWebService(apiVerifySaleCustomer, {});
+    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, updateCustDomData):callGetWebService(apiAddressUpdate, {});
     return (dispatch) => {
         request.then(({
                 data
@@ -64,6 +63,15 @@ export function viewCustomerAction(updateCustDomData) {
                             });
                             break;
                         }
+                    case 5:
+                    {
+                        dispatch({
+                            type: 'VIEW_EDIT_CUST_INVALID_EMAIL',
+                            payload: data
+                        });
+                        dispatch(startSpinner(false));
+                        break;
+                    }   
                     default:
                         {
                             dispatch({
@@ -125,7 +133,7 @@ export function viewCustomerAction(updateCustDomData) {
 
 export function getCountryList() {
     const CONFIG_FILE = require('../../../resources/stubs/config.json');
-    var URL = CONFIG_FILE.initServiceURL;
+    var URL = CONFIG_FILE.getCountryList;
     var functionalityId = CONFIG_FILE.countryListFuncId;
     console.log("functionalityId CountryList: " + functionalityId + " " + CONFIG_FILE.countryListFuncId)
     var params = {
@@ -134,13 +142,12 @@ export function getCountryList() {
     const initServiceURL = path+'initServiceURL.json';
 
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL,params):callGetWebService(initServiceURL,{});
-    console.log("for getcountry list dev mode");
     return (dispatch) => {
         request.then((data) => {
-                console.log("Country List Response Data: ", data.data.Output.CountryList);
+            
                 dispatch({
                     type: 'COUNTRY_LIST_RETRIEVED_VIEW_EDIT',
-                    payload: data.data.Output.CountryList
+                    payload: data.data.CountryList
                 });
             })
             .catch(error => {

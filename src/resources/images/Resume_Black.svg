@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-5 {
+        fill: none;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke: #505050;
+        stroke-linecap: round;
+        stroke-width: 2px;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-linejoin: round;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Resume_Black" transform="translate(-900 -380)">
+    <g id="Print_To_Register" transform="translate(-1601 -48)">
+      <g id="SVGID_1_" class="cls-1" transform="translate(2501 428)">
+        <circle class="cls-4" cx="60" cy="60" r="60"/>
+        <circle class="cls-5" cx="60" cy="60" r="59"/>
+      </g>
+    </g>
+    <g id="Resume" transform="translate(933.25 414.26)">
+      <path id="Path_4788" data-name="Path 4788" class="cls-2" d="M26.97,31.41,33.1,36.5l-6.13,5.091" transform="translate(7.832 9.161)"/>
+      <path id="Path_4789" data-name="Path 4789" class="cls-3" d="M.75,5.33v19.4a19.6,19.6,0,0,0,19.6,19.6h19.3" transform="translate(0 1.371)"/>
+      <path id="Path_4790" data-name="Path 4790" class="cls-2" d="M14.44,10.935l-6.13-5.1L14.44.74" transform="translate(2.258)"/>
+      <path id="Path_4791" data-name="Path 4791" class="cls-3" d="M48.2,43.627V24.237A19.6,19.6,0,0,0,28.612,4.64H9.3" transform="translate(2.554 1.165)"/>
+    </g>
+  </g>
+</svg>

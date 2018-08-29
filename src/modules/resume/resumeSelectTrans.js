@@ -8,7 +8,7 @@ import Modal from 'react-responsive-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
-import postVoidDetailsTransaction from '../post-void/postVoidAction';
+import {resumeEntryUpdateAction} from '../resume/resumeAction';
 import postVoidIcon from '../../resources/images/Post_Void_Black_SFF.svg';
 import resumeIcon from '../../resources/images/Resume.svg';
 import crossicon from '../../resources/images/Close_Bttn_Purple.svg';
@@ -19,9 +19,6 @@ class ResumeselectTrans extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal_post_void: false,
-            modal_post_voidselect: false,
-            modal_post_voidenter: false,
             active: null,
             transactionList: [],
             selectedTransaction: "",
@@ -31,10 +28,11 @@ class ResumeselectTrans extends Component {
 
     componentWillReceiveProps(nextProps) {
         console.log('Resume Select Trans componentWillReceiveProps:', nextProps);
-
         if (nextProps.resumered.dataFrom === "SUSPENDED_TRANSACTION_LIST_SUCCESS") {
+            
             this.setState({ transactionList: nextProps.resumered.response.transactionList });
             console.log('Transaction list componentWillReceiveProps:', nextProps.resumered.response.transactionList);
+            this.props.startSpinner(false);
         }
         else {
             if (nextProps.resumered.defaultValue !== true) {
@@ -42,11 +40,11 @@ class ResumeselectTrans extends Component {
         }
 
     }
-
-    postVoidTransInvoker = () => {
+    resumeSelectTransInvoker = () => {
         if (this.state.selectedTransaction !== '') {
-            this.props.PostVoidTransDetls(this.props.login.userpin, this.state.selectedTransactionDetails);
-
+            this.props.resumeSelectTransDetails(this.state.selectedTransactionDetails.resumeNumber, this.props.login.userpin);
+            console.log('****SelectedDetails',this.state.selectedTransactionDetails);
+            this.props.startSpinner(true);
         }
         else {
             //DO NOTHING
@@ -89,7 +87,7 @@ class ResumeselectTrans extends Component {
 
                                     <div style={(this.state.selectedTransaction === index) ? (selectedStyle) : (unselectedStyle)} onClick={() => this.toggle(index)} key={index} className="carditemlayoutinitial">
                                         <label style={(this.state.selectedTransaction === index) ? (selectedTextStyle) : (unselectedTextStyle)} className="labelcardlayout" >
-                                            {item.transactionId} - {item.amount}
+                                            {item.transactionId} - {item.resumeNumber}
                                         </label>
                                     </div>
 
@@ -101,8 +99,8 @@ class ResumeselectTrans extends Component {
                         }
                     </div>
                     <div className='post-void-modalselect-button-area'>
-                        <button className='post-void-modalselect-cancelbtn' onClick={this.props.cancelSelectModal}><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>XXXXXX</span></button>
-                        <button className='post-void-modalselect-okbtn' onClick={this.postVoidTransInvoker}><span className='post-void-ok-label' disabled>OK</span></button>
+                        <button className='post-void-modalselect-cancelbtn' onClick={() => this.props.resumeallmodals(true,false,false)}><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>CANCEL</span></button>
+                        <button className='post-void-modalselect-okbtn' onClick={this.resumeSelectTransInvoker}><span className='post-void-ok-label' disabled>OK</span></button>
                     </div>
                 </div>
             </div>
@@ -110,14 +108,15 @@ class ResumeselectTrans extends Component {
     }
 
 }
-function mapStateToProps({ resumered }) {
-    return { resumered }
+function mapStateToProps({ resumered, login }) {
+    return { resumered, login}
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
-
+            resumeSelectTransDetails: resumeEntryUpdateAction,
+            startSpinner:startSpinner
         }, dispatch);
 }
 

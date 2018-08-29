@@ -6,11 +6,122 @@ import SendTitleHeader from '../SendTitleHeader/Controller/sendTitleHeader';
 import ServicesFooter from '../../../sale-services/services-common/ServicesFooter';
 import AddCustomer from '../../../../../resources/images/Add_Customer.svg';
 
+var test = {
+    "addresses": [
+        {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "123 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+        {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "124 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+            {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "125 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+        {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "126 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+        {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "123 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+        {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "123 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+        {
+            "phone": [
+                "1231231231 "
+            ],
+                "firstName": "POOJA ",
+                "lastName": "MURALI ",
+                "email": "pooja_murali@neimanmarcus.com ",
+                "address1": "123 test lane",
+                "address2": '',
+                "city": "BANGALORE ",
+                "state": "",
+                "zip": "560078 ",
+                "clientNumber": "0010000000003",
+                "sequence": "1"
+        },
+    ],
+    "response_code": 0,
+    "response_text": "IM_SUCCESS"
+}
+
 export default class FrequentlyShippedAddressesView extends Component{
 
 
     render(){
-        console.log('Sweezey frequestshippAddressesview this.props ',this.props);
         const addCustomerButton = (
             <div className="freqShipped-Addcustomer-container">
                 <div className="freqShipped-AddCustomer-button" 
@@ -23,24 +134,31 @@ export default class FrequentlyShippedAddressesView extends Component{
         const email = this.props.emailTrackingInfo.clientele.email ? this.props.emailTrackingInfo.clientele.email : this.props.email;
 
         //if we have clientelle
-        if(this.props.moreCustomerData){
+        if(this.props.sendResponseObject.frequentlyShippedAddresses.addresses){
             //moreCustomerData comes from redux customerDetails store
-            var frequentAddresses = this.props.moreCustomerData.physicalAddresses.map( (address, index) => {
+            var frequentAddresses = this.props.sendResponseObject.frequentlyShippedAddresses.addresses.map( (address, index) => {
                 console.log('index', index);
-                const streetAddress = `${address.addressLines[0]}, ${address.addressLines[1]},${address.addressLines[2]}`
-                const city = `${address.cityName}`;
-                const country = `${address.countryName}`
-                const postalCode = `${address.postalCode}`
+                const streetAddress = `${address.address1}, ${address.address2}`
+                const city = `${address.city}`;
+                const country = `${address.country}`
+                const postalCode = `${address.zip}`
 
             return (<AddressCards
                 key={index}
                 index = {index}
                 changeAddressSelected = {(index) => this.props.changeAddressSelected(index)}
                 selectedAddress = {this.props.selectedAddress}
-                name = {`${this.props.lastName}, ${this.props.firstName} ${this.props.salutation}`}
-                phoneNumber = {this.props.mobile}
-                address = {`${streetAddress} ${city} ${country} ${postalCode}`}
-                email = {email}
+                firstName = {address.firstName}
+                lastName = {address.lastName}
+                phoneNumber = {address.phone?address.phone[0]:''}
+                address1 = {address.address1}
+                address2 = {address.address2}
+                city={address.city}
+                state={address.state}
+                zip={address.zip}
+                email = {address.email}
+                address={address}
+                freqShippedSelectedHandler={this.props.freqShippedSelectedHandler}
             />)
             })
         }

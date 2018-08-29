@@ -9,7 +9,7 @@
     flex: 1;
     justify-content: space-between;
     width: 1920px;
-    height: 70px;
+    /* height: 70px; */
     background-color: #070707;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
 }
@@ -135,7 +135,7 @@
 
 }
 .landingPageButtonSection{
-position: absolute;
+position: fixed;
 }
 
 @media only screen and (max-width: 1900px) {

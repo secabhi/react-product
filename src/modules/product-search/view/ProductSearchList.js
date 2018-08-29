@@ -16,9 +16,14 @@ export default class ProductSearchList extends Component {
 
   render() {
       let products = this.props.products;
+      let keyword = this.props.searchFields;
       console.log("Count of Items", products.Count);
       return(
         <div className="product-search-list-details">
+          {products.length>0?
+          <div class="product-serach-result-count-header">
+          <span>Search results for - </span>
+          <span> Total {products.length} products found </span></div>:null}
           {products.length > 0?
             products.map((product) => {
               return <ProductListItem product={product} onProductClick={this.props.onProductClick} onGoBack = {this.props.onGoBack}/>;

@@ -14,6 +14,7 @@ export default class ShippingOptions extends Component {
         this.state = {
             shippingDetails: {
                 shippingFee : '',
+                defaultShippingFee:'',
                 overrideCode : ''
             },
             delivery_modal : false,
@@ -21,6 +22,8 @@ export default class ShippingOptions extends Component {
             overrideCode_error: '',
 
         }
+        
+        this.enableOverride = false;
         // this.state.shippingDetails = this.props.optionSevenObject;
     }
 
@@ -29,6 +32,23 @@ export default class ShippingOptions extends Component {
       console.log("SHIV:SHIPPING",this.props.sendResponseObject)
     
     }
+
+    componentDidUpdate = (prevProps, prevState) => {
+        if(prevProps.sendResponseObject.authCodeResponse.response_Text != this.props.sendResponseObject.authCodeResponse.response_Text){
+            this.validateOverrideCode();
+        }else if(prevProps.sendResponseObject.error != this.props.sendResponseObject.error){
+            if(this.props.sendResponseObject.error === "AC_FAIL"){
+                this.setState({overrideCode_error:"Auth Code Invalid"})
+            }
+        }
+
+        if(prevProps.sendResponseObject.directSendResponse != this.props.sendResponseObject.directSendResponse){
+            if(this.props.sendResponseObject.directSendResponse.data.response_text === "IM_SUCCESS"){
+                this.props.clearForSend('SEND_CLEAR_RESPONSE');
+                this.props.history.push('/sale');
+            }
+        }
+    };
     
 
     
@@ -39,7 +59,7 @@ export default class ShippingOptions extends Component {
 
         const textFieldInputStyle = {
             fontFamily: 'Roboto-Light',
-            fontSize: (window.innerWidth > 1900) ? '32px': '56px',
+            fontSize: (window.innerWidth > 1900) ? '25px': '56px',
             lineHeight: '1.19',
             fontWeight: '300',
             fontStyle: 'normal',
@@ -50,16 +70,16 @@ export default class ShippingOptions extends Component {
         }
 
         const errorStyle = {
-            paddingTop:'15px',
+            marginTop:'20px',
             height: '28px',
             fontFamily: 'Roboto',
-            fontSize: window.innerWidth > 1900?'32px':'32px',
+            fontSize: window.innerWidth > 1900?'22px':'32px',
             fontWeight: 'normal',
             fontStyle: 'normal',
             fontStretch: 'normal',
             lineHeight: '1.21',
             letterSpacing: '2px',
-            textAlign: 'right',
+            textAlign: 'left',
             color: '#d53560', 
             bottom: "30px"
         }
@@ -72,7 +92,7 @@ export default class ShippingOptions extends Component {
 
         const inputStyle = {
             color: '#4b2b6f',
-            width:"inherit"
+            width:"inherit",
         }
 
         // Labels used for RadioButton
@@ -129,10 +149,10 @@ export default class ShippingOptions extends Component {
                     name="shippingOptions" >
                      {this.props.sendResponseObject.shippingOptionsResponse.data.shippingOptions.map((option) => {
                          //console.log(this.props.sendResponseObject.shippingOptionsResponse.data)
-                         //console.log(option)
+                         console.log(option)
                         return <RadioButton className="shipping-option"
                             key={option.option}
-                            value={option}
+                            value={option.price}
                             label={option.description + " - " + parseFloat(option.price).toFixed(2)}
                             onClick={(e) => {
                                 this.constructShippingOptionObject(option)
@@ -142,7 +162,7 @@ export default class ShippingOptions extends Component {
                             inputStyle={inputStyle}
                         /> 
                     })} 
-                </RadioButtonGroup>     
+                </RadioButtonGroup>       
             </div>
 
             <div className="shipping-options-form">
@@ -150,20 +170,25 @@ export default class ShippingOptions extends Component {
                 <TextField className="shipping-fee-textfield"
                     type="number"
                     value={this.state.shippingDetails.shippingFee}
-                    hintText="Shipping Fee"                    
-                    // style = {textFieldStyle}
+                    placeholder="Shipping Fee"                    
+                    //style = {textFieldStyle}
+                    onChange={(e) => {
+                        this.setShippingFeeManual(e)
+                        console.log(this.enableOverride)
+                        }}
                     inputStyle = {textFieldInputStyle}
                     refs="shipping-options-form" 
                 />
 
                 <label className="shipping-form-label override-label">Override Code</label>
                 <TextField className="shipping-override-textfield"
-                    type="text"
+                    disabled={!this.enableOverride}
+                    type="number"
                     value={this.state.overrideCode}
                     onChange={(e) => {
                         this.setOverrideCode(e)
                         }}
-                    hintText="Enter Override Code"
+                    placeholder="Enter Override Code"
                     inputStyle = {textFieldInputStyle}
                     errorStyle={errorStyle}
                     errorText={this.state.overrideCode_error}
@@ -178,7 +203,21 @@ export default class ShippingOptions extends Component {
             <div  className="giftwrap-cancel" onClick={() => {this.props.history.goBack()}}><span className="giftwrap-cancel-text">Cancel</span></div>
             <div className="giftwrap-next"  onClick={() => 
                 {
-                    this.props.directSendRequest(this.props.sendApiRequestObject)
+                     {/* this.props.directSendRequest(this.props.sendApiRequestObject)
+                     this.props.itemSelectedAction(''); 
+                    this.props.history.push('/sale'); */}
+                    if (this.state.shippingDetails.defaultShippingFee == this.state.shippingDetails.shippingFee){
+                        this.props.directSendRequest(this.props.sendApiRequestObject);
+                        this.props.itemSelectedAction('');
+                    }else{
+                        if((this.state.shippingDetails.defaultShippingFee != this.state.shippingDetails.shippingFee) && this.state.shippingDetails.overrideCode === ''){
+                            console.log("Shiv overridecode")
+                            this.setState({overrideCode_error:"Auth Code Required"})
+                        }else{
+                            this.props.updateObjectHandler("AuthCode", this.state.shippingDetails.overrideCode);
+                            this.authCodeApiCall();
+                        }
+                    }
                 }}>
             <span className="giftwrap-next-text">Next</span></div>
         </ServicesFooter>
@@ -203,12 +242,29 @@ export default class ShippingOptions extends Component {
     setShippingFee = (e) => {
         // Retrieves the shipping fee
         var selectedShippingFee = e.target.value;
+        console.log(selectedShippingFee)
         this.setState({
             shippingDetails : {
                 ...this.state.shippingDetails,
-                shippingFee: selectedShippingFee
+                shippingFee: selectedShippingFee,
+                defaultShippingFee: selectedShippingFee,
+                overrideCode:'',
+            },
+            overrideCode_error:''
+        })
+        this.enableOverride = false
+    }
+
+    setShippingFeeManual = (e) => {
+        // Retrieves the shipping fee
+        var selectedShippingFee = e.target.value;
+        this.setState({
+            shippingDetails : {
+                ...this.state.shippingDetails,
+                shippingFee: selectedShippingFee,
             }
         })
+        this.enableOverride = true
     }
 
     setOverrideCode = (e) => {
@@ -218,49 +274,31 @@ export default class ShippingOptions extends Component {
             shippingDetails : {
                 ...this.state.shippingDetails,
                 overrideCode: selectedOverrideCode
-            }
+            },
+            overrideCode_error:''
         })
     }
 
-    shippingOptionsApiCall = () => {
+    authCodeApiCall = () => {
         // SHIPPING OPTIONS API CALL
-        // this.props.getShipmentOptions(this.props.shipmentOptionsReqestObject)
 
-        // SAMPLE SHIPPING OPTION OBJ
-        // "ShippingOption": {
-        //     "Option":"1",
-        //     "Description":"Overnight Air",
-        //     "PriceType":"ZONE2",
-        //     "InternationalFlag":false,
-        //     "SurfaceFlag":false,
-        //     "Price":"51" 
-        // }
+        // Request object for 
+        let params =  {
+            "TransactionId":this.props.homeReduxStore.transactionData?this.props.homeReduxStore.transactionData.transactionNumber:'',
+            "AuthCode": this.state.shippingDetails.overrideCode,
+        }
 
-        // ITERATE THROUGH SHIPPING OPTION OBJ AND RETURN VALUES IN RADIOBUTTON
-        //  shippingOptions.map((option) => {
-        //     <RadioButton className="shipping-option"
-        //         key={option.Option}
-        //         value={option.Price}
-        //         label={option.Description}
-        //         onClick={(e) => {
-        //             this.setShippingFee(e);
-        //         }}
-        //         iconStyle={iconStyle}
-        //         inputStyle={inputStyle}
-        // />
-        //  })
+        this.props.authCodeRequest(params);
     }
 
     validateOverrideCode = () => {
         // FUNCTION TO VALIDATE THE DAILY OVERRIDECODE REQUIRED IN ORDER TO CHANGE THE SHIPPING FEE
         // PSUD0 CODE
-        {/*
-            if(this.state.shippingDetails.overrideCode === someValidOverrideCode){
-                ENABLE SHIPPING FEE MODIFICATION
-            } else {
-                DISABLE SHIPPING FEE MODIFICATION
-            }
-        */}
+        if(this.enableOverride && this.props.sendResponseObject.authCodeResponse.response_Text === 'AC_SUCCESS'){
+            this.props.directSendRequest(this.props.sendApiRequestObject)
+            this.props.itemSelectedAction(''); 
+            // this.props.history.push('/sale');
+        }
     }
 
     renderDeliveryModal = () => {
@@ -287,7 +325,3 @@ export default class ShippingOptions extends Component {
     }
 
 }; // END CLASS
-
-
-
-

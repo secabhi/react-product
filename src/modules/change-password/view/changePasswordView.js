@@ -67,25 +67,31 @@ export class ChangePasswordView extends Component {
         <span className="errorBanner"><img className="changePassword-warning-icon" src={WarningIcon} ></img><span className="errorText">{this.props.errorText}</span><img className="closeModalErrorBannerChgPass"  src={CrossWhite} onClick={this.props.handleHideError}></img></span>
         ) : null;
 
-        console.log("USERDATA",this.props.userPin);
+        console.log("USERDATA VIEWPROPS",this.props);
 
-        this.params = { "FunctionalityId": this.props.changePassFuncID,
-                        "RequestParams":{
-                      "Upin": this.props.Upin, 
-                      "Upass": this.props.Upass,
-                      "UNewPwd": this.props.confirmPass
-                    }};
+        this.params = { 
+            "FunctionalityId": this.props.changePassFuncID,
+            "RequestParams":{
+                "TransactionNum": this.props.transactionId,
+                "Upin": this.props.Upin, 
+                "Upass": this.props.Upass,
+                "UNewPwd": this.props.confirmPass
+            }
+        };
 
         return (
             <div className="backdrop" >
                 <div className="changePswrdModal" >
                     {errorDiv}
                     <span className="closeModalChangePass"><img className="close-icon-change-pass-modal" src={CrossBlack} onClick={this.props.handleHidePass}></img></span>
-                    <form className="changePassForm" onSubmit={(e) => {this.props.handleSubmit(e, this.params)}}>
+                    <form className="changePassForm" onSubmit={(e) => {
+                        console.log('PRANAV HANDLESUBMIT CHGPWD VIEW');
+                        this.props.handleSubmit(e, this.params)
+                        }}>
                         <div><img className="logoChangePassword" src={PasswordExpired} /></div>
                         <div >
                             <label className="passwrdTitle">Password Expired</label>
-                            <label className="passwrdSubtitle">Please enter a new password</label>
+                            <label className="passwrdSubtitle">Please create new password</label>
                         </div>
 
                         
@@ -115,6 +121,12 @@ export class ChangePasswordView extends Component {
                                 style={textFieldStyle}
                                 onChange={this.props.handleCfrmPassChange}
                                 value={this.props.confirmPass}
+                                onKeyPress={(e) => {
+                                    if(e.key === 'Enter') {
+                                        e.preventDefault();
+                                        this.props.handleSubmit(e, this.params)
+                                        }
+                                    }}
                             />
                         </div>
                         <div>

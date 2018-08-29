@@ -27,6 +27,9 @@ import { goToSalesPage } from '../../sale/SaleAction.js'
 import profileselected from '../../../resources/images/Profile_Selected.svg';
 import profileunselected from '../../../resources/images/Profile.svg';
 import remainderselected from '../../../resources/images/Reminder.svg';
+const CONFIG_FILE = require('../../../resources/stubs/config.json');
+var clientConfig = CONFIG_FILE.clientConfig;
+
 
 class ViewEditCustomerSff extends Component {
 
@@ -482,12 +485,9 @@ class ViewEditCustomerSff extends Component {
         //alert(ClienteleUpdateFlag);
         this.props.startSpinner(true);
         let addCustDomData = {
-            "ClientID": "0010:0169:06062018:013639",
-            "ClientTypeID": "1000",
-            "SourceApp": "POS",
+            ...clientConfig,
             "Country": this.state.changedAddress['cust_dom_country'],
             "storeAssoc": this.props.login.userpin,
-            "SourceLoc": "0010",
             "CFirstName": this.state.changedAddress['cust_dom_fname'],
             "CLastName": this.state.changedAddress['cust_dom_lname'],
             "CEmail": this.state.changedAddress['cust_dom_email'],

@@ -16,7 +16,6 @@ export class SignatureModal extends Component {
     }
 
     render() {
-        var mySignature=null;
         return (
             <Modal
                 open={this.props.props.signatureModal}
@@ -38,19 +37,16 @@ export class SignatureModal extends Component {
                     <div className='payment-signature-modal-button-area'>
                         <div
                             className='payment-signature-modal-cancel-btn'
-                            onClick={this.props.props.closeSignatureModal}>
-                            <div className="cross-icon-border">
-                                <img src={crossicon} className='payment-cancel-btn-cross-icon'/>
-                            </div>
-                            <span className='payment-signature-modal-cancel-btn-label'>CANCEL</span>
+                            onClick={()=>this.mySignature.clear()}>
+                            <span className='payment-signature-modal-cancel-btn-label'>CLEAR</span>
 
                         </div>
                         <div
                             className='payment-signature-modal-ok-btn'
-                            onClick={()=>this.props.props.openreceiptModal(this.mySignature)}>
+                            onClick={()=>this.props.props.submitSignature(this.mySignature)}>
                             <span className='payment-signature-modal-ok-btn-label'>OK</span>
                         </div>
-                        <a className="signature-bypass-btn" onClick={this.props.props.openreceiptModal}>BYPASS</a>
+                        <a className="signature-bypass-btn" onClick={()=>this.props.props.submitSignature("")}>BYPASS</a>
                     </div>
                 </div>
             </Modal>

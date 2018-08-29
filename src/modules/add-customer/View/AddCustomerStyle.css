@@ -890,7 +890,7 @@ input:focus {
     height: 38px;
     font-family: Roboto;
     font-size: 32px;
-    font-weight: normal;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.19;
@@ -943,14 +943,15 @@ input:focus {
     width: 558px;
     height: 135px;
     font-family: Roboto;
-    font-size: 24px;
-    font-weight: normal;
+    font-size: 25px;
+    font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.58;
-    letter-spacing: 1px;
     text-align: center;
     color: #505050;
+    text-align: center;
+    word-break: break-word;
 }
 
 .add-dom-cust-modal-textopt-button-area{
@@ -1293,9 +1294,12 @@ input:focus {
 }
 
 .add-dom-cust-modal-backtoedit-btn-icon{
-    width: 23.6px;
-    height: 22.3px;
-    border: solid 1px #ffffff;
+    width: 28px;
+    height: 27.9px;
+    border: solid 1px #FFFFFE;
+    background-color: #FFFFFE;
+    object-fit: contain;
+	margin-right: 5px;
 }
 
 .add-dom-cust-modal-backtoedit-btn-label{

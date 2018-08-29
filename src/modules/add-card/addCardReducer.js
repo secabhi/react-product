@@ -1,10 +1,16 @@
 const initialState = {
-    errors: [],
     isGetStoreClientId: false,
     isGetCardDetails: false,
     isAurusResponse : false,
     isAddCardClientele : false,
-    isAddCardClienteleFail : true
+    isAddCardClienteleFail : false,
+    viewCarDetailsResp : '',
+    getCardBinResp:'',
+    bypassResp: '',
+    closeTransactionResp:''
+
+    
+
 };
 
 export function AddCardReducer(state = initialState, action) {
@@ -20,7 +26,7 @@ export function AddCardReducer(state = initialState, action) {
                 isAddCardClienteleFail : false
             }
         }
-
+        break;
         case "STORE_CLIENT_REQ_SUCCESS" : {
             return {
                 ...state,
@@ -32,31 +38,33 @@ export function AddCardReducer(state = initialState, action) {
                 isAddCardClienteleFail : false
             }
         }
-
+        break;
         case "GET_CARD_DETAILS_SUCCESS" : {
             return { 
                 ...state,
-                response: action.payload,
+                viewCarDetailsResp: action.payload,
                 isGetStoreClientId: false,
                 isGetCardDetails: true,
                 isAurusResponse : false,
                 isAddCardClientele : false,
                 isAddCardClienteleFail : false
             }
-        }
 
+        }
+        break;
         case "ADD_CARD_CLIENTELE_SUCCESS" : {
             return {
                 ...state,
                 response: action.payload,
                 isGetStoreClientId: false,
-                isGetCardDetails: true,
+                isGetCardDetails: false,
                 isAurusResponse : false,
                 isAddCardClientele : true,
                 isAddCardClienteleFail : false
             }
+          
         }
-
+        break;
         case "ADD_CARD_CLIENTELE_FAIL" : {
             return{
                 ...state,
@@ -68,13 +76,64 @@ export function AddCardReducer(state = initialState, action) {
                 isAddCardClienteleFail : true
             }
         }
+        break;
+        case "AURUS_CALL_SUCCESS_RESPONSE":{
+           return{
+            ...state,
+            isGetStoreClientId: false,
+            isGetCardDetails: false,
+            isAddCardClientele : false,
+            isAddCardClientele : false,
+            isAddCardClienteleFail : false  
+           }
+        }
+        break;
+        case "BYPASS" : {
+            return{
+                ...state,
+                bypassResp:action.payload,
+                isAddCardClientele : false,
+                isAddCardClienteleFail : false ,
+                getCardBinResp:'' 
+            }
+        }
 
+        case "GETCARDBIN" : {
+            return{
+                ...state,
+                getCardBinResp: action.payload,
+                isAddCardClientele : false,
+                isAddCardClienteleFail : false  ,
+                bypassResp: '',
+            }
+        }
+        break;
+        case 'CANCELSWIPE': {
+           return{
+               ...state,
+               cancelSwipeResp : action.payload,
+               isAddCardClientele : false,
+               isAddCardClienteleFail : false, 
+               bypassResp: '', 
+               getCardBinResp:'' 
+           }
+        }
+        break;
+        case 'CLOSETRANSACTION':
+        return {
+            ...state,
+            closeTransactionResp: action.payload,
+            isAddCardClientele : false,
+            isAddCardClienteleFail : false
+        }
+        break;
         default :
             return {
                 ...state,
-                isGetStoreClientId: false,
-                isGetCardDetails: false,
-                isAddCardClientele : false,
+                viewCarDetailsResp : '',
+                getCardBinResp:'',
+                bypassResp: '',
+                closeTransactionResp:'',
                 isAddCardClientele : false,
                 isAddCardClienteleFail : false  
             }

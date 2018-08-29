@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+
 
 import { ProductSearchView } from './view/ProductSearchView';
 import ProductSearchList from './view/ProductSearchList';
@@ -77,6 +79,13 @@ class ProductSearch extends Component {
     componentWillReceiveProps = nextProps => {
 
         console.log("nextProps", nextProps);
+    }
+
+    componentDidCatch(error, info) {
+        // Display fallback UI
+      //  debugger;
+      NotificationManager.error(window.reactError.message, 'Error');
+     
     }
 
 
@@ -220,6 +229,7 @@ class ProductSearch extends Component {
         this.setState({
             searchFields: searchFields
         });
+        this.state.searchword = this.state.searchFields;
     }
 
 
@@ -241,15 +251,21 @@ class ProductSearch extends Component {
 
     handleApiInvoker = () => {
         this.props.startSpinner(true);
-        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {   
+        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
+
             if (pimskuId.failure) {
                 this.setState({ isSearchHit: true });
             }
             else {
                 this.setState({ isSearchHit: false });
             }
-            if(this.state.activeRadioBtn === 'pimsku_search' || this.state.activeRadioBtn === 'upc_search')
+            if(!pimskuId.failure && (this.state.activeRadioBtn
+                === 'pimsku_search' || 
+               this.state.activeRadioBtn ===
+               'upc_search'))
+               
                this.props.history.push("/product-details/"+pimskuId);
+               
 
         });
     }
@@ -266,6 +282,7 @@ class ProductSearch extends Component {
     }
 
     render() {
+        
         //debugger;
         let searchType = this.props.match.params.type;
         return (
@@ -303,9 +320,11 @@ class ProductSearch extends Component {
                     searchType === "search" &&
                     <ProductSearchList
                         isSearchHit={this.state.isSearchHit}
+                        searchFields={this.state.searchFields}
                         products={this.props.products}
                         onProductClick={this.onProductClick} />
                 }
+                <NotificationContainer/>
             </div>
         );
     }

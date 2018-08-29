@@ -17,7 +17,7 @@ export const customStyle= {
         letterSpacing: '2px',
         textAlign: 'left',
         color: '#333333',
-        paddingTop: '20px'
+        paddingTop: '20px',
     },
      selectFieldFloatingLabelStyle : {
         height: '28px',
@@ -67,7 +67,8 @@ export const customStyle= {
         letterSpacing: 'normal',
         textAlign: 'left',
         color: '#505050',
-        padding: '15px 0px'
+        padding: '15px 0px',
+        marginTop: '50px'
 
     },
     

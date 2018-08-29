@@ -24,6 +24,7 @@ export class SaleItemModifyQuantity extends Component {
     SaleItemModifyQuantitySubmit(e){
         e.preventDefault();
         console.log('Sales Item Update SUBMITING');
+        
         this.props.saleitemModifyQuantityUpdate(this.state.quantityitem);
         this.props.showQuantityModal(false);  
     }
@@ -32,8 +33,19 @@ export class SaleItemModifyQuantity extends Component {
         const qtypattern = /^[0-9\b]+$/;
         const { quantityitem } = this.state;
         this.setState({ quantityitem: e.target.value })
+        if((e.target.value) ===""){
+            document.getElementById("sale-item-modify-quantity-negative-error").style.display = "none";
+            document.getElementById("sale-item-modify-quantity-error").style.display = "none";          
+            //document.getElementById("sale-item-modify-quantity-negative-error").style.display = "block";
+            document.getElementsByClassName("sale-item-modify-quantity-ok")[0].disabled = true;
+         }
+         else if( (String(this.props.item.quantity) === e.target.value) || (String(this.props.item.quantity) === qtypattern.test(e.target.value)) ){
+            document.getElementById("sale-item-modify-quantity-negative-error").style.display = "block";
+            document.getElementsByClassName("sale-item-modify-quantity-ok")[0].disabled = true;
+        }
        
-        if((e.target.value <1 || (qtypattern.test(e.target.value)) < 1) && (e.target.value) !=""){
+       
+        else if((e.target.value <1 || (qtypattern.test(e.target.value)) < 1)  && (e.target.value) !=""){
             
             document.getElementById("sale-item-modify-quantity-negative-error").style.display = "block";
             document.getElementsByClassName("sale-item-modify-quantity-ok")[0].disabled = true;
@@ -43,6 +55,7 @@ export class SaleItemModifyQuantity extends Component {
             document.getElementById("sale-item-modify-quantity-error").style.display = "block";
             document.getElementsByClassName("sale-item-modify-quantity-ok")[0].disabled = true;
         }
+
         else {
             document.getElementById("sale-item-modify-quantity-negative-error").style.display = "none";
             document.getElementById("sale-item-modify-quantity-error").style.display = "none";
@@ -50,6 +63,7 @@ export class SaleItemModifyQuantity extends Component {
         }
     }
     render() {
+        console.log('MIKE QTY PROPS', this.props)
         const textFieldFloatingLabelStyle = {
             height: '28px',
             fontFamily: 'Roboto',
@@ -106,18 +120,18 @@ export class SaleItemModifyQuantity extends Component {
                     this.SaleItemModifyQuantitySubmit(e)}}>
                     <TextField
                         required
-                        type="tel"
+                        type="number"
                         floatingLabelText="Enter Quantity"
                         floatingLabelStyle={textFieldFloatingLabelStyle}
                         fullWidth={true}
                         inputStyle={textFieldInputStyle}
                         underlineStyle={textFieldUnderlineStyle}
                         style={textFieldStyle}
-                        value={this.state.quantityitem}
+                        value={this.state.quantityitem.replace(/[^0-9]+/ig, "")}
                         onChange={e => this.updateQuantityEntry(e)}
                     />
                     <p id="sale-item-modify-quantity-error" className="sale-item-modify-quantity-error">Quantity must be between 1 and 9999</p>
-                    <p id="sale-item-modify-quantity-negative-error" className="sale-item-modify-quantity-negative-error">Quantity not valid.</p>
+                    <p id="sale-item-modify-quantity-negative-error" className="sale-item-modify-quantity-negative-error">Quantity not changed.</p>
                     <div className="sale-item-modify-quantity-cancel" onClick={() => this.props.showQuantityModal(false)}>
                         <img src={Cancel_Purple_SFF} className="Cancel_Purple_SFF" />
                         <div className="sale-item-modify-quantity-cancel-btn">CANCEL</div>
@@ -153,15 +167,17 @@ export class SaleItemModifyQuantitySFF extends Component {
 
     updateQuantityEntry(e) {
         const qtypattern = /^[0-9\b]+$/;
-        const { quantityitem } = this.state;
+        const { quantityitem } = this.state
+        
         this.setState({ quantityitem: e.target.value })
       
-             if((e.target.value <1 || (qtypattern.test(e.target.value)) < 1) && (e.target.value) !=""){
+             if((e.target.value <1 || (qtypattern.test(e.target.value)) < 1) && (this.props.item.quantity === e.target.value) && (e.target.value) !=""){
           
            document.getElementById("sale-item-modify-quantity-negative-error").style.display = "block";
             document.getElementsByClassName("sale-item-modify-quantity-ok-btn")[0].disabled = true;
 
          }
+        
       else if ((e.target.value > 9999) || (qtypattern.test(e.target.value)) > 9999   ) {
             document.getElementById("sale-item-modify-quantity-error").style.display = "block";
             document.getElementsByClassName("sale-item-modify-quantity-ok-btn")[0].disabled = true;

@@ -15,9 +15,12 @@ export class SaleItemReplenishment extends Component {
         super(props)
         this.state = {
             values:{
-                daysValue:'',
-                description : ''
-              }
+                daysValue:'60',
+                description : '',
+                replenisherror:''
+                
+              },
+              enableButton : false
         }
     }
     componentWillReceiveProps = nextProps => {
@@ -25,6 +28,7 @@ export class SaleItemReplenishment extends Component {
             nextProps.showReplenishmentModal(false);
         }
         var udpatedValues = Object.assign({},this.state.values);
+        if(nextProps.values.daysValue!=='')
         udpatedValues.daysValue=nextProps.values.daysValue;
         udpatedValues.description=nextProps.values.description;
         this.setState({values : udpatedValues})
@@ -32,20 +36,31 @@ export class SaleItemReplenishment extends Component {
 
     componentWillMount() {
         this.props.getReplenishData();
+        
+    }
+    componentDidMount(){
+        document.getElementsByClassName('okbtn')[0].style.opacity="0.4";
     }
 
     handleqtyChange = (event,index,value) => {
         var value =event.target.value;
         var udpatedValues = Object.assign({},this.state.values);
-        udpatedValues.daysValue = value;
+        var replenisherror = ''
+        udpatedValues.daysValue = value.trim();
         this.setState({values : udpatedValues});
-        if(udpatedValues.daysValue==="" || parseInt(value)<15 || parseInt(value)>500){
+        if((udpatedValues.daysValue).trim()==="" || parseInt(value)<15 || parseInt(value)>500){
+            document.getElementById('okbtn').disabled= true;
+            replenisherror = ' '
             document.getElementsByClassName('errorLabel')[0].style.display="block"
-            document.getElementsByClassName('okbtn')[0].style.opacity="0.4"
+            document.getElementsByClassName('okbtn')[0].style.opacity="0.4";
+            this.setState({enableButton : false,replenisherror: replenisherror})
         }
         else{
+            document.getElementById('okbtn').disabled= false;
+            replenisherror = ''
             document.getElementsByClassName('errorLabel')[0].style.display="none"
-            document.getElementsByClassName('okbtn')[0].style.opacity="1"
+            document.getElementsByClassName('okbtn')[0].style.opacity="1";
+            this.setState({enableButton : true,replenisherror: replenisherror})
         }
     } 
         
@@ -73,6 +88,8 @@ export class SaleItemReplenishment extends Component {
         this.props.updateReplenish(daysValue,description);
         this.props.showReplenishmentModal(false);
     } 
+
+  
     
     render() {
         var textFieldStyle = {
@@ -113,6 +130,7 @@ export class SaleItemReplenishment extends Component {
           color: '#505050',
           paddingBottom: '4.5px',
           paddingLeft:'13px',
+          bottom: '8px',
           paddingTop:'0px'
       }
       var underlineStyle= {
@@ -121,6 +139,17 @@ export class SaleItemReplenishment extends Component {
     }
     var underlineStyleTextArea= {
         display:'none'
+    }
+    var errorsplitReplenishment = {
+        bottom: '0',
+        fontFamily: 'Roboto',
+        fontSize: '26px',
+        fontWeight: 'normal',
+        fontStyle: 'normal',
+        fontStretch: 'normal',
+        letterSpacing: 'normal',
+        textAlign: 'right',
+        color: '#d53560'
     }
     
         return (
@@ -137,13 +166,19 @@ export class SaleItemReplenishment extends Component {
                         <div className="replishment-dayssection-lff">
                         <TextField
                         type="text"
+                        // pattern="[^+-.]"
+                        // value={this.props.modified_amount_value.replace(/[0-9\.]+/, "")}
                         style = {textFieldStyle}
                         inputStyle = {textFieldInputStyle}
                         underlineStyle = {underlineStyle}
-                        value={this.state.values['daysValue']}
+                       // value={this.state.daysValue}
+                         value={this.state.values['daysValue'].replace(/[^0-9]+/ig, "") }
                         maxLength="3"
                         refs="daysValue"
-                        onChange={this.handleqtyChange.bind(this)}
+                        errorText={this.state.replenisherror}
+                        errorStyle={errorsplitReplenishment}
+                       // onChange={e => this.handleqtyChange(e)}
+                         onChange={this.handleqtyChange.bind(this)}
                         />
                         <div className="daystext-lff">days</div>
                         </div>
@@ -153,7 +188,7 @@ export class SaleItemReplenishment extends Component {
                         <TextField
                          style = {textAreaStyle}
                          inputStyle = {textFieldInputStyle}
-                         maxLength="41"
+                         maxLength="42"
                          rows={2}
                          rowsMax={4}
                          underlineStyle={underlineStyleTextArea}
@@ -164,7 +199,7 @@ export class SaleItemReplenishment extends Component {
                         />
                         </div>
                         <div className="info-section">
-                        Maximum Characters: [41]
+                        Maximum Characters: [42]
                         </div>
                         <div className="replishment-button-section-lff">
                         <button className="cancelbtn">
@@ -173,9 +208,9 @@ export class SaleItemReplenishment extends Component {
                             this.props.showReplenishmentModal(false);
                         }}>CANCEL</div>
                         </button>
-                        <button className="okbtn">
-                        <div className="oktxt" onClick={this.updateReplenish.bind(this)}>OK</div>
-                        </button>
+                        <div className="oktxt"  onClick={this.updateReplenish.bind(this)}>
+                        <button id="okbtn" className="okbtn" disabled><span id="ok">OK</span></button>
+                        </div>
                         </div>
                         </div>
                         </div>  

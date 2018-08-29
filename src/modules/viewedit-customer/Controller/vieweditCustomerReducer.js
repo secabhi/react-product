@@ -2,11 +2,11 @@ const initialState = {
     successModalFlag : false,
     addressValidationSuccessFlag : false,
     verifyAddressFlag : false,
+    verifyEmailFlag : false,
     invalidPhone : false,
     isUpdateSuccess  :false, 
     errors : [],
     countryList:[],
-    profileData: {},
     storeClientNumber:""
 };
 
@@ -17,6 +17,7 @@ export function ViewEditCustomerReducer(state, action) {
             return {
                 ...state,
                 successModalFlag: false,
+                verifyEmailFlag: false,
                 clienteleUpdateFlag: false,
                 addressValidationSuccessFlag: false,
                 countryList : action.payload,
@@ -31,6 +32,7 @@ export function ViewEditCustomerReducer(state, action) {
                 ...state,
                 successModalFlag: true,
                 addressValidationSuccessFlag: false,
+                verifyEmailFlag: false,
                 clienteleUpdateFlag: action.payload.ClienteleUpdateFlag,
                 errors : [],
                 isUpdateSuccess : false
@@ -42,6 +44,7 @@ export function ViewEditCustomerReducer(state, action) {
                 ...state,
                 successModalFlag: false,
                 clienteleUpdateFlag: false,
+                verifyEmailFlag: false,
                 addressValidationSuccessFlag: false,
                 errors : [],
                 profileData : action.payload,
@@ -49,6 +52,21 @@ export function ViewEditCustomerReducer(state, action) {
                 isProfileData : true,
                 isUpdateSuccess : false
             };
+        }
+
+        case 'VIEW_EDIT_CUST_INVALID_EMAIL' :{
+            return{
+                ...state,
+                verifyEmailFlag: true,
+                successModalFlag: false,
+                clienteleUpdateFlag: false,
+                errors : [{
+                    "cust_email" : "INVALID EMAIL"
+                }],
+                isCountryList : false,
+                isProfileData : false,
+                isUpdateSuccess : false
+            }
         }
         // case "STORE_CLIENT_REQ_SUCCESS":
         //     {
@@ -63,12 +81,19 @@ export function ViewEditCustomerReducer(state, action) {
                    
         //         }
         //     }
+        case 'TRANSACTION_ID_REQUEST':
+      return {
+        ...state,
+        transactionData: action.payload,
+        dataFrom: 'TRANSACTION_ID_REQUEST'
+      }
 
         default:
             return {
                 ...state,
                 successModalFlag: false,
                 clienteleUpdateFlag: false,
+                verifyEmailFlag: false,
                 addressValidationSuccessFlag: false,
                 countryList : [],
                 errors : [],

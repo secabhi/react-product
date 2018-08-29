@@ -1,104 +1,130 @@
-import React, { Component } from 'react';
-
+import React, {Component} from 'react';
 import QuantityValidation from './QuantityValidation/QuantityValidation';
-import ShippingOptions from './ShippingOptions/ShippingOptions';
+import ShippingOptionsOptionSeven from './ShippingOptionsOptionSeven/ShippingOptionsOptionSeven.js';
 import SelectStore from './SelectStore/SelectStore';
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { optionSevenSendApi } from './OptionSevenActions';
-import { startSpinner } from '../../../common/loading/spinnerAction';
-
+import ServicesFooter from '../../sale-services/services-common/ServicesFooter';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {startSpinner} from '../../../common/loading/spinnerAction';
+import {selectStoreApi} from './OptionSevenActions';
 
 class OptionSeven extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+			
+				StoreNumber:'',
+				AssociatePin:'',
+				firstName:'',
+			
+		//componentName : "quantityValidation"
+		 componentName : "shippingOptions"
+		//componentName : "selectStore"
+		}
+		this.setStoreNumber = this.setStoreNumber.bind(this);
+		this.setAssociatePin = this.setAssociatePin.bind(this);
+		this.selectstore = this.selectstore.bind(this);
+	}
+	componentWillReceiveProps(nextprops){
+		console.log(nextprops.optionSevenSend.dataFrom);
+	}
 
-        this.state = {    
-        }
+	setStoreNumber = (StoreNum) => {
+		
+		
+			this.setState({						
+							StoreNumber:StoreNum.target.value
+						  })
 
-        // object use to get data from individual child components
-        this.optionSevenObject = {
-            shippingOption: undefined,
-            shippingFee: undefined,
-            overrideCode: undefined,
-            storeNumber: undefined,
-            associatePin: undefined
-        }
-    }
+	}
+	setAssociatePin = (AssocPin) => {
+		
+		this.setState({
+				AssociatePin:AssocPin.target.value
+					})
+	}
+	setFirstName  = (firstName) => {
+		
+		this.setState({
+			firstName:firstName.target.value
+					})
+	}
+	selectstore= (StoreNum,AssocPin) => {
+	
 
+		//this.props.startSpinner(true);
+this.props.selectStoreApiInvoker(StoreNum,AssocPin);
+	}
     render() {
-        console.log('API OBJECT VALUES', this.optionSevenObject)
+		
         return (
-
-        <div>
-            {this.displayComponent()}
-        </div>   
-
+			
+            <div>
+                {
+					this.displayComponent()
+				}
+            
+			 <ServicesFooter additionalStyle='sendComponent-offset'>
+			  <div  className="giftwrap-cancel" onClick={() => {this.props.history.goBack()}}><span className="giftwrap-cancel-text">Cancel</span></div>
+			  <div className="giftwrap-next"  onClick={() => 
+				  {
+					   
+					  if(this.state.componentName === 'selectStore'){
+						
+						   this.selectstore(this.state.StoreNumber,this.state.AssociatePin);
+						}
+					 
+				  }}>
+			  <span className="giftwrap-next-text">Next</span></div>
+		     </ServicesFooter>
+		  </div>
         )
     }
 
     displayComponent = (component) => {
-        // Renders component based on state changed
-        var renderComponent;
-        if(this.props.shippingOptionState === "shippingOption") {
-            renderComponent = (
-                            <ShippingOptions
-                                optionSevenObject={this.optionSevenObject}
-                                setObject={(value) => {this.setOptionSevenObject(value)}}
-                                navigate={this.props.navigate}
-                            />
-                                );
-        }
-        else {
-            renderComponent = (
-                        <QuantityValidation
-                            navigate={this.props.navigate} 
-                            items={this.props.items} 
-                            optionSevenObject={this.optionSevenObject}
-                            setObject={(value) => {this.setOptionSevenObject(value)}}
-                            shippingOption = {(value) => {this.setShippingOption(value)}}
-                        />
-                        );
-        }
+		var renderComponent;
+		if(this.state.componentName === 'quantityValidation') {
+			renderComponent = (<QuantityValidation
+				items={this.props.items}
 
+			>
+			</QuantityValidation>);
+		}
+		else if(this.state.componentName === 'selectStore') {
+			
+			renderComponent = (<SelectStore
+			
+				setAssociatePin={this.setAssociatePin}
+				setStoreNumber={this.setStoreNumber}
+				StoreNumber={this.state.StoreNumber}
+				AssociatePin={this.state.AssociatePin}
+				firstName={this.state.firstName}
+				setFirstName={this.setFirstName}
+			>
+				
+			</SelectStore>)
+		}else if(this.state.componentName ==='shippingOptions'){
+			renderComponent = (<ShippingOptionsOptionSeven>
+
+				</ShippingOptionsOptionSeven>)
+		}
         return renderComponent;
-
     }
+};
 
-    setOptionSevenObject = (value) => {
-        // Gathers required api params from child components
-        this.optionSevenObject = value
-        console.log('setoption7FUNC', this.optionSevenObject)
-    }
-
-    optionSevenSendCall = () => {
-        // Api Call
-        const optionSevenSendObj = {};
-
-        this.props.startSpinner(true);
-        // this.props.optionSevenSendApi(optionSevenSendObj);
-
-    }
-
-
-}; // END CLASS
-
-function mapStateToProps({ optionSevenSend, cart, selectedItems }) {
+function mapStateToProps({optionSevenSend, cart, selectedItems}) {
     return {
-        optionSevenSend,
-        cart, 
-        selectedItems
-            }
-  }
-  
-  function mapDispatchToProps(dispatch) {
-    return bindActionCreators(
-        {  
-            optionSevenSendApi,
-            startSpinner
+		optionSevenSend, 
+		cart, 
+		selectedItems
+	}
+}
 
-        }, dispatch)
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(OptionSeven);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+		startSpinner,
+		selectStoreApiInvoker:selectStoreApi
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(OptionSeven);

@@ -1,14 +1,14 @@
 /* Dependencies import */
 import React, {Component} from 'react';
 import Modal from 'react-responsive-modal';
-
+import { connect } from 'react-redux';
 /* Components import */
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import InputMask from 'react-input-mask';
 import ReactTooltip from 'react-tooltip'
-
+import '../../../../post-void/postVoid.css';
 /* images import */
 import SvgIcon from 'material-ui/SvgIcon';
 
@@ -19,7 +19,7 @@ import visa from '../../../../../resources/images/Visa.svg'
 import deletebutton from '../../../../../resources/images/Delete_Purple.svg'
 import info from '../../../../../resources/images/Info.svg'
 import arrowdownicon from '../../../../../resources/images/Arrow_Down.svg';
-
+import { ModifyPriceErrorModal } from '../../../../sale/modal-component/modalComponent'
 /* Styles import */
 import '../../Styles/AddCustomerStyle.css';
 import { customStyle } from '../../Styles/AddCustomerComponentStyle'
@@ -34,16 +34,52 @@ import { InvalidEmailModal } from '../AlertModals/invalidEmailModal';
 import { EmailIncorrectModal } from '../AlertModals/emailIncorrectModal';
 import { FieldsMissingModal } from '../AlertModals/FieldsMissingModal';
 import { Salutation } from '../Fields/Salutation';
+import {AddCardModal} from '../../../../add-card/View/Components/Modals/AddCardModal/AddCardModal'
+import crossicon from '../../../../../resources/images/Close_Bttn_Purple.svg';
+import CardContainer from '../../../../add-card/cardContainer'
+import cardContainer from '../../../../add-card/cardContainer';
 
+import ErrorModal from '../../../../home/error-modal/errorModal';
 
-export class AddCustomerDomesticView extends Component {
-
+ export class AddCustomerDomesticView extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+                selectedCity : "",
+                selectedCityDetails : {}
+        }
+    }
   componentDidMount(){
       
   }
+  toggle = (index) => {
+      //debugger;
+    if (this.state.selectedCity === index) {
+        this.setState({ selectedCity: '', selectedCityDetails : {} })
+        document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = ".4";
+    } else {
+        this.setState({ selectedCity: index, selectedTransactionDetails :   this.props.domesticProp.citystateList[index] , selectedCityState : this.props.domesticProp.stateList[1]})
+        document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = "1";
+    }
+}
 
     render()
-    {  var Dropdownicon = (props) => (
+    { 
+       
+        var selectedStyle = {
+            background: "#4b2b6f"
+        }
+        var unselectedStyle = {
+            background: "#FFFFFF"
+        }
+        var selectedTextStyle = {
+            color : "#FFFFFF"
+        }
+        var unselectedTextStyle = {
+            color : "#000000"
+        }
+        const ZipCodeOverrideText = "overwriting the city and state entered"  
+        var Dropdownicon = (props) => (
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 24.4">
             <defs></defs>
@@ -57,6 +93,8 @@ export class AddCustomerDomesticView extends Component {
         
         return (
             <div className='add-customer-domestic'>
+               
+                {this.props.domesticProp.addCardResultModal ? this.props.domesticProp.openAddCardResultModal() : ''}    
                 <div className='addcust-dom-inputarea'>
                     <div className='add-customer-dom-row1'>
                         <div className='field1'>
@@ -130,7 +168,7 @@ export class AddCustomerDomesticView extends Component {
                         <div className='field1'>
                             <TextField
                                 type="text"
-                                floatingLabelText="Address Line 1"
+                                floatingLabelText="Address Line 1*"
                                 floatingLabelStyle={customStyle.textFieldFloatingLabelStyle}
                                 style={customStyle.textFieldStyle}
                                 fullWidth={true}
@@ -201,13 +239,29 @@ export class AddCustomerDomesticView extends Component {
                                 .handleChange
                                 .bind(this, "cust_city")}
                                 value={this.props.domesticProp.fields["cust_city"]}
-                                underlineStyle={customStyle.underlineStyle}/>
+                                underlineStyle={customStyle.underlineStyle}
+                                errorText={this.props.domesticProp.errors["cust_city"]} 
+                                errorStyle ={customStyle.errorStyle} 
+                                />
                         </div>
                         <div className='field2'>
-                            <SelectField value={this.props.domesticProp.dom_cust_state} onChange={this.props.domesticProp.handleCustStateChange} floatingLabelText="State" fullWidth={true} floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle} style={customStyle.selectFieldStyle} labelStyle={customStyle.selectFieldLabelStyle} menuItemStyle={customStyle.selectFieldMenuItemStyle} selectedMenuItemStyle={customStyle.selectFieldMenuItemStyle} iconStyle={customStyle.selectFieldIconStyle} //maxHeight = '85.5px'
-                                maxHeight={180} dropDownMenuProps={{
+                            <SelectField value={this.props.domesticProp.dom_cust_state} 
+                            onChange={this.props.domesticProp.handleCustStateChange} 
+                            floatingLabelText="State" fullWidth={true} 
+                            floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle} 
+                            style={customStyle.selectFieldStyle} 
+                            labelStyle={customStyle.selectFieldLabelStyle} 
+                            menuItemStyle={customStyle.selectFieldMenuItemStyle} 
+                            selectedMenuItemStyle={customStyle.selectFieldMenuItemStyle} 
+                            iconStyle={customStyle.selectFieldIconStyle} //maxHeight = '85.5px'
+                            maxHeight={180} 
+                            dropDownMenuProps={{
                                 iconButton: <img src={arrowdownicon} alt="arror-icon"/>
-                            }} underlineStyle={customStyle.underlineStyle}>
+                            }} 
+                            underlineStyle={customStyle.underlineStyle}
+                            errorText={this.props.domesticProp.errors["dom_cust_state"]} 
+                            errorStyle ={customStyle.errorStyle} 
+                            >
                                 {this.props.domesticProp.statesList.map((s, i) => {
                                     return (
                                         <MenuItem
@@ -233,6 +287,9 @@ export class AddCustomerDomesticView extends Component {
                                 onChange={this.props.domesticProp
                                 .handleChange
                                 .bind(this, "dom_cust_zip")}
+                                onBlur={this.props.domesticProp
+                                    .handleChange
+                                    .bind(this, "dom_cust_zip_blur")}
                                 value={this.props.domesticProp.fields["dom_cust_zip"]}
                                 errorText={this.props.domesticProp.errors["dom_cust_zip"]}
                                 errorStyle={customStyle.errorStyle}
@@ -250,18 +307,27 @@ export class AddCustomerDomesticView extends Component {
                                 onChange={this.props.domesticProp
                                 .handleChange
                                 .bind(this, "cust_email")}
-                                value={this.props.domesticProp.fields["cust_email"]}
+                                value={this.props.domesticProp.fields["cust_email"].replace(/[^A-Z0-9._@]+/ig, "")}
                                 errorText={this.props.domesticProp.errors["cust_email"]}
                                 errorStyle
                                 ={customStyle.errorStyle}
-                                underlineStyle={customStyle.underlineStyle}/>
+                                underlineStyle={customStyle.underlineStyle}
+                                onKeyPress={(e) => {
+                                    if(e.key === 'Enter') {
+                                        this.props.domesticProp.openModals();
+                                        e.preventDefault();
+                                        }
+                                    }}
+                                    
+                            />
                         </div>
                     </div>
 
                 </div>
 
                 <div className='addcard-dom-area'>
-                    <div className='added-cards-section'></div>
+              
+                    {/* <div className='added-cards-section'></div>
                     <div className='add-card-button-section'>
                         <div className='add-card-icon-section'>
                             <img src={cardicon} className='addcard-icon' alt='addcard'/>
@@ -269,7 +335,14 @@ export class AddCustomerDomesticView extends Component {
                         <div className='add-card-label-section'>
                             <div className='addcard-label'>Add Card</div>
                         </div>
-                    </div>
+                    </div> */}
+                    <CardContainer
+                     cardData={
+                        (this.props.domesticProp.cardDisplay.length>0) ? this.props.domesticProp.cardDisplay : '' }
+                        openCardModals = {this.props.domesticProp.openCardModals}
+                        custFname = { this.props.domesticProp.customercardDetails.length>0 ? (this.props.domesticProp.customercardDetails[0].FirstName[0] != '' && this.props.domesticProp.customercardDetails[0].FirstName[0] != undefined ? this.props.domesticProp.customercardDetails[0].FirstName[0] : '') : ''}
+                    />
+                     {this.props.domesticProp.maxCardWarningMessage()}
                 </div>
 
                 <div className='addcust-dom-subfooter-container'>
@@ -286,6 +359,18 @@ export class AddCustomerDomesticView extends Component {
                 </div>
 
                 {/* Alert Modals */}
+                <Modal classNames={{ modal: 'post-void-modal-container' }} 
+                    open={this.props.errorThrown} 
+                    onClose={() => {}} 
+
+                    />
+
+                <ErrorModal 
+                    errorTitle={this.props.errorDesciption}
+                    errorSubTitle={this.props.error}
+                    hideError={this.props.closeErrorModal}
+                    
+                />
           
                 <PhoneModal phoneModalOpen={this.props.domesticProp.phoneModal} 
                         phoneModalNum= {this.props.domesticProp.fields['cust_phone1']}
@@ -325,7 +410,61 @@ export class AddCustomerDomesticView extends Component {
                 <FieldsMissingModal fieldsMissingOpen = {this.props.domesticProp.filedsMissingModal}
                         fieldsMissingClose = {this.props.domesticProp.closeFieldsMissingModal} />
 
-            </div>
+                <AddCardModal classNames={{ modal: 'add-dom-cust-modal'}}
+                              little showCloseIcon={false}
+                              addCardModal = {this.props.domesticProp.addCardModal}
+                              done = {this.props.domesticProp.closeAddCardModal}
+                              cancelSwipeMode = {this.props.domesticProp.cancelSwipeMode}>
+                </AddCardModal>
+
+         <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
+            open={this.props.domesticProp.zipOverride}
+            onClose={() => { }}
+          >
+            <ModifyPriceErrorModal
+              errorText={ZipCodeOverrideText}
+             showModifyErrorModal={this.props.domesticProp.closeZipOverideModal}
+            />
+          </Modal>
+          <Modal classNames={{ modal: 'post-void-modal-container' }} open={this.props.domesticProp.cityModal} onClose={() => {
+
+}}>             
+                <div className='post-void-modalselect-container'>
+                    <div className="postvoid-modalselect-header">
+                        <div className="postvoid-modalselect-label">Please select a City</div>
+                    </div>                    
+                    <div className="postvoid-selectionarea">
+                 
+                    { 
+                        this.props.domesticProp.citystateList.map(function(item,index) {
+                            var rowObject = (
+                                <div style={(this.state.selectedCity === index)?(selectedStyle):(unselectedStyle)} onClick={() => this.toggle(index)} key={index} className="carditemlayoutinitial">
+                                    <label style={(this.state.selectedCity === index)?(selectedTextStyle):(unselectedTextStyle)} className="labelcardlayout" >
+                                        {item}
+                                    </label>
+                                </div>
+                            )
+                            return (
+                                rowObject
+                            );
+                        },this)
+                    }   
+                   
+                            {/* <div style={unselectedStyle} className="carditemlayoutinitial"><label className="labelcardlayout">{'1234'}</label></div>
+                            <div style={unselectedStyle} className="carditemlayoutinitial"><label className="labelcardlayout">{'12386784'}</label></div>
+                            <div style={unselectedStyle} className="carditemlayoutinitial"><label className="labelcardlayout">{'1234634'}</label></div> */}
+                 
+                                   
+                 </div>
+                    <div className='post-void-modalselect-button-area'>
+                        <button className='post-void-modalselect-cancelbtn' onClick={this.props.domesticProp.cityModalClose} ><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>CANCEL</span></button>
+                        <button className='post-void-modalselect-okbtn' onClick={() =>this.props.domesticProp.populateCity(this.state.selectedTransactionDetails, this.state.selectedCityState)}><span className='post-void-ok-label' disabled>OK</span></button>
+                    </div>
+                </div>
+           
+            </Modal>)
+         </div>
         );
     }
 }
+

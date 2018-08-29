@@ -6,6 +6,8 @@ import DayPicker from 'react-day-picker';
 import Modal2 from '../../../../../UI/modal-two/modal-two';
 import Modal from 'react-responsive-modal';
 
+import moment from 'moment';
+
 //style
 import './DayPicker.css'
 import './Calendar.css'
@@ -46,23 +48,30 @@ export default class Calendar extends Component {
     )
   }
 
-  formatToMMDDYYYY = (stringDate) => {
-    //date from calendar comes in with month at m/DD/YYY
-   if(stringDate.split('/')[0].length < 2) {
-    return '0'+stringDate;
-   } else {
-       return stringDate;
-   }
-}
+//   formatToMMDDYYYY = (stringDate) => {
+//     //date from calendar comes in with month at m/DD/YYYY
+//     // console.log('TYPE OF string date', typeof stringDate)
+//     console.log("THIS IS THE DATE!!!!!!!!!",stringDate.slice(0,1))
+//     console.log("THIS IS THE DATE!!!!!!!!!",stringDate.slice(2,4))
+//     console.log("THIS IS THE DATE!!!!!!!!!",stringDate.slice(5,9))
+//    if(stringDate.split('/')[0].length < 2) {
+//     console.log('mike-date-picker-stringdate', ('0'+stringDate))
+//     return '0'+stringDate;
+//    } else {
+//        return stringDate;
+//    }
+// }
 
   handleDayClick = (day, modifiers = {}) => {
+    console.log('mike-date-onclick', day)
+
     if(modifiers.disabled){
       //unselect if already selected
       this.setState({selectedDays: undefined})
       this.props.getSelectedDay(undefined)
     } else {
       this.setState({selectedDays:modifiers.selected ? undefined : day})
-      this.props.getSelectedDay(this.formatToMMDDYYYY(day.toLocaleDateString()));
+      this.props.getSelectedDay(day.toLocaleDateString());
     }
   }
 

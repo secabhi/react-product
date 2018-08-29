@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import InputMask from 'react-input-mask';
 import Modal from 'react-responsive-modal';
-
+import {store} from '../../store/store'
 /* Importing the required images and icons for the files*/
 
 
@@ -46,6 +46,7 @@ class UpdateCustomerInternational extends Component {
             showPopup: false,
             salutation: '',
             currentAddress: {},
+            failModal1: false,
             changedAddress: {
                 update_int_salutation: '',
                 update_int_fname: '',
@@ -60,6 +61,29 @@ class UpdateCustomerInternational extends Component {
                 update_int_country: '',
                 update_int_pincode: ''
             },
+            UpdatedInteranationalCustomerData:{
+
+            },
+            profileData: {
+                cust_cssId: this.props.customerDetails.cCSNumber,
+                    international: this.props.customerDetails.selectedAddress.international,
+                    AddressSeque:this.props.customerDetails.selectedAddress.sequenceKey,
+                    cust_dom_salutation: this.props.customerDetails.salutation ? this.toCamelCase(this.props.customerDetails.salutation) : '',
+                    cust_dom_fname: this.props.customerDetails.firstName ? this.props.customerDetails.firstName: '',
+                    cust_dom_lname: this.props.customerDetails.lastName? this.props.customerDetails.lastName : '',
+                    cust_dom_address1: this.props.customerDetails.selectedAddress.Addr1 ? this.props.customerDetails.selectedAddress.Addr1: '',//'9303 Spring Hollow Dr',
+                    cust_dom_address2: this.props.customerDetails.selectedAddress.Addr2 ? this.props.customerDetails.selectedAddress.Addr2 : '',
+                    cust_dom_mobile: this.props.customerDetails.selectedAddress.PhoneNumbers.length >= 1 ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneNumber : '',
+                    cust_dom_email: this.props.customerDetails.emailAddress ? this.props.customerDetails.emailAddress : '',
+                    cust_dom_otherMobile: this.props.customerDetails.selectedAddress.PhoneNumbers[1] ? this.props.customerDetails.selectedAddress.PhoneNumbers[1].phoneNumber : '',
+                    cust_dom_city: this.props.customerDetails.selectedAddress.City ? this.props.customerDetails.selectedAddress.City : '', //"New york"
+                    cust_dom_state: this.props.customerDetails.selectedAddress.State ? this.props.customerDetails.selectedAddress.State : '', //'NY'
+                    cust_dom_country: this.props.customerDetails.selectedAddress.Country ? this.props.customerDetails.selectedAddress.Country : '', //'CANADA',
+                    cust_dom_countryCode: this.props.customerDetails.selectedAddress.countryCode ? this.props.customerDetails.selectedAddress.countryCode : '', //'CANADA',
+                    cust_dom_postal: this.props.customerDetails.selectedAddress.Zip ? this.props.customerDetails.selectedAddress.Zip : '', //'78750',
+                    cust_dom_province: this.props.customerDetails.selectedAddress.province ? this.props.customerDetails.selectedAddress.province : '', //'ON',
+                    cust_dom_zip: this.props.customerDetails.selectedAddress.Zip ? this.props.customerDetails.selectedAddress.Zip : '', //'78750',
+                },
             phoneModal: false,
             textOptModal: false,
             emailModal: false,
@@ -81,8 +105,10 @@ class UpdateCustomerInternational extends Component {
         this.fetchSalutation();
         this.props.startSpinner(false);
     }
+
     componentDidMount() {
         console.log("UpdateCustomer International Did mount");
+        this.getAddress();
     }
 
     /**Fetch the salutations list  */
@@ -107,6 +133,7 @@ class UpdateCustomerInternational extends Component {
 
         if(nextProps.updateCustomerInternational.successModalFlag === true) {
             console.log("11111");
+            this.props.startSpinner(false);
             this.setState({
                 emailModal: false
             });
@@ -117,12 +144,35 @@ class UpdateCustomerInternational extends Component {
                 textoptModal : false
             });
             this.setState({
+                failModal1: false
+            })
+            this.setState({
+                addrEmailMOdal: false
+            });
+            this.setState({
                 succesModal: true
             })
         }
 
+        if (nextProps.updateCustomerInternational.verifyEmailFlag === true && nextProps.updateCustomerInternational.successModalFlag === false) {
+            console.log("33333");
+            this.setState({
+                emailModal: false
+            });
+            this.setState({
+                phoneModal: false
+            });
+            this.setState({
+                textoptModal: false
+            });
+            this.setState({
+                failModal1: true,
+                addrEmailMOdal: false
+            })
+        }
 
-        if(nextProps.updateCustomerInternational.errors.length > 0) {
+
+        if(nextProps.updateCustomerInternational.errors.length > 0 && nextProps.updateCustomerInternational.successModalFlag === false) {
             console.log("66666");
             this.setState({
         
@@ -141,25 +191,25 @@ class UpdateCustomerInternational extends Component {
  
             
             
-            this.props.startSpinner(false);
+            //this.props.startSpinner(false);
             //console.log(nextProps.updateCustomer.errors[0].dom_cust_mobile);
             this.setState({errors : nextProps.updateCustomerInternational.errors});
         }
 
 
-        if((nextProps.updateCustomerInternational.isProfileLoaded) && (nextProps.updateCustomerInternational.customerProfile != '{}'))
-            {
+        // if((nextProps.updateCustomerInternational.isProfileLoaded) && (nextProps.updateCustomerInternational.customerProfile != '{}'))
+        //     {
               
-                console.log(Object.keys(this.state.currentAddress).length);
-                if(Object.keys(this.state.currentAddress).length == 0)
-                {
+        //         console.log(Object.keys(this.state.currentAddress).length);
+        //         if(Object.keys(this.state.currentAddress).length == 0)
+        //         {
                   
-                    this.setState({profileData :  nextProps.updateCustomerInternational.customerProfile}, function(){
-                        this.getAddress();
-                    })
-                }
+        //             this.setState({profileData :  nextProps.updateCustomerInternational.customerProfile}, function(){
+        //                 this.getAddress();
+        //             })
+        //         }
                 
-            }
+        //     }
     }
     openSuccesModal = () => {
         this.setState({
@@ -226,7 +276,7 @@ class UpdateCustomerInternational extends Component {
         if (fields['update_int_mobile'] !== '' && fields['update_int_mobile'] !== undefined) {
             if (fields['update_int_mobile'].length < 10 || fields['update_int_mobile'].length > 16) {
                 console.log('update_int_mobile' + fields['update_int_mobile'].length);
-                errors['update_int_mobile'] = 'Invalid Phone Number';
+                errors['update_int_mobile'] = 'Please enter the correct phone number';
                 this.isValid = false;    
             }
         }
@@ -282,6 +332,19 @@ class UpdateCustomerInternational extends Component {
 
         // this.setState({ selectedCountry : value, errorsInt:errorsInt });
     }
+
+    bypassEmailValidation = () => {
+        this.setState({ failModal1: false }, () => {
+            this.updateInternationalCustomerInvoker(true);
+        });
+    }
+
+    closeFailModal = () => {
+        this.setState({
+            failModal1: false
+        });
+    }
+
     resetAll = () =>{
         this.setState({changedAddress:Object.create(this.state.currentAddress)})
         this.setState({errors: {}})
@@ -398,9 +461,28 @@ class UpdateCustomerInternational extends Component {
 
     closeSuccessModal = () => {
         this.setState({
-            succesModal: false
+            succesModal: false,
+            failModal1: false
         })
         this.setState({succesModal:false});
+        var UpdatedInteranationalCustomerData = store.getState().customerDetails;
+        console.log('UpdatedInteranationalCustomerData',UpdatedInteranationalCustomerData)
+        UpdatedInteranationalCustomerData.selectedAddress.Addr1 = this.state.changedAddress['update_int_address1'];
+        UpdatedInteranationalCustomerData.selectedAddress.Addr2 = this.state.changedAddress['update_int_address2'];
+        UpdatedInteranationalCustomerData.selectedAddress.City = this.state.changedAddress['update_int_city'];
+        UpdatedInteranationalCustomerData.selectedAddress.Country = this.state.changedAddress['update_int_country'];
+        UpdatedInteranationalCustomerData.selectedAddress.Zip = this.state.changedAddress['update_int_pincode'];
+        UpdatedInteranationalCustomerData.lastName = this.state.changedAddress['update_int_lname'];
+        UpdatedInteranationalCustomerData.firstName = this.state.changedAddress['update_int_fname'];
+        UpdatedInteranationalCustomerData.emailAddress = this.state.changedAddress['update_int_email'];
+        if (UpdatedInteranationalCustomerData.selectedAddress.PhoneNumbers.length === 1) {
+            UpdatedInteranationalCustomerData.selectedAddress.PhoneNumbers[0].phoneNumber = this.state.changedAddress['update_int_mobile'];
+        }
+        if (UpdatedInteranationalCustomerData.selectedAddress.PhoneNumbers.length > 1) {
+            UpdatedInteranationalCustomerData.selectedAddress.PhoneNumbers[1].phoneNumber = this.state.changedAddress['update_int_otherMobile'];
+        }
+        console.log('profile-prev-data',JSON.stringify(store.getState().customerDetails));
+        this.props.updateCustomerIntServiceInvoker(UpdatedInteranationalCustomerData);
         this.props.history.push('/customer-details');
     }
 
@@ -419,6 +501,7 @@ class UpdateCustomerInternational extends Component {
         //     update_int_country: 'CANADA',
         //     update_int_pincode: '75222'
         // }
+        console.log("SHIV PROFILEDATA",this.state.profileData)
         var profile = {
             update_int_salutation: this.state.profileData.cust_dom_salutation,
             update_int_fname: this.state.profileData.cust_dom_fname,
@@ -447,21 +530,20 @@ class UpdateCustomerInternational extends Component {
         });
 
     }
-    
-    componentDidMount() {
-        //this.getAddress();
-    }
 
     /* Submit add customer data - International */
 
     updateInternationalCustomerInvoker = (bypassFlag) => {
+        const config = require('../../resources/stubs/config.json');
+        const clientConfig = config.clientConfig;
+
         this.props.startSpinner(true);
         this.setState({emailModal:false, textoptModal:false});
-       let addCustDomData = {
-           'ClientID': '0101:0169:04042018:033639',
+        this.setState({failModal1: false});
+        let addCustDomData = {
+           ...clientConfig,
            'ClientTypeID': '1000',
-           'SourceApp': 'CMOS',
-           'SourceLoc': 'NM-DIRECT',
+           "AddressSeque":this.props.customerDetails.selectedAddress.sequenceKey,
            'CFirstName': this.state.changedAddress['update_int_fname'],
            'CLastName': this.state.changedAddress['update_int_lname'],
            'Salutation': this.state.selectedSalutation,
@@ -470,13 +552,14 @@ class UpdateCustomerInternational extends Component {
            'Zip5': this.state.changedAddress['update_int_pincode'],
            'CEmail': this.state.changedAddress['update_int_email'],
            'Country': this.state.changedAddress['update_int_country'],
-           'CMobile': this.state.changedAddress['update_int_mobile'].replace(/[^A-Z0-9]+/ig, ""),
-           'storeClientNo': '',
+           'storeClientNo': this.props.customerDetails.clientNumber,
            'storeAssoc': this.props.login.userpin,
            'donotcall': this.state.cust_text_opt,
            'flagByPASS': true,
+           'EmailFlagByPass': bypassFlag,
            "ClienteleUpdateFlag":true,
-            "CCssNo":this.props.customerDetails.cssId,
+            "CCssNo":this.props.customerDetails.cCSNumber,
+           'CMobile': this.state.changedAddress['update_int_mobile'].replace(/[^A-Z0-9]+/ig, ""),
             "COtherPhone":this.state.changedAddress['update_int_otherMobile'].replace(/[^A-Z0-9]+/ig, "")
 
        }
@@ -515,6 +598,7 @@ class UpdateCustomerInternational extends Component {
             emailModal = {this.state.emailModal}
             succesModal = {this.state.succesModal}
             failModal = {this.state.failModal}
+            failModal1={this.state.failModal1}
             goBacktoCustDetails = {this.goBacktoCustDetails}
             resetAll = {this.resetAll}
             closePhoneModal = {this.closePhoneModal}
@@ -535,6 +619,7 @@ class UpdateCustomerInternational extends Component {
             currentAddress = {this.state.currentAddress}
             changedAddress = {this.state.changedAddress}
             update_int_country = {this.state.update_int_country}
+            bypassEmailValidation={this.bypassEmailValidation}
                 />
         );
     }

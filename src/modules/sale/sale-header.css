@@ -117,6 +117,36 @@
     margin-bottom: 31.7px;
     margin-left: 28.5px;
 }
+.sale-header-customersearch-icon-details {
+    margin-top: 1px;
+}
+
+.sale-customersearch-icon {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-top: 25px;
+    position: absolute;
+    right: 185px;
+}
+
+.sale-customersearch-icon-label-lff {
+    width: 121px;
+    height: 65px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 0.2px;
+    text-align: left;
+    color: #ffffff;
+    color: var(--white);
+    margin-top: 37px;
+    position: absolute;
+    right: 40px;
+}
 
 @media only screen and (width:1080px){
 

@@ -35,7 +35,7 @@ class IncircleNonMember extends Component {
     this.nextLvl = parseInt(this.data[parseInt(this.currentlvl) - 1].nextLvl);
     this.totalpoints = parseInt(this.inCircleInfo.total_points);
     this.pointsToNextLvl = this.nextLvl - this.totalpoints;
-    var profile = this.props.profileData;
+    var profile = this.props.customerDetails.profileData;
     if (profile && JSON.stringify(profile) != "{}") {
       //States
       this.state = {
@@ -145,8 +145,14 @@ class IncircleNonMember extends Component {
             />
           </div>
           <div className="divider" />
-          <div className="customer-name">
+          {/* <div className="customer-name">
             <div className="customer-name-label">{(this.state.fname != "") ? (this.state.salutation + ((this.state.salutation != "") ? '.' : "")) : ""} {this.state.fname} {this.state.lname}</div>
+          </div> */}
+
+          <div className="customer-name">
+          <div className="customer-name-label"> {(this.props.customerDetails.firstName != "") ? 
+          (this.props.customerDetails.salutation + ((this.props.customerDetails.salutation != "") ? '.' : "")) : ""} {this.props.customerDetails.firstName} {this.props.customerDetails.lastName}
+          </div>   
           </div>
           {/*<div className="divider" />
           <div className="incircle-details">
@@ -184,7 +190,7 @@ class IncircleNonMember extends Component {
           </div>
         </div>
         <div className="cusdet-tab-area">
-          <Tabheader history={this.props.history} />
+          <Tabheader history={this.props.history} customerName={this.props.customerDetails.firstName}/>
           <div className="cusdet-tab-content">
             <div className="content-left-part">
               <div className="incirclenonmember-content-left-upper">
@@ -644,7 +650,7 @@ class IncircleNonMember extends Component {
   }
 }
 function mapStateToProps({ customerDetails, customerSearch }) {
-  return { profileData: customerDetails.profileData, incircleData: customerSearch.incircleData }
+  return { customerDetails, incircleData: customerSearch.incircleData }
 }
 
 

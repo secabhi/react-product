@@ -17,8 +17,7 @@ export class SuccessModal extends Component {
             <Modal
             open={this.props.successModalOpen}
             onClose={() => { }}
-            little
-            showCloseIcon='false'
+            little showCloseIcon={false}
             classNames={{
             modal: 'addcust-success-modal'
             } }>

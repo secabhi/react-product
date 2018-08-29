@@ -107,7 +107,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     font-stretch: normal;
     text-align: right;
     color: #d53560;
-    margin-left: 25%;
+    margin-left: 22%;
     margin-top: 6px;
 }
 #sale-item-modify-quantity-error{

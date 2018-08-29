@@ -52,6 +52,18 @@ export default class ScanOrSwipeGiftCard extends Component {
         const underlineStyle = {
             borderColor: '#757575'
         }
+        var giftcardError = {
+            bottom: '0',
+            fontFamily: 'Roboto',
+            fontSize: '26px',
+            fontWeight: 'normal',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            letterSpacing: 'normal',
+            textAlign: 'right',
+            color: '#d53560'
+
+        }
 
 
         return (
@@ -69,10 +81,25 @@ export default class ScanOrSwipeGiftCard extends Component {
                 floatingLabelStyle={textFieldFloatingLabelStyle}                    
                 inputStyle = {textFieldInputStyle}
                 underlineStyle= {underlineStyle}
+                errorText={this.props.error || this.props.sameCardNumber}
+                errorStyle={giftcardError}
+                type="number"
+                onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,16)
+                }}
+                onKeyPress={(ev) => {
+                    console.log(`Pressed keyCode ${ev.key}`);
+                    if (ev.key === 'Enter') {
+                      // Do code here
+                      ev.preventDefault();
+                      console.log("You Are in test box");
+                      this.props.aurusCardLookup();
+                    }
+                  }}
             >
-                <InputMask mask="9999 9999 9999 9999" maskChar=" " />
+                {/* <InputMask mask="9999 9999 9999 9999" maskChar=" " /> */}
             </TextField>
-
+            
         </div>
         )
     }

@@ -12,13 +12,9 @@ export default class SelectStore extends Component {
         super(props)
 
         this.state = {
-            storeDetails : {
-                storeNumber : '',
-                associatePin: ''
-            },
+            
             invalid_modal: false
         }
-        this.state.storeDetails = this.props.optionSevenObject;
     }
 
 
@@ -35,8 +31,28 @@ export default class SelectStore extends Component {
             letterSpacing: '2px',
             textAlign: 'left',
             color: '#505050',
+            marginTop:'2px'
         }
-
+        const  textFieldFloatingLabelStyle = {
+            height: '28px',
+            fontFamily: 'Roboto',
+            fontSize: '30px',
+            fontWeight: '300',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            letterSpacing: 'normal',
+            lineHeight: '1.21',
+            textAlign: 'left',
+            color: '#333333'
+        }
+        const  textFieldStyle = {
+            height: '60px',
+            paddingTop: '30px',
+            color: '#828282'
+        }
+        const underlineStyle = {
+            backgroundColor: '#828282'
+        }
         return (
             
             <div className="select-store-container">
@@ -49,72 +65,63 @@ export default class SelectStore extends Component {
                 </Modal>
 
                 <div className="select-store-text">From Store</div>
-
                 <div className="select-store-content">
-                <div className="select-store-form">
-                    <label className="store-form-label">Sending Store Number</label>
-                        <TextField className="store-textfield"
+                <form className="select-store-form">
+                  
+                        <TextField className="store-textfield storeNum"
                             type="number"
-                            value={this.state.storeDetails.storeNumber}
+                            floatingLabelText="Sending Store Number - For SKU #7:2028-650-401024723603 543365"
+                            floatingLabelStyle={textFieldFloatingLabelStyle}
+                            style={textFieldStyle}
+                            fullWidth={true}  
+                            value={this.props.StoreNumber}
                             onChange={(e) => {
-                                this.setStoreNumber(e);
+                                this.props.setStoreNumber(e);
                             }}
-                            hintText="Store Number"                    
-                            // style = {textFieldStyle}
+                            underlineStyle={underlineStyle}
                             inputStyle = {textFieldInputStyle}
                             refs="select-store-form" 
                             required
                         />
 
-                    <label className="store-form-label associate-pin-label">Sending Associate PIN</label>
-                        <TextField className="store-textfield"
+                    
+                        <TextField className="store-textfield store-form-label associate-pin-label associateNum"
                             type="number"
-                            value={this.state.storeDetails.associatePin}
+                            floatingLabelText="Sending Associate PIN - For store 1"
+                            floatingLabelStyle={textFieldFloatingLabelStyle}
+                            style={textFieldStyle}
+                            fullWidth={true}
+                            value={this.props.AssociatePin}
                             onChange={(e) => {
-                                this.setAssociatePin(e);
+                                this.props.setAssociatePin(e);
                             }}
-                            hintText="Associate Pin"                    
-                            // style = {textFieldStyle}
                             inputStyle = {textFieldInputStyle}
+                            underlineStyle={underlineStyle}
                             refs="select-store-form" 
                             required
                         />
+                       
+                        <TextField className="store-form-label associate-pin-label firstname"
+                                type="text"
+                                floatingLabelText="First Name"
+                                floatingLabelStyle={textFieldFloatingLabelStyle}
+                                style={textFieldStyle}
+                                fullWidth={true}
+                                inputStyle={textFieldInputStyle}
+                                refs="firstName"
+                                value={this.props.firstName}
+                                onChange={(e) => {
+                                    this.props.setFirstName(e);
+                                        }}
+                                required
+                                //errorText={this.props.domesticProp.errors["firstName"]}
+                               // errorStyle
+                              //  ={errorStyle}
+                                underlineStyle={underlineStyle}>
+                                </TextField>
+                </form>
                 </div>
-                </div>
-
             </div>
             )
-        }
-
-        setStoreNumber = (e) => {
-            // Retrieves the store number
-            let selectedStoreNumber = e.target.value;
-            this.setState({
-                storeDetails: {
-                    ...this.state.storeDetails,
-                    storeNumber: selectedStoreNumber
-                }
-            })
-        }
-
-        setAssociatePin = (e) => {
-            // Retrieves the associate pin
-            let selectedAssocaitePin = e.target.value;
-            this.setState({
-                storeDetails: {
-                    ...this.state.storeDetails,
-                    associatePin: selectedAssocaitePin
-                }
-            })
-        }
-
-        // renderInvalidModal = () => {
-        //     FUNCTION TO CHECK FOR A VALID STORE NUMBER
-        //     if(this.state.storeNumber != valid store num) {
-        //         this.setState({
-        //             invalid_modal: true
-        //         })
-        //     }
-        // }
-        
-}; // END CLASS
+        }      
+}; 

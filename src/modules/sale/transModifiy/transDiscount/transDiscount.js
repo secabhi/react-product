@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-
+import { TextField } from 'material-ui';
 import Modal2 from '../../../../UI/modal-two/modal-two';
 import cancelBtnImage from '../../../../resources/images/Close_Bttn_Purple.svg';
-import transModifyImage from '../../../../resources/images/Trans_Modify.svg';
+import transModifyImage from '../../../../resources/images/Trans_Modify_Black.svg';
 import './transDiscount.css';
 
 export default class TransDiscountModal extends Component  {
@@ -10,16 +10,66 @@ export default class TransDiscountModal extends Component  {
     discountThreshold = undefined;
 
     render() {
+        
         if(window.innerWidth < 1900) {
             return<this.SffModal />
           }
         return (
             <this.LffModal />
         )    
-    }   
+    } 
+    
+    onOk = e => {
+        console.log('ENTER CALLED:   ', e)
+    if(e.key === 'Enter'){
+        this.props.applyTransDiscount(this.state.input)
+        }
+    }
 
    LffModal = () => {
         const {applyTransDiscount, done} = this.props;
+        const textFieldFloatingLabelStyle = {
+            height: '28px',
+            fontFamily: 'Roboto',
+            fontSize: (window.innerWidth > 1900) ? '26px' : '48px',
+            fontWeight: '300',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            lineHeight: (window.innerWidth > 1900) ? '1.19' : '1.19',
+            letterSpacing: 'normal',
+            textAlign: 'left',
+            color: '#333333',
+            marginTop:'-12px'
+        }
+
+        const textFieldStyle = {
+            height: '60px',
+            paddingTop: (window.innerWidth > 1900) ? '15.2px' : '65px',
+            paddingBottom: (window.innerWidth > 1900) ? '6px' : '20px',
+            paddingLeft: (window.innerWidth > 1900) ? '110px' : '65px',
+            marginTop: (window.innerWidth > 1900) ? "20px" : "25px",
+        }
+
+        const textFieldInputStyle = {
+
+            width: (window.innerWidth > 1900) ? "619.5px" : "738px",
+            // height: "18px",
+            fontFamily: "Roboto",
+            fontSize: (window.innerWidth > 1900) ? "30px" : "48px",
+            fontWeight: "normal",
+            fontStyle: "normal",
+            fontStretch: "normal",
+            lineHeight: (window.innerWidth > 1900) ? "1.13" : '1.18',
+            letterSpacing: "normal",
+            textAlign: "left",
+            color: "#333333",
+            paddingBottom: (window.innerWidth > 1900) ? "10px" : "10px",
+            paddingLeft: (window.innerWidth > 1900) ? "0px" : "10px",
+        }
+        const textFieldUnderlineStyle = {
+            width: (window.innerWidth > 1900) ? "619.5px" : "738px",
+            backgroundColor: '#333333',
+        }
         return (
             <Modal2   
                 style={{
@@ -35,10 +85,24 @@ export default class TransDiscountModal extends Component  {
                 <div className="modal-lff-flex">
                     <img className="modal-icon" style={{marginTop: "80px"}} src={transModifyImage} />
                     <div className="modal-title" style={{marginTop: "25px", fontWeight: "500"}} >Trans Discount</div>
-                    <input 
+                    {/* <input 
                         className="modal-input-field" 
                         value={this.state.input}  style={{marginTop: "65px"}} type="text" placeholder="Enter % Off" 
                         onChange={(e)=> this.onNextCharInput(e.target.value)} maxLength="3"
+                    /> */}
+                    <TextField
+                        required
+                        type="text"
+                        floatingLabelText="Enter % Off"
+                        floatingLabelStyle={textFieldFloatingLabelStyle}
+                        fullWidth={true}
+                        inputStyle={textFieldInputStyle}
+                        underlineStyle={textFieldUnderlineStyle}
+                        style={textFieldStyle}
+                        maxlength="3"
+                        value={this.state.input}
+                        onChange={(e)=> this.onNextCharInput(e.target.value)}
+                        onKeyDown={(e) => this.onOk(e)} 
                     />
                     <div className="modal-buttons-container-flex" style={{marginTop: "50px"}} >
                         <div className='modal-cancel-btn-flex' style={{marginRight: "40px"}} onClick={()=>{done()}} >
@@ -95,7 +159,7 @@ export default class TransDiscountModal extends Component  {
 
     onNextCharInput(input){
         if(this.isValidInput(input)){
-            this.setState({input})
+            this.setState({input: parseInt(input)})
         }
         //need to allow backspace for last char;
         if(input == ''){

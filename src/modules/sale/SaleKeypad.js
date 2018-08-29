@@ -58,7 +58,7 @@ export default (props) => {
 
     return (
       
-      <div style={props.disableHeaderOptions?props.disabledHeaderStyle:props.enabledHeaderStyle} className={props.disabled ? 'keypad-container element-disabled' : 'keypad-container'}>
+      <div style={props.disableHeaderOptions?props.disabledHeaderStyle:props.enableHeaderStyle} className={props.disabled ? 'keypad-container element-disabled' : 'keypad-container'}>
       {console.log('props in keypad'+JSON.stringify(props))}
         <button className="options-button" onClick={() => openNav()} ><span className="options-button-text">Options</span></button>
         <button className="use-camera-button" onClick={() => props.openCameraScanner()}>

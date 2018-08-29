@@ -1,7 +1,8 @@
 
 const initialState = {
     nonClientele: {firstname: null, lastname:null, email: null, tracking: false},
-    clientele: {email: null, tracking: false}
+    clientele: {email: null, tracking: false},
+    tracking:false,
 
 }
 
@@ -14,7 +15,7 @@ export default (state = initialState, action) => {
         }
 
         case 'UPDATE_NON_CLIENTELE_INFO':
-        const newNonClienteleInfo = {...action.payload, tracking:state.nonClientele.tracking}
+        const newNonClienteleInfo = {...action.payload, tracking:state.tracking}
         
         return {
             ...state,
@@ -22,13 +23,13 @@ export default (state = initialState, action) => {
         }
 
         case 'UPDATE_TRACKING_CLIENTELE':
-            state.clientele.tracking = action.payload;
+            state.tracking = action.payload;
         return {
             ...state,
         }
 
         case 'UPDATE_TRACKING_NON_CLIENTELE':
-            state.nonClientele.tracking = action.payload;
+            state.tracking = action.payload;
         return {
             ...state,
         }

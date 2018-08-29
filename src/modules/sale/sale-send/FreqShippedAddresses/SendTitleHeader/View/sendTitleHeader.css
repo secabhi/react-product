@@ -15,10 +15,19 @@
     /* border: 2px solid red; */
 }
 
+.ScanorKeySendEnvelopeBarcode{
+    max-width: initial;
+}
+
+.send-title-header-container {
+    width: 80%;
+    display: flex; 
+}
+
 .send-title-header-text{
     height: 67px;
     /* width: 680px; */
-    max-width: 680px;
+    /* max-width: 680px; */
     margin-left: 50px;
     font-family: Roboto;
     font-size: 50px;

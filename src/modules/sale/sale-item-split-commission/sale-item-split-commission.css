@@ -73,12 +73,13 @@
         margin-right: 50px;
     
     }
-      
+         
       .split-commission-ok-btn{
         width: 304px;
         height: 120px;
         opacity: 0.4;
         background-color: #4b2b6f;
+       
         opacity:0.4;
     
       }
@@ -109,6 +110,10 @@
         text-align: left;
         color: #ffffff;
         margin-left: 121px;
+        background: #613b8c;
+        border: solid 2px #613b8c;
+        float: right;
+    
       }
       .close-icon-style{
        
@@ -218,7 +223,7 @@
     color: #613b8c;
   }
   .split-commission-ok-btn-label{
-    margin-top: 14px;
+   
     font-family: Roboto;
     font-size: 24px;
     font-weight: normal;
@@ -226,7 +231,7 @@
     font-stretch: normal;
     line-height: 1.33;
     letter-spacing: normal;
-    text-align: left;
+    text-align: center;
     color: #ffffff;
     margin-left: 74px;
   }

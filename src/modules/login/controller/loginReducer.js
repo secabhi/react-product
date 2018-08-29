@@ -11,12 +11,15 @@ const initialState = {
         RESPONSETEXT:' '
     },
     loading: false,
-    error: null
+    error: null,
+    isValid : false, 
+    error_message:''
+    
 };
 
 export function loginReducer(state = initialState, action) {
     //console.log("action recieved", action.payload);
-    
+  
     switch (action.type){
         case LOGIN_REQUEST:
             // return {
@@ -28,16 +31,28 @@ export function loginReducer(state = initialState, action) {
                 response: action.payload.data,
                 userpin: action.payload.userpin,
                 loading: false,
+                error_message:'',
+                isValid : true, 
+
             };
         case CLEAR_REQUEST:
 
             return {
                 ...state,
                 response: action.payload,
+                error_message:'',
+                isValid : true,
             };
+        case 'LOGIN_REQUEST_VALIDFAILED':
+                return{
+                    ...state,
+                    response:null,
+                    error_message: action.message,
+                    isValid : false,
+                }
 
             default:
-                return state;
+                return state
     }
 }
 

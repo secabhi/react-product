@@ -4,10 +4,15 @@ import {
     ADD_ITEM_FAILURE,
     TRANS_DISCOUNT_APPLIED,
     IM_RINGINGASSOCIATE,
+    IM_INVALIDASSOCIATE,
     TRANS_DISCOUNT_FAIL,
     ASSOCIATE_DISCOUNT_APPLIED,
     ASSOCIATE_DISCOUNT_FAIL,
-    ASSOCIATE_DISCOUNT_ALREADY_APPLIED
+    ASSOCIATE_DISCOUNT_ALREADY_APPLIED,
+    RENDER_POST_VOID_CART,
+    DIRECT_SEND_REQUEST
+,
+    TD_DISCOUNTEXCEEDS
 } from '../common/constants/type';
 // helper - reformats the cart given from response
 import salesCartReformater from './helpers/salesCartReformater';
@@ -22,13 +27,21 @@ const initialState = {
         },
         totalTax: "",
         subTotal: "",
-        total: ""
+        total: "",
+        GetisellFlag:"",
     },
     itemPromotionDetails: '',
     dataFrom: '',
-    productImages: { updated: true, imageUrls: {} },
-    getISellData: '',
-    getISellDataFrom: ''
+    productImages: {updated: true, imageUrls:{}},
+    getISellData : '',
+    getISellDataFrom : '',
+    sku:'',
+    giftRegNumber: '',
+    managerPinValidateResponse : {
+        "isValidPIN" : false,
+        "isManagerPIN" : false,
+        "isAssociatePIN" : false
+    }
 }
 const menuData = {}
 const itemsData = {
@@ -38,7 +51,7 @@ var clienteled = '';
 
 export function SalesCartReducer(state = initialState, action) {
     console.log('IN REDUCER', action)
-
+//debugger;
     switch (action.type) {
 
         case 'RESUME_ENTRY_REQUEST_SUCCESS' : {
@@ -58,6 +71,41 @@ export function SalesCartReducer(state = initialState, action) {
             };
         }
 
+        case 'RENDER_POST_VOID_CART' : {
+            console.log("Before##$#$%#$",action.payload.cartItems.items);
+            let [cartItems, productImages] = salesCartReformater(action.payload.cartItems.items, state.productImages);
+            action.payload.cartItems.items = cartItems;
+            console.log("SSD##$#$%#$",action.payload.cartItems.items);
+            state.productImages = productImages;
+            if (productImages.updated) {
+                state.dataFrom = 'ADD_ITEM'
+            } else {
+                state.dataFrom = 'UPDATE_IMAGES'
+            }
+            return {
+                ...state,
+                data:action.payload
+            };
+        }
+
+        case 'RENDER_PRINT_CART' : {
+            console.log("Before##$#$%#$",action.payload.cartItems.items);
+            let [cartItems, productImages] = salesCartReformater(action.payload.cartItems.items, state.productImages);
+            action.payload.cartItems.items = cartItems;
+            console.log("SSD##$#$%#$",action.payload.cartItems.items);
+            state.productImages = productImages;
+            if (productImages.updated) {
+                state.dataFrom = 'ADD_ITEM'
+            } else {
+                state.dataFrom = 'UPDATE_IMAGES'
+            }
+            return {
+                ...state,
+                data:action.payload
+            };
+        }
+
+
         case 'GET_ISELL_CART_REQUEST_SUCCESS': {
             console.log('**sale GET_ISELL_CART_REQUEST_SUCCESS: action.payload', action.payload);
             return {
@@ -68,7 +116,9 @@ export function SalesCartReducer(state = initialState, action) {
         }
 
         case ADD_ITEM_REQUEST:
+        console.log('**ADD_ITEM_REQUEST*****', action.payload);
             console.log('**reducer: action.payload.cart', action.payload.cartItems.items);
+           // debugger;
             let [cartItems, productImages] = salesCartReformater(action.payload.cartItems.items, state.productImages);
             action.payload.cartItems.items = cartItems;
             state.productImages = productImages;
@@ -82,17 +132,30 @@ export function SalesCartReducer(state = initialState, action) {
                 data: action.payload,
             };
 
-        case 'UPDATED_IMAGES':
-            let [cartItemWithImages, newProductImages] = salesCartReformater(state.data.cartItems.items, action.payload);
-            state.data.cartItems.items = cartItemWithImages;
-            state.productImages = newProductImages;
-            state.dataFrom = 'UPDATED_IMAGES'
-            return {
-                ...state,
-                getISellData: '',
-                getISellDataFrom: ''
-            }
+        case TD_DISCOUNTEXCEEDS:
+      /*  let [cartItemWithImages, newProductImages] = salesCartReformater(state.data.cartItems.items, action.payload);    
+        state.data.cartItems.items = cartItemWithImages;
+        state.productImages = newProductImages;
+        state.dataFrom = 'UPDATED_IMAGES'*/
+        return {
+            ...state,
+            dataFrom: 'DISCOUNT_EXCEEDS',
+            sku:action.sku
 
+        }
+
+            
+        case 'UPDATED_IMAGES':
+        //debugger;
+            console.log('*****************UPDATED IMAGES**************************');
+            let [cartItemWithImages, newProductImages] = salesCartReformater(state.data.cartItems.items, action.payload);    
+                state.data.cartItems.items = cartItemWithImages;
+                state.productImages = newProductImages;
+                state.dataFrom = 'UPDATED_IMAGES'
+            return {
+                ...state
+            }
+          
 
 
         case ADD_ITEM_SUCCESS:
@@ -100,7 +163,15 @@ export function SalesCartReducer(state = initialState, action) {
                 //  output
             };
 
-        case 'ADD_ITEM_FAILURE':
+            case 'GP_PRICENOTFOUND':
+          //  debugger;
+            return{
+                ...state,
+                // data: action.payload,
+                dataFrom: 'GP_PRICENOTFOUND'
+            };
+
+            case 'ADD_ITEM_FAILURE':
             return {
                 ...state,
                 data: '',
@@ -108,6 +179,28 @@ export function SalesCartReducer(state = initialState, action) {
                 getISellData: '',
                 getISellDataFrom: ''
             };
+
+            case 'TAX_AUTH_SUCCESS':
+            return {
+                ...state,
+                dataFrom: 'TAX_AUTH_SUCCESS',
+                
+            };
+            case 'TAX_AUTH_FAIL':
+            return {
+                ...state,
+                dataFrom: 'TAX_AUTH_FAIL',
+                
+            };
+        
+            case 'MAX_ITEM_REACHED':
+                       return {
+                           ...state,
+                           data: '',
+                           dataFrom: 'MAX_ITEM_REACHED',
+                           getISellData: '',
+                           getISellDataFrom: '',
+                       };
 
         case 'VOID_LINE_ITEM_SUCCESS':
             action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
@@ -123,7 +216,7 @@ export function SalesCartReducer(state = initialState, action) {
             action.payload.data.cartItems.items = salesCartReformater(action.payload.data.cartItems.items, state.productImages)[0];
             return {
                 ...state,
-                data: action.payload,
+                ...action.payload,
                 dataFrom: 'QUANTITY_UPDATE',
                 getISellData: '',
                 getISellDataFrom: ''
@@ -248,7 +341,7 @@ export function SalesCartReducer(state = initialState, action) {
         case 'RP_FAIL':
             return {
                 ...state,
-                data: action.payload,
+                // data: action.payload,
                 dataFrom: 'RP_FAIL',
                 getISellData: '',
                 getISellDataFrom: ''
@@ -280,14 +373,15 @@ export function SalesCartReducer(state = initialState, action) {
                 data: action.payload,
                 dataFrom: 'GIFT_REGISTRY_UPDATE',
                 getISellData: '',
-                getISellDataFrom: ''
+                getISellDataFrom: '',
+                giftRegNumber: action.giftRegNumber
             };
         case 'GIFTREGISTRYUPDATE_FAIL':
             console.log('**GIFT REG reducer: action.payload.cart', action.payload);
             return {
                 ...state,
                 dataFrom: 'GIFTREGISTRY_FAIL',
-                data: action.payload,
+                // data: action.payload,
                 getISellData: '',
                 getISellDataFrom: ''
             };
@@ -300,7 +394,8 @@ export function SalesCartReducer(state = initialState, action) {
                 data: action.payload,
                 dataFrom: 'GIFT_RECEIPT_UPDATE',
                 getISellData: '',
-                getISellDataFrom: ''
+                getISellDataFrom: '',
+                giftRegNumber: action.giftRegNumber
             };
         /**-----------Gift Receipt Reducers Close-------------- **/
 
@@ -332,7 +427,7 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 data: { ...action.payload },
-                dataFrom: 'Discount',
+                dataFrom: 'TRANS_DISCOUNT_APPLIED',
                 getISellData: '',
                 getISellDataFrom: ''
             };
@@ -345,6 +440,16 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 dataFrom: 'IM_RINGINGASSOCIATE',
+                getISellData: '',
+                getISellDataFrom: ''
+                // isInvalid:true
+            };
+        
+        case IM_INVALIDASSOCIATE:
+            console.log('REDUCER:IM_INVALIDASSOCIATE', action.payload);
+            return {
+                ...state,
+                dataFrom: 'IM_INVALIDASSOCIATE',
                 getISellData: '',
                 getISellDataFrom: ''
                 // isInvalid:true
@@ -387,6 +492,7 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 itemPromotionDetails: action.payload,
+                //itemPromotionDetails : {"pN_MKDPEROFF":"Mkd % off","pP_MKDPEROFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_MKDDOLOFF":"Mkd $ off","pP_MKDDOLOFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_MKDNEWPRICE":"Mkd New Price","pP_MKDNEWPRICE":{"enable":true,"maxItemPercentDisc":0.0},"pN_PRICEOVERRIDE":"Price Override","pP_PRICEOVERRIDE":{"enable":true,"maxItemPercentDisc":0.0},"pN_OMNIMKDPEROFF":"Omni Mkd % off","pP_OMNIMKDPEROFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_OMNIMKDDOLOFF":"Omni Mkd $ off","pP_OMNIMKDDOLOFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_OMNIMKDNEWPRICE":"Omni Mkd New Price","pP_OMNIMKDNEWPRICE":{"enable":true,"maxItemPercentDisc":0.0},"response_Code":"PR_SUCCESS","response_Text":"Success!"},
                 dataFrom: "GET_PROMOTIONS_SUCCESS",
                 getISellData: '',
                 getISellDataFrom: ''
@@ -480,6 +586,20 @@ export function SalesCartReducer(state = initialState, action) {
                 getISellDataFrom: ''
             }
         };
+        case DIRECT_SEND_REQUEST: {
+            console.log('DIRECT SEND REDUCER BEFORE FORMAT', action.payload.data.cartItems)
+            //debugger;
+            action.payload.data.cartItems.items = salesCartReformater(action.payload.data.cartItems.items, state.productImages)[0];
+            console.log('DIRECT SEND REDUCER AFTER FORMAT', action.payload.data.cartItems)
+            //debugger;
+            return {
+                ...state,
+                data: action.payload.data,
+                dataFrom: "DIRECT_SEND_SUCCESS",
+                getISellData: '',
+                getISellDataFrom: ''
+            }
+        };
 
         case 'MODIFY_PRICE_SUCCESS': {
             action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
@@ -501,6 +621,53 @@ export function SalesCartReducer(state = initialState, action) {
             };
         }
 
+        case 'TAX_MODIFY_UPDATE_SUCCESS':
+            console.log('REDUCER:TAX_MODIFY_UPDATE_SUCCESS', action.payload);
+            action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'TAX_MODIFY_UPDATE_SUCCESS',
+                getISellData: '',
+                getISellDataFrom: ''
+            };
+
+        /** GET DEFAULT SKU* */
+        case 'DEFAULT_SKU' : {
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'DEFAULT_SKU',
+                getISellData : '',
+                getISellDataFrom : ''
+            };
+        }
+        case 'PRESALEINITIALRENDER' : {
+            return {
+                ...state,
+                data: action.payload,
+                presaleinitialrender:false,
+                dataFrom: '',
+            };
+        }
+        case 'IM_SKUNOTFOUND':{
+            return{
+                ...state,
+                data: action.payload,
+                dataFrom: 'IM_SKUNOTFOUND',
+                getISellData : '',
+                getISellDataFrom : ''
+            }
+        }
+        case 'ADD_GIFTCARD_SUCCESS' : {
+            action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
+            return {
+                ...state,
+                data: action.payload,
+                dataFrom: 'ADD_GIFTCARD_SUCCESS'
+            }
+        }
+
         case 'CLEAR_CART': {
             // const datainit = ...state
             return {
@@ -510,8 +677,32 @@ export function SalesCartReducer(state = initialState, action) {
             }
         }
 
+        case 'CHANGE_ITEM_SELECTED':{
+            return {
+                // ...state,
+                ...state,
+                dataFrom: ''
+            }
             break;
+        }        
+        case 'MANAGER_PIN_VALIDATE_RESPONSE' : {
+            return {
+                ...state,
+                managerPinValidateResponse : action.payload,
+                dataFrom : 'MANAGER_PIN_VALIDATE_RESPONSE'
+            }
+        }
+        case 'LOGGED_IN_PIN_VALIDATE_RESPONSE' : {
+            return {
+                ...state,
+                managerPinValidateResponse : action.payload,
+                dataFrom : 'LOGGED_IN_PIN_VALIDATE_RESPONSE'
+            }
+        }
         default:
             return state;
+                
+            
+
     }
 }

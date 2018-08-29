@@ -6,6 +6,8 @@ const CONFIG_FILE = require('../../../resources/stubs/config.json');
 const env = require('../../../settings/env.js');
 const path = env.PATH;
 const giftReceiptdataURL = path+'giftReceiptURL.json';
+var clientConfig = CONFIG_FILE.clientConfig;
+
 
 //Object.freeze(giftReceiptdata);
 //var giftReceiptdata = Object.freeze(giftReceiptdata1);
@@ -27,16 +29,12 @@ export function saleitemGiftReceiptUpdate(item,transactionId,modify_type,userPin
         item=item;
     }
     const params = {
-    "SourceApp":"MPOS",
-    "SourceLoc":"NM-DIRECT",
-	 "Store":"0010",
-	 "Terminal":"0216",
-	 "StoreAssoc":userPin,
-	 "ClientID":"0010:0216:06082018:033639",
-	 "TransactionId":transactionId,
+    ...clientConfig,
+	"StoreAssoc":userPin,
+	"TransactionId":transactionId,
 	"LineNumber": modify_type=='item'?item.lineNumber:undefined,
 	"SKU": modify_type=='item'?item.itemNumber:undefined,
-	"IsTransModify": modify_type=='item'?"false":"true"
+	"IsTransModify": modify_type=='item'?"false":"true",
     };
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(giftReceiptdataURL,{});
       

@@ -11,7 +11,6 @@ export default class SaleFooter extends Component {
     };
   }
 
-
   componentDidMount() {
   }
 
@@ -51,7 +50,7 @@ export default class SaleFooter extends Component {
   }
   
   render() {
-    console.log('--*******PROPS: sales footer*****  ', this.props.taxExemptID !== '')
+    console.log('--*******PROPS: sales footer*****  ', this.props.checkForItems);
     return (<div className="footer-container" id="footerContainer">
     <div id="total">
       <div className="item-total" id="total-small">Total<span className="item-total-amount">$&nbsp;{parseFloat(this.props.total).toFixed(2)}</span></div>
@@ -80,7 +79,7 @@ export default class SaleFooter extends Component {
 
       {/* <div className="viewmore-link" id="viewMoreLink" style={(this.props.cartExist)?{}:{visibility: 'hidden'}}><a className="viewmore-link-text" onClick={() => this.viewMoreFunc()}>View More</a></div> */}
 
-      <button className="payment-button"style={this.props.taxExemptID !== '' ?  {marginTop: '30px'} : {}} onClick={() => this.props.history.push('/payment', this.props.history.location.state ? { isClienteled: this.props.history.location.state.isClienteled } : { isClienteled: true })}>
+      <button className={this.props.checkForItems ? 'payment-button' : 'payment-button-disabled'} style={this.props.taxExemptID !== '' ?  {marginTop: '30px'} : {}} onClick={() => this.props.lookupPath=='/sale'?this.props.opentenderingCard():this.props.navigateToPayment()}>
         <img className="payment-logo" src={payment} alt="payment" />
         <span className="payment-text">Payment</span>
       </button>

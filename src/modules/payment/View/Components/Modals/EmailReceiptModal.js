@@ -88,7 +88,7 @@ export class EmailReceiptModal extends Component {
             width: (window.innerWidth > 1900) ? "619.5px" : "738px",
             // height: "18px",
             fontFamily: "Roboto",
-            fontSize: (window.innerWidth > 1900) ? "40px" : "48px",
+            fontSize: (window.innerWidth > 1900) ? "32px" : "48px",
             fontWeight: "normal",
             fontStyle: "normal",
             fontStretch: "normal",
@@ -137,25 +137,25 @@ export class EmailReceiptModal extends Component {
                         inputStyle={emailtextFieldInputStyle}
                         underlineStyle={emailFieldUnderlineStyle}
                         style={emailtextFieldStyle}
-                        className="lname-receipt-input"
+                        className="payment-lname-receipt-input"
                         onChange={(e)=>{this.handleLnameInput(e)}} 
                         //key={this.props.props.lname} 
-                        defaultValue={this.props.props.lname}/>
+                        defaultValue={this.props.props.emailLname}/>
                         {/*<span class="required">*</span>*/}
                         </div>
                         }
                         {isClienteled?"":
-                <div className="modalContainer fanme-modal-text"><TextField
+                <div className="modalContainer fname-modal-text"><TextField
                         type="text"
                         floatingLabelText="First Name"
-                        className="fname-receipt-input"
+                        className="payment-fname-receipt-input"
                         floatingLabelStyle={emailFieldFloatingLabelStyle}
                         inputStyle={emailtextFieldInputStyle}
                         underlineStyle={emailFieldUnderlineStyle}
                         style={emailtextFieldStyle}
                         onChange={(e)=>{this.handleFnameInput(e)}} 
                         //key={this.props.props.fname} 
-                        defaultValue={this.props.props.fname} />
+                        defaultValue={this.props.props.emailFname} />
                         {/*<span class="required">*</span>*/}
                         </div>}
                         
@@ -164,7 +164,7 @@ export class EmailReceiptModal extends Component {
                  <div className="modalContainer email-modal-text"><TextField
                         type="email"
                         floatingLabelText="Email"
-                        className="email-receipt-input"
+                        className="payment-email-receipt-input"
                         onChange={(e)=>{this.handleEmailInput(e)}} 
                         floatingLabelStyle={emailFieldFloatingLabelStyle}
                         inputStyle={emailtextFieldInputStyle}
@@ -173,7 +173,14 @@ export class EmailReceiptModal extends Component {
                         errorText={this.props.props.error}
                         errorStyle ={errorStyle}
                         //key={this.props.props.email}
-                        defaultValue={this.props.props.email}/></div>
+                        defaultValue={this.props.props.email}
+                        onKeyPress={(e) => {
+                                    if(e.key === 'Enter') {
+                                        e.preventDefault();
+                                        this.props.props.openemailverifyModal();
+                                        }
+                                    }}   
+                        /></div>
 
 
                 <div className='add-dom-cust-modal-email-button-area'>

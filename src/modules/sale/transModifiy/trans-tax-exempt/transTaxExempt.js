@@ -39,13 +39,14 @@ export class TransTaxExempt extends Component {
     
     render() {
         const textFieldFloatingLabelStyle = {
-            height: '28px',
+            height: '32px',
+            width: '213px',
             fontFamily: 'Roboto',
-            fontSize: (window.innerWidth > 1900) ? '26px' : '48px',
+            fontSize: (window.innerWidth > 1900) ? '24px' : '48px',
             fontWeight: '300',
             fontStyle: 'normal',
             fontStretch: 'normal',
-            lineHeight: (window.innerWidth > 1900) ? '1.19' : '1.19',
+            lineHeight: (window.innerWidth > 1900) ? '1.33' : '1.19',
             letterSpacing: 'normal',
             textAlign: 'left',
             color: '#333333',
@@ -105,6 +106,7 @@ export class TransTaxExempt extends Component {
                         maxlength="16"
                         value={this.state.transtaxexempt.replace(/[^a-zA-Z0-9]+/ig, "")}
                         onChange={e => this.updatetransTaxExemptEntry(e)}
+                        className="tax-exempt-text-field-custom"
                     />
                     <div className="trans-tax-exempt-cancel" onClick={() => this.props.showTransTaxExempt(false)}>
                         <img src={Cancel_Purple_SFF} className="Cancel_Purple_SFF" />

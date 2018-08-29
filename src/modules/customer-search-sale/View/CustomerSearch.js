@@ -166,7 +166,7 @@ export class CustomerSearch extends Component {
                         <div className='customer-search-result-display-header-title2'>PHONE NUMBER</div>
                         <div className='customer-search-result-display-header-title3'>E-MAIL</div>
                         <div className='customer-search-result-display-header-title4'>ADDRESS</div>
-                        <div className='customer-search-result-display-header-title5'>CSS ID</div>
+                        <div className='customer-search-result-display-header-title5'>CLIENT SMART ID</div>
                         <div className='customer-search-result-display-header-title6'></div>
                     </div>
                     

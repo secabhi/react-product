@@ -7,11 +7,11 @@ import { CustomerDetailsView } from './View/CustomerDetailsView';
 
 /* import actions */
 import {getCsrPurchasesNRecommends, navigateToDomesticCustomer,getSalesSummaryAction,clearCustomerDetailsAction} from './CustomerDetailsActions';
-import {navigateToEditCustomerAction} from '../update-customer/UpdateCustomerAction';
-import {navigateToEditCustomerIntAction} from '../update-customer/UpdateCustomerInternationalActions';
 import { bindActionCreators } from 'redux';
 import { goToSalesPage } from '../sale/SaleAction.js';
-import { getReminders} from '../reminders/remindersAction'
+import { getReminders} from '../reminders/remindersAction';
+import { attachCustomerAction } from '../home/HomeAction.js'
+
 
 class CustomerDetails extends Component {
   constructor(props) {
@@ -23,31 +23,9 @@ class CustomerDetails extends Component {
     this.nextLvl = parseInt(this.data[parseInt(this.currentlvl, 10) - 1].nextLvl, 10);
     this.totalpoints = parseInt(this.inCircleInfo.total_points, 10);
     this.pointsToNextLvl = this.nextLvl - this.totalpoints;
-
     this.state = {
-      profileData: {
-        cust_cssId: '',
-        cust_dom_salutation: '',
-        cust_dom_fname: '',
-        cust_dom_lname: '',
-        cust_dom_address1: '',
-        cust_dom_address2: '',
-        cust_dom_mobile: '',
-        cust_dom_email: '',
-        cust_dom_otherMobile: '',
-        cust_dom_city: '',
-        cust_dom_state: '',
-        cust_dom_country: '',
-        cust_dom_postal: '',
-        cust_dom_province: '',
-        cust_dom_zip: '',
-        currentlvl:'',
-        pointsToNextLvl: ''
-      },
-      salesSummaryDetails :{
-       
-      },
-      userPin : ''
+      currentlvl: '',
+      pointsToNextLvl: '',
     }
   }
 
@@ -58,80 +36,23 @@ class CustomerDetails extends Component {
   }
 
   componentDidMount() {
-   // this.props.getCsrPurchasesNRecommends({ cssId: 103807506 }, 'ECOM');
-    console.log(this.props);
-    if((this.props.customerDetails.cssId != undefined)&&(this.props.customerDetails.cssId != ''))
-    {
-     // alert('call on load '+this.props.customerDetails.cssId)
-     this.props.navigateToDomesticCustomer(this.props.customerDetails.cssId);
-     if(this.props.login.userpin != undefined)
-     {
-       this.setState({userPin:this.props.login.userpin});
-       this.props.getSalesSummaryCall(this.props.customerDetails.cssId, this.props.login.userpin);
-     }
-    }
+   this.props.getCsrPurchasesNRecommends(this.props.customerDetails.cCSNumber);
+    console.log('CustomerDetails componentDidMount props',this.props);
   }
 
-  componentWillReceiveProps = nextProps => {
-    if (nextProps.customerDetails.isProfileDataLoaded === true) {
-      var profile = nextProps.customerDetails.profileData;
-      if (profile && JSON.stringify(profile) != "{}") {
-        var profileData = {
-          cust_cssId: profile.css_id,
-          cust_dom_salutation: (profile.names && profile.names.length > 0 && profile.names[0].salutation !== '') ? profile.names[0].salutation : '',
-          cust_dom_fname: (profile.names && profile.names.length > 0) ? profile.names[0].firstName : '',
-          cust_dom_lname: (profile.names && profile.names.length > 0) ? profile.names[0].lastName : '',
-          cust_dom_address1: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 0) ? profile.physicalAddresses[0].addressLines[0] : '',//'9303 Spring Hollow Dr',
-          cust_dom_address2: (profile.physicalAddresses && profile.physicalAddresses.length > 0 && profile.physicalAddresses[0].addressLines.length > 1) ? profile.physicalAddresses[0].addressLines[1] : '',
-          cust_dom_mobile: (profile.phoneNumbers && profile.phoneNumbers.length > 0) ? profile.phoneNumbers[0].rawValue : '',
-          cust_dom_email: (profile.emailAddresses && profile.emailAddresses.length > 0) ? profile.emailAddresses[0].id : '',
-          cust_dom_otherMobile: (profile.phoneNumbers && profile.phoneNumbers.length > 1) ? profile.phoneNumbers[1].rawValue : '',
-          cust_dom_city: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].cityName : '', //"New york"
-          cust_dom_state: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'NY'
-          cust_dom_country: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].countryName : '', //'CANADA',
-          cust_dom_postal: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '', //'78750',
-          cust_dom_province: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].state : '', //'ON',
-          cust_dom_zip: (profile.physicalAddresses && profile.physicalAddresses.length > 0) ? profile.physicalAddresses[0].postalCode : '', //'78750',
-          
-        }
-        this.setState({ profileData: profileData });
-        console.log('cssID '+profile.css_id)
-        this.props.getCsrPurchasesNRecommends({ cssId: profile.css_id });
-        this.props.getReminders(this.props.login.userpin);
-        
-      }
-    }
-    if(nextProps.customerDetails.salesSummary != undefined)
-    {
-      this.setState({salesSummaryDetails : nextProps.customerDetails.salesSummary})
-    }
-   
-    if (nextProps.customerSearch.incircleData !== null && nextProps.customerSearch.incircleData !== undefined) {
-      var circleData = nextProps.customerSearch.incircleData.data;
-      this.setState({ currentlvl: circleData.lyBenefitLevelCode, pointsToNextLvl: circleData.pointsAwayToNextPointCard });
-    }
+  callAttachCustomerActionInvoker = () => {
+    var storeClientNumber = (this.props.customerDetails.clientNumber) ? this.props.customerDetails.clientNumber : "";
+    var phoneSequence = (this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != "") ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence : "0"
+    this.props.attachCustomerActionInvoker(this.props.login.userpin, this.props.transactionId, storeClientNumber, this.props.customerDetails.selectedAddress.sequenceKey, phoneSequence, this.props.customerDetails);
   }
-
 
   navigateToSale = () => {
-    this.props.goToSalesPage(false, {
-      salutation: this.state.profileData.cust_dom_salutation,
-      firstname: this.state.profileData.cust_dom_fname,
-      lastname: this.state.profileData.cust_dom_lname,
-      address1: this.state.profileData.cust_dom_address1,
-      city: this.state.profileData.cust_dom_city,
-      state: this.state.profileData.cust_dom_state,
-      zip: this.state.profileData.cust_dom_zip ? this.state.profileData.cust_dom_zip : this.state.profileData.cust_dom_postal,
-      address2: this.state.profileData.cust_dom_address2,
-      email: this.state.profileData.cust_dom_email,
-      mobile: this.state.profileData.cust_dom_mobile,
-      otherMobile: this.state.profileData.cust_dom_otherMobile,
-    });
+    this.callAttachCustomerActionInvoker();
     this.props.history.push('/sale');
   }
 
   /*Navigate back to Product Search */
-    navigateToProductSearch = () => {
+  navigateToProductSearch = () => {
     this.props.history.push('/product-search');
   }
 
@@ -145,15 +66,14 @@ class CustomerDetails extends Component {
     this.props.history.push('/customer-search'); ``
   }
 
+  displayHistoryModal =() => {
+    console.log('Test')
+  }
  
   render() {
-
     return (
-      //   
-
       <CustomerDetailsView
         history={this.props.history}
-        match={this.props.match}
         customerDetails={this.props.customerDetails}
         navigateBack={this.navigateBack}
         displayHistoryModal={this.displayHistoryModal}
@@ -164,11 +84,9 @@ class CustomerDetails extends Component {
         currentlvl={this.state.currentlvl}
         nextLvl={this.nextLvl}
         pointsToNextLvl={this.state.pointsToNextLvl}
-        profileData={this.state.profileData}
         navigateToSale={this.navigateToSale}
         navigateToProductSearch = {this.navigateToProductSearch}
         navigateToProductDummy = {this.navigateToProductDummy}
-        salesSummaryDetails = {this.state.salesSummaryDetails}
         toCamelCase={this.toCamelCase}
         userPin={this.props.login.userpin}
         remindersCount = {(this.props.reminders.remindersList != undefined)?this.props.reminders.remindersList.length:0}
@@ -181,14 +99,12 @@ class CustomerDetails extends Component {
   navigateToUpdateCustomer = () => {
     //this.props.history.push('/update-customer');
 
-    if(this.state.profileData.cust_dom_country == 'UNITED STATES' || this.state.profileData.cust_dom_country == '' || this.state.profileData.cust_dom_country == null || this.state.profileData.cust_dom_country == undefined)
+    if(this.props.customerDetails.selectedAddress.international === '0')
     {
-      this.props.navigateToEditCustomer(this.state.profileData);
       this.props.history.push('/update-customer');
     }
   else
   {
-    this.props.navigateToEditCustomerInt(this.state.profileData);
     this.props.history.push('/update-customerinternational');
   }
   }
@@ -201,23 +117,22 @@ class CustomerDetails extends Component {
 
 }
 
-function mapStateToProps({ customerDetails, customerSearch,login,reminders }) {
-  return { customerDetails, customerSearch,login,reminders }
+function mapStateToProps({ updatedCustomer, customerDetails, customerSearch,login,reminders, home }) {
+  return {updatedCustomer, customerDetails, customerSearch,login,reminders,
+  transactionId: home.transactionData ? home.transactionData.transactionNumber : '' }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
   {
   getCsrPurchasesNRecommends: getCsrPurchasesNRecommends,
-  navigateToDomesticCustomer : navigateToDomesticCustomer,
+  navigateToDomesticCustomer: navigateToDomesticCustomer,
   goToSalesPage: goToSalesPage,
-  navigateToEditCustomer : navigateToEditCustomerAction,
-  navigateToEditCustomerInt : navigateToEditCustomerIntAction,
-  getSalesSummaryCall : getSalesSummaryAction,
-  clearCustomerDetails :clearCustomerDetailsAction,
-  getReminders :getReminders
+  getSalesSummaryCall: getSalesSummaryAction,
+  clearCustomerDetails: clearCustomerDetailsAction,
+  getReminders:getReminders,
+  attachCustomerActionInvoker: attachCustomerAction,
   }, dispatch)
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerDetails);

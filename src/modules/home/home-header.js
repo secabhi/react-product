@@ -5,7 +5,6 @@ import Modal from 'react-responsive-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
-import { testAction } from './actions';
 
 import {postVoidTransactionList} from '../post-void/postVoidAction';
 import ReceiptIcon from '../../resources/images/Receipt_Landing.png';
@@ -16,23 +15,15 @@ import Ipadbattery from '../../resources/images/Ipad Battery Level.svg';
 import PostVoidEnter from '../post-void/postVoidEnter';
 import PostVoid from '../post-void/postVoid';
 import PostVoidSelect from '../post-void/postVoid'
-import { ResumeTransaction, ResumeEnter} from '../resume/resume'
-import ResumeselectTrans   from '../resume/resumeSelectTrans'
-import { resumeEntryUpdateAction } from '../resume/resumeAction';
-import { openResumeSelectAction } from '../resume/openResumeSelectAction'
+
+import warningIcon from '../../resources/images/Warning.svg';
 
 class HomeHeader extends Component {
 
   openPostVoidModal = () => {
     this.setState({modal_post_void:true})
   }
-  openResumeTransactionModal = () => {
-    this.setState({modal_resume_transaction:true})
-    this.setState({modal_enter_resume:false})
-  }
-  closeResumeTransactionModal = () =>{
-    this.setState({modal_resume_transaction:false})
-  }
+  
   cancelEnterModal = () => {
     this.setState({modal_post_void:false})
     
@@ -42,29 +33,12 @@ class HomeHeader extends Component {
     this.setState({modal_post_voidselect:true,modal_post_void:false});
     
   }
-  resumeopenSelectTransModal =() =>{
-    this.props.openResumeSelectInvoker();
-    this.setState({modal_resume_transaction:false})
-    this.setState({modal_enter_resume:false})
-    this.setState({modal_resume_select_trans:true})
-  }
-  cancelSelectTransModal =() =>{
-    this.setState({modal_enter_resume:false})
-    this.setState({modal_resume_select_trans:false})
-    this.setState({modal_resume_transaction:true})
-  }
+ 
   cancelSelectModal = () => {
     this.setState({modal_post_voidselect:false});
     
   }
-  openEnterResumeModal = () => {
-    this.setState({modal_resume_transaction:false})
-    this.setState({modal_enter_resume:true})
-  }
-  cancelEnterResumeModal = () =>{
-    this.setState({modal_resume_transaction:true})
-    this.setState({modal_enter_resume:false})
-  }
+ 
   openenterTrans = () => {
     this.setState({modal_post_voidenter:true});
     this.setState({modal_post_void:false});
@@ -77,19 +51,10 @@ class HomeHeader extends Component {
     this.setState({modal_post_void:false})
   }
 
-  resumeEntryUpdate = (resumeEntry) => {
-    this.props.startSpinner(true);
-    this.props.resumeEntryUpdateActionInvoker(resumeEntry);
-  }
-  cancelResumeModals = () => {
-    this.setState({modal_resume_transaction:false})
-    this.setState({modal_enter_resume:false})
-    this.setState({modal_resume_select_trans:false})
-  }
+  
 
 
   onChangeTransNumber = (event,value,target) => {
- 
       if(value!==""){
         document.getElementsByClassName('enterokbtn')[0].style.opacity="1";
         this.setState({enteredTxnNumber:value})
@@ -105,38 +70,56 @@ class HomeHeader extends Component {
     this.state = {
       modal_post_void :false,
       modal_post_voidenter:false,
-      modal_post_voidselect:false
+      modal_post_voidselect:false,
     }
   }
 
   render() {
     return (
 
-
-
         <div className="headerMainCls">
         
         <div className="landingPageHeaderSection">
         <div className="navigationLinks">
-           <div className="navLink-print">
-              <img src={ReceiptIcon} className="headericonCls" />
-              <span className="print-label">Print / Send Receipt</span>
+           <div className="navLink-print" onClick={(event) => {this.props.handleShowLogin(event)}}>
+              <img id="7" src={ReceiptIcon} className="headericonCls" />
+              <span id="7" className="print-label">Print / Send Receipt</span>
            </div>
-           <div className="navLink-post" onClick={this.openPostVoidModal.bind(this)}>
-              <img src={postVoidIcon} className="headericonCls" />
-              <span className="post-label">Post Void</span>
+           <div className="navLink-post" onClick={(event) => {this.props.handleShowLogin(event)}}>
+              <img id="5" src={postVoidIcon} className="headericonCls" />
+              <span id="5" className="post-label">Post Void</span>
            </div>
-           <div className="navLink-suspend" onClick={this.openResumeTransactionModal.bind(this)}>
-              <img src={resumeIcon} className="headericonCls" />
-              <span className="suspend-label">Resume</span>
+           <div id ="6" className="navLink-suspend" onClick={(event) => {this.props.handleShowLogin(event)}}>
+              <img id="6" src={resumeIcon} className="headericonCls" />
+              <span id="6" className="suspend-label">Resume</span>
            </div>
         </div>
             
-            <div className="div-battery-indicator">
-            <div className="letter-P">P&nbsp;</div>
-            <img src={pinpadbattery} className="battery-indicator-1" alt="ipad-battery-icon"/>
-            <img src={Ipadbattery} className="battery-indicator-2" alt="pinpad-battery-icon"/>
+        <div className="battery-indicator-area">
+        <div className = "ped-battery-indicator">
+          <div className = "ped-battery-color-area">
+           <div className = "ped-battery-color-area-inner"
+              style = {{
+                        width : this.props.pedindicatorwidth,
+                        backgroundColor : this.props.pedindicatorcolor
+                      }}
+                    >
             </div>
+          </div>
+        </div>
+        
+        <div className = "device-battery-indicator">
+          <div className = "device-battery-color-area">
+            <div className = "device-battery-color-area-inner"
+              style = {{
+                        width : this.props.batteryStatus+'%' !='' && this.props.batteryStatus != undefined ? this.props.batteryStatus+'%' : '100%' ,
+                        backgroundColor : (this.props.batteryStatus !='' && this.props.batteryStatus != undefined) ? ( (this.props.batteryStatus+'%').slice(0,-1) <= 20 ? "red" : "green")  : "green"
+                      }}
+            ></div>
+          </div>
+        </div>
+        
+      </div>
         </div>
 
         {this.state.modal_post_voidenter ?
@@ -193,70 +176,21 @@ class HomeHeader extends Component {
           null
           }
           
-          {this.state.modal_resume_transaction ?
-            <Modal classNames={{ modal: 'resume-transaction-modal-container' }} open={(sku) => {
-            }} onClose={() => { 
-
-             }}>
-            <ResumeTransaction
-                closeResumeTransactionModal ={this.closeResumeTransactionModal}
-                openEnterResumeModal={this.openEnterResumeModal}
-                resumeopenSelectTrans={this.resumeopenSelectTransModal}
-                cancelSelectTransModal={this.cancelSelectTransModal}
-            />
-            </Modal>
-            :
-            null
-          }
           
-          {this.state.modal_enter_resume ?
-            <Modal classNames={{ modal: 'enter-resume-modal-container' }} open={(sku) => {
-            }} onClose={() => { 
-
-             }}>
-
-              <ResumeEnter
-                closeResumeTransactionModal ={this.closeResumeTransactionModal}
-                cancelEnterResumeModal={this.cancelEnterResumeModal}
-                resumeEntryUpdateAction={this.resumeEntryUpdate}
-                cancelResumeModals={this.cancelResumeModals}
-             />
-            </Modal>
-            :
-            null
-          }
-          {this.state.modal_resume_select_trans ?
-            <Modal classNames={{ modal: 'resume-select-trans-modal-container' }} open={(sku) => {
-            }} onClose={() => { 
-
-             }}>
-
-              <ResumeselectTrans
-                closeResumeTransactionModal ={this.closeResumeTransactionModal}
-                cancelEnterResumeModal={this.cancelEnterResumeModal}
-                cancelSelectTransModal={this.cancelSelectTransModal}
-              />
-            </Modal>
-            :
-            null
-          }
           
         </div>
     );
   }
 }
 
-function mapStateToProps({ header }) {
-  return { header }
+function mapStateToProps({ header, home, customerSearch, login, resumered }) {
+  return { header , home, customerSearch, login, resumered}
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       openSelectInvoker: postVoidTransactionList,
-      openResumeSelectInvoker:openResumeSelectAction,
-      startSpinner:startSpinner,
-      resumeEntryUpdateActionInvoker: resumeEntryUpdateAction,
     }, dispatch);
 }
 

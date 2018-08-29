@@ -6,31 +6,28 @@ const CONFIG_FILE = require('../../../resources/stubs/config.json');
 const env = require('../../../settings/env.js');
 const path = env.PATH;
 const giftRegistryURL = path+'giftRegistryURL.json';
+var clientConfig = CONFIG_FILE.clientConfig;
 
 
 //sets url to be used for api call
-//const URL = CONFIG_FILE.config.giftRegistryURL+'?regID=216';
+//const URL = CONFIG_FILE.config.giftRegistryURL+'?regID=131';
 const URL = CONFIG_FILE.giftRegistryURL;
 
 export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,userPin){
 
     const params = {
-
-    "SourceLoc":"NM-DIRECT",
-	"SourceApp":"MPOS",
-	 "Store":"0010",
-	 "Terminal":"0216",
-	 "StoreAssoc":userPin,
-	 "ClientID":"0010:0216:06082018:033639",
-	 "TransactionId":transactionId,
-	"LineNumber": modify_type=='item'?item.lineNumber:undefined,
-	"SKU": modify_type=='item'?item.itemNumber:undefined,
-	"TransModify": modify_type=='item'?"N":"Y",
+    ...clientConfig,
+	"StoreAssoc":userPin,
+	"TransactionId":transactionId,
+	"LineNumber": modify_type=='IteamRegistry'?item.lineNumber:undefined,
+	"SKU": modify_type=='IteamRegistry'?item.itemNumber:undefined,
+	"TransModify": modify_type=='IteamRegistry'?"N":"Y",
 	"GiftRegistryNum": gift
     };
     const request = env.ENV_MODE=='dev1'?callPutWebService(URL, params):callGetWebService(giftRegistryURL, {});
     
     console.log("saleitemGiftRegistryUpdate Parameters being sent", params);
+    console.log('@@@@modify type', modify_type);
     
     return (dispatch) => {
          request.then(({data}) => {
@@ -39,7 +36,8 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
             if(data.response_text == "GREC_SUCCESS") {
                 dispatch({
                     type: 'GIFTRECEIPTUPDATE_REQUEST',
-                    payload: data
+                    payload: data,
+                    giftRegNumber: gift
                 });
             }
             else {
@@ -47,7 +45,8 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
                 dispatch( {
                     
                     type: 'GIFTREGISTRYUPDATE_REQUEST',
-                    payload: data
+                    payload: data,
+                    giftRegNumber: gift
                     /*{  
                         "response_code":0,
                         "response_text":"AC_SUCCESS",

@@ -1,5 +1,7 @@
 .footer-container {
     display: flex;
+    height: 130px;
+    max-height: 130px;
 }
 
 .price-Details{
@@ -91,14 +93,27 @@
 }
 
 .payment-button {
-    width: 265px;
+    width: 210px;
     height: 60px;
     border: none;
     background-color: #0a6962;
     margin-right: 50px;
     align-items: center;
     /*--*/
-    margin-top: 30px;
+    margin-top: 0px;
+}
+
+.payment-button-disabled {
+    width: 210px;
+    height: 60px;
+    border: none;
+    background-color: #0a6962;
+    margin-right: 50px;
+    align-items: center;
+    /*--*/
+    margin-top: 0px;
+    opacity: .5;
+    pointer-events: none;
 }
 
 .payment-logo {

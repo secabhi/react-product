@@ -2,16 +2,13 @@ import {LOGIN_REQUEST, SEND_USERPIN, CHANGE_PASSWORD_REQUEST, CLEAR_REQUEST} fro
 
 const initialState = {
     response: {
-        Output:{
-            rc : 0,
-            Response_Code : "",
-            Response_Text : ""
-        },
-        RESPONSE_CODE:'',
-        RESPONSETEXT:''
+        response_Code: "",
+        response_Text: ""
     },
     userPin: {userPin: "", uPass:""},
-    error: null
+    error: null,
+    cleared: {}
+
 };
 
 export function changePwrdReducer(state = initialState, action) {
@@ -22,19 +19,30 @@ export function changePwrdReducer(state = initialState, action) {
                        console.log('SENT USERPIN:', action.payload)
             return {
                 ...state,
-                userPin: action.payload,
-                loading: false,
+                userPin: action.payload
             }
 
-        case CHANGE_PASSWORD_REQUEST:            
+        case CHANGE_PASSWORD_REQUEST: 
+        console.log('PRANAV CHGPWD_REQ REDUCER')
+        console.log(action.payload)           
             return {
                 ...state,
-                response: action.payload,
-                loading: false,
+                response: action.payload.data,
+                userPin: action.payload.userpin
+
             }
 
         case CLEAR_REQUEST:
+        console.log('PRANAV CLEAR_REQ REDUCER')
+        console.log(action.payload)      
+            return {
+                ...state,
+                cleared: action.payload,
+            };
 
+        case 'PW_CANTCHANGEYET' :
+        console.log('PRANAV PW_CANTCHG REDUCER')
+        console.log(action.payload)      
             return {
                 ...state,
                 response: action.payload,
@@ -42,6 +50,7 @@ export function changePwrdReducer(state = initialState, action) {
 
             default:
                 return state;
+
     }
 }
 

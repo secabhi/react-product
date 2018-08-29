@@ -23,10 +23,17 @@ import crossicon from '../../../../resources/images/Cross_Purple.svg';
 import cardicon from '../../../../resources/images/Add_Card.svg';
 import clearallbtn from '../../../../resources/images/Close_Bttn_Purple.svg';
 
+import './customerEditForm.css';
+
 
 export default class CustomerEditFormView extends Component {
+
+    componentWillMount() {
+        console.log("SHIV COMPWILLMOUNT:", this.props.changedAddress)
+    }
+
     render() {
-        console.log('CONTRIES', this.props.countryList)
+        // console.log('CONTRIES', this.props.countryList)
         var selectFieldFloatingLabelStyle = {
             height: '28px',
             fontSize: '30px',
@@ -156,28 +163,19 @@ export default class CustomerEditFormView extends Component {
         
         return (
             <div className='add-customer-main'>
-                <div className='addcust-subheader-container'> 
-                     <div className="send-title-header-text">{this.props.formType}</div>
-                        <div
-                            className='add-customer-tab-header'
-                            onClick={() => {this.props.handleCustTypeChange()}}>
-                            <img
-                                src={this.props.addCustImage}
-                                className='add-customer-icon'
-                                alt="add-customer-icon"/>
-                            <div className='add-customer-label '>Add Customer</div>
+                <div className='editForm-subheader-container'> 
+                    <div className='send-title-header-container' >
+                        <div>
+                            <div className="send-title-header-text">{this.props.formType}</div>
                         </div>
-                        <div
-                            className='add-int-customer-tab-header'
-                            onClick={() => {this.props.handleCustTypeChange()}}>
-                            <img
-                                src={this.props.addIntCustImage}
-                                className='add-int-customer-icon'
-                                alt="add-international-customer-icon"/>
-                            <div className='add-int-customer-label '>Add International Customer</div>
-                        </div>                  
-                    <div className='tab-header-spacer'></div>
                     </div>
+                    <div className="editForm-form-button" 
+                        onClick={
+                            () => {this.props.changeForm()}
+                        }>
+                        <span className="intl-button">{this.props.custType === "Domestic"?"INTERNATIONAL ADDRESS":"DOMESTIC ADDRESS"} </span>
+                    </div>
+                </div>
 
                     <div className="viewedit-form">
                         <div className="viewedit-firstrow">
@@ -199,7 +197,7 @@ export default class CustomerEditFormView extends Component {
                                 >
                                     {
                                         this.props.salutationDataDrop.map(function (item, i) {
-                                            return <MenuItem className="select-field-menu-item" key={i} value={item.Value} primaryText={item.Value} />;
+                                            return <MenuItem className="select-field-menu-item" key={i} value={item} primaryText={item} />;
                                         })
                                     }
                                 </SelectField>
@@ -208,10 +206,10 @@ export default class CustomerEditFormView extends Component {
                                 <TextField
                                     type="text"
                                     floatingLabelText="First Name*"
-                                    refs="cust_dom_fname"
-                                    errorText={this.props.errors["cust_dom_fname"]}
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_fname")}
-                                    value={this.props.toCamelCase(this.props.changedAddress['cust_dom_fname'])}
+                                    refs="firstName"
+                                    errorText={this.props.errors["firstName"]}
+                                    onChange={this.props.handleChange.bind(this, "firstName")}
+                                    value={this.props.toCamelCase(this.props.changedAddress['firstName'])}
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     style={textFieldStyle}
                                     underlineStyle={underlineStyle}
@@ -226,10 +224,10 @@ export default class CustomerEditFormView extends Component {
                                     floatingLabelText="Last Name*"
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     style={textFieldStyle}
-                                    value={this.props.toCamelCase(this.props.changedAddress['cust_dom_lname'])}
-                                    errorText={this.props.errors["cust_dom_lname"]}
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_lname")}
-                                    refs="cust_dom_lname"
+                                    value={this.props.toCamelCase(this.props.changedAddress['lastName'])}
+                                    errorText={this.props.errors["lastName"]}
+                                    onChange={this.props.handleChange.bind(this, "lastName")}
+                                    refs="lastName"
                                     underlineStyle={underlineStyle}
                                     inputStyle={textFieldInputStyle}
                                     fullWidth={true}
@@ -238,9 +236,10 @@ export default class CustomerEditFormView extends Component {
 
                             </div>
 
-                            {this.props.custType != 'int' ?
+                            {this.props.custType != 'International' ?
                                 <div className='field4'>
                                     <div>
+                                    {this.props.component != 'purchaser' ?
                                         <TextField
                                             floatingLabelText="Mobile Phone"
                                             floatingLabelStyle={textFieldFloatingLabelStyle}
@@ -256,7 +255,23 @@ export default class CustomerEditFormView extends Component {
                                         >
                                             <InputMask mask="(999) 999-9999" maskChar="" onChange={this.props.handleChange.bind(this, "cust_dom_mobile")} value={this.props.changedAddress['cust_dom_mobile']} />
                                         </TextField>
-                                    </div>
+
+                                       : <TextField
+                                            floatingLabelText="Date of Birth"
+                                            floatingLabelStyle={textFieldFloatingLabelStyle}
+                                            style={textFieldStyle}
+                                            refs="cust_dom_mobile"
+                                            value={this.props.changedAddress['cust_dom_mobile']}
+                                            underlineStyle={underlineStyle}
+                                            inputStyle={textFieldInputStyle}
+                                            fullWidth={true}
+                                            errorStyle={errorStyle}
+                                            onChange={this.props.handleChange.bind(this, "cust_dom_mobile")}
+
+                                        >
+                                            <InputMask mask="99/99/9999" maskChar="" onChange={this.props.handleChange.bind(this, "cust_dom_mobile")} value={this.props.changedAddress['cust_dom_mobile']} />
+                                        </TextField>} 
+                                    </div> 
                                 </div> :
                                 <div className='field4'>
                                     <TextField
@@ -280,35 +295,50 @@ export default class CustomerEditFormView extends Component {
                                 <TextField
                                     type="text"
                                     floatingLabelText="Address Line 1*"
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_address1")}
-                                    refs='cust_dom_address1'
-                                    value={this.props.changedAddress['cust_dom_address1']}
+                                    onChange={this.props.handleChange.bind(this, "address1")}
+                                    refs='address1'
+                                    value={this.props.changedAddress['address1']}
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     style={textFieldStyle}
                                     underlineStyle={underlineStyle}
                                     errorStyle={errorStyle}
                                     fullWidth={true}
-                                    errorText={this.props.errors["cust_dom_address1"]}
+                                    errorText={this.props.errors["address1"]}
                                     inputStyle={textFieldInputStyle}
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_address1")}
+                                    onChange={this.props.handleChange.bind(this, "address1")}
                                 />
 
                             </div>
+
                             <div className='field2'>
+                            {this.props.component != 'purchaser' ?
                                 <TextField
                                     type="text"
                                     floatingLabelText="Address Line 2"
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     style={textFieldStyle}
                                     underlineStyle={underlineStyle}
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_address2")}
-                                    value={this.props.changedAddress['cust_dom_address2']}
-                                    refs='cust_dom_address2'
+                                    onChange={this.props.handleChange.bind(this, "address2")}
+                                    value={this.props.changedAddress['address2']}
+                                    refs='address2'
                                     fullWidth={true}
                                     inputStyle={textFieldInputStyle}
                                 />
-
-                            </div>
+                                : <TextField
+                                    type="text"
+                                    floatingLabelText="Apt / Suite #"
+                                    floatingLabelStyle={textFieldFloatingLabelStyle}
+                                    style={textFieldStyle}
+                                    underlineStyle={underlineStyle}
+                                    onChange={this.props.handleChange.bind(this, "address2")}
+                                    value={this.props.changedAddress['address2']}
+                                    refs='address2'
+                                    fullWidth={true}
+                                    inputStyle={textFieldInputStyle} />
+                                }
+                            </div>  
+                                
+                            {this.props.component != 'purchaser' ? 
                             <div className='field3'>
                                 <TextField
                                     type="number"
@@ -327,6 +357,7 @@ export default class CustomerEditFormView extends Component {
                                 </TextField>
 
                             </div>
+                            : null}
                         </div>
                         <div className="viewedit-thirdrow">
 
@@ -334,20 +365,20 @@ export default class CustomerEditFormView extends Component {
                                 <TextField
                                     type="text"
                                     floatingLabelText="City"
-                                    value={this.props.changedAddress['cust_dom_city']}
-                                    refs='cust_dom_city'
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_city")}
+                                    value={this.props.changedAddress['city']}
+                                    refs='city'
+                                    onChange={this.props.handleChange.bind(this, "city")}
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     style={textFieldStyle}
                                     underlineStyle={underlineStyle}
                                     fullWidth={true}
-                                    errorText={this.props.errors["cust_dom_city"]}
+                                    errorText={this.props.errors["city"]}
                                     errorStyle={errorStyle}
                                     inputStyle={textFieldInputStyle}
                                 />
 
                             </div>
-                            {this.props.custType != 'int' ?
+                            {this.props.custType != 'International' ?
                                 <div className='field2'>
                                     <div>
                                         <SelectField
@@ -362,8 +393,8 @@ export default class CustomerEditFormView extends Component {
                                             iconStyle={selectFieldIconStyle}
                                             underlineStyle={underlineStyle}
                                             maxHeight={180}
-                                            refs="cust_dom_state"
-                                            value={this.props.changedAddress['cust_dom_state']}
+                                            refs="state"
+                                            value={this.props.changedAddress['state'].trim()}
                                             onChange={this.props.handleStateChange}
                                         >
                                             {
@@ -377,9 +408,10 @@ export default class CustomerEditFormView extends Component {
                                         <TextField
                                             type="text"
                                             floatingLabelText="Zip"
-                                            refs='cust_dom_zip'
-                                            value={this.props.changedAddress['cust_dom_zip']}
-                                            onChange={this.props.handleChange.bind(this, "cust_dom_zip")}
+                                            refs='zip'
+                                            value={this.props.changedAddress['zip']}
+                                            onChange={this.props.handleChange.bind(this, "zip")}
+                                            errorText={this.props.errors["zip"]}
                                             floatingLabelStyle={textFieldFloatingLabelStyle}
                                             style={textFieldStyle}
                                             underlineStyle={underlineStyle}
@@ -398,9 +430,11 @@ export default class CustomerEditFormView extends Component {
                                         underlineStyle={underlineStyle}
                                         fullWidth={true}
                                         inputStyle={textFieldInputStyle}
-                                        refs='cust_dom_province'
-                                        onChange={this.props.handleChange.bind(this, 'cust_dom_province')}
-                                        value={this.props.changedAddress['cust_dom_province']}
+                                        refs='province'
+                                        onChange={this.props.handleChange.bind(this, 'province')}
+                                        value={this.props.changedAddress['province']}
+                                        errorText={this.props.errors["province"]}
+                                        errorStyle={errorStyle}
 
                                     />
                                 </div>
@@ -411,16 +445,16 @@ export default class CustomerEditFormView extends Component {
                                 
             </div> */}
 
-
+                            {this.props.component != 'purchaser' ?
                             <div className='field4'>
                                 <TextField
                                     floatingLabelText="Email Address"
-                                    value={this.props.changedAddress['cust_dom_email']}
-                                    errorText={this.props.errors["cust_dom_email"]}
-                                    refs='cust_dom_email'
+                                    value={this.props.changedAddress['email']}
+                                    errorText={this.props.errors["email"]}
+                                    refs='email'
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     style={textFieldStyle}
-                                    onChange={this.props.handleChange.bind(this, "cust_dom_email")}
+                                    onChange={this.props.handleChange.bind(this, "email")}
                                     underlineStyle={underlineStyle}
                                     fullWidth={true}
                                     errorStyle={errorStyle}
@@ -428,8 +462,40 @@ export default class CustomerEditFormView extends Component {
                                 />
 
                             </div>
+                            : null}
                         </div>
-                        {this.props.custType == 'int' ?
+                        {this.props.component != 'purchaser' ? null
+
+                        : <div className="viewedit-fourthrow">
+
+                            <div className='field1'>
+                                <TextField
+                                    floatingLabelText="DL# / ID#*"
+                                    value={this.props.validDLNumber}
+                                    floatingLabelStyle={textFieldFloatingLabelStyle}
+                                    style={textFieldStyle}
+                                    underlineStyle={underlineStyle}
+                                    fullWidth={true}
+                                    errorStyle={errorStyle}
+                                    inputStyle={textFieldInputStyle}
+                                />
+                                </div>
+
+                                <div className='field2'>
+                                <TextField
+                                    floatingLabelText="DL# State*"
+                                    value={this.props.validDLNumber}
+                                    floatingLabelStyle={textFieldFloatingLabelStyle}
+                                    style={textFieldStyle}
+                                    underlineStyle={underlineStyle}
+                                    fullWidth={true}
+                                    errorStyle={errorStyle}
+                                    inputStyle={textFieldInputStyle}
+                                />
+                                </div>
+                            </div>}
+
+                        {this.props.custType == 'International' ?
                             <div className="viewedit-fourthrow">
 
                                 <div className='field1'>
@@ -439,7 +505,7 @@ export default class CustomerEditFormView extends Component {
 
                                             iconButton: <Dropdownicon />,
                                         }}
-                                        value={this.props.changedAddress['cust_dom_country']}
+                                        value={this.props.changedAddress['country']}
                                         onChange={this.props.handleCountryChange}
                                         fullWidth={true}
                                         floatingLabelStyle={selectFieldFloatingLabelStyle}
@@ -449,10 +515,10 @@ export default class CustomerEditFormView extends Component {
                                         menuItemStyle={selectFieldMenuItemStyle}
                                         selectedMenuItemStyle={selectFieldMenuItemStyle}
                                         iconStyle={selectFieldIconStyle}
-                                        errorText={this.props.errors["cust_dom_country"]}
+                                        errorText={this.props.errors["country"]}
                                         errorStyle={errorStyle}
                                         maxHeight={190.5}
-                                        refs="cust_dom_country"
+                                        refs="country"
 
                                     >
                                         {
@@ -467,13 +533,15 @@ export default class CustomerEditFormView extends Component {
                                     <TextField
                                         type="text"
                                         floatingLabelText="Postal Code"
-                                        value={this.props.changedAddress['cust_dom_postal']}
-                                        refs='cust_dom_postal'
+                                        value={this.props.changedAddress['postal']}
+                                        refs='postal'
                                         floatingLabelStyle={textFieldFloatingLabelStyle}
                                         style={textFieldStyle}
-                                        onChange={this.props.handleChange.bind(this, "cust_dom_postal")}
+                                        onChange={this.props.handleChange.bind(this, "postal")}
                                         underlineStyle={underlineStyle}
                                         fullWidth={true}
+                                        errorText={this.props.errors["postal"]}
+                                        errorStyle={errorStyle}
                                         inputStyle={textFieldInputStyle}
                                     />
 
@@ -485,21 +553,41 @@ export default class CustomerEditFormView extends Component {
                         }
 
                         {/* SERVICES FOOTER  */}
-                        <ServiceFooter additionalStyle='sendComponent-customerEditForm-offset'>
+                        {this.props.optionalFooter?<ServiceFooter additionalStyle='sendComponent-customerEditForm-offset'>
                             <div  className="giftwrap-cancel" onClick={() => this.props.history.goBack()}><span className="giftwrap-cancel-text">Cancel</span></div>
                             <button className="giftwrap-next" 
                                 onClick={() => {
-                                    {/* this.props.handleValidation() */}
+                                    console.log("SHIV: CHANGEDADDRESS:",this.props.changedAddress)
+                                    if(this.props.custType === "International"){
+                                        this.props.handleValidationIntCustomer()
+                                    }else{
+                                           this.props.handleValidation();   
+                                         console.log("SHIV HANDLING VALIDATION", this.props.handleValidation()) 
+                                    }
                                     this.props.handleClientele();
-                                    console.log("SHIV: formtype:",this.props.formType)
-                                    if(this.props.formType =="Receiver"){
+                                    console.log("SHIV: valid:",this.props.isValid)
+                                    {/* if(this.props.formType ==="Receiver" && this.props.isValid){
+                                        console.log("SHIV POSTAL", this.props.changedAddress)
+                                        console.log("SHIV: custtype:",this.props.custType)
                                         this.props.constructCustomerObject("Receiver",this.props.changedAddress)
-                                        this.props.updateShipmentOptionsObject("ZIP", this.props.changedAddress['cust_dom_zip']);
+                                        if(this.props.custType === "International"){
+                                            this.props.updateShipmentOptionsObject("ZIP", this.props.changedAddress['postal']);
+                                            this.props.updateShipmentOptionsObject("International", true)
+                                            this.props.updateShipmentOptionsObject("Country", this.props.changedAddress['country']);
+                                        }else{
+                                            this.props.updateShipmentOptionsObject("ZIP", this.props.changedAddress['zip']);
+                                            this.props.updateShipmentOptionsObject("International", false);
+                                            this.props.updateShipmentOptionsObject("Country", '');
+                                        }
                                         this.props.componentChangeHandler("itemsToBeShipped");
+                                    } */}
+                                    if (this.props.formType == 'purchaser') {
+                                        //debugger;
+                                        this.props.addGiftCardCall(this.props.changedAddress);   
                                     }
                                 }}>
                             <span className="giftwrap-next-text">Next</span></button>
-                        </ServiceFooter>
+                        </ServiceFooter>:null}
                         {/* END SERVICES FOOTER  */}
 
                         {/* <div className='viewedit-addcard-button-section'>
@@ -556,10 +644,10 @@ export default class CustomerEditFormView extends Component {
 
                                 <div className="cust-email-tooltip">
                                     <ReactTooltip data-class="react-email-tooltip-custom" effect="solid" place="top" className="tooltipCls"></ReactTooltip>
-                                    <div className='add-dom-cust-phone-modal-conform-email'>{this.props.changedAddress['cust_dom_email']}
+                                    <div className='add-dom-cust-phone-modal-conform-email'>{this.props.changedAddress['email']}
 
                                     </div>
-                                    {this.props.changedAddress['cust_dom_email'].length > 25 ? <img className="tooltip-info-icon" data-tip={this.props.changedAddress['cust_dom_email']} src={info} /> : ''}
+                                    {this.props.changedAddress['email'].length > 25 ? <img className="tooltip-info-icon" data-tip={this.props.changedAddress['email']} src={info} /> : ''}
                                 </div>
 
 
@@ -576,7 +664,7 @@ export default class CustomerEditFormView extends Component {
                                 <img src={updatecustsuccessicon} className='add-domcust-success-modal-icon' />
                                 <div className='add-domcust-success-modal-message'>
                                     The customer 
-                                    <span> {this.props.toCamelCase(this.props.selectedSalutation)} {this.props.toCamelCase(this.props.changedAddress['cust_dom_fname'])} {this.props.toCamelCase(this.props.changedAddress['cust_dom_lname'])} </span>
+                                    <span> {this.props.toCamelCase(this.props.selectedSalutation)} {this.props.toCamelCase(this.props.changedAddress['firstName'])} {this.props.toCamelCase(this.props.changedAddress['lastName'])} </span>
                                     has been updated successfully.
                                 </div>
                                 <div className='add-domcust-success-modal-close-btn' onClick={this.props.closeSuccessModal}><span className='add-domcust-success-modal-close-btn-label'>CLOSE</span></div>
@@ -587,7 +675,7 @@ export default class CustomerEditFormView extends Component {
                             <div className='add-dom-cust-container'>
                                 <img src={erroricon} className='add-dom-cust-modal-icon' />
                                 <div className='add-domcust-fail-modal-message-area'><span className='add-domcust-fail-modal-message-text'>Invalid address - Cannot be validated.
-                                        Select EDIT to correct address. If BYPASS is selected, the clientele record and all purchase history will be deleted from the clientele system. </span>
+                                        Select RETURN TO EDIT to correct address. If BYPASS is selected, the clientele record and all purchase history will be deleted from the clientele system. </span>
                                 </div>
                                 <div className='add-domcust-fail-modal-button-area'>
                                     <div className='add-dom-cust-modal-backtoedit-btn' onClick={this.props.closeFailModal}><img src={editIcon} className='add-dom-cust-modal-backtoedit-btn-icon' /><span className='add-dom-cust-modal-backtoedit-btn-label'>BACK TO EDIT</span></div>
@@ -596,14 +684,14 @@ export default class CustomerEditFormView extends Component {
                             </div>
                         </Modal>
 
-                        <Modal open={Boolean(this.props.addrEmailMOdal)} onClose={() => { }} little showCloseIcon={false} classNames={{ modal: 'add-dom-cust-modal1 ' }}>
+                        <Modal open={Boolean(this.props.addrEmailMOdal)} onClose={() => { this.props.openCloseAddrEmailMOdal() }} little showCloseIcon={false} classNames={{ modal: 'add-dom-cust-modal1 ' }}>
                             <div className='add-dom-cust-container'>
                                 <img src={erroricon} className='add-dom-cust-modal-icon' />
                                 <div className='add-domcust-addr-email-modal-message-area'><span className='add-domcust-addr-email-modal-message-text'>
                                     You must supply a valid street address or email address for this client. Press OK to continue. </span>
                                 </div>
                                 <div className='add-domcust-fail-modal-button-area'>
-                                    <div className='add-dom-cust-modal-ok-btn' onClick={this.props.openCloseAddrEmailModal}><span className='add-dom-cust-modal-ok-btn-label'>OK</span></div>
+                                    <div className='add-dom-cust-modal-ok-btn' onClick={()=> this.props.openCloseAddrEmailMOdal()}><span className='add-dom-cust-modal-ok-btn-label'>OK</span></div>
                                 </div>
                             </div>
                         </Modal>

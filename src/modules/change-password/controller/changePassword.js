@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import {ChangePasswordView} from '../view/changePasswordView';
+
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { startSpinner } from '../../common/loading/spinnerAction';
-import {changePasswordRequest} from './chgPassActions';
+import { resetPassword} from './chgPassActions';
 import { clearState } from './chgPassActions';
-
-import {ChangePasswordView} from '../view/changePasswordView';
+import { getTransactionId } from '../../home/HomeSelector';
 
 
 class ChangePassword extends Component {
@@ -16,15 +18,11 @@ class ChangePassword extends Component {
     errorPresent = false; //to check if error was present
 
     //parameters to clear state
-    clearParams = {     "Output":{
-                                "rc" : 0,
-                                "Response_Code" : "CLEARED",
-                                "Response_Text" : "CLEARED"
-                            },
-                            "RESPONSE_CODE":'CLEARED',
-                            "RESPONSETEXT":'CLEARED',
-                        "loading": false,
-                        "error": null
+    clearParams = {
+        "loading": false,
+        "error": null,
+        "response_Code" : "",
+        "response_Text" : "",
                     };
 
     constructor(props) {
@@ -36,6 +34,7 @@ class ChangePassword extends Component {
             showError: false,
             errorText: '',
             errorCode: '',
+            transactionId: this.props.transactionId
         };
         
         this.handleNewPassChange = this.handleNewPassChange.bind(this);
@@ -45,6 +44,16 @@ class ChangePassword extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleHidePass = this.handleHidePass.bind(this);
     }
+
+
+    componentDidMount() {
+        console.log('MIKE COMP MOUNT PROPS', this.props.changePassword)
+    }
+
+
+    // componentDidUpdate(nextprops) {
+    //     console.log('MIKE COMP UPDTAE PROPS', nextprops)
+    // }
 
     //event to handle closing change password modal
     handleHidePass(e){
@@ -69,7 +78,7 @@ class ChangePassword extends Component {
         if(this.state.newPass !== this.state.confirmPass){
             this.setState({errorText: "Passwords do not match."});
         }else{
-            this.setState({errorText: this.props.changePassword.response.Output.Response_Text});
+            this.setState({errorText: e});
         }
     }
     
@@ -83,11 +92,15 @@ class ChangePassword extends Component {
     
     //event to handle submitting button
     handleSubmit(e, params){
+        console.log('PRANAV HANDLESUBMIT CHGPWD')
          e.preventDefault();
-        if(this.state.newPass == this.state.confirmPass){        
+        if(this.state.newPass == this.state.confirmPass){
+            console.log('PRANAV HANDLESUBMIT CHPWD IF')    
             console.log("userPin in chgPswrd",this.props.userPin.userPin)
             this.props.startSpinner(true);
-            this.props.changePasswordRequest(params)
+            console.log('PRANAV RESETPWD IN IF')
+            this.props.resetPassword(params)
+            // this.authenticate();
         }
          else if(this.state.newPass !== this.state.confirmPass && this.errorPresent == false){
             console.log("error in state", this.state.errorText)
@@ -98,27 +111,92 @@ class ChangePassword extends Component {
         }
     }
 
-    //call authentication method after button press and component update
-    componentDidUpdate(){
-        // console.log("UPDATED");
-        // this.authenticate(this.params.RequestParams.Upin);
-
-    }
-
     //clear state when unmounting to prevent infinite loops.
     componentWillUnmount(){
         console.log("unmounting");
         console.log("CLEARING")
         this.props.clearState(this.clearParams);
     }
+        //call authentication method after button press and component update
+    componentWillReceiveProps(nextProps) {
+        let responseText = nextProps.changePassword.response.response_Text;
+
+    console.log("IN AUTH CHGPASS",nextProps); 
+    if(nextProps.changePassword.response.response_Code === "PW_CHGSUCCESS"){
+        this.props.startSpinner(false);
+        this.props.handleHide();
+        this.props.showSuccess();
+        sessionStorage.setItem("loggedIn", "true");
+    }else if (nextProps.changePassword.response.response_Code == "PW_GENERALERROR" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+    }else if (nextProps.changePassword.response.response_Code == "PW_FAILED" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+    }else if (nextProps.changePassword.response.response_Code == "PW_CANTCHANGEYET" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+    }else if (nextProps.changePassword.response.response_Code == "PW_LENGTHERROR" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+    }else if (nextProps.changePassword.response.response_Code == "PW_NOTSTRONG" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+    }else if (nextProps.changePassword.response.response_Code == "PW_CANTUSEOLDPASSWORD" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+    }else if (nextProps.changePassword.response.response_Code == "PW_NEEDSCHANGE_FAILED" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+   }else if (nextProps.changePassword.response.response_Code == "PW_LOCKEDOUT" && this.errorPresent == false) {
+        this.props.startSpinner(false);
+        this.handleShowError(nextProps.changePassword.response.response_Text);
+        console.log("error in state", this.state.errorText)
+        this.errorPresent = true;
+        console.log("CLEARING")
+        this.props.clearState(this.clearParams);
+      }         
+  }
+    
 
     render() {
+
+        console.log('MIKE CHANGEPASS ALL PROPS', this.props)
 
         var Upin = this.props.userPin.userPin.userPin;
         var Upass = this.props.userPin.userPin.Upass;
 
         return (
             <ChangePasswordView
+                transactionId={this.state.transactionId}
                 Upin = {Upin}
                 Upass = {Upass}
                 changePassFuncID = {this.configFile.changePassFuncID}
@@ -135,84 +213,19 @@ class ChangePassword extends Component {
             />
         );
     }
-
-
-    //resolves responses from login api 
-    authenticate(){
-        console.log("IN AUTH CHGPASS",this.props.changePassword); 
-
-        if(this.props.changePassword.response.Output.Response_Code === "PW_CHGSUCCESS"){
-            this.props.startSpinner(false);
-            this.props.handleHide();
-            this.props.showSuccess();
-            sessionStorage.setItem("loggedIn", "true");
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_GENERALERROR" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_FAILED" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_CANTCHANGEYET" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_LENGTHERROR" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_NOTSTRONG" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_CANTUSEOLDPASSWORD" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_NEEDSCHANGE_FAILED" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }else if (this.props.changePassword.response.Output.Response_Code == "PW_LOCKEDOUT" && this.errorPresent == false) {
-            this.props.startSpinner(false);
-            console.log("error in state", this.state.errorText)
-            this.errorPresent = true;
-            console.log("CLEARING")
-            this.props.clearState(this.clearParams);
-            this.handleShowError();
-        }         
-    }
 }  
 
 function mapStateToProps(state) {
-  return { userPin: state.userPin, changePassword:state.changePass }
+  return {
+      userPin: state.userPin, 
+      changePassword: state.changePass,
+      transactionId: getTransactionId(state) }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-      changePasswordRequest:changePasswordRequest, 
+    //   changePasswordRequest:changePasswordRequest, 
+      resetPassword:resetPassword,
       clearState:clearState,
       startSpinner:startSpinner
     }, dispatch)

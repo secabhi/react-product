@@ -12,14 +12,14 @@ const header = {
     'AppKey': AppKey
 }
 
-export function getCsrPurchasesNRecommends(csrObj) {
+export function getCsrPurchasesNRecommends(cssId) {
     const endDate = moment().format('L');
     const startDate= moment().subtract(2,'year').format('L');
 
-    const purchaseParams = `?version=v2&id=${csrObj.cssId}&offset=0&startDate=${startDate}&endDate=${endDate}`;
+    const purchaseParams = `?version=v2&id=${cssId}&offset=0&startDate=${startDate}&endDate=${endDate}`;
     const apiCallPurchases = purchaseURL + purchaseParams;
 
-    const recommendationParams =`?version=1.0&brand=NM&cssId=${csrObj.cssId}`
+    const recommendationParams =`?version=1.0&brand=NM&cssId=${cssId}`
     const apiCallRecommendations = recommendationsURL + recommendationParams;
 
     const getPurchaseHistory =  callAxiosWebService({method: 'get', url: apiCallPurchases, headers: header});
@@ -33,33 +33,37 @@ export function getCsrPurchasesNRecommends(csrObj) {
             console.log('RESPONSE', response);
             dispatch({
                 type: GET_CSR_HISTORY,
-                payload: { ...csrObj, purchases: response[0].data.data.purchases, recommendations: response[1].data.products}
+                payload: {purchases: response[0].data.data.purchases, recommendations: response[1].data.products}
             })
         })
         .catch(err => console.log(`Network Error: ${err}`))
     }
 }
 
-export function navigateToDomesticCustomer(cssId) {
+export function navigateToDomesticCustomer(data) {
 
-    const params = `?version=v1&id=${cssId}`;
-    const customerProfileApi = cxp.getCustomerDetail + params;
-    const customerProfileApiCall = callAxiosWebService({ method: 'get', url: customerProfileApi, headers: header });
+    // const params = `?version=v1&id=${cssId}`;
+    // const customerProfileApi = cxp.getCustomerDetail + params;
+    // const customerProfileApiCall = callAxiosWebService({ method: 'get', url: customerProfileApi, headers: header });
     
     return (dispatch) => {
-        customerProfileApiCall.then((data) => {
             dispatch({
                 type: 'NAVIGATE_TO_DOMESTIC_CUSTOMER',
-                payload: data.data.data
+                payload: data
             });
-    
-        }).catch((err) => {
-            console.log(`Error: ${err}`);
+    };
+}
+
+export function navigateToCustomerWithUpdate(data) {
+    return (dispatch) => {
+        dispatch({
+            type: 'NAVIGATE_TO_DOMESTIC_CUSTOMER_WITH_UPDATE',
+            payload: data
         });
     };
 }
 
-export function getSalesSummaryAction(cssId,associatePin){
+export function getSalesSummaryAction(cssId, associatePin) {
 
     const params = `/${cssId}/salesSummary?associatePin=${associatePin}`; 
     const SalesSummary = cxp.getSalesSummary + params;

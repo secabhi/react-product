@@ -1,9 +1,12 @@
 const initialState = {
     successModalFlag : false,
+    updateFailModalFlag : false,
     addressValidationSuccessFlag : false,
+    verifyEmailFlag : false,
     verifyAddressFlag : false,
     invalidPhone : false,
     isProfileLoaded : false,
+    notFoundFlag : false,
     errors : []
 };
 
@@ -18,9 +21,26 @@ export function UpdateCustomerReducer(state = initialState, action) {
             return {
                 ...state,
                 successModalFlag: true,
+                verifyEmailFlag: false,
                 addressValidationSuccessFlag: false,
+                notFoundFlag : false,
                 errors : [],
-                isProfileLoaded : false
+                isProfileLoaded : false,
+                updateFailModalFlag : false
+            };
+            break;
+        }
+
+        case 'UPDATE_CUST_DOM_FAIL': {
+            return {
+                ...state,
+                successModalFlag: false,
+                verifyEmailFlag: false,
+                addressValidationSuccessFlag: false,
+                notFoundFlag : false,
+                errors : [],
+                isProfileLoaded : false,
+                updateFailModalFlag : true
             };
             break;
         }
@@ -29,10 +49,13 @@ export function UpdateCustomerReducer(state = initialState, action) {
             console.log('UPDATE_CUST_DOM_INVALID_EMAIL');
             return{
                 ...state,
+                verifyEmailFlag: true,
+                notFoundFlag : false,
                 errors : [{
                     "cust_email" : "INVALID EMAIL"
                 }],
-                isProfileLoaded : false
+                isProfileLoaded : false,
+                updateFailModalFlag : false
             }
             break;
         }
@@ -41,10 +64,28 @@ export function UpdateCustomerReducer(state = initialState, action) {
             return {
                 ...state,
                 successModalFlag: false,
+                verifyEmailFlag: false,
                 addressValidationSuccessFlag: true,
                 verifyAddressFlag : false,
+                notFoundFlag : false,
                 errors : [],
-                isProfileLoaded : false
+                isProfileLoaded : false,
+                updateFailModalFlag : false
+            };
+            break;
+        }
+
+        case 'UPDATE_CUST_DOM_NOT_FOUND' : {
+            return {
+                ...state,
+                successModalFlag: false,
+                verifyEmailFlag: false,
+                addressValidationSuccessFlag: false,
+                verifyAddressFlag : false,
+                notFoundFlag : true,
+                errors : [],
+                isProfileLoaded : false,
+                updateFailModalFlag : false
             };
             break;
         }
@@ -53,10 +94,13 @@ export function UpdateCustomerReducer(state = initialState, action) {
             return {
                 ...state,
                 successModalFlag: false,
+                verifyEmailFlag: false,
                 addressValidationSuccessFlag: false,
                 verifyAddressFlag : true,
+                notFoundFlag : false,
                 errors : [],
-                isProfileLoaded : false
+                isProfileLoaded : false,
+                updateFailModalFlag : false
             };
             break;
         }
@@ -70,7 +114,9 @@ export function UpdateCustomerReducer(state = initialState, action) {
                     dom_cust_zip : 'INVALID ZIP'
                 }],
                 isProfileLoaded : false,
-                verifyAddressFlag : false
+                verifyAddressFlag : false,
+                notFoundFlag : false,
+                updateFailModalFlag : false
             }
         }
 
@@ -82,7 +128,9 @@ export function UpdateCustomerReducer(state = initialState, action) {
                     dom_cust_mobile : 'INVALID PHONE'
                 }],
                 isProfileLoaded : false,
-                verifyAddressFlag : false
+                verifyAddressFlag : false,
+                notFoundFlag : false,
+                updateFailModalFlag : false
             }
         }
         case 'UPDATE_CUST_DOM_INVALID_STATE' : {
@@ -93,7 +141,9 @@ export function UpdateCustomerReducer(state = initialState, action) {
                     dom_cust_state : 'INVALID STATE'
                 }],
                 isProfileLoaded : false,
-                verifyAddressFlag : false
+                verifyAddressFlag : false,
+                notFoundFlag : false,
+                updateFailModalFlag : false
             }
         }
         
@@ -105,23 +155,11 @@ export function UpdateCustomerReducer(state = initialState, action) {
                     dom_cust_zip : 'NETWORK ERROR'
                 }],
                 isProfileLoaded : false,
-                verifyAddressFlag : false
+                verifyAddressFlag : false,
+                notFoundFlag : false,
+                updateFailModalFlag : false
             };
             break;
-        }
-
-        case 'SET_CUSTOMER_PROFILE_DATA' : {
-
-           // console.log('action : '+action.payload)
-            return {
-                ...state,
-                successModalFlag :  false,
-                errors : [],
-                customerProfile : action.payload,
-                isProfileLoaded : true,
-                verifyAddressFlag : false
-
-            }
         }
         
 
@@ -131,7 +169,10 @@ export function UpdateCustomerReducer(state = initialState, action) {
                 successModalFlag: false,
                 addressValidationSuccessFlag: false,
                 errors : [],
-                verifyAddressFlag : false
+                verifyAddressFlag : false,
+                verifyEmailFlag: false,
+                notFoundFlag : false,
+                updateFailModalFlag : false
             };
     }
 }

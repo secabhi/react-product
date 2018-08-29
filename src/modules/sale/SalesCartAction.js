@@ -5,8 +5,12 @@ import {
     ADD_ITEM_REQUEST, 
     ADD_ITEM_SUCCESS, 
     ADD_ITEM_FAILURE, 
+    MAX_ITEM_REACHED,
     TRANS_DISCOUNT_APPLIED, 
-    TRANS_DISCOUNT_FAIL 
+    GP_PRICENOTFOUND,
+    TRANS_DISCOUNT_FAIL ,
+    DEFAULT_SKU,
+    TD_DISCOUNTEXCEEDS
 } from '../common/constants/type';
 import moment from 'moment';
 const config = require('../../resources/stubs/config.json');
@@ -33,25 +37,84 @@ export function addItemsRequest(cartInfo) {
     const body = {
         ...cartInfo,
         ...clientConfig
+        
     }
-    
+    var header = {
+		'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+	};
+    const sku='';
+    console.log('env.ENV_MOD', env.ENV_MODE);
+    console.log('BODY', body)
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(apiAddItemToCart, {});
-        return (dispatch) => {
+    return (dispatch) => {
             request.then(({data}) => {
                 console.log("ACTIONS",data, Date.now());
+                
+               /* switch (data.response_text) {
+
+                    case "AC_SUCCESS":
+                        {
+                            dispatch({
+                                type: ADD_ITEM_REQUEST,
+                                payload: data
+                            });
+                            break;
+                        }
+
+                        case "TD_DISCOUNTEXCEEDS":
+                        {
+                            dispatch({
+                                type: "TD_DISCOUNTEXCEEDS",
+                                payload: data
+                            });
+                            break;
+                        }
+
+                     default:
+                        {
+                            dispatch({
+                                type: 'ADD_ITEM_FAILURE',
+                                payload: data
+                            });
+                            break;
+                        }
+                    }*/
                 if(data.response_text == "AC_SUCCESS") {
+                    console.log('AC_SUCCESS');
                     dispatch({
                         type: ADD_ITEM_REQUEST,
                         payload: data
                     });
                 }
+                else if(data.response_text == "GP_PRICENOTFOUND"){
+                    dispatch({
+                        type: GP_PRICENOTFOUND,
+                        payload: data
+                    });
+                }
                 
+                else if(data.response_text == "TD_DISCOUNTEXCEEDS") {
+                    dispatch({
+                        type: TD_DISCOUNTEXCEEDS,
+                        payload: data,
+                        sku:cartInfo.ItemNumber
+                    });
+                }           	
+                else if(data.response_text == "AC_MAXITEMREACHED") {                    	
+                                       dispatch({                    	
+                                           type: 'MAX_ITEM_REACHED',
+                    	                    payload: data
+                });
+                }
                 else {
                     dispatch({
                         type: 'ADD_ITEM_FAILURE',
                         payload: data
                     });
                 }
+
+                
             });
         
         };
@@ -256,11 +319,7 @@ export const applyAssociateDiscountToCart = (discountPin, discountId, transactio
     
     const apiAssociateDiscountURL = path+'apiAssociateDiscount.json';
     const body= {
-        "ClientID":"0010:0216:06082018:033639",
-        "SourceApp":"MPOS",
-        "SourceLoc":"NM-DIRECT",
-        "Store":"0010",
-        "Terminal":"0216",
+        ...clientConfig,
         "StoreAssoc":(userPin !== undefined)?userPin:"",
         "TransactionId": transactionId,
         "AssociateDiscountPIN": discountPin,
@@ -289,6 +348,12 @@ export const applyAssociateDiscountToCart = (discountPin, discountId, transactio
                     payload: data
                 });
             }
+            else if(data.response_text == "IM_INVALIDASSOCIATE"){
+                dispatch({
+                    type: 'IM_INVALIDASSOCIATE',
+                    payload: data
+                });
+            }
             else {
                 dispatch({
                     type: 'TRANS_DISCOUNT_FAIL',
@@ -309,9 +374,16 @@ export function navigate(data) {
         });
     };
 }
+export function presaleInitialRender(data) {
+    return (dispatch) => {
+        dispatch({
+            type: 'PRESALEINITIALRENDER',
+            payload: {data}
+        });
+    };
+}
 
 export function getPromotionsAction(transactionId,item) {
-    debugger;
     const apiURL = config.getPromoPriceURL;
     const getPromoPriceURL =path+'getPromoPriceURL.json';
 
@@ -320,7 +392,7 @@ export function getPromotionsAction(transactionId,item) {
     /* const body= {
         "ReqHeader":{
            "StoreNum":10,
-           "RegisterNum":216,
+           "RegisterNum":131,
            "AssociateNumber":209289,
            "TransactionNum":transactionId,
            "Epic":"Sale",
@@ -334,22 +406,22 @@ export function getPromotionsAction(transactionId,item) {
     } */
     const body= {
         "ReqHeader":{
-            "StoreNum":10,
-            "RegisterNum":216,
-            "AssociateNumber":209289,
+            "StoreNum": clientConfig.StoreNum,
+            "RegisterNum": clientConfig.RegisterNum,
+            "AssociateNumber": clientConfig.StoreAssoc,
             "TransactionNum":transactionId,
             "Epic":"Sale",
             "APICallDateTime":apiCallDateTime
         },
-        "TransactionItems" : [
-            {
-                "SKU":item.itemNumber,
-                "Department":item.department,
-                "Class":item.class,
-                "SubClass":item.subClass,
-                "PreSale":(item.presaleFlag === true)?"Y":"N"
-            }
-        ]
+        //"TransactionItems" : [
+            //{
+        "SKU":item.itemNumber,
+        "Department":item.department,
+        "Class":item.class,
+        "SubClass":item.subClass,
+        "PreSale":(item.presaleFlag === true)?"Y":"N"
+            //}
+        //]
     }
     const request = env.ENV_MODE=='dev1'?callPostWebService(apiURL, body):callGetWebService(getPromoPriceURL, {});
  
@@ -382,7 +454,8 @@ export function modifyPriceAction(transactionId,item,modifyValue,managerPin,call
         "transactionId": transactionId,
         "LineNumber":item.lineNumber,
         "ItemNumber":item.itemNumber,
-        "ManagerPin":managerPin
+        "ManagerPin":managerPin,
+        "OverrideFlag":(managerPin !== '')?true:false
     }
     if(calledFrom === "Price : Mkd % Off") {
         body.MkdPercentageValue = modifyValue;
@@ -425,6 +498,70 @@ export function modifyPriceAction(transactionId,item,modifyValue,managerPin,call
         });
     };
 }
+
+export function modifyTaxAuthAction(transactionId,modifyValue) {
+    const apiURL = config.updateTaxAuthURL;
+
+    const body= {
+        ...clientConfig,
+        //"ClientTypeID":"1000",
+        "transactionId": transactionId,
+        "AuthCode":modifyValue
+    }
+    const request = callPostWebService(apiURL, body)
+
+    return (dispatch) => {
+        request.then(({data}) => {
+            
+            if(data.response_text == "AC_SUCCESS") {
+                dispatch({
+                    type: 'TAX_AUTH_SUCCESS',
+                    payload: data
+                });               
+            }
+            else if(data.response_text == "AC_FAIL") {
+                dispatch({
+                    type: 'TAX_AUTH_FAIL',
+                    payload: data
+                });
+            }
+        });
+    };
+}
+
+export function modifyTaxAction(transactionId,item,modifyValue) {
+    const apiURL = config.updateTaxURL;
+    const body= {
+        ...clientConfig,
+        "ItemNumber":item.itemNumber,
+        "transactionId":transactionId,
+        "LineNumber":item.lineNumber,
+        "TaxOverrideOption":"3",
+        "TaxOverrideValue":item.itemTax?"0":"1",
+        "AuthCode":modifyValue
+        
+    }
+    const request = callPostWebService(apiURL, body)
+
+    return (dispatch) => {
+        request.then(({data}) => {
+            
+            if(data.response_text == "IM_SUCCESS") {
+                dispatch({
+                    type: 'TAX_MODIFY_UPDATE_SUCCESS',
+                    payload: data
+                });               
+            }
+            else if(data.response_text == "AC_FAIL") {
+                dispatch({
+                    type: 'TAX_AUTH_FAIL',
+                    payload: data
+                });
+            }
+        });
+    };
+}
+
 export function clearCart()
 {
     
@@ -433,5 +570,69 @@ export function clearCart()
             type: 'CLEAR_CART',
             payload: {}
         });
+    };
+}
+
+/**get default SKU API */
+export function getDefaultSKU(obj) {
+    const URL = require('../../resources/stubs/config.json').getDefaultSKU;
+    const getDefaultSKU = path+'getDefaultSKU.json';
+
+    const body = {
+        ...obj,
+        ...clientConfig
+    }
+    const sku='';
+    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(getDefaultSKU, {});
+        return (dispatch) => {
+            request.then(({data}) => {
+                console.log("ACTIONS",data, Date.now());
+
+                if(data.response_text == "IM_SUCCESS") {
+                    dispatch({
+                        type: DEFAULT_SKU,
+                        payload: data
+                    });
+                }
+                else {
+                    dispatch({
+                        type: 'IM_SKUNOTFOUND',
+                        payload: data
+                    });
+                }
+
+                
+            });
+        
+        };
+   
+}
+
+export function validateManagerPinAction(managerPin,checkLoggedInUserFlag) {
+    const URL = require('../../resources/stubs/config.json').validateManagerPinURL;
+    const validateManagerPin = path+'validateManagerPin.json';
+
+    const body = {
+        ...clientConfig,
+        "AssocID" : managerPin.toString()
+    }
+    const sku='';
+    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(validateManagerPin, {});
+    return (dispatch) => {
+        request.then(({data}) => {
+            if(checkLoggedInUserFlag === true) {
+                dispatch({
+                    type: 'LOGGED_IN_PIN_VALIDATE_RESPONSE',
+                    payload: data
+                });
+            }
+            else {
+                dispatch({
+                    type: 'MANAGER_PIN_VALIDATE_RESPONSE',
+                    payload: data
+                });
+            }           
+        });
+    
     };
 }

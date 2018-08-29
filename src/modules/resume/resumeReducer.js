@@ -21,14 +21,14 @@ export function ResumeReducer(state = initialState, action) {
             return {
                 ...state,
                 getResumeDatas: action.payload,
-                getResumeDatasFrom: "RESUME_TRANSACTIONS_SUCCESS"
+                getResumeDatas: "RESUME_TRANSACTIONS_SUCCESS"
             }
         };
         case 'RESUME_ENTRY_REQUEST_FAILURE': {
             return {
                 ...state,
-                ...action.payload,
-                dataFrom: "WEB_SERVICE_ERROR"
+                getResumeDatas:action.payload,
+                getResumeDatasFrom: "RESUME_ENTRY_REQUEST_FAILURE_ERROR"
             }
         };
         case 'SUSPENDED_TRANSACTION_LIST_FETCH_SUCCESS':{
@@ -37,6 +37,14 @@ export function ResumeReducer(state = initialState, action) {
                 ...state,
                 response: action.payload,
                 dataFrom: "SUSPENDED_TRANSACTION_LIST_SUCCESS"
+            }
+        };
+        case 'SUSPENDED_TRANSACTION_LIST_FETCH_FAILURE':{
+            
+            return {
+                ...state,
+                response: action.payload,
+                dataFrom: "SUSPENDED_TRANSACTION_LIST_FAILURE"
             }
         };
         default:

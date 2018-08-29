@@ -6,8 +6,8 @@ const clientConfig= config.clientConfig;
 const CONFIG_FILE = require('../../../../resources/stubs/config.json');
 
 //sets url to be used for api call
-const URL = CONFIG_FILE.apiTransTaxExempt+'?regID=0216';
-
+const URL = CONFIG_FILE.apiTransTaxExempt+'?regID=0503';
+//const URL = CONFIG_FILE.apiTransTaxExempt+'?regID=CONFIG_FILE.clientConfig.Terminal';
 
 const env = require('../../../../settings/env.js');
 const path = env.PATH;

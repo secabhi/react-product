@@ -8,7 +8,7 @@ export default class AddressCards extends Component {
             <AddressCardsView 
                 firstName = {this.props.firstName}
                 lastName = {this.props.lastName}
-                city={this.props.cityName}
+                city={this.props.city}
                 state={this.props.state}
                 zip={this.props.zip}
                 phoneNumber = {this.props.phoneNumber}
@@ -19,6 +19,8 @@ export default class AddressCards extends Component {
                 index = {this.props.index}
                 changeAddressSelected = {(index) => this.props.changeAddressSelected(index)}
                 selectedAddress = {this.props.selectedAddress}
+                address={this.props.address}
+                freqShippedSelectedHandler={this.props.freqShippedSelectedHandler}
 
             />
         );

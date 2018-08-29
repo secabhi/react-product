@@ -1,19 +1,19 @@
+//Dependency
 import React, { Component } from 'react'
 
-import './postVoid.css';
-import closeicon from '../../resources/images/Cross_Black.svg';
+//redux
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
 import { postVoidDetailsTransaction } from '../post-void/postVoidAction'
-import postVoidIcon from '../../resources/images/Post_Void_Black_SFF.svg';
+
+//resources
 import crossicon from '../../resources/images/Close_Bttn_Purple.svg';
-import TextField from 'material-ui/TextField/TextField';
-import scan from '../../resources/images/Scan_Item_Borderless.svg';
+
+//styles
+import './postVoid.css';
 
 class PostVoidSelect extends Component {
-   
-
     constructor(props) {
         super(props);
         this.state = {
@@ -24,42 +24,6 @@ class PostVoidSelect extends Component {
             transactionList : [],
             selectedTransaction : "",
             selectedTransactionDetails : {}
-        }
-    }
-
-    componentDidMount() {     
-        this.props.startSpinner(true);
-    }
-  
-    componentWillReceiveProps(nextProps) {
-        console.log('PostVoidSelect componentWillReceiveProps: ', nextProps);
-        if(nextProps.postvoidgettransaction.listFetchSuccessFlag === true) {
-            this.props.startSpinner(false);
-            this.setState({ transactionList : nextProps.postvoidgettransaction.response.transactionList });
-        }
-        else {
-            if(nextProps.postvoidgettransaction.defaultValue !== true) {
-                this.props.startSpinner(false);
-            }
-        }
-    }
-
-    postVoidTransInvoker = () => {
-        if(this.state.selectedTransaction !== '') {
-            this.props.PostVoidTransDetls(this.props.login.userpin,this.state.selectedTransactionDetails);
-    
-        }
-        else {
-            //DO NOTHING
-        }
-    }
-    toggle = (index) => {
-        if (this.state.selectedTransaction === index) {
-            this.setState({ selectedTransaction: '', selectedTransactionDetails : {} })
-            document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = ".4";
-        } else {
-            this.setState({ selectedTransaction: index, selectedTransactionDetails : this.state.transactionList[index] })
-            document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = "1";
         }
     }
 
@@ -78,14 +42,13 @@ class PostVoidSelect extends Component {
         }
         return (
             <div>
-
                 <div className='post-void-modalselect-container'>
                     <div className="postvoid-modalselect-header">
                         <div className="postvoid-modalselect-label">Please select a Trans #</div>
                     </div>                    
                     <div className="postvoid-selectionarea">
                     {
-                        this.state.transactionList.map(function(item,index) {
+                        this.props.postvoid.voidTransactionList.map(function(item,index) {
                             var rowObject = (
                                 <div style={(this.state.selectedTransaction === index)?(selectedStyle):(unselectedStyle)} onClick={() => this.toggle(index)} key={index} className="carditemlayoutinitial">
                                     <label style={(this.state.selectedTransaction === index)?(selectedTextStyle):(unselectedTextStyle)} className="labelcardlayout" >
@@ -107,11 +70,35 @@ class PostVoidSelect extends Component {
             </div>
         );
     }
-    
+
+    componentDidMount() {     
+        this.props.startSpinner(true);
+    }
+
+    componentDidUpdate() {
+        this.props.startSpinner(false);
+    }
+
+    postVoidTransInvoker = () => {
+        if(this.state.selectedTransaction !== '') {
+            this.props.PostVoidTransDetls(this.props.login.userpin, this.props.postvoid.voidTransactionList[this.state.selectedTransaction], this.props.postvoid.voidTransactionList[this.state.selectedTransaction].transactionID);
+            this.props.history.push('/postvoiddetails');
+        }
+    }
+
+    toggle = (index) => {
+        if (this.state.selectedTransaction === index) {
+            this.setState({ selectedTransaction: '', selectedTransactionDetails : {} })
+            document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = ".4";
+        } else {
+            this.setState({ selectedTransaction: index, selectedTransactionDetails : this.state.transactionList[index] })
+            document.getElementsByClassName('post-void-modalselect-okbtn')[0].style.opacity = "1";
+        }
+    }
 }
 
-function mapStateToProps({ postvoidtransdetails,postvoidgettransaction,login }) {
-    return { postvoidtransdetails,postvoidgettransaction, login};
+function mapStateToProps({ postvoid,login }) {
+    return { postvoid, login};
 }
 
  function mapDispatchToProps(dispatch) {

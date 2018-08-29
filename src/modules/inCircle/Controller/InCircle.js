@@ -246,6 +246,7 @@ class InCircle extends Component {
       currentlvl={this.state.current_lvl}
       hasCards={this.state.hasCards}
       gcData={this.state.gcData}
+      incircleData={this.state.incircleData}
       totalpoints={this.state.totalpoints}/*
       redeemed={redeemed} 
       available={incircleData.tyPointsAvailable}*/
@@ -265,7 +266,9 @@ class InCircle extends Component {
       viewCards={this.viewCards}
       goBack={this.goBack}
       closeModal={this.closeModal}
-      setActive={this.setActive}/>:(loaded&&!isMember)?this.props.history.push('/incircle-non-member'):null}</div>);
+      setActive={this.setActive}
+      customerDetails={this.props.customerDetails}
+      />:(loaded&&!isMember)?this.props.history.push('/incircle-non-member'):null}</div>);
   }
 }
 

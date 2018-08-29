@@ -46,3 +46,15 @@ export function getIsellCartUpdateAction(getIsellCart) {
         });
     };
 }
+
+export function getIsellflow(flow){
+    //alert('getisellflow')
+    return(dispatch) => {
+        dispatch({
+            type: 'SET_ISELL_FLOW',
+            payload: flow
+        });
+    }
+    
+
+}

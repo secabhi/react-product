@@ -30,6 +30,12 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
     
         
     }
+    onChangeTransNumber = (event,value,target) =>{
+        if(value>0)
+        {
+            this.setState({isDisabled:false});
+        }
+    }
     render() {
         var textFieldFloatingLabelStyle = {
 
@@ -84,7 +90,7 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
                                 fullWidth={true}
                                 inputStyle={textFieldInputStyle}
                                 style={textFieldStyle}
-                                onChange={this.props.onChangeTransNumber}
+                                onChange={this.onChangeTransNumber}
                             />
                             <img className="postvoid-scan" src={scan} /></div>) :
 
@@ -107,7 +113,7 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
 
                     <div className="entertrans-button-area">
                         <button className="entercancelbtn" onClick={this.props.cancelEnterTrans}><img className="reseticonselectrans" src={crossicon} /><label className="cancellabel">CANCEL</label></button>
-                        <button className="enterokbtn"><label className="oklabel" onClick={this.postVoidTransInvoker} disabled>OK</label></button>
+                        <button className={this.state.isDisabled?"enterokbtn oklable-disable":"enterokbtn oklablenabled"} disabled={this.state.isDisabled}><label className="oklabel" onClick={this.state.isDisabled?'':this.postVoidTransInvoker}>OK</label></button>
 
 
                     </div>

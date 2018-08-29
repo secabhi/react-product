@@ -10,7 +10,10 @@ export default class AddressCardsView extends Component {
         return (
             <div className="address-card-container" 
                 style={this.props.selectedAddress === index ? {border: '2px solid purple'} : {}}
-                onClick={() => this.props.changeAddressSelected(index)}
+                onClick={() =>{
+                    console.log("SHIV CLICKED HERE HUEHUEHUE:", this.props.address);
+                    this.props.freqShippedSelectedHandler(this.props.address);
+                    this.props.changeAddressSelected(index);}}
             >
                 <div className="address-card-container-data data-name">
                     {this.props.firstName + " " + this.props.lastName}

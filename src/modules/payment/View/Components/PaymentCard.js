@@ -1,5 +1,6 @@
 /* Dependencies import */
 import React, {Component} from 'react';
+import Input from 'material-ui/TextField';
 
 //Images
 
@@ -31,15 +32,49 @@ export class PaymentCard extends Component {
     setActive=(index)=>{
         var formElement = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>form")
         formElement[0].className="amountInputForm"
-        var inputElement = document.querySelector("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>form>input")
+        var inputElement = document.querySelector("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>form>.inputAmount input")
         inputElement.focus();
         var labelElement = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div[row="+"'"+index+"'"+"]>span.amountLabel")
         labelElement[0].className="amountLabel hide"
     }
     render() {
+        console.log('cards in paymentcards'+JSON.stringify(this.props.otherCards));
         return (
             <div>
-                <div className={"payment-card " + this.props.index} key={this.props.index} tabIndex="0" row={this.props.index} onClick={()=>this.setActive(this.props.index)} onBlur={()=>this.setInactive(this.props.index)}> 
+                {this.props.otherCards?
+                <div className="payment-card thirparty-card" key={this.props.index} tabIndex="0" row={this.props.index} onClick={this.props.props.paidValues[this.props.index]!==undefined?console.log(this.props.props.paidValues[this.props.index]):()=>this.setActive(this.props.index)} onBlur={this.props.props.paidValues[this.props.index]?()=>this.setInactive(this.props.index):""}> 
+                <span className="type-Number">
+                    <span className="payment-cardNumber">
+                        {this.props.card?this.props.card.chargeType+" XXXXXXXXXXXX"+ this.props.card.lastFour:
+                         <span className="payment-asterisk">XXXXXXXXXXXX</span>
+                        }
+                    </span>
+                </span>
+                <form
+                    className={this.props.props.paidValues[this.props.index]?"amountInputForm hide":"amountInputForm"}
+                    onSubmit={this
+                        .props
+                        .props
+                        .getAmountDue
+                        .bind(this, this.props.index)}
+                    >
+                    <Input
+                        className="inputAmount"
+                        autoFocus
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        key={this.props.index}
+                        onChange={this
+                        .handleChange
+                        .bind(this, this.props.index)}
+                        defaultValue={this.props.props.amountDue}
+                        name="input"/>
+                    <button className="acceptAmountbttn" type="submit">ACCEPT AMOUNT</button>
+                </form>
+                <span className={this.props.props.paidValues[this.props.index]?"amountLabel":"amountLabel hide"}>Amount Paid ${this.props.props.paidValues[this.props.index]}</span>
+            </div>:
+                <div className="payment-card" key={this.props.index} tabIndex="0" row={this.props.index} onClick={this.props.props.paidValues[this.props.index]!==undefined?console.log(this.props.props.paidValues[this.props.index]):()=>this.setActive(this.props.index)} onBlur={this.props.props.paidValues[this.props.index]?()=>this.setInactive(this.props.index):""}> 
                     <span className="type-Number">
                         <span className="payment-cardNumber">
                             {this.props.card?this.props.card.CardType+" "+ this.props.card.CardToken:
@@ -48,29 +83,29 @@ export class PaymentCard extends Component {
                         </span>
                     </span>
                     <form
-                        className="amountInputForm"
-                        onSubmit={(e)=>this
-                        .props
-                        .props
-                        .getAmountDue(e, this.props.index, "F")}
+                        className={this.props.props.paidValues[this.props.index]?"amountInputForm hide":"amountInputForm"}
+                        onSubmit={this
+                            .props
+                            .props
+                            .getAmountDue
+                            .bind(this, this.props.index)}
                         >
-                        <input
+                        <Input
                             className="inputAmount"
                             autoFocus
-                            ref={input => input && input.focus()}
                             type="number"
                             min="0.01"
                             step="0.01"
-                            //key={this.props.props.amountDue}
+                            key={this.props.index}
                             onChange={this
                             .handleChange
                             .bind(this, this.props.index)}
                             defaultValue={this.props.props.amountDue}
-                            name="input"></input>
+                            name="input"/>
                         <button className="acceptAmountbttn" type="submit">ACCEPT AMOUNT</button>
                     </form>
-                    <span className="amountLabel hide">Amount Paid ${this.props.props.paidValues[this.props.props.currentCard]}</span>
-                </div>
+                    <span className={this.props.props.paidValues[this.props.index]?"amountLabel":"amountLabel hide"}>Amount Paid ${this.props.props.paidValues[this.props.index]}</span>
+                </div>}
             </div>
         );
     }
