@@ -56,7 +56,7 @@ export default class GiftCardScanSwipeModal extends Component {
 
 
     render() {
-
+    debugger;
         const textFieldStyle = {
             height: '60px',
             width: '619.5px',

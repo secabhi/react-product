@@ -163,6 +163,7 @@ export class HeaderView extends Component {
         closeOnOverlayClick = {true}>
           <HomeMenu
             closeHamburgerMenu = {this.closeHamburgerMenu}
+            enableScanOrSwipe = {this.props.enableScanOrSwipe}
            />
         </Modal>
 

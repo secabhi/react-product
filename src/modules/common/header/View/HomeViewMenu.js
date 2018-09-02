@@ -29,6 +29,8 @@ export default class HomeMenu extends Component {
     e.currentTarget.style.borderBottom = 'none',
     e.currentTarget.style.fontWeight = '300'
   }
+
+  this.props.enableScanOrSwipe();
 }
   render() {
     return (

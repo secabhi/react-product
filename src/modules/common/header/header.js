@@ -11,7 +11,8 @@ import { xml2json } from '../../common/helpers/helpers'
 import { startSpinner } from '../../common/loading/spinnerAction';
 
 import { testAction, callVoidTransaction, suspendAction, clearPED } from './HeaderAction';
-import { clearState } from '../../payment//Controller/paymentActions';
+
+import { clearState, getAurusResponse } from '../../payment//Controller/paymentActions';
 import { CartWarningModal } from '../../sale/modal-component/modalComponent'
 import { showException } from '../../common/exceptionErrorModal/exceptionAction'
 
@@ -24,7 +25,7 @@ import ByPassModal from '../../account-lookup/modals/BypassModal';
 import confirmDetailsModal from '../../account-lookup/modals/confrimDetailsModal'
 /*Account Lookup modals*/
 import CustomerPhone from '../../account-lookup/modals/CustomerPhoneModal';
-import ScanOrSwipeGiftCard from '../../sale/sale-giftcard/GiftCardContent/ScanOrSwipeGiftCard/ScanOrSwipeGiftCard';
+import GiftCardScanSwipeModal from '../../payment/View/Components/Modals/GiftCardScanSwipeModal';
 
 /* Importing the resource images and icons*/
 
@@ -54,6 +55,8 @@ class Header extends Component {
       exitModal: false,
       printModal: false,
       same_giftCardNumber: false,
+      giftCardModal: false,
+      validCardNumber: '',
       //Account Lookup States
       custPhoneModalFlag: false,
       DLModalFlag: false,
@@ -63,6 +66,7 @@ class Header extends Component {
       currentPath: '',
       getCardsError: false
     }
+    this.swipedata = {props:{}};
     this.pedbatterystatusconfigured = require('../../../resources/stubs/config.json');
   }
 
@@ -262,6 +266,7 @@ class Header extends Component {
       byPassModalFlag: false
     });
   }
+
   isValidCard = (value) => {
     let validNumber = value;
     if (validNumber.length === 16 && !isNaN(Number(value)) && { value }) {
@@ -270,6 +275,39 @@ class Header extends Component {
     else {
       this.setState({ validCard: false })
     }
+  }
+
+  handleGiftCardModal = () => {
+    if (this.state.giftCardModal == true) {
+      this.setState({ giftCardModal: false })
+      this.cancelSwipe();
+    } else {
+      this.bypass('GIFTCARD')
+    }
+  }
+
+  enableScanOrSwipe =()=>{
+    debugger;
+    this.setState({enableScanOrSwipeView:true,giftCardModal:true});
+  }
+
+  keyGiftCard = (giftcardnum) => {
+    if (giftcardnum.length > 16 && giftcardnum.length < 18) {
+      this.props.convertSALT(giftcardnum)
+    } else {
+      this.setState({ error: "A 17-digit gift card number is required" })
+      this.error = true;
+    }
+  }
+
+  handleGiftCardNumInput = (e) => {
+    this.setState({ giftCardNumber: e.target.value, error: "" })
+  }
+
+  cancelSwipe = () => {
+    console.log("sending cancel swipe bypass request")
+    // setTimeout(() => {this.props.aurusActionInvoker(json2xml(this.bypassJson),'CANCELSWIPE')},1000);
+    //  this.timer = setTimeout(function(){this.openErrorModal('timeout',"Timeout") }, 35000);
   }
 
   getCardsListInvoker = () => {
@@ -300,11 +338,20 @@ class Header extends Component {
     const VoidTxnFail = "Void Transaction Failed"
     const SuspendTxnFail = "Suspend Transaction Failed"
 
+    const swipeData={
+      handleGiftCardModal:this.handleGiftCardModal,
+      giftCardModal:this.state.giftCardModal,
+      keyGiftCard:this.keyGiftCard,
+      handleGiftCardNumInput:this.handleGiftCardNumInput,
+      isPinReq:false
+    }
+
     return (
       <div>
         <HeaderView
           batteryStatus={store.getState().home.batteryStatus.battery_level}//store.getState().home.batteryStatus.battery_level
           history={this.props.history}
+          enableScanOrSwipe={this.enableScanOrSwipe}
           openPostVoidModal={this.props.openPostVoidModal}
           navigateToHome={this.navigateToHome}
           printModal={this.state.printModal}
@@ -448,13 +495,8 @@ class Header extends Component {
           <div className="suspend-noItem-msg"> There are no items to Suspend.</div>
           <div className="suspend-noItem-btn" onClick={() => this.setState({ suspendNoItemModal: false })}><span className="suspend-noItem-txt">OK</span></div>
         </Modal>
-        <ScanOrSwipeGiftCard
-          error={this.props.error}
-          aurusCardLookup={() => { this.props.aurusCardLookup() }}
-          sameGiftcardNumber={this.state.same_giftCardNumber}
-          validateCard={(value) => { this.props.validateCard(value) }}
-          getCardNumber={(value) => { this.props.getCardNumber(value) }}
-        />
+        {this.state.enableScanOrSwipeView ?
+          <GiftCardScanSwipeModal props={swipeData} /> : null}
       </div>
 
 
@@ -631,6 +673,7 @@ function mapDispatchToProps(dispatch) {
     getCardsList: getCardsList,
     navigateToLookupOptions: navigateToLookupOptions,
     startSpinner: startSpinner,
+    aurusActionInvoker: (data, type) => dispatch(getAurusResponse(data, type)),
     setPath: setPathname,
     setNextInquiryFalg: setNextInquiry,
     isThirdPartySet: isThirdParty,
