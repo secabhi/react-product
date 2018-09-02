@@ -8,7 +8,7 @@ import Modal from 'react-responsive-modal';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
-import {resumeEntryUpdateAction} from '../resume/resumeAction';
+import { resumeEntryUpdateAction, ResumeclearIsValid } from '../resume/resumeAction';
 import postVoidIcon from '../../resources/images/Post_Void_Black_SFF.svg';
 import resumeIcon from '../../resources/images/Resume.svg';
 import crossicon from '../../resources/images/Close_Bttn_Purple.svg';
@@ -25,25 +25,40 @@ class ResumeselectTrans extends Component {
             selectedTransactionDetails: {}
         }
     }
+   
 
     componentWillReceiveProps(nextProps) {
-        console.log('Resume Select Trans componentWillReceiveProps:', nextProps);
-        if (nextProps.resumered.dataFrom === "SUSPENDED_TRANSACTION_LIST_SUCCESS") {
-            
-            this.setState({ transactionList: nextProps.resumered.response.transactionList });
-            console.log('Transaction list componentWillReceiveProps:', nextProps.resumered.response.transactionList);
-            this.props.startSpinner(false);
-        }
-        else {
-            if (nextProps.resumered.defaultValue !== true) {
+        console.log('nextProps.resumered.isValid',nextProps.resumered.isValid)
+        if (nextProps.resumered.isValid) {
+            console.log('Resume Select Trans componentWillReceiveProps:', nextProps);
+            if (nextProps.resumered.dataFrom === "SUSPENDED_TRANSACTION_LIST_SUCCESS") {
+
+                this.setState({ transactionList: nextProps.resumered.response.transactionList });
+                console.log('Transaction list componentWillReceiveProps:', nextProps.resumered.response.transactionList);
+                this.props.startSpinner(false);
+            }
+            else {
+                if (nextProps.resumered.defaultValue !== true) {
+                }
             }
         }
-
+        else {
+            console.log('nextProps.resumered.error_message',nextProps.resumered.error_message)
+            if (nextProps.resumered.error_message != '') {  // debugger;
+                // this.props.clearState(this.clearParams);
+                this.props.callErrorException({
+                    showException: true,
+                    error: { failedModule: 'Resume Select Trans', failureReason: 'Unexpected Response', failureDescription: 'Unable to resolve the response structure' }
+                });  
+                this.props.clearIsValidFlag(); 
+            }
+        }
     }
+    
     resumeSelectTransInvoker = () => {
         if (this.state.selectedTransaction !== '') {
             this.props.resumeSelectTransDetails(this.state.selectedTransactionDetails.resumeNumber, this.props.login.userpin);
-            console.log('****SelectedDetails',this.state.selectedTransactionDetails);
+            console.log('****SelectedDetails', this.state.selectedTransactionDetails);
             this.props.startSpinner(true);
         }
         else {
@@ -99,7 +114,7 @@ class ResumeselectTrans extends Component {
                         }
                     </div>
                     <div className='post-void-modalselect-button-area'>
-                        <button className='post-void-modalselect-cancelbtn' onClick={() => this.props.resumeallmodals(true,false,false)}><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>CANCEL</span></button>
+                        <button className='post-void-modalselect-cancelbtn' onClick={() => this.props.resumeallmodals(true, false, false)}><img className="reseticonselectrans" src={crossicon} /><span className='post-void-cancel-label'>CANCEL</span></button>
                         <button className='post-void-modalselect-okbtn' onClick={this.resumeSelectTransInvoker}><span className='post-void-ok-label' disabled>OK</span></button>
                     </div>
                 </div>
@@ -109,14 +124,15 @@ class ResumeselectTrans extends Component {
 
 }
 function mapStateToProps({ resumered, login }) {
-    return { resumered, login}
+    return { resumered, login }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
         {
             resumeSelectTransDetails: resumeEntryUpdateAction,
-            startSpinner:startSpinner
+            startSpinner: startSpinner,
+              clearIsValidFlag: ResumeclearIsValid
         }, dispatch);
 }
 

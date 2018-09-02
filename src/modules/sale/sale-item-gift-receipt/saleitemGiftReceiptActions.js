@@ -1,4 +1,5 @@
 import { callPostWebService, callGetWebService } from '../../common/helpers/helpers';
+import {responseValidation} from '../../common/responseValidator/responseValidation';
 import axios from 'axios';
 
 //grabs url and other data from config file.
@@ -36,6 +37,9 @@ export function saleitemGiftReceiptUpdate(item,transactionId,modify_type,userPin
 	"SKU": modify_type=='item'?item.itemNumber:undefined,
 	"IsTransModify": modify_type=='item'?"false":"true",
     };
+    var validated = {isValid : false,
+        message :''}
+    const SaleItemResponseObj = require('../../common/responseValidator/responseDictionary').saleItemResponseObj;
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(giftReceiptdataURL,{});
       
     console.log("saleitemGiftReceiptUpdate Parameters being sent", params);
@@ -43,6 +47,8 @@ export function saleitemGiftReceiptUpdate(item,transactionId,modify_type,userPin
     return (dispatch) => {
         console.log('content'+env.ENV_MODE)
          request.then(({data}) => {
+            validated = responseValidation(data,SaleItemResponseObj);             
+            if(validated.isValid){
             console.log('response data'+JSON.stringify(data));
             if(modify_type == 'item' && data.cartItems.items[index].print_GWGR_Msg === shouldModifyVal){
                 data.cartItems.items[index].print_GWGR_Msg = null;
@@ -65,9 +71,23 @@ export function saleitemGiftReceiptUpdate(item,transactionId,modify_type,userPin
                     
                 });
             }
-
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
            
-        });
+        }).catch((err) => {
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ URL
+            });
+        }); 
    
         
     };

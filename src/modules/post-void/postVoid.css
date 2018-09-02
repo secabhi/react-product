@@ -330,6 +330,9 @@
 
 /*--lff postvoid---*/
 @media only screen and (min-width: 1920px){
+    button.enterokbtn.oklablenabled {
+        opacity: 1 !important;
+    }
 .post-void-modal-container{
     padding: 0px !important;
     width: 725px;
@@ -776,7 +779,7 @@ width: 193px;
   margin-left: 15px;
 }
 .enterokbtn .oklabel{
-    font-family: Roboto;
+  font-family: Roboto;
   font-size: 24px;
   font-weight: normal;
   font-style: normal;

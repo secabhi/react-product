@@ -48,12 +48,11 @@ export default class FooterView extends Component {
 
                 <div className="footerText">
                     <div className="register-details-label sff-reg-number">0006/{clientConfig.Terminal}{this.props.transactionId === '' ? '' : `/${this.props.transactionId}` || ''}</div>
-                    <div className="register-details-label sff-reg-open">Open</div>
+                    <div className="register-details-label sff-reg-open">{this.props.transactionId ? "Open" : "Register is closed" } </div>
                     <div className="register-details-label sff-reg-ready">Ready</div>
                     <div className="register-details-label sff-reg-version">v128.31</div>
                     <div className="register-details-label sff-reg-online">Online</div>
                     <img src={statuslogo} className="status-logo-width" alt="status-logo" />
-
                 </div>
                 {
                     (window.innerWidth > 1900) ?

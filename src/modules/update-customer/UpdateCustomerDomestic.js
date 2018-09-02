@@ -56,6 +56,7 @@ class UpdateCustomer extends Component {
             zipOverride: false,
             cityModal: false,
             failedToUpdateModal: false,
+            closingFailedPopUp: false,
             citystateList: [],
             stateList: [],
             currentAddress: {
@@ -121,7 +122,6 @@ class UpdateCustomer extends Component {
         console.log('Update Customer: componentWillReceiveProps', nextProps);
         console.log(this.state.currentAddress)
         if (nextProps.updateCustomer.successModalFlag === true) {
-            console.log("11111");
             this.props.startSpinner(false);
             this.setState({
                 emailModal: false
@@ -134,31 +134,32 @@ class UpdateCustomer extends Component {
             });
             this.setState({
                 failModal1: false
-            })
+            });
+            this.setState({
+                failedToUpdateModal: false
+            });
             this.setState({
                 succesModal: true
             })
         }
         if (nextProps.updateCustomer.addressValidationSuccessFlag === true && nextProps.updateCustomer.successModalFlag === false) {
-            console.log("22222");
             this.cust_addr_validation_bypass = true;
             //this.setState({showPopup:!this.state.showPopup});
             this.updateDomesticCustomerInvoker(true);
             //this.props.startSpinner(false);
 
         }
-        if (nextProps.updateCustomer.updateFailModalFlag === true && nextProps.updateCustomer.successModalFlag === false) {
-            console.log("22222");
-            this.failedToUpdate();
+        if (nextProps.updateCustomer.updateFailModalFlag === true && nextProps.updateCustomer.successModalFlag === false && nextProps.updateCustomer.verifyAddressFlag !== true) {
+            //this.setState({ failedToUpdateModal: true});
         }
 
         if (nextProps.updateCustomer.notFoundFlag === true && nextProps.updateCustomer.successModalFlag === false) {
-            console.log("PURNIMA: When updating customer not found");
             this.custNotFound();
         }
 
-        if (nextProps.updateCustomer.verifyAddressFlag === true) {
-            console.log("33333");
+        if (nextProps.updateCustomer.verifyAddressFlag === true  && nextProps.updateCustomer.successModalFlag === false) {
+        
+            this.state.closingFailedPopUp = true;
             this.setState({
                 emailModal: false
             });
@@ -167,6 +168,9 @@ class UpdateCustomer extends Component {
             });
             this.setState({
                 textoptModal: false
+            });
+            this.setState({
+                failedToUpdateModal: false
             });
             this.setState({
                 failModal: true
@@ -174,7 +178,6 @@ class UpdateCustomer extends Component {
         }
 
         if (nextProps.updateCustomer.verifyEmailFlag === true && nextProps.updateCustomer.successModalFlag === false) {
-            console.log("33333");
             this.setState({
                 emailModal: false
             });
@@ -183,6 +186,9 @@ class UpdateCustomer extends Component {
             });
             this.setState({
                 textoptModal: false
+            });
+            this.setState({
+                failedToUpdateModal: false
             });
             this.setState({
                 failModal1: true,
@@ -195,12 +201,9 @@ class UpdateCustomer extends Component {
 
         }*/
         if (nextProps.updateCustomer.invalidPhone === true) {
-            console.log("55555");
-
             // this.isValid = false;
         }
         if (nextProps.updateCustomer.errors.length > 0) {
-            console.log("66666");
             this.setState({
 
                 emailModal: false
@@ -325,10 +328,6 @@ class UpdateCustomer extends Component {
         // }
     }
 
-    failedToUpdate = () => {
-        this.setState({ failedToUpdateModal: true});
-    }
-
     closeFailedToUpdate = () => {
         this.setState({ failedToUpdateModal: false});
     }
@@ -398,7 +397,6 @@ class UpdateCustomer extends Component {
         //  console.log(this.state.changedAddress);
         const config = require('../../resources/stubs/config.json');
         const clientConfig = config.clientConfig;
-
         this.props.startSpinner(true);
         this.setState({ emailModal: false });
         this.setState({failModal1: false});
@@ -410,9 +408,11 @@ class UpdateCustomer extends Component {
             'CLastName': this.state.changedAddress['cust_dom_lname'],
             'Salutation': this.state.selectedSalutation,
             'Address_Ln1': this.state.changedAddress['cust_dom_address1'],
+            'Address_Ln2':this.state.changedAddress['cust_dom_address2'],
             'City': this.state.changedAddress['cust_dom_city'],
             'State_Abbr': this.state.changedAddress['cust_dom_state'],
-            'Zip9': this.state.changedAddress['cust_dom_zip'],
+            'Zip5': this.state.changedAddress['cust_dom_zip'].length ==9 ? this.state.changedAddress['cust_dom_zip'].substr(0,5) : this.state.changedAddress['cust_dom_zip'] ,
+            'Zip4': this.state.changedAddress['cust_dom_zip'].length ==9 ? this.state.changedAddress['cust_dom_zip'].substr(5) :'',
             'CEmail': this.state.changedAddress['cust_dom_email'],
             'Country': 'US',
             'CMobile': this.state.changedAddress['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, ""),
@@ -471,14 +471,12 @@ class UpdateCustomer extends Component {
         let fields = this.state.changedAddress;
         let errors = {};
 
-
         if (!fields['cust_dom_fname']) {
             errors['cust_dom_fname'] = 'First Name cannot be empty';
             // this.isValid = false;
 
         }
       if (!fields['cust_dom_lname']) {
-           
             errors['cust_dom_lname'] = 'Last Name cannot be empty';
             // this.isValid = false;
         }
@@ -490,19 +488,21 @@ class UpdateCustomer extends Component {
             console.log(this.isValid)
             return this.isValid;
         }
-        else if (!fields["cust_dom_email"] && !fields['cust_dom_address1']) {
-            errors['cust_dom_address1'] = 'Address Line 1 cannot be empty';
+        // else if (!fields["cust_dom_email"] && !fields['cust_dom_address1']) {
+        //     errors['cust_dom_address1'] = 'Address Line 1 cannot be empty';
+        //     //this.isValid = false;
+        // }
+
+        if (!fields['cust_dom_city']) {
+            errors['cust_dom_city'] = 'City cannot be empty';
             //this.isValid = false;
-        }  
-        else if (!fields['cust_dom_country']) {
-            errors['cust_dom_country'] = 'Country cannot be empty';
+        }
+        
+        if (this.state.dom_cust_state == '') {
+            errors['cust_dom_state'] = 'Select a state';
             //this.isValid = false;
         }
 
-
-        else {
-            //this.isValid = true;
-        }
         if (fields['cust_dom_mobile'] !== '' && fields['cust_dom_mobile'] !== undefined) {
             var phoneValid = fields['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, "")
             if (phoneValid.length < 10 || phoneValid.length > 10) {
@@ -518,6 +518,20 @@ class UpdateCustomer extends Component {
             if (!(lastAtPos < lastDotPos && lastAtPos > 0 && fields["cust_dom_email"].indexOf('@@') === -1 && lastDotPos > 2 && (fields["cust_dom_email"].length - lastDotPos) > 2)) {
                 errors["cust_email"] = "Email is not valid";
                 // this.isValid = false;
+            }
+        }
+
+        if (fields['cust_dom_zip']) {
+            if (!(fields['cust_dom_zip'].length == 5 || fields['cust_dom_zip'].length == 9)) {
+                errors['cust_dom_zip'] = 'Invalid Zip';
+            }
+        }
+        if (fields['cust_dom_address1'] == '' || fields['cust_dom_address1'] == undefined || fields['cust_dom_address1'] == null) {
+            errors['cust_dom_address1'] = 'Address missing';
+        }
+        else {
+            if (!fields['cust_dom_zip']) {
+                errors['cust_dom_zip'] = 'zipcode cannot be empty';
             }
         }
         
@@ -563,7 +577,6 @@ class UpdateCustomer extends Component {
         });
 
         if (this.handleValidation()) {
-
             this.setState({ showPopup: !this.state.showPopup });
         }
 
@@ -616,7 +629,11 @@ class UpdateCustomer extends Component {
 
     }
     resetAll = () => {
-        this.setState({ changedAddress: Object.create(this.state.currentAddress) })
+        console.log('pranav profiledata', this.state.profileData)
+        this.setState({
+            changedAddress: Object.create(this.state.currentAddress),
+            dom_cust_state: this.state.profileData['cust_dom_state']
+        })
     }
     componentDidMount() {
         this.getAddress();
@@ -664,7 +681,6 @@ class UpdateCustomer extends Component {
                 cust_dom_email: "",
                 cust_dom_mobile: "",
                 cust_dom_otherMobile: "",
-
                 cust_dom_zip: ""
             },
             selectedSalutation: "",
@@ -938,7 +954,6 @@ class UpdateCustomer extends Component {
             closeNotFoundModal={this.closeNotFoundModal}
             failedToUpdateModal={this.state.failedToUpdateModal}
             closeFailedToUpdate={this.state.closeFailedToUpdate}
-            failedToUpdate={this.failedToUpdate}
         />);
     }
 

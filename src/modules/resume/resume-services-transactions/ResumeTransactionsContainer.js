@@ -169,13 +169,14 @@ class ResumeTransactions extends Component {
           skipCustomerInfo={this.state.isSkip}
           address1={this.state.address1}
           address2={this.state.address2}
+          history={this.props.history}
         />
         <div>
           <div className="resume-transactions-content">
             <div className="resume-transactions-content-text">Is this the correct transaction?</div>
             {console.log("BEFORE CART RENDERER: ", this.state.items)}
             <CartRenderer
-              style={{ boxShadow: 'none', marginLeft: '20px' }}
+              style={{ boxShadow: 'none', marginLeft: '20px', height:'447px' }}
               items={this.state.items}
               subTotal={this.state.subTotal}
               taxTotal={this.state.taxTotal}

@@ -71,8 +71,6 @@ export class Sale extends Component {
 
         //     })
         // }
-
-        console.log('MIKE SALE NEXTPROPS HAS VALUES BUT NOT APPLIED TO HEADER', nextProps)
     }
 
     //Account Lookup
@@ -85,7 +83,6 @@ export class Sale extends Component {
       
 
     render() {
-        console.log('MIKE SALE PROPS CUST_DET',this.props.customerDetails)
 
         // if(this.props.sale.otherPageData){
         //     this.state={

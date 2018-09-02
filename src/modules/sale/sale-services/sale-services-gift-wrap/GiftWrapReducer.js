@@ -1,34 +1,54 @@
-import { GET_GIFT_WRAP, ADD_TO_GIFT_WRAP, CLEAR_GIFT_WRAP} from '../../../common/constants/type';
+import { GET_GIFT_WRAP, ADD_TO_GIFT_WRAP, CLEAR_GIFT_WRAP, GET_GIFT_WRAP_ERROR, ADD_GIFT_WRAP_ERROR} from '../../../common/constants/type';
 
 const initialState = {
     data: [],
-    giftWrapItems: {}
+    giftWrapItems: {},
+    isValid: false,
+    error: null
 }
 
 export function GiftWrapReducer(state = initialState, action) {
     switch (action.type) {
-        case GET_GIFT_WRAP:
+        case GET_GIFT_WRAP : {
             return {
                 ...state,
-                data : action.payload
+                data : action.payload,
+                isValid : true,
+                error : null
             };
-            break;
+        }
 
-        case CLEAR_GIFT_WRAP:  
-
+        case CLEAR_GIFT_WRAP : {
             return initialState;
-            break;
+        }
         
-            case 'SET_GIFT_WRAP_TYPE':{
-                // const datainit = ...state
-                 return {
-                    // ...state,
-                     ...state,
-                     wrapType: action.payload,
-                     dataFrom : 'SET_GIFT_WRAP_TYPE'
-                 }
+        case 'SET_GIFT_WRAP_TYPE' : {
+            // const datainit = ...state
+             return {
+                // ...state,
+                 ...state,
+                 wrapType: action.payload,
+                 dataFrom : 'SET_GIFT_WRAP_TYPE',
+                 isValid : true,
+                 error : null
              }
-             break;
+        }
+
+        case GET_GIFT_WRAP_ERROR : {
+           return {
+               ...state,
+               isValid : false,
+               error : action.type 
+           }
+        }
+
+        case ADD_GIFT_WRAP_ERROR : {
+           return {
+               ...state,
+               isValid : false,
+               error : action.type 
+           }
+        }
 
         default:
             return state;

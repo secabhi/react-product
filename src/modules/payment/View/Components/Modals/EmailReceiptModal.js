@@ -172,14 +172,13 @@ export class EmailReceiptModal extends Component {
                         style={emailtextFieldStyle}
                         errorText={this.props.props.error}
                         errorStyle ={errorStyle}
-                        //key={this.props.props.email}
                         defaultValue={this.props.props.email}
-                        onKeyPress={(e) => {
-                                    if(e.key === 'Enter') {
-                                        e.preventDefault();
-                                        this.props.props.openemailverifyModal();
-                                        }
-                                    }}   
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    this.props.props.openemailverifyModal();
+                                }
+                            }}   
                         /></div>
 
 

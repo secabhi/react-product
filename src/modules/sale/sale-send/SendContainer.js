@@ -127,7 +127,6 @@ class SendContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log('MIKE SEND DIDUPDATE', prevProps)
         if(prevProps.sendResponseObject.error != this.props.sendResponseObject.error && this.props.sendResponseObject.error !== null && this.props.sendResponseObject.error !== "AC_FAIL"){
             this.setState({errorDescription: this.props.sendResponseObject.error});
             this.setState({errorThrown:true});

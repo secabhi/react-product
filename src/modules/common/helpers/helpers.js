@@ -3,6 +3,8 @@ import axios from 'axios';
 import { startSpinner } from '../../common/loading/spinnerAction';
 import {getStore} from '../../../store/store';
 import { START_SPINNER } from '../constants/type';
+
+const config = require('../../../resources/stubs/config.json');
 /* -------------- Method to return parsed phone number from format [(nnn) nnn-nnnn] --------- */
 
 // var showalert = function(message){        
@@ -75,11 +77,6 @@ export const formatCsrName = (str) => {
     });
 }
 
-window.reactError = {
-    message:'',
-    errorFlag:false
-}
-
 export function callPostWebService(url,params) {
     
     console.log('------------Web Service Call Details------------');
@@ -98,6 +95,7 @@ export function callPostWebService(url,params) {
     
     axios.defaults.timeout=config_timeout;
     var requestObject = axios.post(url,params,header);
+    //debugger;
     return new Promise(
         function (resolve, reject) {
             requestObject.then((data) => {
@@ -107,7 +105,6 @@ export function callPostWebService(url,params) {
                 console.log("Response Data: ",data.data);
                 console.log('------------------------------------------------');            
                 resolve(data);
-                window.reactError.errorFlag = false;
             },(error) => {
                // debugger;
                 console.log('----------------Error Response------------------');
@@ -115,13 +112,11 @@ export function callPostWebService(url,params) {
                 console.log("Response Status: ",error);
                 console.log("Response Data: ",error.response);
                 console.log('------------------------------------------------');
-                window.reactError.errorFlag = true;
                 //showalert(error)
                //if((error.status == "404")&&(error.response.data ='Could not verify password due to system error.'))
              // resolve(error.response);
              if((error.message == "Network Error") || (error.message.substring(0,7)=="timeout"))
                {
-                window.reactError.message = 'Network Error';
                   
                 //resolve({data: error}); //to handle the 404 not found for login errors
                 store.dispatch({
@@ -129,10 +124,10 @@ export function callPostWebService(url,params) {
                             payload: {showException:true,error:{failedModule:'',failureReason:error.message,failureDescription:'API:'+url}},
                             
                         });
+             
                }
                else if((error.response.status == "404"))
                    { 
-                    window.reactError.message = 'Bad Request Error';
                       
                     resolve(error.response);
                    }
@@ -142,11 +137,13 @@ export function callPostWebService(url,params) {
                     //resolve('Network Error: No Response received due as webservice call timedout');
                 }
                 if(error.status == "422") { //Workaround code to handle issue with SaleItemSplitCommission API
-                    window.reactError.message = 'Unable to process Request';
                     reject(error);
                 }
                 //reject(error);
+                if((error.message != "Network Error") && (error.message.substring(0,7) !="timeout"))
+                {
                 resolve(error.response);
+                }
 
             });
     
@@ -174,10 +171,8 @@ export function callGetWebService(url,params) {
                 console.log("Response Status: ",data.status);
                 console.log("Response Data: ",data.data);
                 console.log('------------------------------------------------');
-                window.reactError.errorFlag = false;
                 resolve(data);
             },(error) => {
-                window.reactError.errorFlag = true;
                 //alert('test');
                 console.log('----------------Error Response------------------');
                 console.log("Response Status: ",error.status);
@@ -190,9 +185,6 @@ export function callGetWebService(url,params) {
                 // });
                 if(error.status == "422") { //Workaround code to handle issue with SaleItemSplitCommission API
                     reject(error);
-                }
-               else if(error.status == 500){
-                    window.reactError.message = 'Server Error';
                 }
                 //reject(error);
             });
@@ -318,22 +310,23 @@ export function xml2json2(xml) {
     return json;
 }
 
-export function readTextFile(file)
-{
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-                alert(allText);
+export function readStartUpFile(success, failure) {
+
+    let textFile = new XMLHttpRequest();
+    textFile.open("GET", 'file:///C:/startup/MDTSelApps.txt', false);
+    textFile.onreadystatechange =  () => {
+        if(textFile.readyState === 4) {
+            if(textFile.status === 200 || textFile.status == 0) {
+                let linesOfText = textFile.responseText;
+                alert(linesOfText);
+                textFile.send(null);
+                success(linesOfText);
+            } else {
+                failure('error start up file missing or Corrupt')
             }
         }
     }
-    rawFile.send(null);
+    textFile.send(null);
 }
 
 //readTextFile("file:///C:/servernames.txt");||||||| .r77743
@@ -348,3 +341,81 @@ export function base64toHEX(str) {
    
    }
 
+function logSuccessHandler() {
+    console.log("Logging successful");
+}
+
+function logErrorHandler(error) {
+    console.log("Logging unsuccessful: " + error );
+}
+
+function getLogArgs(source,logMessage) {
+    var argsObj = {};
+    argsObj.configArgs = JSON.stringify({
+        ...config.logConfig});
+    argsObj.inputArgs_LogMessage = logMessage;
+    argsObj.inputArgs_LogSource = source;
+    argsObj.onSuccess = logSuccessHandler;
+    argsObj.onError = logErrorHandler;    
+    return argsObj;
+}
+
+export function logInfo(source,logMessage) {
+    try {
+        console.log('-----Inside logInfo------');
+        if(window.cordova) {
+            window.logger.logInfo(getLogArgs(source,logMessage));
+        }
+        else {
+            //DO NOTHING
+        }
+    }
+    catch(error) {
+        logErrorHandler(error);
+    }
+}
+
+export function logAudit(source,logMessage) {
+    try {
+        console.log('-----Inside logAudit------');
+        if(window.cordova) {
+            window.cordova.logger.logAudit(getLogArgs(source,logMessage));
+        }
+        else {
+            //DO NOTHING
+        }
+    }
+    catch(error) {
+        logErrorHandler(error);
+    }
+}
+
+export function logError(source,logMessage) {
+    try {
+        console.log('-----Inside logError------');
+        if(window.cordova) {
+            window.cordova.logger.logError(getLogArgs(source,logMessage));
+        }
+        else {
+            //DO NOTHING
+        }
+    }
+    catch(error) {
+        logErrorHandler(error);
+    }
+}
+
+export function logFatal(source,logMessage) {
+    try {
+        console.log('-----Inside logFatal------');
+        if(window.cordova) {            
+            window.cordova.logger.logFatal(getLogArgs(source,logMessage));
+        }
+        else {
+            //DO NOTHING
+        }
+    }
+    catch(error) {
+        logErrorHandler(error);
+    }
+}

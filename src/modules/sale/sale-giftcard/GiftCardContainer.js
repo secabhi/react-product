@@ -27,6 +27,7 @@ import {
   validateDriversLicenseAction,
   getGiftCardDetailsAction,
   getGiftCardClassAction,
+  getOldnNewGiftCardNumAction,
   updateGiftCardReloadAction,
   fincenValidationAction,
   clearAllGiftCardDataAction,
@@ -40,13 +41,18 @@ import { json2xml } from '../../common/helpers/helpers';
 const CONFIG_FILE = require('../../../resources/stubs/config.json');
 var clientConfig = CONFIG_FILE.clientConfig;
 
+// AURUS JSON
+this.aurusVars = require("../../../resources/aurus/aurusVars.json");
+this.TransRequestJson = require("../../../resources/aurus/TransRequest_GiftCard.json");
+this.getCardBinJson = require("../../../resources/aurus/GetCardBINRequest.json");
+this.UpdateRequestScanJson = require("../../../resources/aurus/UpdateRequestScan.json")
+this.closeTransJson = require("../../../resources/aurus/CloseTran.json");
 
 class GiftCard extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      cardBalanceinqDetails: '',
       isSkip: this.props.otherPageData.isSkip,
       cssId: this.props.customerDetails.profileData ? this.props.customerDetails.cssId : '',
       salutation: this.props.otherPageData.details ? this.props.otherPageData.details.salutation : '',
@@ -74,6 +80,9 @@ class GiftCard extends Component {
       giftcardError:'',
       invalidGiftCardNumber: false,
       same_giftCardNumber: false,
+      cardBalanceinqDetails: '',
+      cardClassAPIerror :false,
+      cardClassAPIerrorMessage:""
     }
 
     this.validIncreaseAmount = undefined;
@@ -95,7 +104,7 @@ class GiftCard extends Component {
     // this.tax - HARD CODED FOR TESTING - TO BE REMOVED
     this.tax = 2.00;
 
-    // Aurus JSON
+    // AURUS JSON
     this.aurusVars = require("../../../resources/aurus/aurusVars.json");
     this.TransRequestJson = require("../../../resources/aurus/TransRequest_GiftCard.json");
     this.getCardBinJson = require("../../../resources/aurus/GetCardBINRequest.json");
@@ -123,11 +132,9 @@ class GiftCard extends Component {
 
   }
 
+
   componentWillReceiveProps(nextProps) {
    
-    console.log('mike-giftcard-received-props', nextProps)
-   // console.log('MIKE-SPINNER', this.props.startSpinner)
-  
     if (nextProps.giftCard.dlData.curValidCode === 'CKVA') {
       this.openConfirmLicenseModal();
       // this.setState({confirmLicenseModal: false})
@@ -138,37 +145,38 @@ class GiftCard extends Component {
       //this.props.startSpinner(false);
     }
 
-     if(nextProps.Payment.getGiftCardBinRes !==null && nextProps.Payment.getGiftCardBinRes.GetCardBINResponse.ResponseCode[0] === "00000"){
-       console.log("YOu are calling the GiftcardDetails Api");
-       this.getGiftCardDetails();
-     }
-
-    if(nextProps.giftCard.gcData.message === null && nextProps.Payment.giftCardBalanceinqRes === null){
-     // this.componentToRender('giftCardAmount');
-     console.log("Calling aurusGetBalanceEnquiry");
-     this.aurusGetBalanceEnquiry();
-    }
-    else if(nextProps.giftCard.gcData.message === "record not found"){
-      this.setState({invalidGiftCardNumber:true})
+    if(nextProps.Payment.getGiftCardBinRes !== this.props.Payment.getGiftCardBinRes){
+        console.log("---------> NEXTPROPS CALLING GIFTCARDDETAILS INVOKER--------------->");
+        console.log("SHIV GCDATA initial",nextProps.Payment.getGiftCardBinRes)
+        console.log("SHIV GCDATA initial",this.props.Payment.getGiftCardBinRes)
+        this.getCardDetalsApiInvoker(nextProps.Payment.getGiftCardBinRes)
     }
 
-    if(nextProps.Payment.giftCardBalanceinqRes !== null && nextProps.Payment.giftCardBalanceinqRes.TransResponse.TransDetailsData[0].TransDetailData[0].ResponseCode[0] == "00000"){
-      //this.props.getGiftCardClassAction(giftCardClass);
-      console.log("Going to Amount Page");
-      this.setState({cardBalanceinqDetails:nextProps.Payment.giftCardBalanceinqRes})
-      this.componentToRender('giftCardAmount');
+    if(nextProps.giftCard.gcData.message === null && nextProps.giftCard.gcData.message !== this.props.giftCard.gcData.message){
+        console.log("---------> NEXTPROPS CALLING AURUS BALANCE ENQUIRY--------------->");
+        console.log("SHIV GCDATA initial",this.props.giftCard.gcData.message)
+        setTimeout(this.aurusGetBalanceEnquiry(nextProps.Payment.getGiftCardBinRes.GetCardBINResponse), 500);
+    }
+    // else if(nextProps.giftCard.gcData.message === "record not found"){
+    //   this.setState({invalidGiftCardNumber:true})
+    // }
+
+    if(nextProps.Payment.giftCardBalanceinqRes !== this.props.Payment.giftCardBalanceinqRes){
+        console.log("---------> NEXTPROPS CALLING GETCARDCLASS INVOKER--------------->")
+        // create object to add
+        this.getCardclassInvoker(nextProps.Payment.giftCardBalanceinqRes);
     }
 
-    if(nextProps.giftCard.data.response_text === "AC_SUCCESS"){
+    if(nextProps.giftCard.gcData.message === null && nextProps.giftCard.gcData.message !== this.props.giftCard.gcData.message){
+      console.log("---------> NEXTPROPS CALLING AMOUNT NAVIGATION FUNCTION--------------->")
+      this.componentRender_Amount(nextProps.giftCard.gcData)
+    }
+
+    if(nextProps.giftCard.data.response_text === "AC_SUCCESS" && nextProps.giftCard.gcData.status == 'success'){
         this.navigateToSale();
+        nextProps.giftCard.data.response_text = '';
     }
-    // CALLING THE GIFTCARDCLASS API IF WE HAD CARDCLASS NUMBER FROM GETGIFTCARDDETAIILS
-    if (nextProps.giftCard.data.response_text !== "AC_SUCCESS" && nextProps.giftCard.gcData.message === null && nextProps.giftCard.gcData.result.GC.cardClass !== null) {
-        var giftCardClass = nextProps.giftCard.gcData.result.GC.cardClass;
-     //  this.props.getGiftCardClassAction(giftCardClass);
 
-    } 
-  
       this.DL_firstName = nextProps.giftCard.dlData.dl_name1;
       this.DL_lastName = nextProps.giftCard.dlData.dl_name2,
       this.DL_address = nextProps.giftCard.dlData.dl_addr1,
@@ -181,8 +189,91 @@ class GiftCard extends Component {
 
   }
 
+  //INVOKING AFTER THE SUCCESSFULL RESPONSE FROM AURUS GETCRADBIN 
+  getCardDetalsApiInvoker(data){
+      const cardNum = {
+        card: data.GetCardBINResponse.CardToken[0]
+      }
+      console.log("---------> CARD NUMBER------->", cardNum);
+    if(data.GetCardBINResponse.ResponseCode[0] === "00000" ) {
+      console.log("-----------> HEY IAM CALLNG THE GIFTCARDDETAILS API------------>")
+      this.CheckForSameGiftCardNum(data.GetCardBINResponse.CardToken[0])
+      this.props.getGiftCardDetailsAction(cardNum)
+    }
+    else if(data.GetCardBINResponse.ResponseCode[0] === "40001"){
+      console.log("------>ERROR SCENARIO'S FOR GETCARDBIN----->", data.GetCardBINResponse.ResponseText[0] );
+    }
+    else {
+      console.log("------> HANDLE THE ERROR SCENARIO'S FOR GIFTCARDDETAILS API----->");
+    }
+  }
+
+   //AFTER THE SUCCESSFUL RESPONSE FROM AURUS BALANCE INQUIRY CALLING THE GET CARD CLASS API FOR RSEA TENDER TYPE
+  getCardclassInvoker(data){
+    console.log("-----------> HEY IAM CALLNG THE GETCARDCLASS API------------>")
+    let cardClasNumber = "1463"
+    let oldgifcard = [];
+    let newgiftcard = [];
+
+    // loop throught data.TransResponse.TransDetailsData
+    if(data.TransResponse.TransDetailsData[0]){
+    // each(data.TransResponse.TransDetailsData[0],(item,i)=>{
+    //  if(item.TransDetailData[i].ResponseCode[i] === "20006"){
+    //    newgiftcard.push(item.TransDetailData[i].CardNumber[i]);
+    //  }
+    //  else if(item.TransDetailData[i].ResponseCode[i] === "00000"){
+    //   oldgifcard.push(item.TransDetailData[i].CardNumber[i]);
+    //  }
+    }
+
+    // })
+
+    // let giftcard_stored={
+    //   oldgifcard:oldgifcard,
+    //   newgiftcard:newgiftcard
+    // }
+    // console.log("-------> CHECKING THE CARDNUMBERS IN OBJECTS-----> 231", giftcard_stored);
+    // this.props.getOldnNewGiftCardNumAction(giftcard_stored,'STORE');
+
+    console.log("---------> CARDCLASS NUMBER------------->",cardClasNumber);
+    if(data.TransResponse.TransDetailsData[0].TransDetailData[0].ResponseCode[0] === "20006" || data.TransResponse.TransDetailsData[0].TransDetailData[0].ResponseCode[0] === "00000" ){
+      console.log("-------> CARD BALANCE --------> ", data.TransResponse.TransDetailsData[0].TransDetailData[0].BalanceAmount[0])
+      this.setState({cardBalanceinqDetails:data.TransResponse.TransDetailsData[0].TransDetailData[0].BalanceAmount[0]})
+      this.props.getGiftCardClassAction(cardClasNumber);
+      //this.componentToRender('giftCardAmount');
+    }
+    else{
+     console.log("------> HANDLE THE ERROR SCENARIO'S");
+    }
+  }
+
+//AFTER SUCCESSFULL RESPONSE FROM GETCARDCLASS NAVIGATING TO GIFTCARD-AMOUNT PAGE
+  componentRender_Amount(data){
+    if(data.status === 'success' && data.result.GC.cardClass !== null){
+      this.componentToRender('giftCardAmount');
+    }
+    else{
+      console.log("------> HANDLE THE ERROR SCENARIO'S FOR CARD CLASS");
+      // this.setState({cardClassAPIerror:true})
+      // this.setState({cardClassAPIerrorMessage:data.message})
+    }
+  }
+
+
   componentDidMount() {
   
+  }
+
+  //CHECKING THE CART FOR SAME GIFTCARD NUMBER IF ANY SHOW THE MODEL POP-UP
+  CheckForSameGiftCardNum = (data) =>{
+    console.log("-------> CHECKING FOR SAME GIFTCARD NUMBER IN CART, I AM LOOPING --->  268")
+    each(this.props.cart.data.cartItems.items[0],(item,i) =>{
+      if(item.egcAccountNum === data){
+        this.setState({
+          same_giftCardNumber: true
+        })
+      }
+    })
   }
 
   componentDidUpdate(){
@@ -199,7 +290,6 @@ class GiftCard extends Component {
 
 
   render() {
-    console.log('MIKE---GIFTCARD--', this)
     return (
       <div>
 
@@ -294,11 +384,11 @@ class GiftCard extends Component {
             <span className="giftcard-cancel-text">Cancel</span>
           </div>
 
-          <div className={this.state.validCard ? 'giftcard-next' : 'giftcard-next-disabled'}
+          <div className={this.state.validCard ? 'giftcard-next' : 'giftcard-next'}
             
             onClick={() => {
               console.log(" cardBalanceinqDetails --> ",this.state.cardBalanceinqDetails);
-              if ((this.validIncreaseAmount) >= 1000) {
+              if (this.validIncreaseAmount >= 1000) {
                 this.openDriversLicenseModal();
                 //this.validateGiftCardAmount();
                 this.validateLicenseCall();
@@ -309,18 +399,17 @@ class GiftCard extends Component {
                 // this.validateLicenseCall();
               }
 
-              if (this.validIncreaseAmount < 1000 && this.props.customerDetails.firstName === "") {
+              if (this.validIncreaseAmount < 1000 && this.props.cart.data.customerInfo === undefined &&  this.props.customerDetails.firstName === "") {
                 this.componentToRender('purchaser');
-                // this.addGiftCardCall();
               }
 
-              else if (this.validIncreaseAmount < 1000 && this.props.customerDetails.firstName !== "") {
+              else if (this.validIncreaseAmount < 1000 && (this.props.customerDetails.firstName !== "" ||  this.props.cart.data.customerInfo)) {
                 this.addGiftCardCall();
               }
 
               else{
-                //this.getGiftCardDetails();
-				         this.aurusCardLookupCall();
+                //this.activateSwipGiftCard();
+				        //this.aurusCardLookupCall();
               }
 
             }}>
@@ -368,6 +457,30 @@ class GiftCard extends Component {
               <div><img className='giftcard-errorModal-icon' src={warningIcon} /></div>
               <div className="giftcard-errorModal-text">Invalid GiftCard Number</div>
               <button className="giftcard-errorModal-button" onClick={() => { this.setState({ invalidGiftCardNumber: false }) }}>
+                <div className="giftcard-errorModal-button-text">OK</div>
+              </button>
+            </div>
+
+          </Modal>
+
+          <Modal open={this.state.invalidGiftCardNumber} little classNames={{ modal: 'giftcard-errorModal' }} onClose={() => { }}
+            little showCloseIcon={false}>
+            <div className='giftcard-errorModal-container'>
+              <div><img className='giftcard-errorModal-icon' src={warningIcon} /></div>
+              <div className="giftcard-errorModal-text">Invalid GiftCard Number</div>
+              <button className="giftcard-errorModal-button" onClick={() => { this.setState({ invalidGiftCardNumber: false }) }}>
+                <div className="giftcard-errorModal-button-text">OK</div>
+              </button>
+            </div>
+
+          </Modal>
+
+          <Modal open={this.state.same_giftCardNumber} little classNames={{ modal: 'giftcard-errorModal' }} onClose={() => { }}
+            little showCloseIcon={false}>
+            <div className='giftcard-errorModal-container'>
+              <div><img className='giftcard-errorModal-icon' src={warningIcon} /></div>
+              <div className="giftcard-errorModal-text">GIFTCARD ALREADYADDED</div>
+              <button className="giftcard-errorModal-button" onClick={() => { this.setState({ same_giftCardNumber: false }) }}>
                 <div className="giftcard-errorModal-button-text">OK</div>
               </button>
             </div>
@@ -429,7 +542,6 @@ class GiftCard extends Component {
   isValidCard = (value) => {
     let validNumber = value;
     if (validNumber.length === 16 && !isNaN(Number(value)) && { value }) {
-      console.log('mike-in if statement', validNumber)
       this.setState({ validCard: true })
     }
     else {
@@ -482,7 +594,7 @@ class GiftCard extends Component {
       componentList:this.state.totalComponent
     })
     let component = value;
-    this.setState({ component: component });
+    this.setState({ component: component })
   }
 
 
@@ -493,7 +605,6 @@ class GiftCard extends Component {
     // let giftCardItems = this.props.cart.data.cartItems.items;
 
     // return giftCardItems.map((giftcard) => {
-    //   console.log('mike-giftcard-items-in map', giftcard)
     //   // return giftcard.map((items) => {
     //   //   
     //   // })
@@ -509,25 +620,26 @@ class GiftCard extends Component {
     // WORKING FOR CLIENTELED CUSTOMERS
     // NOT WORKING FOR NON-CLIENTELDE AS CUSTOMER DETAILS ARE REQUIRED
     const cart = this.props.cart.data;
+    const cardNumber = this.props.Payment.getGiftCardBinRes.GetCardBINResponse.CardToken[0]
     const transactionId = this.props.home.transactionData.transactionNumber;
     const parsedZip = this.state.zip.substring(0, this.state.zip.indexOf('-'));
     const giftCardObj = {
       "ItemNumber": '0',
       "TransactionId": transactionId,
       "IsGiftCard": true,
-      "GiftCardNumber": this.state.validCardNumber,
+      "GiftCardNumber": cardNumber,
       "ItemDesc": 'NM Expss Card',
       "Quantity": "1",
       "SalePrice": this.validIncreaseAmount,
-      "Customer_Salutation": this.props.customerDetails.salutation !== undefined ? this.props.customerDetails.salutation: customerdata.cust_dom_salutation,
-      "Customer_FirstName": this.props.customerDetails.firstName? this.props.customerDetails.firstName: customerdata.firstName,
-      "Customer_LastName":  this.props.customerDetails.lastName? this.props.customerDetails.lastName: customerdata.lastName,
-      "Customer_Address_Line1":  this.props.customerDetails.selectedAddress.Addr1? this.props.customerDetails.selectedAddress.Addr1: customerdata.address1,
-      "Customer_City": this.props.customerDetails.selectedAddress.City?this.props.customerDetails.selectedAddress.City: customerdata.city,
-      "Customer_State":  this.props.customerDetails.selectedAddress.State? this.props.customerDetails.selectedAddress.State: customerdata.state,
-      "Customer_Zip": this.props.customerDetails.selectedAddress.Zip !== undefined ?this.props.customerDetails.selectedAddress.Zip:customerdata.zip,
-      "Customer_DLNumber": this.DL_number,
-      "Customer_DLState": this.DL_state
+      // "Customer_Salutation": this.props.customerDetails.salutation !== undefined ? this.props.customerDetails.salutation: customerdata.cust_dom_salutation,
+      // "Customer_FirstName": this.props.customerDetails.firstName? this.props.customerDetails.firstName: customerdata.firstName,
+      // "Customer_LastName":  this.props.customerDetails.lastName? this.props.customerDetails.lastName: customerdata.lastName,
+      // "Customer_Address_Line1":  this.props.customerDetails.selectedAddress.Addr1? this.props.customerDetails.selectedAddress.Addr1: customerdata.address1,
+      // "Customer_City": this.props.customerDetails.selectedAddress.City?this.props.customerDetails.selectedAddress.City: customerdata.city,
+      // "Customer_State":  this.props.customerDetails.selectedAddress.State? this.props.customerDetails.selectedAddress.State: customerdata.state,
+      // "Customer_Zip": this.props.customerDetails.selectedAddress.Zip !== undefined ?this.props.customerDetails.selectedAddress.Zip:customerdata.zip,
+      // "Customer_DLNumber": this.DL_number,
+      // "Customer_DLState": this.DL_state
 
       // "Customer_Salutation":"MR.",
       // "Customer_FirstName":"JEYAGANESH",
@@ -540,7 +652,6 @@ class GiftCard extends Component {
       // "Customer_DLState":"TX"
     }
 
-    console.log('mike-giftcard-prams', giftCardObj)
     // this.props.startSpinner(true);
     
     //this.getGiftCardCartItems();
@@ -690,9 +801,6 @@ class GiftCard extends Component {
   // MANUAL ENTRY REQ
   // CardNumber=7006446669919903735 & EntrySource=K,AllowKeyedEntry=N,LookUpFlag=0
 
-  //SWIPE REQ
-  //CardNumber=,EntrySource=,AllowKeyedEntry=N,LookUpFlag=0
-
   //MANUAL ON PED REQ
   //CardNumber=,EntrySource=,AllowKeyedEntry=Y,LookUpFlag=0
 
@@ -700,20 +808,6 @@ class GiftCard extends Component {
   //CardNumber=7006446669919903735 & EntrySource=B,AllowKeyedEntry=N,LookUpFlag=0
 
   // ********** AURUS CALLS **********
-  aurusCardLookupCall = () => {
-    this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
-    this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
-    this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
-    this.getCardBinJson.GetCardBINRequest.LookUpFlag = this.aurusVars.LookUpFlag;
-    this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = "N";
-    this.getCardBinJson.GetCardBINRequest.CardNumber = this.state.validCardNumber;
-
-    var req = json2xml(this.getCardBinJson);
-    this.props.getAurusResponse(req, 'GIFTCARD_GETCARDBIN');
-   // this.getGiftCardDetails();
-
-  }
-
   aurusActivateScanner = () => {
     this.UpdateRequestScanJson.UpgradeRequest.POSID = this.aurusVars.POSID;
     this.UpdateRequestScanJson.UpgradeRequest.APPID = this.aurusVars.APPID;
@@ -742,84 +836,40 @@ class GiftCard extends Component {
 
 
   // RETURNS CARD BALANCE ALONG WITH CARD CLASS
-  aurusGetBalanceEnquiry = () => {
+  aurusGetBalanceEnquiry = (data) => {
+    let cardToken = data.CardToken[0]
+    console.log("Card Token Number", cardToken);
     console.log("Entered in aurusGetBalanceEnquiry");
     this.TransRequestJson.TransRequest.CardNumber = this.state.validCardNumber;
+    this.TransRequestJson.TransRequest.CardToken =cardToken; 
     this.TransRequestJson.TransRequest.EntrySource = 'K';
-    this.TransRequestJson.TransRequest.TransAmountDetails.ServicesTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.ProductTotalAmount = this.validIncreaseAmount;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TaxAmount = this.tax;
-    this.TransRequestJson.TransRequest.TransAmountDetails.Discount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.EBTAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.FSAAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.DutyTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.FreightTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.AlternateTaxAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TipAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.DonationAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = this.validIncreaseAmount + this.tax;
+    this.TransRequestJson.TransRequest.TransAmountDetails.ServicesTotalAmount ="0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.ProductTotalAmount = "0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.TaxAmount ="0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.Discount = "0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.EBTAmount =" 0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.FSAAmount = "0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.DutyTotalAmount = "0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.FreightTotalAmount = "0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.AlternateTaxAmount =" 0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.TipAmount =" 0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.DonationAmount = "0.00";
+    this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = "0.00";
     //TransactionType must be 12 for balance enquiry
     this.TransRequestJson.TransRequest.TransactionType = 12;
-
     const params = json2xml(this.TransRequestJson);
-  	this.props.getAurusResponse(params, 'GIFTCARDBALANCE_INQUIRY');
+    this.props.getAurusResponse(params, 'GIFTCARDBALANCE_INQUIRY');
+    // const newparams = fn(data);
+    // this.props.getAurusResponse(params, 'GIFTCARDBALANCE_INQUIRY');
   }
-
-  aurusIssueGiftCardCall = () => {
-    // CALLED AFTER PAYMENT
-    this.TransRequestJson.TransRequest.CardNumber = this.state.validCardNumber;
-    this.TransRequestJson.TransRequest.EntrySource = 'K';
-    this.TransRequestJson.TransRequest.TransAmountDetails.ServicesTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.ProductTotalAmount = this.validIncreaseAmount;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TaxAmount = this.tax;
-    this.TransRequestJson.TransRequest.TransAmountDetails.Discount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.EBTAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.FSAAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.DutyTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.FreightTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.AlternateTaxAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TipAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.DonationAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = this.validIncreaseAmount + this.tax;
-    //TransactionType must be 17 for issueing gift card
-    this.TransRequestJson.TransRequest.TransactionType = 17;
-
-    const params = json2xml(this.TransRequestJson);
-
-    this.props.getAurusResponse(params)
-
-    console.log('mike--aurus--params', params);
-  }
-
-  aurusReloadGiftCardCall = () => {
-    // CALLED AFTER PAYMENT
-    this.TransRequestJson.TransRequest.CardNumber = this.state.validCardNumber;
-    this.TransRequestJson.TransRequest.EntrySource = 'K';
-    this.TransRequestJson.TransRequest.TransAmountDetails.ServicesTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.ProductTotalAmount = this.validIncreaseAmount;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TaxAmount = this.tax;
-    this.TransRequestJson.TransRequest.TransAmountDetails.Discount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.EBTAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.FSAAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.DutyTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.FreightTotalAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.AlternateTaxAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TipAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.DonationAmount = 0.00;
-    this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = this.validIncreaseAmount + this.tax;
-    //TransactionType must be 11 for reloading gift card
-    this.TransRequestJson.TransRequest.TransactionType = 11;
-
-    const params = json2xml(this.TransRequestJson);
-    this.props.getAurusResponse(params);
-  }
+   
+  
 
 
   aurusCloseTransactionCall = () => {
     const closeTransXml = json2xml(this.closeTransJson);
     this.props.getAurusResponse(closeTransXml);
     this.navigateToSale();
-    console.log('mike--aurusClose-', closeTransXml);
 
   }
 
@@ -846,6 +896,7 @@ function mapDispatchToProps(dispatch) {
     validateDriversLicenseAction: validateDriversLicenseAction,
     getGiftCardDetailsAction: getGiftCardDetailsAction,
     getGiftCardClassAction: getGiftCardClassAction,
+    getOldnNewGiftCardNumAction:getOldnNewGiftCardNumAction,
     updateGiftCardReloadAction: updateGiftCardReloadAction,
     fincenValidationAction: fincenValidationAction,
     clearAllGiftCardDataAction: clearAllGiftCardDataAction,

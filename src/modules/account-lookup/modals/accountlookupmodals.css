@@ -75,6 +75,16 @@
   margin-bottom: 15px;
   display: inline-block;
 }
+
+.cust-phone-modal-third-party-label-non-clientele {
+    width: 264px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 230px;
+    margin-right: 231px;
+    margin-bottom: 57px;
+    opacity:0.4;
+}
 .cust-phone-modal-btn{
     display:flex;
     margin-bottom:48px; 
@@ -864,4 +874,7 @@
 .confirm-card-details-container
 {
     margin-top: 267px;
+}
+.non-clientele-thirdparty-btn {
+    padding-top: 125px;
 }

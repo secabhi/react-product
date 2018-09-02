@@ -7,6 +7,7 @@ const initialState = {
     },
     userPin: {userPin: "", uPass:""},
     error: null,
+    isValid: false,
     cleared: {}
 
 };
@@ -23,17 +24,16 @@ export function changePwrdReducer(state = initialState, action) {
             }
 
         case CHANGE_PASSWORD_REQUEST: 
-        console.log('PRANAV CHGPWD_REQ REDUCER')
         console.log(action.payload)           
             return {
                 ...state,
                 response: action.payload.data,
-                userPin: action.payload.userpin
+                userPin: action.payload.userpin,
+                isValid: true
 
             }
 
         case CLEAR_REQUEST:
-        console.log('PRANAV CLEAR_REQ REDUCER')
         console.log(action.payload)      
             return {
                 ...state,
@@ -41,15 +41,29 @@ export function changePwrdReducer(state = initialState, action) {
             };
 
         case 'PW_CANTCHANGEYET' :
-        console.log('PRANAV PW_CANTCHG REDUCER')
         console.log(action.payload)      
             return {
                 ...state,
                 response: action.payload,
             };
+                
+        case 'CHANGE_PASSWORD_FAILED' :
+            return {
+                ...state,
+                response: action.payload,
+                isValid: false,
+                error: action.message
+            }
+        case 'REQUEST_FAILED' :
+            return {
+                ...state,
+                response: action.payload,
+                isValid: false,
+                error: action.message
+            }
 
-            default:
-                return state;
+        default:
+            return state;
 
     }
 }

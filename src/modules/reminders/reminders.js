@@ -11,7 +11,9 @@ import { goToSalesPage } from '../sale/SaleAction.js';
 import {clearCustomerDetailsAction} from '../customer-details/CustomerDetailsActions';
 import {getReminders} from './remindersAction.js'
 
-import {startSpinner} from '../common/loading/spinnerAction'
+import {startSpinner} from '../common/loading/spinnerAction';
+
+import {showException} from '../common/exceptionErrorModal/exceptionAction';
 
 
 class Reminders extends Component {
@@ -67,20 +69,33 @@ class Reminders extends Component {
        }     
        
       
-        
+        this.props.startSpinner(true);
         this.props.getReminderInvoker(this.props.login.userpin,this.props.customerDetails.clientNumber)
         
     }
 
     componentWillReceiveProps = (nextProps) =>{
-        console.log('reminders props',nextProps)
-       if(nextProps.reminders.remindersList != undefined){
-            if(nextProps.reminders.remindersList.length > 0)
-            {
-                this.setState({reminderList :  nextProps.reminders.remindersList})
-                //this.props.startSpinner(false);
+      //  debugger;
+        console.log('reminders props', nextProps);
+        
+        if (nextProps.reminders.isValid) {
+            this.props.startSpinner(false);
+            if (nextProps.reminders.remindersList != undefined) {
+                if (nextProps.reminders.remindersList.length > 0) {
+                    this.setState({ reminderList: nextProps.reminders.remindersList })
+                    //this.props.startSpinner(false);
+                }
             }
         }
+        else{
+            if (nextProps.reminders.error_message != '')
+            {  // debugger;
+              // this.props.clearState(this.clearParams);
+                   this.props.callErrorException( {showException: true,
+                           error:{failedModule:'Reminders',failureReason:'Unexpected Response',failureDescription:'Unable to resolve the response structure'}})
+        }
+        }
+
         
     }
 
@@ -146,7 +161,8 @@ function mapDispatchToProps(dispatch) {
     goToSalesPage: goToSalesPage,
     clearCustomerDetails :clearCustomerDetailsAction,
     getReminderInvoker: getReminders,
-    startSpinner : startSpinner
+    startSpinner : startSpinner,
+    callErrorException : showException
     
      
      }, dispatch)

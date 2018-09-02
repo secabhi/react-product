@@ -239,8 +239,9 @@
 
 .item-brand-desc{
     font-size: 26px;
-    width: 150px;
+    width: auto;
     height: 34px;
+    max-width: 400px;
 }
 
 .item-color-size {
@@ -337,7 +338,7 @@
      width: 460px; 
     height: 150px;
     margin-right: 10px;
-    margin-top: 10px;
+    
     /* margin-left: 67px; */
     font-size: 26px;
      /* border: 2px solid orange;  */

@@ -11,7 +11,10 @@ import giftCard from '../../resources/images/Gift_Card.svg';
 import closeButton from '../../resources/images/Cross_Black.svg';
 import send_selected from '../../resources/images/Send_Selected.svg';
 
+
 // Components
+import {activateSwipGiftCard} from '../sale/sale-giftcard/GiftCardContainer';
+//import GiftCard from '../sale/sale-giftcard/GiftCardContainer';
 import ItemModifyDropdown from './ItemModifyDropdown';
 import SaleServicesMenu from './sale-services/SaleServicesMenu';
 import TransModifyDropDown from './transModifiy/transModifyDropDown/transModifyDropDown';
@@ -59,17 +62,17 @@ export default class SaleMenu extends Component {
 
   renderGiftCard = () => {
     this.props.history.push('/gift-card')
+    this.props.activateSwipGiftCard();
   }
 
   render() {
-    console.log('Sweezey SalesMenu ATM', this.props.activeTransModify);
     return (
       [
         <div className="sidenav" key='lff'>
               <ItemModifyDropdown history={this.props.history} 
               currentItem={this.props.currentItem} 
               selectedItem = {this.props.selectedItem}
-	            registryCLickStyle = {this.props.registryCLickStyle}
+              registryCLickStyle = {this.props.registryCLickStyle}
               voidLineItem={this.voidLineItem}
               showQuantityModal={this.props.showQuantityModal}
               showVoidLineConfirmModal={this.showVoidLineConfirmModal}
@@ -203,3 +206,6 @@ export default class SaleMenu extends Component {
     )
   }
 };
+
+
+

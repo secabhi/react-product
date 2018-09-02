@@ -34,7 +34,7 @@ import { InvalidEmailModal } from '../AlertModals/invalidEmailModal';
 import { EmailIncorrectModal } from '../AlertModals/emailIncorrectModal';
 import { FieldsMissingModal } from '../AlertModals/FieldsMissingModal';
 import { Salutation } from '../Fields/Salutation';
-import {AddCardModal} from '../../../../add-card/View/Components/Modals/AddCardModal/AddCardModal'
+import {AddCardModal} from '../../../../add-card/View/Components/Modals/AddCardModal'
 import crossicon from '../../../../../resources/images/Close_Bttn_Purple.svg';
 import CardContainer from '../../../../add-card/cardContainer'
 import cardContainer from '../../../../add-card/cardContainer';
@@ -364,13 +364,6 @@ import ErrorModal from '../../../../home/error-modal/errorModal';
                     onClose={() => {}} 
 
                     />
-
-                <ErrorModal 
-                    errorTitle={this.props.errorDesciption}
-                    errorSubTitle={this.props.error}
-                    hideError={this.props.closeErrorModal}
-                    
-                />
           
                 <PhoneModal phoneModalOpen={this.props.domesticProp.phoneModal} 
                         phoneModalNum= {this.props.domesticProp.fields['cust_phone1']}

@@ -2,7 +2,8 @@ const initialState = {
     testValue : "Test Value One",
     loginSuccess: false,
     voidTransactionList: [],
-    selectedTransaction: {}
+    selectedTransaction: {},
+    error: ''
   };
   
 export default (state = initialState, action) => {
@@ -11,13 +12,15 @@ export default (state = initialState, action) => {
       console.log("PostVoidReducer PV_SUCCESS");
       return {
         ...state,
-        transactionData: action.payload
+        transactionData: action.payload,
+        error: ''
       }
 
     case 'PV_TRANSACTIONNOTFOUND':
       console.log("PostVoidReducer PV_TRANSACTIONFOUND");
       return {
         ...state,
+        error: ''
       }
 
     case 'LOGIN_REQUEST':
@@ -25,34 +28,36 @@ export default (state = initialState, action) => {
       return {
           ...state,
           loginSuccess: true,
+          error: ''
       }
 
     case 'RENDER_POST_VOID_CART':  
       console.log("PostVoidReducer RENDER_POST_VOID_CART");
       return {
         ...state,
-        selectedTransaction: action.payload
+        selectedTransaction: action.payload,
+        error: ''
       }
 
     case 'TRANSACTION_DETAILS_FETCH_FAILURE':
       console.log("PostVoidReducer TRANSACTION_DETAILS_FETCH_FAILURE");
       return {
         ...state,
-        selectedTransaction: {}
+        error: 'TRANSACTION_DETAILS_FETCH_FAILURE'
       }  
 
     case 'TRANSACTION_LIST_FETCH_SUCCESS':
       console.log("PostVoidReducer TRANSACTION_LIST_FETCH_SUCCESS");
       return {
         ...state,
-        voidTransactionList: action.payload.transactionList
+        voidTransactionList: action.payload.transactionList,
+        error: ''
       }
-
     case 'TRANSACTION_LIST_FETCH_FAILURE':
       console.log("PostVoidReducer TRANSACTION_LIST_FETCH_FAILURE");
       return {
-          ...state,
-        voidTransactionList: []
+        ...state,
+        error: 'TRANSACTION_LIST_FETCH_FAILURE'
       }  
 
     default:

@@ -26,6 +26,7 @@ class PostVoid extends Component {
     }
 
 componentDidMount(){
+    //debugger
     console.log("props isss",this.props)
 }
     render() {
@@ -137,9 +138,6 @@ export class PostVoidEnter extends Component {
                             <img className="postvoid-scan" src={scan} />
                         </div>
                         )}
-
-
-
 
                     <div className="entertrans-button-area">
                         <button className="entercancelbtn" onClick={this.props.cancelEnterTrans}><img className="reseticonselectrans" src={crossicon} /><label className="cancellabel">CANCEL</label></button>

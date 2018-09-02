@@ -1,5 +1,6 @@
 import { callPostWebService, callGetWebService } from '../../common/helpers/helpers';
 import { startSpinner } from '../../common/loading/spinnerAction';
+import { responseValidation } from '../../common/responseValidator/responseValidation';
 //grabs url and other data from config file.
 const CONFIG_FILE = require('../../../resources/stubs/config.json');
 const config = require('../../../resources/stubs/config.json');
@@ -14,7 +15,7 @@ const splitcommissionauthentication = path+'splitcommissionauthentication.json';
 const URL = CONFIG_FILE.splitcommissionauthentication;
 const getURL = CONFIG_FILE.getReplenishData;
 
-export function updateSplitCommissionData(userPin1,userPin2,index,transactionId,IsTransModify){
+export function updateSplitCommissionData(userPin1,userPin2,index,transactionId,IsTransModify,loginpin){
   
 
 
@@ -27,9 +28,15 @@ export function updateSplitCommissionData(userPin1,userPin2,index,transactionId,
         "IsTransModify" : IsTransModify,
         "SKU":(IsTransModify === true)?undefined:index.itemNumber,
         "pin1" : userPin1,
-        "pin2" : userPin2
+        "pin2" : userPin2,
+        "StoreAssoc":loginpin
            
     };
+    var validated = {
+        isValid: false,
+        message: ''
+    }
+    const SaleItemResponseObj = require('../../common/responseValidator/responseDictionary').saleItemResponseObj;
     const request =env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(splitcommissionauthentication, {}); //DEFINING THE REQUEST
 
     console.log(params);
@@ -38,6 +45,8 @@ export function updateSplitCommissionData(userPin1,userPin2,index,transactionId,
         request.then(({
                 data
             }) => {
+                validated = responseValidation(data, SaleItemResponseObj);
+                if (validated.isValid) {
                switch (data.response_text) {
 
                     case "SC_SUCCESS":
@@ -106,13 +115,31 @@ export function updateSplitCommissionData(userPin1,userPin2,index,transactionId,
                             break;
                         }
                 }
-            })
-            .catch(error => {
+            }
+            else {
+                var errorMessage = validated.message + ' for web service: ' + URL + ' TimeOut Duration:' + require('../../../resources/stubs/config.json').timeout + 'ms';
                 dispatch({
-                    type: 'SPLIT_COMMISSION_PIN2_VALIDATION_FAIL',
-                    payload: error
+                    type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                    payload: {},
+                    message: errorMessage
                 });
+            }
+
+        }).catch((err) => {
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {},
+                message: 'Exception occured during webservice call ' + URL
             });
+
+        });
+        // })
+        //     .catch(error => {
+        //         dispatch({
+        //             type: 'SPLIT_COMMISSION_PIN2_VALIDATION_FAIL',
+        //             payload: error
+        //         });
+        //     });
     };
 }
 

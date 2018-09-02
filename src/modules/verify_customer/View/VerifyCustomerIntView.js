@@ -102,7 +102,7 @@ class VerifyCustomer extends React.Component{
                                 <div className="field1-salutation">
                                     <div className="field-title">Sal..</div>
                                     <div 
-                                        className={this.props.currentAddress.update_int_salutation!=this.props.changedAddress.update_int_salutation?"field-value changed-field":"field-value"}
+                                        className={this.props.currentAddress.update_int_salutation!=this.props.changedAddress.update_int_salutation?"field-value changed-field sal-ellpse":"field-value sal-ellpse"}
                                     >
                                         {this.props.changedAddress.update_int_salutation}
                                     </div>

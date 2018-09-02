@@ -1,9 +1,18 @@
 import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
 import {RENDER_POST_VOID_CART} from '../common/constants/type';
+import {responseValidation} from '../common/responseValidator/responseValidation';
+
 const CONFIG_FILE = require('../../resources/stubs/config.json');
 var clientConfig = CONFIG_FILE.clientConfig;
 const env = require('../../settings/env.js');
 const path = env.PATH;
+const resendObj = require('../common/responseValidator/responseDictionary').resendObj;
+const rePrintObj = require('../common/responseValidator/responseDictionary').rePrintObj;
+const transListObj = require('../common/responseValidator/responseDictionary').transListObj;
+const transDetailsObj = require('../common/responseValidator/responseDictionary').transDetailsObj;
+    var validate = {isValid : false,
+        message :''}
+
 /* To add customer - Domestic */
 export function sendEmail(customerDetails) {
     var URL = CONFIG_FILE.emailReceipt
@@ -12,30 +21,47 @@ export function sendEmail(customerDetails) {
     console.log(params)
     return (dispatch) => {
         request.then(({data}) => {
+            validate = responseValidation(data,resendObj);
             console.log(data)
-            switch (data.ResponseCode) {
+            if(validate.isValid)
+            {
+                switch (data.responseCode) {
 
-                case "0":
-                    {
-                        dispatch({type: 'UPDATE_CLIENT_DETAILS', payload: data});
-                        break;
-                    }
+                        case "0":
+                            {
+                                dispatch({type: 'UPDATE_CLIENT_DETAILS', payload: data});
+                                break;
+                            }
 
-                case "1":
-                    {
-                        dispatch({type: 'FAILURE', payload: data});
-                        break;
-                    }
+                        case "1":
+                            {
+                                dispatch({type: 'FAILURE', payload: data});
+                                break;
+                            }
 
-                default:
-                    {
-                        console.log("Inside Switch Block: default");
-                        dispatch({type: 'DEFAULT', payload: data});
-                        break;
+                        default:
+                            {
+                                console.log("Inside Switch Block: default");
+                                dispatch({type: 'DEFAULT', payload: data});
+                                break;
+                            }
                     }
             }
+            else{
+                var errorMessage = validate.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+                dispatch({
+                    type: 'SEND_EMAIL_VALIDFAILED',
+                    payload: {  },
+                    message : errorMessage
+                });
+            }
+
         }).catch(error => {
-            dispatch({type: 'REQUEST_FAILED', payload: error});
+            dispatch({
+                type: 'SEND_EMAIL_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ URL
+            });
         });
     };
 }
@@ -48,32 +74,48 @@ export function printReceipt(data) {
     return (dispatch) => {
         
         request.then(({data}) => {
+            validate = responseValidation(data,rePrintObj);
             console.log(data)
-            switch (data.responseCode) {
-                
-                case 0:
-                    {
-                        dispatch({type: 'REPRINT_RECEIPT_SUCCESS', payload: data});
-                        break;
-                    }
-                case 1:
-                    {
-                        dispatch({type: 'REPRINT_RECEIPT_FAILURE', payload: data});
-                        break;
-                    }
-                case 3:
-                    {
-                        dispatch({type: 'REPRINT_RECEIPT_FAILURE', payload: data});
-                        break;
-                    }
-                case 4:
-                    {
-                        dispatch({type: 'REPRINT_RECEIPT_FAILURE', payload: data});
-                        break;
-                    }
+            if(validate.isValid)
+            {
+                switch (data.responseCode) {
+                    
+                    case 0:
+                        {
+                            dispatch({type: 'REPRINT_RECEIPT_SUCCESS', payload: data});
+                            break;
+                        }
+                    case 1:
+                        {
+                            dispatch({type: 'REPRINT_RECEIPT_FAILURE', payload: data});
+                            break;
+                        }
+                    case 3:
+                        {
+                            dispatch({type: 'REPRINT_RECEIPT_FAILURE', payload: data});
+                            break;
+                        }
+                    case 4:
+                        {
+                            dispatch({type: 'REPRINT_RECEIPT_FAILURE', payload: data});
+                            break;
+                        }
+                }
+            }
+            else{
+                var errorMessage = validate.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+                dispatch({
+                    type: 'RE_PRINT_VALIDFAILED',
+                    payload: {  },
+                    message : errorMessage
+                });
             }
         }).catch(error => {
-            dispatch({type: 'REQUEST_FAILED', payload: error});
+            dispatch({
+                type: 'RE_PRINT_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ URL
+            });
         });
     };
 }
@@ -126,6 +168,9 @@ export  function PrintSendDetailsTransaction(userPin,transactionDetails,txnNumbe
         request.then(({
                 data
             }) => {
+                validate = responseValidation(data,transDetailsObj);
+            if(validate.isValid)
+            {
                switch (data.response_text) {
 
                     case "IM_SUCCESS":
@@ -150,11 +195,23 @@ export  function PrintSendDetailsTransaction(userPin,transactionDetails,txnNumbe
                             break;
                         }
                 }
+            }
+            else
+            {   
+                var errorMessage = validate.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+                dispatch({
+                    type: 'TRANS_DETAILS_VALIDFAILED',
+                    payload: {  },
+                    message : errorMessage
+                });
+            }
             })
+            
             .catch(error => {
                 dispatch({
-                    type: 'PV_TRANSDETLS_RESP_FAIL',
-                    payload: error
+                    type: 'TRANS_DETAILS_VALIDFAILED',
+                    payload: {  },
+                    message : 'Exception occured during webservice call '+ URL
                 });
             });
     };
@@ -179,39 +236,65 @@ export  function PrintSendTransactionList(userPin){
         
         }
         
-    //const request =callGetWebService(GetTransactionListURL, '');
+   //const request =callGetWebService(GetTransactionListURL, '');
     const request = callPostWebService(URL,params)
     return (dispatch) => {
        
         request.then(({
                 data
             }) => {
-               switch (data.response_text) {
+                validate = responseValidation(data,transListObj);
+                console.log(JSON.stringify(transListObj));
+                console.log('trans list valid'+JSON.stringify(validate));
+                if(validate.isValid)
+                {
+                    switch (data.response_text) {
 
-                    case "TL_SUCCESS":
-                        {
-                            dispatch({
-                                type: 'TRANSACTION_LIST_FETCH_SUCCESS',
-                                payload: data
-                            });
-                            break;
-                        }
+                            case "TL_SUCCESS":
+                                {
+                                    dispatch({
+                                        type: 'TRANSACTION_LIST_FETCH_SUCCESS',
+                                        payload: data
+                                    });
+                                    break;
+                                }
 
-                    default:
-                        {
-                            dispatch({
-                                type: 'TRANSACTION_LIST_FETCH_FAILURE_PRINT',
-                                payload: data
-                            });
-                            break;
+                            default:
+                                {
+                                    dispatch({
+                                        type: 'TRANSACTION_LIST_FETCH_FAILURE_PRINT',
+                                        payload: data
+                                    });
+                                    break;
+                                }
                         }
+                }
+                else
+                {   
+                    var errorMessage = validate.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+                    dispatch({
+                        type: 'TRANS_LIST_VALIDFAILED',
+                        payload: {  },
+                        message : errorMessage
+                    });
                 }
             })
             .catch(error => {
                 dispatch({
-                    type: 'TRANSACTION_LIST_FETCH_FAILURE_PRINT',
-                    payload: error
+                    type: 'TRANS_LIST_VALIDFAILED',
+                    payload: {  },
+                    message : 'Exception occured during webservice call '+ URL
                 });
             });
     };
+}
+
+
+export function clearIsValid(){
+    return (dispatch) => {
+    dispatch({
+        type: 'CLEAR_TRANSLIST_IS_VALID',
+        payload: ''
+    });
+}
 }

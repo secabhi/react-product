@@ -21,7 +21,7 @@ class AccountLookupMenu extends Component {
 
     return (
       [
-        <div className={this.props.cardsAvailable?"lookup-menu-style top-space":"lookup-menu-style top-space disabled-transin"} onClick={this.props.cardsAvailable?this.props.openconfirmdetails:''}>Use in Trans</div>,
+        <div className={this.props.cardsAvailable?"lookup-menu-style top-space":"lookup-menu-style top-space disabled-transin"} onClick={this.props.cardsAvailable?this.props.openconfirmdetails:null}>Use in Trans</div>,
         <div className="lookup-menu-style" onClick={this.props.nextInquiry}>Next Inquiry</div>,
         !this.props.isThirdParty?
           <div className="lookup-menu-style">Print</div>
@@ -34,7 +34,7 @@ class AccountLookupMenu extends Component {
 };
 
 function mapStateToProps(state) {
-  console.log('@@@@@@@@@  Account Lookup **********', state)
+  //console.log('@@@@@@@@@  Account Lookup **********', state)
   return {
       cards:state.Cards,
   }

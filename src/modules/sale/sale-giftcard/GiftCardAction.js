@@ -13,6 +13,7 @@ import {
     GIFTCARD_SALT_SUCCESS,
     GIFTCARD_SALT_FAILURE,
     UPDATE_RELOAD_SUCCESS,
+    GIFTCARD_STORED,
     UPDATE_RELOAD_FAILURE,
     FINCEN_SUCCESS,
     FINCEN_FAILURE } from '../../common/constants/type';
@@ -87,7 +88,6 @@ export function validateDriversLicenseAction(licenseObj) {
 
     return((dispatch) => {
         validateDLCall.then((data) => {
-            console.log('MIKE_VAL-DL_DATA', data)
             if(data.status === 200) {
                 dispatch({
                         type: VALIDATE_DL_SUCCESS,
@@ -110,9 +110,9 @@ export function validateDriversLicenseAction(licenseObj) {
 export function getGiftCardDetailsAction(cardNum) {
     const getGCDetailsUrl = icc.getGiftCardDetails;
     const body = {...cardNum};
-
+    console.log("------>GET CARD DETAILS BODY------->", body)
     const getGCDetailsCall = callPostWebService(getGCDetailsUrl, body, headers)
-
+    console.log("------>GET CARD DETAILS URL------->", getGCDetailsCall)
     return((dispatch) => {
         getGCDetailsCall.then((data) => {
             switch(data.data.message) {
@@ -148,6 +148,21 @@ export function getGiftCardDetailsAction(cardNum) {
 
 }
 
+
+export function getOldnNewGiftCardNumAction(data,value){
+return((dispatch) =>{
+    switch(value) {
+        case 'STORE' :
+        {
+             dispatch({
+                type: GIFTCARD_STORED,
+                payload: data
+            })
+            break;
+        }   
+    }
+});
+}
 
 export function getGiftCardClassAction(giftCardClass) {
     const param = `getCardClassDetails?cardclass=${giftCardClass}`;

@@ -7,7 +7,7 @@ import '../../Styles/AddCustomerStyle.css';
 
 /* Import images*/
 import erroricon from '../../../../../resources/images/Error_Alert.svg';
-import crossicon from '../../../../../resources/images/Cross_Purple.svg';
+import crossicon from '../../../../../resources/images/Bypass.svg';
 import editIcon from '../../../../../resources/images/Edit_Profile.svg';
 
 export class InvalidEmailModal extends Component {
@@ -41,7 +41,7 @@ export class InvalidEmailModal extends Component {
                             <div
                                 className='add-dom-cust-modal-bypass-btn'
                                 onClick={this.props.invalidEmailBypass}>
-                                {/* <img src={crossicon} className='add-dom-cust-modal-bypass-btn-icon' hidden = {this.props.isHidden}/> */}
+                                <img src={crossicon} className='add-dom-cust-modal-bypass-btn-icon' hidden = {this.props.isHidden}/> 
                                 <span className='add-dom-cust-modal-bypass-btn-label'>BYPASS</span>
                             </div>
                         </div>

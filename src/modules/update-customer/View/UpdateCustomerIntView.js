@@ -1,45 +1,37 @@
 /* Dependencies import */
 import React, {Component} from 'react';
-import Modal from 'react-responsive-modal';
-
-/* Components import */
 import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 import InputMask from 'react-input-mask';
-import ReactTooltip from 'react-tooltip'
 
 /*Images import */
-import SvgIcon from 'material-ui/SvgIcon';
-import cardicon from '../../../resources/images/Add_Card.svg';
-import clearallbtn from '../../../resources/images/Clear_All.svg';
-import savebtn from '../../../resources/images/Save.svg';
-import visa from '../../../resources/images/Visa.svg'
-import deletebutton from '../../../resources/images/Delete_Purple.svg'
-import info from '../../../resources/images/Info.svg';
 import backicon from '../../../resources/images/Back.svg';
 import verifyicon from '../../../resources/images/Verify_White.svg';
 import reseticon from '../../../resources/images/Reset_All.svg';
 
 /*Styles import */
-
 import '../../add-customer/View/Styles/AddCustomerStyle.css';
 import {customStyle} from '../View/Styles/UpdateCustomerComponentStyle';
 import '../View/Styles/UpdateCustomerInternational.css';
 
+/*Component import*/
+import Footer from '../../common/footer/footer';
+import Header from '../../common/header/header';
+// import { Salutation } from '../Fields/Salutation';
+import {Salutation} from '../../add-customer/View/Components/Fields/Salutation';
+
 /*Alert Modals import */
 import Popup from '../../popup/popup';
 import VerifyCustomer from '../../verify_customer/View/VerifyCustomerIntView';
-// import { Salutation } from '../Fields/Salutation';
-import Footer from '../../common/footer/footer';
-import Header from '../../common/header/header';
 import PhoneModal from '../../update-customer/View/Components/AlertModals/PhoneModal';
 import TextOptModal from '../../update-customer/View/Components/AlertModals/TextOptModal';
 import EmailModal from '../../update-customer/View/Components/AlertModals/EmailModal';
 import SuccessModal from '../../update-customer/View/Components/AlertModals/SuccessModal';
-import {Salutation} from '../../add-customer/View/Components/Fields/Salutation';
 import {AddrEmailModal} from '../View/Components/AlertModals/AddressModal';
 import { UpdateInvalidEmailModal } from '../View/Components/AlertModals/UpdateInvalidEmailModal';
+import { CustNotFound } from '../View/Components/AlertModals/CustNotFound';
+import { UpdateFailedModal } from '../View/Components/AlertModals/UpdateFailedModal';
 
 export default class UpdateCustomerInternationalView extends Component {
     componentDidMount(){
@@ -366,6 +358,12 @@ export default class UpdateCustomerInternationalView extends Component {
                 <UpdateInvalidEmailModal failModal1={this.props.failModal1}
                 closeFailModal={this.props.closeFailModal}
                 bypassEmailValidation={this.props.bypassEmailValidation} />
+
+                <CustNotFound custNotFoundModal={this.props.custNotFoundModal} 
+                closeNotFoundModal={this.props.closeNotFoundModal}/>
+
+                <UpdateFailedModal failedToUpdateModal={this.props.failedToUpdateModal}
+                closeFailedToUpdate={this.props.closeFailedToUpdate}/>
         <Footer></Footer>
     </div >
 

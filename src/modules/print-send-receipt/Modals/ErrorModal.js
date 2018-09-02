@@ -23,8 +23,7 @@ export class ErrorModal extends Component {
         return (
             <Modal
             open={this.props.errorModal}
-            little
-            showCloseIcon={false}>
+            little showCloseIcon={false} onClose={() => { }}>
              <div className='sale-errorModal-container'>
              <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
              <div className="sale-errorModal-text">Invalid Request</div>

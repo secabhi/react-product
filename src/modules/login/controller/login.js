@@ -12,6 +12,8 @@ import { getTransactionId } from '../../home/HomeSelector';
 
 import {showException} from '../../common/exceptionErrorModal/exceptionAction';
 
+import { logInfo, logAudit, logError, logFatal } from '../../../modules/common/helpers/helpers';
+
 
 class Login extends Component {
 
@@ -103,9 +105,10 @@ class Login extends Component {
         }else{
             e.preventDefault();
             console.log('SUBMITING');
-            this.errorPresent = false;   
+            this.errorPresent = false;            
+            logInfo("Login Module - login.js - handleSubmit","Login Request submitted - "+this.state.userPin);
             this.props.startSpinner(true);
-            this.props.loginRequest(params);  
+            this.props.loginRequest(params); 
             var pinError, passwordError;
 
         }

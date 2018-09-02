@@ -79,7 +79,7 @@ export default class SaleFooter extends Component {
 
       {/* <div className="viewmore-link" id="viewMoreLink" style={(this.props.cartExist)?{}:{visibility: 'hidden'}}><a className="viewmore-link-text" onClick={() => this.viewMoreFunc()}>View More</a></div> */}
 
-      <button className={this.props.checkForItems ? 'payment-button' : 'payment-button-disabled'} style={this.props.taxExemptID !== '' ?  {marginTop: '30px'} : {}} onClick={() => this.props.lookupPath=='/sale'?this.props.opentenderingCard():this.props.navigateToPayment()}>
+      <button className={this.props.checkForItems ? 'payment-button' : 'payment-button-disabled'} style={this.props.taxExemptID !== '' ?  {marginTop: '30px'} : {}} onClick={() => this.props.navigateToPayment()}>
         <img className="payment-logo" src={payment} alt="payment" />
         <span className="payment-text">Payment</span>
       </button>

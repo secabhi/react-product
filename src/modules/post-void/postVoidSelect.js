@@ -75,6 +75,12 @@ class PostVoidSelect extends Component {
         this.props.startSpinner(true);
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.postvoid.error){
+            throw new Error(nextProps.postvoid.err)
+        }
+    }
+
     componentDidUpdate() {
         this.props.startSpinner(false);
     }

@@ -11,11 +11,21 @@ export class GetIsellCart extends Component {
         super(props)
         this.state = {
             getIsellCart: '',
+            isellMaxLength: false
         }
     }
 
     updateIsellCartEntry(e) {
-        this.setState({ getIsellCart: e.target.value });
+        if(e.target.value.length <= 20) {
+            this.setState({
+                getIsellCart: e.target.value,
+                isellMaxLength: false
+            });
+        } else {
+            this.setState({
+                isellMaxLength: true
+            })
+        }
     }
 
     GetIsellCartForm(e) {
@@ -64,6 +74,20 @@ export class GetIsellCart extends Component {
             paddingLeft: (window.innerWidth > 1900) ? "0px" : "10px",
         }
 
+        const errorStyle = {
+            bottom: '0',
+            fontFamily: 'Roboto',
+            fontSize: '26px',
+            fontWeight: 'normal',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            letterSpacing: 'normal',
+            textAlign: 'left',
+            color: '#d53560',
+            lineHeight: '20px !important',
+            marginTop: '15px'
+        }
+
 
         return (
 
@@ -77,7 +101,7 @@ export class GetIsellCart extends Component {
                     <div className='get-isell-cart-modal-label'>Key Cart ID</div>
                     <div className='get-isell-cart-modal-message'>Please enter Cart ID to get ISell Cart Details</div>
                     <TextField className="get-isell-cart-modal-textfield"
-                        type="text"
+                        type="number"
                         floatingLabelText="Enter Cart ID"
                         floatingLabelStyle={textFieldFloatingLabelStyle}
                         style={textFieldStyle}
@@ -85,6 +109,8 @@ export class GetIsellCart extends Component {
                         inputStyle={textFieldInputStyle}
                         value={this.state.getIsellCart}
                         onChange={e => this.updateIsellCartEntry(e)}
+                        errorText={this.state.isellMaxLength == true ? "Maximum of 20 characters allowed" : ""}
+                        errorStyle={errorStyle}
                         required
                     />
                     <button className='get-isell-cart-modal-button' type="submit">

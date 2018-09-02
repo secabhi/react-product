@@ -1,36 +1,27 @@
-import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
-import {RENDER_POST_VOID_CART} from '../common/constants/type';
+import { callPostWebService} from '../common/helpers/helpers';
+import {responseValidation} from '../common/responseValidator/responseValidation'
+import {postVoidTransactionListResponseObj} from '../common/responseValidator/responseDictionary';
+
 const CONFIG_FILE = require('../../resources/stubs/config.json');
 var clientConfig = CONFIG_FILE.clientConfig;
 const env = require('../../settings/env.js');
 const path = env.PATH;
-/* To add customer - Domestic */
+
+
 export function postVoidFinalTransaction(userPin,transacID) {
-
-
-    const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
-
-
-    //sets url to be used for api call
-   
-    const URL = CONFIG_FILE_ADD.postVoidTransApi;
+    const URL = CONFIG_FILE.postVoidTransApi;
      const params = {
         ...clientConfig,  
        // "StoreAssoc":(userPin) ? userPin :"930924",
         "StoreAssoc": userPin,
         "TransactionId": transacID,
         "TranFile": "tran_180618223828_243_03544_20-Mar-17_Y.log"
-    
     }
-      
-     
     const request = callPostWebService(URL,params);
-    return (dispatch) => {
-        request.then(({
-                data
-            }) => {
-               switch (data.response_text) {
 
+    return (dispatch) => {
+        request.then(({data}) => {
+               switch (data.response_text) {
                     case "PV_SUCCESS":
                         {
                             dispatch({
@@ -66,15 +57,10 @@ export function postVoidFinalTransaction(userPin,transacID) {
             });
     };
 }
-/* To add customer - Domestic */
+
 export  function postVoidDetailsTransaction(userPin,transactionDetails,txnNumber){
-
-
     const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
     const GetTransactionDetailsURL = path+'GetTransactionDetailsURL.json';
-
-    //sets url to be used for api call
-   
     const URL = CONFIG_FILE_ADD.postvoidTransDetails;
      const params = {
         //"Store":(transactionDetails) ? transactionDetails.store : CONFIG_FILE_ADD.clientConfig.Store,
@@ -84,21 +70,16 @@ export  function postVoidDetailsTransaction(userPin,transactionDetails,txnNumber
         "SourceLoc":"NM-DIRECT",
         "TransactionId":(transactionDetails) ? transactionDetails.transactionID: txnNumber,
         "TranFile": (transactionDetails) ? transactionDetails.transactionFile : "tran_180723040844_247_00454_20-Mar-17_N.log",
-        "Store":"6",
+        "Store":"0006",
         "Terminal":"204",
         "StoreAssoc":"931818"
-
     }
-              
      
     const request = callPostWebService(URL,params) //callGetWebService(GetTransactionDetailsURL, '');
     return (dispatch) => {
         
-        request.then(({
-                data
-            }) => {
+        request.then(({data}) => {
                switch (data.response_text) {
-
                     case "IM_SUCCESS":
                         {
                             // dispatch({
@@ -116,7 +97,6 @@ export  function postVoidDetailsTransaction(userPin,transactionDetails,txnNumber
                         {
                             dispatch({
                                 type: 'TRANSACTION_DETAILS_FETCH_FAILURE',
-                                payload: data
                             });
                             break;
                         }
@@ -124,25 +104,17 @@ export  function postVoidDetailsTransaction(userPin,transactionDetails,txnNumber
             })
             .catch(error => {
                 dispatch({
-                    type: 'PV_TRANSDETLS_RESP_FAIL',
-                    payload: error
+                    type: 'NETWORK_ERROR_POST_VOID',
                 });
             });
     };
 }
 
 export  function postVoidTransactionList(userPin){
-
     const GetTransactionListURL = path+'GetTransactionListURL.json';
-
     const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
-
-
-    //sets url to be used for api call
-   
     const URL = CONFIG_FILE_ADD.postvoidGetTransList;
      const params = {
-
         //"StoreAssoc": userPin
         "SourceApp":"MPOS",
         "SourceLoc":"NM-DIRECT",
@@ -151,40 +123,28 @@ export  function postVoidTransactionList(userPin){
         "StoreAssoc":"931818"
         }
         
-    console.log('Sweezey params:', params);
     console.log('URL',URL);
     const request = callPostWebService(URL,params); //callGetWebService(GetTransactionListURL, '');
     return (dispatch) => {
        
-        request.then(({
-                data
-            }) => {
-               switch (data.response_text) {
-
-                    case "TL_SUCCESS":
-                        {
-                            dispatch({
-                                type: 'TRANSACTION_LIST_FETCH_SUCCESS',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                    default:
-                        {
-                            dispatch({
-                                type: 'TRANSACTION_LIST_FETCH_FAILURE',
-                                payload: data
-                            });
-                            break;
-                        }
-                }
-            })
-            .catch(error => {
+        request
+        .then(({data}) => {
+            if(responseValidation(data,postVoidTransactionListResponseObj).isValid) {
                 dispatch({
-                    type: 'TRANSACTION_LIST_FETCH_FAILURE',
-                    payload: error
-                });
+                    type: 'TRANSACTION_LIST_FETCH_SUCCESS',
+                    payload: data
+                })
+            } else {
+                dispatch({
+                    type: 'TRANSACTION_LIST_FETCH_FAILURE'
+                })
+            }    
+        })
+        .catch(error => {
+            dispatch({
+                type: 'TRANSACTION_LIST_FETCH_FAILURE',
+                payload: error
             });
+        });
     };
 }

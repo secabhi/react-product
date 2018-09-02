@@ -6,6 +6,7 @@ import {
     GET_GIFTCARD_FAILURE,
     GET_GIFTCARD_SUCCESS,
     GIFTCARD_CLASS_SUCCESS,
+    GIFTCARD_STORED,
     GIFTCARD_CLASS_FAILURE,
     GET_GIFTCARD_FORBIDDEN_ERROR,
     CONVERT_SALT_SUCCESS,
@@ -83,6 +84,13 @@ export function GiftCardReducer(state = initialState, action) {
                 ...state,
                 gcData: action.payload
             }
+        break;
+        case GIFTCARD_STORED:
+        console.log("---------> GFTCARD NUMBERS REDUCER --------->")
+        return{
+            ...state,
+            stored_gifCard:action.payload
+        }
         break;
 
         case GIFTCARD_CLASS_FAILURE :

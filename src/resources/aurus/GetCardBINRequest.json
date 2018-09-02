@@ -8,7 +8,7 @@
     "AllowKeyedEntry": "N",
     "AllowManualFallback": "Y",
     "EntrySource": "B",
-    "CardNumber": " ",
+    "CardNumber": "",
     "KI": " ",
     "KIType": " ",
     "TenderAmount": " ",

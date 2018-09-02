@@ -1,4 +1,3 @@
-
 import { PRODUCT_DETAIL_INFO_ITEM_SUCCESS } from '../common/constants/type';
 import { PRODUCT_DETAIL_INFO_ITEM_FAIL } from '../common/constants/type';
 
@@ -12,7 +11,6 @@ export function ProductDetailInfoReducer(state = initialState, action) {
 
     case PRODUCT_DETAIL_INFO_ITEM_FAIL:
       return [...action.payload];
-
     default:
       return state;
   }

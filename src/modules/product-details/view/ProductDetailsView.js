@@ -22,11 +22,28 @@ export default class ProductDetailsView extends Component{
             pimSKU: '',
             productSearchResult: [],
             productSearchSKUResult : '',
+            prodDetails: {},
+            prodDetailsUpdated: false
         }
+
     }
 
-    componentDidMount(){
+    componentDidMount() {
+      if(this.props.navFromCustDetails == true) {
+        console.log('PRANAV PDV DIDMOUNT ACTION')
+        this.props.prodDetailInfoAction('pimsku_search', this.props.product, () => {
+        });
+      }
+    }
 
+    componentDidUpdate() {
+        console.log('PRANAV PDV DIDUPDATE')
+        if(this.state.prodDetailsUpdated == false) {
+          this.setState({
+            prodDetails : this.props.purchHistProdDetail[this.props.product.pimskuId],
+            prodDetailsUpdated : true
+          });
+        }
     }
 
     handleTextFieldInput = (event) =>{
@@ -50,25 +67,36 @@ export default class ProductDetailsView extends Component{
       };
 
     render() {
-
-      let { product, onGoBack } = this.props;
+      let { product, onGoBack, currentStore } = this.props;
       return(
         <div className='product-details-container'>
           <div className='product-details-content'>
-            <ProductDetailsHeader 
+            <ProductDetailsHeader
               product={product}
-              onGoBack={onGoBack}/>
+              onGoBack={onGoBack}
+              custInfo={this.props.custInfo}
+              prodDetails={this.state.prodDetails} />
             <div className="product-details-info">
               <div className="product-details-images">
                 <div>
-                  <ProductDetailsImages product={product}/>
-                </div>
-                <div>
-                  <span>Similar Items</span>
+                  <ProductDetailsImages 
+                    product={product}
+                    navFromCustDetails={this.props.navFromCustDetails}
+                    prodDetails={this.state.prodDetails}
+                  />
                 </div>
               </div>
               <div className="product-details-rows">
-                <ProductDetailsRows product={product}/>
+                <ProductDetailsRows 
+                  product={product}
+                  prodDetails={this.state.prodDetails}
+                  currentStore={this.props.currentStore}
+                  storeList={this.props.storeList}
+                  updateSelectionSize={this.props.updateSelectionSize}
+                  updateSelectionColor={this.props.updateSelectionColor}
+                  colorDisplayArr={this.props.colorDisplayArr}
+                  sizeDisplayArr={this.props.sizeDisplayArr}
+                />
               </div>
             </div>
           </div>

@@ -79,7 +79,7 @@ class CardDetailsModal extends Component {
                     <div onClick={() => { this.props.setUseStoredCard(false); this.props.closetenderingCard(); }} className="carddetails-details-modal-btn-cancel">
                         <div className="carddetails-details-modal-btn-cancel-label">NO</div>
                     </div>
-                    <div onClick={() => { this.props.setUseStoredCard(true); }} className="carddetails-details-modal-btn-next">
+                    <div onClick={() => { this.props.setUseStoredCard(true); this.props.closetenderingCard();}} className="carddetails-details-modal-btn-next">
                         <div className="carddetails-details-modal-btn-next-label">YES</div>
                     </div>
                 </div>

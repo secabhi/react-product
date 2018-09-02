@@ -204,7 +204,6 @@ export class SearchComponentView extends Component {
                                 </div>
                             </div>
                         </div>
-
         </div>);
     }
 }

@@ -1,5 +1,6 @@
 import { CUST_INCIRCLE_INFO_REQUEST, INCIRCLE_GIFT_CARDS } from './constants';
 import { callGetWebService, callPostWebService } from '../../common/helpers/helpers';
+import {responseValidation} from '../../common/responseValidator/responseValidation';
 
 export function incircleGiftCardRequest(params){
     //const URL = require('../../../resources/stubs/config.json').cxp.getGiftCardDetails+params;
@@ -51,23 +52,49 @@ export function custIncircleInfoRequest(params){
             'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
         }
     });
+
+    // validation variables
+    const incircleResponseObj = require('../../common/responseValidator/responseDictionary').incircleResponseObj;
+    var validate = {isValid : false, message :''}
+
     return (dispatch) => {
         request.then(({data}) => {
-            switch (data.code) {
-                case 200:
-                    {
-                        //console.log(data.code)
-                        dispatch({type: 'CUST_INCIRCLE_INFO_REQUEST', payload: data, loading: false});
-                        break;
+            validate = responseValidation(data, incircleResponseObj);
+            if(validate.isValid) {
+                switch (data.code) {
+                    case 200:
+                        {
+                            dispatch({
+                                type: 'CUST_INCIRCLE_INFO_REQUEST', 
+                                payload: data, 
+                                loading: false
+                            });
+                            break;
+                        }
+                        default:
+                        {
+                            dispatch({
+                                type: 'CUST_INCIRCLE_INFO_REQUEST_ERROR', 
+                                payload: data
+                            });
+                            break;
+                        }
                     }
-                    default:
-                    {
-                        dispatch({type: 'ERROR', payload: data});
-                        break;
-                    }
-        }}).catch(error => {
-            dispatch({type: 'REQUEST_FAILED', payload: error});
+                }
+            else {
+                var errorMessage = validate.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../../resources/stubs/config.json').timeout+'ms';
+                dispatch({
+                    type: 'INCIRCLE_REQUEST_FAILED',
+                    payload: {  },
+                    message : errorMessage
+                });
+            }
+        }).catch(error => {
+            dispatch({
+                type: 'INCIRCLE_REQUEST_FAILED', 
+                payload: error,
+                message: 'Exception occured during webservice call '+ URL
+            });
         });
     };
 }
-

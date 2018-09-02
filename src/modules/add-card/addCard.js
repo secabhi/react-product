@@ -1,51 +1,36 @@
 // JavaScript source code
 import React, {Component} from "react";
-import Modal from "../../UI/modal/modal.js";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
-import "./addCard.css";
+import {getCardDetails,addCardDetailsToClientele} from "./actions";
 
-import backArrowWhite from "../../resources/images/Back_White.svg";
-import productSearchWhite from "../../resources/images/Product_Search_White.svg";
-import proceedToSaleWhite from "../../resources/images/Sale_White_Filled.svg";
-import AddCardContext from "./addCardContext/addCardContext.js";
+import {AddCardModal} from './View/Components/Modals/AddCardModal'
+import {AddCardResultModal} from './View/Components/Modals/AddCardResultModal'
+import {AurusErrorModal} from './View/Components/Modals/AurusErrorModal';
 
-import cardicon from '../../resources/images/Add_Card.svg';
-import error from '../../resources/images/Error_Red.svg'
-import {addCardAction, getAddCardAurusResponse, getCardDetails, getStoreClientId,addCardDetailsToClientele,submitRequestToAurus} from "./actions";
-// Components
 import Header from "../common/header/header";
 import Tabheader from "../common/tabheaders/cust-det-tabheader";
 import Footer from "../common/footer/footer";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import cards from "../../resources/images/Add_Card.svg";
-import addcardselected from "../../resources/images/Add_Card_Selected.svg";
-import cardblack from "../../resources/images/Add_Card_Black.svg";
-import deletepurple from "../../resources/images/Delete_Purple.svg";
-import visa from "../../resources/images/Add_Card_Black.svg";
-import mastercard from "../../resources/images/Mastercard.svg";
-import viewcardselected from "../../resources/images/View_Cards_Selected.svg";
-import viewcards from "../../resources/images/View_Cards.svg";
-import Overlay from "../../UI/overlay/overlay.js";
-import deletebutton from '../../resources/images/Delete_Purple.svg'
-import customer from "../../resources/stubs/customer.json";
-import CardDisplay from "./cardDisplay";
-import incirclePurple from "../../resources/images/Incircle_Level_purple_small_bttn.svg";
-import incircleLarge from "../../resources/images/Incircle_Level_purple_large_bttn.svg";
-import successicon from "../../resources/images/Success.svg"
-import cardDisplay from "./cardDisplay";
-import CardContainer from './cardContainer'
-import {json2xml,xml2json} from '../common/helpers/helpers';
+import {json2xml} from '../common/helpers/helpers';
 import {startSpinner} from '../common/loading/spinnerAction';
-import {AddCardResultDisplay} from './AddCardResultDisplay/AddCardResultDisplay'
-import  warning from '../../resources/images/Warning.svg'
+import {showException} from '../common/exceptionErrorModal/exceptionAction';
+
 import { goToSalesPage } from '../sale/SaleAction.js';
 import { getAurusResponse} from '../payment/Controller/paymentActions'
-import {AddCardModal} from '../add-card/View/Components/Modals/AddCardModal/AddCardModal'
-import {AddCardResultModal} from '../add-card/View/Components/Modals/AddCardModal/AddCardResultModal'
 
+import CardContainer from './cardContainer'
+import "./addCard.css";
 
-var incircle_purple_large_bttn = require("../../resources/images/Incircle_Level_purple_large_bttn.svg");
+//SVGS
+import addcardselected from "../../resources/images/Add_Card_Selected.svg";
+import successicon from "../../resources/images/Success.svg"
+import warning from '../../resources/images/Warning.svg'
+import backArrowWhite from "../../resources/images/Back_White.svg";
+import productSearchWhite from "../../resources/images/Product_Search_White.svg";
+import proceedToSaleWhite from "../../resources/images/Sale_White_Filled.svg";
+import error from '../../resources/images/Error_Red.svg'
+import incircle_purple_large_bttn from "../../resources/images/Incircle_Level_purple_large_bttn.svg";
 
 class AddCard extends Component {
     constructor(props) {
@@ -67,13 +52,13 @@ class AddCard extends Component {
                 aurusResponse : '',
                 isCardAdded : false,
                 addCardResultModal : false,
+                aurusErrorModal : false,
+                aurusErrorMessage : ''
         };
         this.aurusVars = require("../../resources/aurus/aurusVars")
         this.getCardBinJson = require("../../resources/aurus/GetCardBINRequest.json");
         this.CloseTran = require("../../resources/aurus/CloseTran.json");
         this.bypass =  require("../../resources/aurus/BypassScreen.json");
-        const addCardScuccessMessage = "The card has been added.";
-        const addCardFailMessage = "The card has been added.";
     }
 
     componentDidMount = () => {
@@ -90,62 +75,85 @@ class AddCard extends Component {
 
     componentWillReceiveProps = (nextProps) => {
         console.log("addCard>>>>>>>>nextProps",nextProps);
+       
+        if(nextProps.addCard.isValid){
+
             if(nextProps.addCard.viewCarDetailsResp && nextProps.addCard.viewCarDetailsResp != '' &&  nextProps.addCard.viewCarDetailsResp != undefined && nextProps.addCard.viewCarDetailsResp != this.props.addCard.viewCarDetailsResp ){
                 this.setState({ cardDetails: nextProps.addCard.viewCarDetailsResp.cardList});
                 this.props.startSpinner(false);
+            }
+
+            if(nextProps.addCard.bypassResp && nextProps.addCard.bypassResp != '' && nextProps.addCard.bypassResp != undefined ){
+                this.processBypassResp(nextProps.addCard.bypassResp);
             }
      
             if(nextProps.addCard.getCardBinResp && nextProps.addCard.getCardBinResp != '' && nextProps.addCard.getCardBinResp != undefined && nextProps.addCard.getCardBinResp != this.props.addCard.getCardBinResp){
                 this.processGetCardBinResponse(nextProps.addCard.getCardBinResp);
             }
 
-            if(nextProps.addCard.bypassResp && nextProps.addCard.bypassResp != '' && nextProps.addCard.bypassResp != undefined ){
-                this.processBypassResp(nextProps.addCard.bypassResp);
+            if(nextProps.addCard.cancelSwipeResp && nextProps.addCard.cancelSwipeResp != '' && nextProps.addCard.cancelSwipeResp != undefined && nextProps.addCard.cancelSwipeResp != this.props.addCard.cancelSwipeResp){
+                this.processCancelSwipeResponse(nextProps.addCard.cancelSwipeResp);
             }
             
-            if(nextProps.addCard.closeTransactionResp != "" && nextProps.addCard.closeTransactionResp != "" && nextProps.addCard.closeTransactionResp != this.props.addCard.closeTransactionResp){
-                this.processCloseTransactionResp(nextProps.addCard.closeTransactionResp);
-                
-            }
-
             if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAddCardClientele == true){
                 this.setState({
                     isCardAdded : true,
                     addCardResultModal : true   
                 }); 
-                
-                // () => { 
-                //         var closetxnreq = json2xml(this.CloseTran);
-                //         this.props.submitRequestToAurusInvoker(closetxnreq,"CLOSETRANSACTION");}
-                    
+                this.requestByPass();
             }
 
             if(nextProps.addCard.response != '' && nextProps.addCard.response != undefined && nextProps.addCard.isAddCardClienteleFail == true ){
                 this.setState({
                     isCardAdded : false,
                     addCardResultModal : true
-                } );
-                
-                // () => { 
-                //     var closetxnreq = json2xml(this.CloseTran);
-                //     this.props.aurusActionInvoker(closetxnreq,"CLOSETRANSACTION");}
-               
+                });
+                this.requestByPass();
             }
+        }else{
+            if (nextProps.addCard.error_message != ''){  
+                    this.props.callErrorException( {showException: true,
+                    error:{failedModule:'Add Card',failureReason:'Unexpected Response',failureDescription:'Unable to resolve the response structure'}})
+            }
+        }
+    }
 
-         
+    openAurusErrorModal = (message) =>{
+        this.setState({
+            aurusErrorMessage : message,
+            aurusErrorModal : true
+        })
+    }
+
+    closeAurusErrorModal = () => {
+        this.setState({
+            aurusErrorModal : false
+        })
+      this.requestByPass();
+    }
+
+    processCancelSwipeResponse = (data) =>{
+        clearTimeout(this.timer);
+        try{
+            if (data.ByPassScreenResponse.ResponseCode == "00000"){
+                 this.addCard("Y");
+             }else{
+                this.openAurusErrorModal(data.ByPassScreenResponse.ResponseText);
+                console.log("AddCard: CancelSwipe returned error code ",data.ByPassScreenResponse.ResponseCode)
+             }  
+        }catch(err){
+            console.log("AddCard: processBypassResp Catch block",err)
+        }
     }
 
     processBypassResp = (data) =>{
         console.log("AddCard: processBypassResp response returned",data);
         clearTimeout(this.timer);
-        //data = JSON.parse(data);
         try{
             if (data.ByPassScreenResponse.ResponseCode == "00000") {
-                //  var closetxnreq = json2xml(this.CloseTran);
-                //  this.props.aurusActionInvoker(closetxnreq,"CLOSETRANSACTION");
-                 this.addCard("Y");
-                 this.timer = setTimeout(function(){ console.log("AddCard : CLOSETRANSACTION timeout"); }, 45000);
+                 console.log("AddCard: Bypass Request Completed");
              }else{
+                this.openAurusErrorModal(data.ByPassScreenResponse.ResponseText);
                 console.log("AddCard: processBypassResp returned error code ",data.ByPassScreenResponse.ResponseCode)
              }  
         }catch(err){
@@ -156,7 +164,6 @@ class AddCard extends Component {
     processGetCardBinResponse = (data) => {
         console.log("AddCard: processGetCardBinResponse response returned",data)
         clearTimeout(this.timer);
-        //data = JSON.parse(data);
         try{
             if (data.GetCardBINResponse.ResponseCode == "00000") {
             this.setState({
@@ -168,35 +175,23 @@ class AddCard extends Component {
             }else{
                 this.setState({ 
                     addCardModal : false 
-                },function(){
-                    this.openAddCardResultModal();
-                })
+                },this.openAurusErrorModal(data.GetCardBINResponse.ResponseText))
             }
         }catch(err){
             console.log("AddCard: processGetCardBinResponse catch block",err)
         }   
     }
 
-    processCloseTransactionResp = (data) =>{
-        data = JSON.parse(data);
-        clearTimeout(this.timer);
-        try{
-           if(data.CloseTransactionResponse.ResponseCode == "00000"){
-               this.addCard("Y");
-           }
-           else{
-             console.log("AddCard: processCloseTransactionResp error response",data.CloseTransactionResponse.ResponseCode)
-           }
-        }catch(err){
-            console.log("AddCard: processCloseTransactionResp catch block",err)
-        }
+    requestByPass = () => {
+        var bypassrequest = json2xml(this.bypass);
+        this.props.aurusActionInvoker(bypassrequest,"BYPASS");
     }
 
     cancelSwipeMode = () => {
-            clearTimeout(this.timer);
-            var bypassrequest = json2xml(this.bypass);
-            this.props.aurusActionInvoker(bypassrequest,"BYPASS");
-            this.timer = setTimeout(function(){ console.log("AddCard : cancelSwipeMode timeout"); }, 35000);
+        console.log("sending cancel swipe  request");
+        var bypassrequest = json2xml(this.bypass);
+        this.props.aurusActionInvoker(bypassrequest,"CANCELSWIPE");
+        this.timer = setTimeout(function(){ }, 35000);  
     }
 
     openCardModals = () => {
@@ -217,11 +212,13 @@ class AddCard extends Component {
 
     closeOverlayModal = () => {
         this.setState({addCardModal: false});
+        this.requestByPass();
     }
 
     //entrymode = N for swipe: entrymode= Y for keyin
 
     addCard = (entrymode) => {
+        console.log("AddCard: >>>addCard() entry mode is " + entrymode)
         this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
         this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
         this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
@@ -250,18 +247,16 @@ class AddCard extends Component {
         this.props.addCardDetailsToClienteleActionInvoker(req);
     }
 
-   
     getCardDetails = (client_id) => {
-        
+        console.log("AddCard: >>>>>>>>>>>>getCardDetails() clientId"+ client_id);
         let request = {
             "storeClientNo" : client_id
         }
-
         if(this.state.addCardResultModal == true && this.state.isCardAdded == true){
             this.setState({addCardResultModal : false},
             function(){
-                // this.props.startSpinner(true);
-                this.props.getCardDetailsActionInvoker(request);
+                 this.props.startSpinner(true);
+                 this.props.getCardDetailsActionInvoker(request);
             })
         }
         else if(this.state.addCardResultModal == true && this.state.isCardAdded == false){
@@ -269,24 +264,9 @@ class AddCard extends Component {
         }
         else{
             this.props.getCardDetailsActionInvoker(request);
-        }
-        
+        }     
     }
 
-    // openAddCardResultModal = () => {
-    //     return(
-    //         <div>
-    //              <Overlay/>
-    //              <Modal open = {()=>{}}  little showCloseIcon='false'  classNames={{"modal": "addCard-result-modal-container"}}>                   
-    //                 <AddCardResultDisplay
-    //                     icon = { this.state.isCardAdded ? successicon : warning }
-    //                     message = {this.state.isCardAdded ? "The card has been added." : "The card has not been added."} 
-    //                     getCardDetails = {this.getCardDetails}
-    //                     storeClientNo = {this.state.storeClientNo}
-    //                 />
-    //             </Modal>
-    //         </div>)
-    // }
 
     navigateToCustomerSearch = () => {
         this.props.history.push("/customer-search");
@@ -317,6 +297,7 @@ class AddCard extends Component {
         );
             this.props.history.push('/sale')
     }
+
     render() {
         const maxCardWarningMessage = () => {
             return ((this.state.maxCardWarning === true)
@@ -421,7 +402,7 @@ class AddCard extends Component {
                         cardData={
                             (this.state.cardDetails != "" || this.state.cardDetails !=undefined) ? this.state.cardDetails : '' }
                             openCardModals = {this.openCardModals}
-                            custFname = {(this.props.customerDetails.firstName) != '' && (this.props.customerDetails.firstName) != undefined ? ((this.props.customerDetails.firstName).trim()) : ''}
+                            custFname = {(this.props.customerDetails.firstName).trim() +' '+ (this.props.customerDetails.lastName).trim() }
                         /> 
                         {maxCardWarningMessage()}
                     <Footer/>
@@ -437,8 +418,14 @@ class AddCard extends Component {
                     icon = { this.state.isCardAdded ? successicon : warning }
                     message = {this.state.isCardAdded ? "The card has been added." : "The card has not been added."} 
                     getCardDetails = {this.getCardDetails}
-                    storeClientNo = {this.state.storeClientNo}
+                    storeClientNo = {this.props.customerDetails.clientNumber}
                 ></AddCardResultModal>
+                <AurusErrorModal
+                    aurusErrorModal = {this.state.aurusErrorModal}
+                    message = {this.state.aurusErrorMessage}
+                    closeModal = {this.closeAurusErrorModal}
+                ></AurusErrorModal>
+             
               </div>
           );
     }
@@ -454,11 +441,10 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         aurusActionInvoker : getAurusResponse,
         getCardDetailsActionInvoker : getCardDetails,
-        getStoreClientIdActionInvoker : getStoreClientId,
         addCardDetailsToClienteleActionInvoker : addCardDetailsToClientele,
         startSpinner : startSpinner,
         goToSalesPage: goToSalesPage,
-        submitRequestToAurusInvoker : submitRequestToAurus
+        callErrorException : showException,
       },dispatch);
 }
 

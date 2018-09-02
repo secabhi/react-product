@@ -25,14 +25,17 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
         }
     }
     postVoidTransInvoker = () => {
-        
+        //debugger;
             this.props.PostVoidTransDetls(this.props.login.userpin,this.state.selectedTransactionDetails,this.props.enteredTxnNumber);
     
         
     }
     onChangeTransNumber = (event,value,target) =>{
-        if(value>0)
+        console.log("Valiue in onchage", value)
+        if(!value)
         {
+            this.setState({isDisabled:true});
+        }else{
             this.setState({isDisabled:false});
         }
     }
@@ -84,13 +87,16 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
                         (<div className="textfield-scan-cls">
                             <TextField
                                 required
-                                type="text"
+                                type="number"
                                 floatingLabelText="Transaction #"
                                 floatingLabelStyle={textFieldFloatingLabelStyle}
                                 fullWidth={true}
                                 inputStyle={textFieldInputStyle}
                                 style={textFieldStyle}
                                 onChange={this.onChangeTransNumber}
+                                onInput = {(e) =>{
+                                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,4)
+                                    }}  
                             />
                             <img className="postvoid-scan" src={scan} /></div>) :
 
@@ -103,6 +109,7 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
                                 fullWidth={true}
                                 inputStyle={textFieldInputStyle}
                                 style={textFieldStyle}
+
                             />
                             <img className="postvoid-scan" src={scan} />
                         </div>
@@ -113,7 +120,7 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
 
                     <div className="entertrans-button-area">
                         <button className="entercancelbtn" onClick={this.props.cancelEnterTrans}><img className="reseticonselectrans" src={crossicon} /><label className="cancellabel">CANCEL</label></button>
-                        <button className={this.state.isDisabled?"enterokbtn oklable-disable":"enterokbtn oklablenabled"} disabled={this.state.isDisabled}><label className="oklabel" onClick={this.state.isDisabled?'':this.postVoidTransInvoker}>OK</label></button>
+                        <button className={!this.state.isDisabled?"enterokbtn oklablenabled":"enterokbtn oklable-disable"} disabled={this.state.isDisabled}><label className="oklabel" onClick={this.state.isDisabled?'':this.postVoidTransInvoker}>OK</label></button>
 
 
                     </div>

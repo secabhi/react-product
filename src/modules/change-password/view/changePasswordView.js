@@ -85,7 +85,6 @@ export class ChangePasswordView extends Component {
                     {errorDiv}
                     <span className="closeModalChangePass"><img className="close-icon-change-pass-modal" src={CrossBlack} onClick={this.props.handleHidePass}></img></span>
                     <form className="changePassForm" onSubmit={(e) => {
-                        console.log('PRANAV HANDLESUBMIT CHGPWD VIEW');
                         this.props.handleSubmit(e, this.params)
                         }}>
                         <div><img className="logoChangePassword" src={PasswordExpired} /></div>

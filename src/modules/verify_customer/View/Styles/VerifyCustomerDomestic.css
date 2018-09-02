@@ -4,7 +4,11 @@
     overflow: hidden;
     overflow-x: hidden;
 }
+.sal-ellpse{
+    text-overflow: ellipsis !important;
+    width: 85px !important;
 
+}
 /* --------------- CURRENT ADDRESS ------------------ */
 
 .vercust-dom-container .vercust-current-address-container {

@@ -24,7 +24,7 @@ export default class ReasonsCardNotSwiped extends Component {
         if(this.state.optionSelected === index){
             this.setState({optionSelected: ''});
         }else{
-            this.setState({optionSelected:index});
+            this.setState({optionSelected: item});
         }
     }
 
@@ -55,7 +55,7 @@ export default class ReasonsCardNotSwiped extends Component {
                 <div className="reasonsDidNotSwipe-list-container"> 
                     <ul className="reasonsDidNotSwipe-list">
                         {this.state.optionsFromAPI.map(function(item,index) {
-                            return  <li className="reasonsDidNotSwipe-list-container container-items" style={(this.state.optionSelected === index)?(selectedStyle):(unselectedStyle)} onClick={() =>{this.handleSelection(index, item)}} key={index}>{item}</li>
+                            return  <li className="reasonsDidNotSwipe-list-container container-items" style={(this.state.optionSelected === item)?(selectedStyle):(unselectedStyle)} onClick={() =>{this.handleSelection(index, item)}} key={index}>{item}</li>
                         },this)}
                     </ul>
                 </div>

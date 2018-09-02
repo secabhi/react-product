@@ -63,7 +63,6 @@ export class SaleItemModifyQuantity extends Component {
         }
     }
     render() {
-        console.log('MIKE QTY PROPS', this.props)
         const textFieldFloatingLabelStyle = {
             height: '28px',
             fontFamily: 'Roboto',

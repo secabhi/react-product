@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
-
 
 import { ProductSearchView } from './view/ProductSearchView';
 import ProductSearchList from './view/ProductSearchList';
 import { PORDUCT_SEARCH } from '../../../src/pathConstants';
 import axios from 'axios';
 import { startSpinner } from '../common/loading/spinnerAction';
+import {changeItemPurchasedFlag} from '../customer-details/CustomerDetailsActions';
+
 
 
 // actions import
@@ -44,7 +44,6 @@ class ProductSearch extends Component {
             selectedCategory: "",
             selectedSubCategory: "",
             selectedDetail: "",
-            searchFieldName:'',
             isSearchHit: false,
             //scanProductTab : true,
             scanProductShown: true,
@@ -74,19 +73,13 @@ class ProductSearch extends Component {
         } else {
             this.switchToScanProduct();
         }
+        this.props.changeItemPurchasedFlag(false)
     }
 
 
     componentWillReceiveProps = nextProps => {
 
         console.log("nextProps", nextProps);
-    }
-
-    componentDidCatch(error, info) {
-        // Display fallback UI
-      //  debugger;
-      NotificationManager.error(window.reactError.message, 'Error');
-     
     }
 
 
@@ -230,7 +223,6 @@ class ProductSearch extends Component {
         this.setState({
             searchFields: searchFields
         });
-        this.state.searchword = this.state.searchFields;
     }
 
 
@@ -252,27 +244,32 @@ class ProductSearch extends Component {
 
     handleApiInvoker = () => {
         this.props.startSpinner(true);
-        this.setState({searchFieldName:this.state.searchFields.search_keyword});
-        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, (pimskuId) => {
+        this.props.productSearhActionInvoker(this.state.activeRadioBtn, this.state.searchFields, 
+            (pimskuId) => {
 
             if (pimskuId.failure) {
                 this.setState({ isSearchHit: true });
             }
             else {
-                this.setState({ isSearchHit: false});
+                this.setState({ isSearchHit: false });
             }
             if(!pimskuId.failure && (this.state.activeRadioBtn
                 === 'pimsku_search' || 
                this.state.activeRadioBtn ===
-               'upc_search'))
+               'upc_search')){
+                this.props.history.push("/product-details/"+ this.state.searchFields.search_pimsku);
+
+               }
                
-               this.props.history.push("/product-details/"+pimskuId);
                
 
         });
     }
 
-
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.productDetails != this.props.productDetails){
+        }
+    }
 
 
     onProductClick = (search_pimsku) => {
@@ -284,7 +281,6 @@ class ProductSearch extends Component {
     }
 
     render() {
-        
         //debugger;
         let searchType = this.props.match.params.type;
         return (
@@ -322,11 +318,9 @@ class ProductSearch extends Component {
                     searchType === "search" &&
                     <ProductSearchList
                         isSearchHit={this.state.isSearchHit}
-                        searchFieldName={this.state.searchFieldName}
                         products={this.props.products}
                         onProductClick={this.onProductClick} />
                 }
-                <NotificationContainer/>
             </div>
         );
     }
@@ -335,13 +329,14 @@ class ProductSearch extends Component {
 
 function mapStateToProps(state) {
     console.log("**** Product***",state.productSearch )
-    return { products: state.productSearch };
+    return { products: state.productSearch, productDetails:state.productDetails };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         startSpinner: startSpinner,
-        productSearhActionInvoker: productSearchAction
+        productSearhActionInvoker: productSearchAction,
+        changeItemPurchasedFlag: changeItemPurchasedFlag
     },
         dispatch
     )

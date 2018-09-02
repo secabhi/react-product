@@ -404,10 +404,7 @@ export class SaleItemSplitCommission extends Component {
                             errorText={this.state.spliterror1}
                             maxLength={6}
                             errorStyle={errorsplitStyle}
-                            onKeyDown={(event) => {
-                                event.keyCode === 13 && this.props.onSubmitshowSplitCommissionModal(this.state.userPin1, this.state.userPin2);
-                                }
-                            }
+                            
                         />
                     </div>
                     <div className="splitinputssecond">

@@ -81,7 +81,7 @@ class CustomerEditForm extends Component {
             this.setState({ countryList: nextProps.addCustomer.countryList });
         }
 
-        if (nextProps.addCustomer.addressValidationSuccessFlag === true) {
+        if (nextProps.addCustomer.successModalFlag === true) {
             // alert("yes hello?")
             this.addDomCustomer(true);
             this.setState({ emailModal: false, succesModal: true });

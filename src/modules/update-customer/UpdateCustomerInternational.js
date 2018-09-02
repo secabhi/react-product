@@ -2,32 +2,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ReactTooltip from 'react-tooltip'
-import SelectField from 'material-ui/SelectField';
-import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
-import InputMask from 'react-input-mask';
-import Modal from 'react-responsive-modal';
-import {store} from '../../store/store'
-/* Importing the required images and icons for the files*/
+import {store} from '../../store/store';
 
-
-/* Importing the required local files*/
-
+/* Importing required Actions */
+import { navigateToDomesticCustomer } from '../customer-details/CustomerDetailsActions.js';
 import { getCountryList,fetchSalutation } from './UpdateCustomerInternationalActions';
 import { updateInternationalApi } from './UpdateCustomerInternationalActions';
-import Popup from '../popup/popup';
-import VerifyCustomer from '../verify_customer/View/VerifyCustomerIntView';
-import Header from '../common/header/header';
-import Footer from '../common/footer/footer';
-import { parsePhoneNumber,validZip } from '../common/helpers/helpers'
+import { parsePhoneNumber,validZip } from '../common/helpers/helpers';
 import { startSpinner } from '../common/loading/spinnerAction';
-import Spinner from '../common/loading/spinner';
 
-/* View Components import */
-import UpdateCustomerInternationalView from '../update-customer/View/UpdateCustomerIntView'
-
-import { navigateToDomesticCustomer } from '../customer-details/CustomerDetailsActions.js'
+/* Importing View Components */
+import UpdateCustomerInternationalView from '../update-customer/View/UpdateCustomerIntView';
 
 class UpdateCustomerInternational extends Component {
     constructor(props) {
@@ -47,6 +32,7 @@ class UpdateCustomerInternational extends Component {
             salutation: '',
             currentAddress: {},
             failModal1: false,
+            failedToUpdateModal: false,
             changedAddress: {
                 update_int_salutation: '',
                 update_int_fname: '',
@@ -68,7 +54,7 @@ class UpdateCustomerInternational extends Component {
                 cust_cssId: this.props.customerDetails.cCSNumber,
                     international: this.props.customerDetails.selectedAddress.international,
                     AddressSeque:this.props.customerDetails.selectedAddress.sequenceKey,
-                    cust_dom_salutation: this.props.customerDetails.salutation ? this.toCamelCase(this.props.customerDetails.salutation) : '',
+                    cust_dom_salutation: this.props.customerDetails.salutation ? this.props.customerDetails.salutation : '',
                     cust_dom_fname: this.props.customerDetails.firstName ? this.props.customerDetails.firstName: '',
                     cust_dom_lname: this.props.customerDetails.lastName? this.props.customerDetails.lastName : '',
                     cust_dom_address1: this.props.customerDetails.selectedAddress.Addr1 ? this.props.customerDetails.selectedAddress.Addr1: '',//'9303 Spring Hollow Dr',
@@ -132,7 +118,6 @@ class UpdateCustomerInternational extends Component {
         } */
 
         if(nextProps.updateCustomerInternational.successModalFlag === true) {
-            console.log("11111");
             this.props.startSpinner(false);
             this.setState({
                 emailModal: false
@@ -155,7 +140,6 @@ class UpdateCustomerInternational extends Component {
         }
 
         if (nextProps.updateCustomerInternational.verifyEmailFlag === true && nextProps.updateCustomerInternational.successModalFlag === false) {
-            console.log("33333");
             this.setState({
                 emailModal: false
             });
@@ -171,9 +155,15 @@ class UpdateCustomerInternational extends Component {
             })
         }
 
+        if (nextProps.updateCustomerInternational.notFoundFlag === true && nextProps.updateCustomerInternational.successModalFlag === false) {
+            this.custNotFound();
+        }
+
+        if (nextProps.updateCustomerInternational.updateFailModalFlag === true && nextProps.updateCustomerInternational.successModalFlag === false) {
+            //this.setState({ failedToUpdateModal: true});
+        }
 
         if(nextProps.updateCustomerInternational.errors.length > 0 && nextProps.updateCustomerInternational.successModalFlag === false) {
-            console.log("66666");
             this.setState({
         
                 emailModal: false
@@ -211,6 +201,25 @@ class UpdateCustomerInternational extends Component {
                 
         //     }
     }
+
+    closeFailedToUpdate = () => {
+        this.setState({ failedToUpdateModal: false});
+    }
+
+    custNotFound = () => {
+        this.props.startSpinner(false);
+        this.setState({
+            custNotFoundModal: true
+        });
+    }
+
+    closeNotFoundModal = () => {
+        this.setState({
+            custNotFoundModal: false
+        })
+        this.props.history.push('/customer-details');
+    }
+
     openSuccesModal = () => {
         this.setState({
             emailModal: false
@@ -472,6 +481,7 @@ class UpdateCustomerInternational extends Component {
         UpdatedInteranationalCustomerData.selectedAddress.City = this.state.changedAddress['update_int_city'];
         UpdatedInteranationalCustomerData.selectedAddress.Country = this.state.changedAddress['update_int_country'];
         UpdatedInteranationalCustomerData.selectedAddress.Zip = this.state.changedAddress['update_int_pincode'];
+        UpdatedInteranationalCustomerData.selectedAddress.province = this.state.changedAddress['update_int_province'];
         UpdatedInteranationalCustomerData.lastName = this.state.changedAddress['update_int_lname'];
         UpdatedInteranationalCustomerData.firstName = this.state.changedAddress['update_int_fname'];
         UpdatedInteranationalCustomerData.emailAddress = this.state.changedAddress['update_int_email'];
@@ -548,6 +558,7 @@ class UpdateCustomerInternational extends Component {
            'CLastName': this.state.changedAddress['update_int_lname'],
            'Salutation': this.state.selectedSalutation,
            'Address_Ln1': this.state.changedAddress['update_int_address1'],
+           'Address_Ln2': this.state.changedAddress['update_int_address2'],
            'City': this.state.changedAddress['update_int_city'],
            'Zip5': this.state.changedAddress['update_int_pincode'],
            'CEmail': this.state.changedAddress['update_int_email'],
@@ -620,6 +631,11 @@ class UpdateCustomerInternational extends Component {
             changedAddress = {this.state.changedAddress}
             update_int_country = {this.state.update_int_country}
             bypassEmailValidation={this.bypassEmailValidation}
+            custNotFoundModal={this.state.custNotFoundModal}
+            closeNotFoundModal={this.closeNotFoundModal}
+            failedToUpdateModal={this.state.failedToUpdateModal}
+            closeFailedToUpdate={this.state.closeFailedToUpdate}
+            failedToUpdate={this.failedToUpdate}
                 />
         );
     }

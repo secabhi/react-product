@@ -40,13 +40,10 @@ export default class GiftCardAmount extends Component {
   //   // else {
   //   // CALL AURUS BALANCE ENQUIRY
   //   // }
-  //   console.log('mike-comp-update-prevrpops', prevProps)
-  //   console.log('mike-comp-update-prevstate', prevState)
   // }
 
 
   render() {
-    console.log('-mike-giftcard-amount', this)
     const textFieldFloatingLabelStyle = {
       height: '28px',
       fontFamily: 'Roboto',
@@ -104,21 +101,19 @@ export default class GiftCardAmount extends Component {
   //   currency: 'USD',
   //   minimumFractionDigits: 2,
   // });
-
-  console.log(" cardBalanceinqDetails --> ",this.props.cardBalanceinqDetails);
+  console.log(" cardBalanceinqDetails --> ",this.props.cardBalanceinqDetails)
     return (
-     
       <div className="giftcard-amount-container">
 
         <div className="giftcard-amount-label">
           <div className="giftcard-amount-text">Gift Card Number</div>
           <div className="giftcard-amount-data">{this.props.validCardNumber}</div>
         </div>
-        <div className="giftcard-amount-label">
-          <div className="giftcard-amount-text">Available Gift Card Amount</div>
+
+         <div className="giftcard-amount-label">
+          <div className="giftcard-amount-text">Available Balance</div>
           <div className="giftcard-amount-data">{this.props.cardBalanceinqDetails}</div>
         </div>
-
 
         <TextField className="giftcard-amount-textfield"
           value={this.state.increaseAmount}
@@ -251,15 +246,12 @@ export default class GiftCardAmount extends Component {
         exceedsAmount_modal: true,
       })
     }
-   
 
-    // if ((this.props.cardBalanceinqDetails +amount) >= 2000 ) {
-    //   this.setState({
-    //     exceedsAmount_modal: true,
-    //   })
-    // }
-
-    //  
+    if ((this.props.cardBalanceinqDetails +amount) >= 2000 ) {
+      this.setState({
+        exceedsAmount_modal: true,
+      })
+    }
 
     this.setState({giftcard_amount_error:''})
 
@@ -271,8 +263,6 @@ export default class GiftCardAmount extends Component {
       errors = 'Gift Cards must range between $10 and $2000';
       this.setState({ giftcard_amount_error: errors })
 
-      console.log('mike-fields', fields)
-      console.log('mike-gc-amount', amount)
     }
   }
 
@@ -297,14 +287,11 @@ export default class GiftCardAmount extends Component {
       
       errors = 'Gift Cards must range between $10 and $2000';  
 
-      console.log('mike-fields', fields)
-      console.log('mike-gc-amount', amount)
     }else{
       this.setState({ giftcard_amount_error: '' })
     }
 
       this.props.getIncreaseAmount(amount)
-      console.log('actual-value-----mike', this.state)
 
       // max is between 10-2000
       // if more than 1000 driver license pop up. license must be scanned not inputed

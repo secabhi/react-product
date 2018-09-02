@@ -22,7 +22,7 @@ class CustomerPhoneModal extends Component {
 
     handleTextFieldChange = (e) => {
         if (e.target.value.length < 10 || e.target.value.length > 10) {
-            this.setState({ errorMessage: 'Please enter the correct phone number' })
+            this.setState({ errorMessage: 'Invalid Phone Number' })
         }
         else {
             this.setState({ errorMessage: '' })
@@ -88,7 +88,7 @@ class CustomerPhoneModal extends Component {
         console.log('customer data'+JSON.stringify(this.props.customerData));
         return (
             <div>
-                <form className="" onSubmit={(e) => { (this.state.PhoneNo)?this.props.nextCustModel():null} }>
+                <form className="" onSubmit={(e) => { e.preventDefault(); /*(this.state.PhoneNo)?this.props.nextCustModel():null*/} }>
                     <img src={AccountLookupImg} className='cust-phone-modal-image' />
                     <div className="cust-phone-modal-account-lookup-label">Account Lookup</div>
                     <div className="cust-phone-modal-text-label">
@@ -108,19 +108,19 @@ class CustomerPhoneModal extends Component {
                                     if(this.state.PhoneNo)
                                     {
                                         e.preventDefault();
-                                        this.props.nextCustModel();
+                                        //this.props.nextCustModel();
                                     }                                    
                                 }
                             }}
                         />
                     </div>
-                    {/*<div className="3rd-party">
+                     {/*<div className="3rd-party">
                         <div className="cust-phone-modal-OR-label">OR</div>
                         <div className="cust-phone-modal-third-party-label">
                             <div onClick={() => {this.props.getCardsListInvoker();}} className="cust-phone-modal-third-party-label-inside">3rd PARTY</div>
                         </div>
                         </div>*/}
-                     {this.props.clientNum?
+                    {this.props.clientNum?
                     <div className="3rd-party">
                         <div className="cust-phone-modal-OR-label">OR</div>
                         <div className="cust-phone-modal-third-party-label">

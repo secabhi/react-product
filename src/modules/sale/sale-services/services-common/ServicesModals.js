@@ -144,6 +144,7 @@ export class ContactDetailsModal extends Component {
             }
         }
         this.state.contactDetails = this.props.alterationObject
+        this.phoneNumberPattern = false
     }
 
     getContactName = (e) => {
@@ -396,6 +397,9 @@ export class CustomerDetailsModal extends Component {
 
     getPhoneNumber = (e) => {
         let phone = e.target.value
+        let phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        this.phoneNumberPattern = phone.match(phoneno)
+
         this.setState({
             customerData : {
                 ...this.state.customerData,
@@ -451,12 +455,14 @@ export class CustomerDetailsModal extends Component {
                     style = {textFieldStyle}
                     inputStyle = {textFieldInputStyle}
                     underlineStyle= {underlineStyle}
-                    refs="customer-details-modal" 
+                    refs="customer-details-modal"
                     required
                     >
                     <InputMask 
                         refs="customer-details-modal"
                         mask="(999) 999-9999"
+                        onChange={(e) => {this.getPhoneNumber(e)}}
+                        value={this.state.customerData.phoneNumber}
                     />
                 </TextField>
                 
@@ -465,8 +471,9 @@ export class CustomerDetailsModal extends Component {
                     <div className="customer-modal-button-no" 
                         onClick={this.props.closeModal}>NO
                     </div> 
+                    
 
-                    <div className="customer-modal-button-yes" 
+                    <div className= {this.state.customerData.lastName && this.state.customerData.firstName  && this.phoneNumberPattern? "customer-modal-button-yes" : "customer-modal-button-yes-disabled"}
                         onClick={() => {this.props.changeModal()}}>YES
                     </div>
                 </div>

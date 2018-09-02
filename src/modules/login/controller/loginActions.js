@@ -29,8 +29,7 @@ export function loginRequest(params) {
     };
     const request = callPostWebService(URL, loginRequest);
     const loginResponseObj = require('../../common/responseValidator/responseDictionary').loginResponseObj;
-    var validate = {isValid : false,
-                    message :''}
+    var validate = {isValid : false, message :''}
 
     return (dispatch) => {
         request.then(({ data }) => {

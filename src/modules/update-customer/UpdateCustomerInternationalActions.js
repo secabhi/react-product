@@ -65,6 +65,15 @@ export function updateInternationalApi(updateCustDomData) {
                             break;
                         }
 
+                    case "CS_FAIL":
+                        {
+                            dispatch({
+                                type: 'UPDATE_CUST_DOM_FAIL',
+                                payload: data
+                            });
+                            break;
+                        }
+
                     case "CS_INVALIDEMAIL":
 
                         {
@@ -75,6 +84,17 @@ export function updateInternationalApi(updateCustDomData) {
                             dispatch(startSpinner(false));
                             break;
                         }
+
+                    case "CS_CUSTNOTFOUND":
+                        {
+                            dispatch({
+                                type: 'UPDATE_INT_CUST_NOT_FOUND',
+                                payload: data
+                            });
+                            dispatch(startSpinner(false));
+                            break;
+                        }
+
                     case "CS_GENERALERROR":
 
                         {
@@ -171,11 +191,19 @@ export function updateInternationalApi(updateCustDomData) {
                             })
                         }
 
+                    case "CS_RECORDNOTUPDATED":
+                        {
+                            dispatch({
+                                type: 'UPDATE_CUST_DOM_FAIL',
+                                payload: data
+                            })
+                        }
+
                     default:
                         {
                             console.log("Inside Switch Block: default");
                             dispatch({
-                                type: 'UPDATE_CUST_DOM_DEFAULT',
+                                type: 'UPDATE_CUST_DOM_FAIL',
                                 payload: data
                             });
                             break;

@@ -11,9 +11,9 @@ const INITIAL_STATE = {
 
 
 export function sendReducer (state = INITIAL_STATE, action) {
-    console.log("----------SEND REDUCER-----------");
+    /* console.log("----------SEND REDUCER-----------");
     console.log(action.payload);
-    console.log("----------SEND REDUCER-----------");
+    console.log("----------SEND REDUCER-----------"); */
     
     switch (action.type) {
         case SHIPMENT_OPTIONS_REQUEST:

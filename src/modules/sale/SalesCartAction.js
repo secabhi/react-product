@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
 import apiURLS from '../../resources/stubs/config';
+import { responseValidation } from '../common/responseValidator/responseValidation';
 import { 
     ADD_ITEM_REQUEST, 
     ADD_ITEM_SUCCESS, 
@@ -31,13 +32,15 @@ export function setCurrnetItem(item) {
 } 
 
 export function addItemsRequest(cartInfo) {
+    console.log('***cartInfo',cartInfo)
     const URL = require('../../resources/stubs/config.json').apiAddItemToCart;
     const apiAddItemToCart = path+'apiAddItemToCart.json';
 
     const body = {
-        ...cartInfo,
-        ...clientConfig
-        
+        ...clientConfig,
+        ...cartInfo
+       
+
     }
     var header = {
 		'Content-Type': 'application/json',
@@ -46,11 +49,18 @@ export function addItemsRequest(cartInfo) {
     const sku='';
     console.log('env.ENV_MOD', env.ENV_MODE);
     console.log('BODY', body)
+    const SaleItemResponseObj = require('../common/responseValidator/responseDictionary').saleItemResponseObj;
+    var validated = {
+        isValid: false,
+        message: ''
+    }
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(apiAddItemToCart, {});
     return (dispatch) => {
             request.then(({data}) => {
                 console.log("ACTIONS",data, Date.now());
-                
+                validated = responseValidation(data, SaleItemResponseObj);
+
+            if (validated.isValid) {
                /* switch (data.response_text) {
 
                     case "AC_SUCCESS":
@@ -115,13 +125,29 @@ export function addItemsRequest(cartInfo) {
                 }
 
                 
-            });
+            }
+            else {
+                var errorMessage = validated.message + ' for web service: ' + URL + ' TimeOut Duration:' + require('../../resources/stubs/config.json').timeout + 'ms';
+                dispatch({
+                    type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                    payload: {},
+                    message: errorMessage
+                });
+            }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            // dispatch({
+            //     type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+            //     payload: {},
+            //     message: 'Exception occured during webservice call ' + URL
+            // });
+        }); 
         
         };
    
 }
 
-export function voidLineItemAction(item,transactionId) {
+export function voidLineItemAction(item,transactionId,userpin) {
     console.log('Item in voidLineItemAction: ', item);
     const CONFIG_FILE = require('../../resources/stubs/config.json');
     const voidLineItemURLJson = path+'voidLineItemURL.json';
@@ -139,12 +165,20 @@ export function voidLineItemAction(item,transactionId) {
         "ItemNumber":item.itemNumber,
         "transactionId":transactionId,
         "LineNumber":item.lineNumber,
-        "Quantity":"0"
+        "Quantity":"0",
+        "StoreAssoc":userpin
     };
+    const SaleItemResponseObj = require('../common/responseValidator/responseDictionary').saleItemResponseObj;
+    var validated = {
+        isValid: false,
+        message: ''
+    }
     const request = env.ENV_MODE=='dev1'?callPostWebService(voidLineItemURL, params):callGetWebService(voidLineItemURLJson, {});
     
     return (dispatch) => {
         request.then(({data}) => {
+            validated = responseValidation(data, SaleItemResponseObj);
+            if (validated.isValid) {
             console.log('VOIDITEM data:', data);
             if(data.response_text == "AC_SUCCESS") {
                 dispatch({
@@ -158,129 +192,25 @@ export function voidLineItemAction(item,transactionId) {
                     payload: data
                 });
             }
+        }
+            else {
+                var errorMessage = validated.message + ' for web service: ' + URL + ' TimeOut Duration:' + require('../../resources/stubs/config.json').timeout + 'ms';
+                dispatch({
+                    type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                    payload: {},
+                    message: errorMessage
+                });
+            }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            // dispatch({
+            //     type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+            //     payload: {},
+            //     message: 'Exception occured during webservice call ' + voidLineItemURL
+            // });
         });
     }; 
-}
-
-export function priceActions(modifyprice)
-{
-    const URL = require('../../resources/stubs/config.json').apiUpdateItemToCart;
-    var params = modifyprice;
-    const apiUpdateItemToCart = path+'apiUpdateItemToCart.json';
-
-
-    const request = env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(apiUpdateItemToCart, {});
-    return (dispatch) => {
-        request.then(({
-                data
-            }) => {
-                console.log(data.response_code);
-                switch (data.response_text) {
-
-                    case "AC_SUCCESS":
-                        {
-                            dispatch({
-                                type: 'UPDATE_PRICE_SUCESS',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                    case "AC_GENERALERROR":
-                        {
-                            dispatch({
-                                type: 'MKD_PERCNT_VALUE_GENERALERROR',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                    case "AC_VOIDITEM":
-                        {
-                            dispatch({
-                                type: 'ITEAM_REMOVED',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                    case "AC_MISSINGDETAILS":
-                        {
-                            dispatch({
-                                type: 'iTEAM_OR_STORE_OR_CLIENT_OR_LINE_NUMBER_MISSING',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                    case "AC_INVALIDINPUT":
-                        {
-                            dispatch({
-                                type: 'QUANTITY_NULL_OR_EMPTY',
-                                payload: data
-                            });
-                            break;
-                        }
-                        
-                        case "AC_TRANSFILENOTEXIST":
-                        {
-                            dispatch({
-                                type: 'TRANSCATION_FILE_NOT_EXITS_WEB_CONFIG',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                        case "AC_INVALIDQUANTITY":
-                        {
-                            dispatch({
-                                type: 'QUANTITY_MORETHAN_9999',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                        case "AC_SAMEQUANTITY":
-                        {
-                            dispatch({
-                                type: 'QUANTITY_SAME_NUMBER',
-                                payload: data
-                            });
-                            break;
-                        }
-
-                        case "AC_INVALIDITEM":
-                        {   
-                            dispatch({
-                                type: 'UPDATE_INVALIDITEM',
-                                payload:data
-                                
-                            });
-                            
-                            break;
-                        }
-
-                        case "AC_MAXITEMREACHED":
-                        {   
-                            dispatch({
-                                type: 'UPDATE_PRICE_MAXITEMREACHED',
-                                payload:data
-                                
-                            });
-                            
-                            break;
-                        }
-
-						}
-            })
-			.catch(error => {
-                dispatch({
-                    type: 'PAYMENT_INVALID_EMAIL',
-                    payload: error
-                });
-            });
-    };
-}
+}   
 
 export const applyTransDiscountToCart = (percent, transactionId) => {
     const apiURL = config.apiTransactionDiscount;
@@ -295,28 +225,33 @@ export const applyTransDiscountToCart = (percent, transactionId) => {
     const request = env.ENV_MODE=='dev1'?callPostWebService(apiURL, body):callGetWebService(apiTransactionDiscount, {});
 
     return (dispatch) => {
-        request.then(({data}) => {
-            console.log("ACTIONS-TransDiscount response",data);
-            if(data.response_text == "IM_SUCCESS") {
+        request
+            .then(({data}) => {
+                console.log("ACTIONS-TransDiscount response",data);
+                if(data.response_text == "IM_SUCCESS") {
+                    dispatch({
+                        type: 'TRANS_DISCOUNT_APPLIED',
+                        payload: data
+                    });
+                }
+                else {
+                    dispatch({
+                        type: 'TRANS_DISCOUNT_FAIL',
+                        payload: data
+                    });
+                }
+            })
+            .catch((err) =>{
                 dispatch({
-                    type: 'TRANS_DISCOUNT_APPLIED',
-                    payload: data
-                });
-            }
-            else {
-                dispatch({
-                    type: 'TRANS_DISCOUNT_FAIL',
-                    payload: data
-                });
-            }
-            
-        });
+                    type: 'NETWORK_ERROR_TRANSDISCOUNT'
+                })
+            })
     };
 }
 
 export const applyAssociateDiscountToCart = (discountPin, discountId, transactionId, userPin) => {
     const apiURL = config.apiAssociateDiscount;
-    
+    const SaleAssociateDiscountResponseObj = require('../common/responseValidator/responseDictionary').saleAssociateDiscountResponseObj;
     const apiAssociateDiscountURL = path+'apiAssociateDiscount.json';
     const body= {
         ...clientConfig,
@@ -326,9 +261,14 @@ export const applyAssociateDiscountToCart = (discountPin, discountId, transactio
         "AssociateDiscountID": discountId
     }
     const request = env.ENV_MODE=='dev1'?callPostWebService(apiURL, body):callGetWebService(apiAssociateDiscountURL, {});
-
+    var validated = {
+        isValid: false,
+        message: ''
+    }
     return (dispatch) => {
         request.then(({data}) => {
+            validated = responseValidation(data, SaleAssociateDiscountResponseObj);
+            if (validated.isValid) {
             console.log("ACTIONS-AssociateDiscount response",data);
             if(data.response_text == "IM_SUCCESS") {
                 dispatch({
@@ -342,9 +282,27 @@ export const applyAssociateDiscountToCart = (discountPin, discountId, transactio
                     payload: data
                 });
             }
+            else if(data.response_text == "IM_INVALIDASSOCIATEID"){
+                dispatch({
+                    type: 'IM_INVALIDASSOCIATEID',
+                    payload: data
+                });
+            }
             else if(data.response_text == "IM_RINGINGASSOCIATE"){
                 dispatch({
                     type: 'IM_RINGINGASSOCIATE',
+                    payload: data
+                });
+            }
+            else if(data.response_text == "IM_ASSOCIATETERMINATED"){
+                dispatch({
+                    type: 'IM_ASSOCIATETERMINATED',
+                    payload: data
+                });
+            }
+            else if(data.response_text == "IM_ASSOCIATENOTELIGIBLE"){
+                dispatch({
+                    type: 'IM_ASSOCIATENOTELIGIBLE',
                     payload: data
                 });
             }
@@ -360,7 +318,23 @@ export const applyAssociateDiscountToCart = (discountPin, discountId, transactio
                     payload: data
                 });
             }
-        });
+        }
+        else {
+            var errorMessage = validated.message + ' for web service: ' + URL + ' TimeOut Duration:' + require('../../resources/stubs/config.json').timeout + 'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {},
+                message: errorMessage
+            });
+        }
+    }).catch((err) => {
+        console.log(`Error: ${err}`);
+        // dispatch({
+        //     type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+        //     payload: {},
+        //     message: 'Exception occured during webservice call ' + voidLineItemURL
+        // });
+    });
     };
 }
 
@@ -382,11 +356,20 @@ export function presaleInitialRender(data) {
         });
     };
 }
-
+/*Fix MPOS-2177 - starts*/
+export function presaleRetainYes(data) {
+    return (dispatch) => {
+        dispatch({
+            type: 'PRESALE_RETAIN_YES',
+            payload:data
+        });
+    };
+}
+/*Fix MPOS-2177 - Ends*/
 export function getPromotionsAction(transactionId,item) {
     const apiURL = config.getPromoPriceURL;
     const getPromoPriceURL =path+'getPromoPriceURL.json';
-
+    const SalePromPriceResponseObj = require('../common/responseValidator/responseDictionary').salePromPriceResponseObj;
     console.log('selectedItem : ', item);
     var apiCallDateTime = moment(new Date(),'YYYY-MM-DD').format('YYYY/MM/DD') + " " + moment(Date.now()).local().format('hh:mm:ss');
     /* const body= {
@@ -423,10 +406,15 @@ export function getPromotionsAction(transactionId,item) {
             //}
         //]
     }
+    var validated = {isValid : false,
+        message :''}
     const request = env.ENV_MODE=='dev1'?callPostWebService(apiURL, body):callGetWebService(getPromoPriceURL, {});
  
         return (dispatch) => {
             request.then(({data}) => {
+                validated = responseValidation(data,SalePromPriceResponseObj);
+                  
+            if(validated.isValid){
                 console.log("getPromotionsAction response",data);
                 if(data.response_Code == "PR_SUCCESS") {
                     dispatch({
@@ -440,6 +428,22 @@ export function getPromotionsAction(transactionId,item) {
                         payload: data
                     });
                 }
+            }
+            else{
+                var errorMessage = validated.message + ' for web service: '+apiURL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+                dispatch({
+                    type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                    payload: {  },
+                    message : errorMessage
+                });
+            }
+            }).catch((err) => {
+                console.log(`Error: ${err}`);
+                // dispatch({
+                //     type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                //     payload: {  },
+                //     message : 'Exception occured during webservice call '+apiURL
+                // });
             });
         };
    
@@ -478,10 +482,17 @@ export function modifyPriceAction(transactionId,item,modifyValue,managerPin,call
     else if(calledFrom === "Price : Omni Mkd New Price") {
         body.OmniNewPriceValue = modifyValue;
     }
+    const SaleItemResponseObj = require('../common/responseValidator/responseDictionary').saleItemResponseObj;
+    var validated = {
+        isValid: false,
+        message: ''
+    }
     const request = env.ENV_MODE=='dev1'?callPostWebService(apiURL, body):callGetWebService(updatePriceURL, {});
 
     return (dispatch) => {
         request.then(({data}) => {
+            validated = responseValidation(data,SaleItemResponseObj);
+            if(validated.isValid){
             console.log("modifyPriceAction response",data);
             if(data.response_text == "AC_SUCCESS") {
                 dispatch({
@@ -495,24 +506,47 @@ export function modifyPriceAction(transactionId,item,modifyValue,managerPin,call
                     payload: data
                 });
             }
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+apiURL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            // dispatch({
+            //     type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+            //     payload: {  },
+            //     message : 'Exception occured during webservice call '+ apiURL
+            // });
         });
     };
 }
 
-export function modifyTaxAuthAction(transactionId,modifyValue) {
+export function modifyTaxAuthAction(transactionId,modifyValue,userpin) {
     const apiURL = config.updateTaxAuthURL;
 
     const body= {
         ...clientConfig,
         //"ClientTypeID":"1000",
         "transactionId": transactionId,
-        "AuthCode":modifyValue
+        "AuthCode":modifyValue,
+        "StoreAssoc":userpin
+    }
+    const SaleItemTaxResponseObj = require('../common/responseValidator/responseDictionary').saleItemTaxResponseObj;
+    var validated = {
+        isValid: false,
+        message: ''
     }
     const request = callPostWebService(apiURL, body)
 
     return (dispatch) => {
         request.then(({data}) => {
-            
+            validated = responseValidation(data,SaleItemTaxResponseObj);
+            if(validated.isValid){
             if(data.response_text == "AC_SUCCESS") {
                 dispatch({
                     type: 'TAX_AUTH_SUCCESS',
@@ -525,11 +559,27 @@ export function modifyTaxAuthAction(transactionId,modifyValue) {
                     payload: data
                 });
             }
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+apiURL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ apiURL
+            });
         });
     };
 }
 
-export function modifyTaxAction(transactionId,item,modifyValue) {
+export function modifyTaxAction(transactionId,item,modifyValue,userpin) {
     const apiURL = config.updateTaxURL;
     const body= {
         ...clientConfig,
@@ -538,14 +588,21 @@ export function modifyTaxAction(transactionId,item,modifyValue) {
         "LineNumber":item.lineNumber,
         "TaxOverrideOption":"3",
         "TaxOverrideValue":item.itemTax?"0":"1",
-        "AuthCode":modifyValue
+        "AuthCode":modifyValue,
+        "StoreAssoc":userpin
         
+    }
+    const SaleItemResponseObj = require('../common/responseValidator/responseDictionary').saleItemResponseObj;
+    var validated = {
+        isValid: false,
+        message: ''
     }
     const request = callPostWebService(apiURL, body)
 
     return (dispatch) => {
         request.then(({data}) => {
-            
+            validated = responseValidation(data,SaleItemResponseObj);
+            if(validated.isValid){
             if(data.response_text == "IM_SUCCESS") {
                 dispatch({
                     type: 'TAX_MODIFY_UPDATE_SUCCESS',
@@ -558,6 +615,22 @@ export function modifyTaxAction(transactionId,item,modifyValue) {
                     payload: data
                 });
             }
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+apiURL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ apiURL
+            });
         });
     };
 }
@@ -583,29 +656,91 @@ export function getDefaultSKU(obj) {
         ...clientConfig
     }
     const sku='';
+    const SaleDefaultSKUResponseObj = require('../common/responseValidator/responseDictionary').saleDefaultSKUResponseObj;
+    var validated = {
+        isValid: false,
+        message: ''
+    }
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(getDefaultSKU, {});
         return (dispatch) => {
             request.then(({data}) => {
                 console.log("ACTIONS",data, Date.now());
-
+                validated = responseValidation(data,SaleDefaultSKUResponseObj);
+            if(validated.isValid){
                 if(data.response_text == "IM_SUCCESS") {
                     dispatch({
                         type: DEFAULT_SKU,
                         payload: data
                     });
                 }
-                else {
+                else if(data.response_text == "IM_ITEMNOTFOUND") {
+                    dispatch({
+                        type: 'IM_ITEMNOTFOUND',
+                        payload: data
+                    });
+                }
+                else if(data.response_text == "IM_SKUNOTFOUND") {
                     dispatch({
                         type: 'IM_SKUNOTFOUND',
                         payload: data
                     });
                 }
-
-                
+                else
+                {
+                    dispatch({
+                        type: 'IM_INVALIDREQUEST',
+                        payload: data
+                    });
+                    
+                }
+            }
+            else{
+                var errorMessage = validated.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+                dispatch({
+                    type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                    payload: {  },
+                    message : errorMessage
+                });
+            }
+            }).catch((err) => {
+                console.log(`Error: ${err}`);
+                dispatch({
+                    type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                    payload: {  },
+                    message : 'Exception occured during webservice call '+ URL
+                });
             });
         
         };
    
+}
+
+
+export function clearDefaultSku(){
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_DEFAULT_SKU',
+            payload: {}
+        });
+};
+}
+export function clearDataFrom(){
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_DATA_FROM',
+            payload: {}
+        });
+};
+}
+
+
+export function clearInvalidSkuId(){
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_INVALID_SKU-ID',
+            payload: {}
+        });
+};
 }
 
 export function validateManagerPinAction(managerPin,checkLoggedInUserFlag) {
@@ -617,9 +752,14 @@ export function validateManagerPinAction(managerPin,checkLoggedInUserFlag) {
         "AssocID" : managerPin.toString()
     }
     const sku='';
+    const SaleManagerPinResponseObj = require('../common/responseValidator/responseDictionary').saleManagerPinResponseObj;
+    var validated = {isValid : false,
+        message :''}
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, body):callGetWebService(validateManagerPin, {});
     return (dispatch) => {
         request.then(({data}) => {
+            validated = responseValidation(data,SaleManagerPinResponseObj);
+            if(validated.isValid){
             if(checkLoggedInUserFlag === true) {
                 dispatch({
                     type: 'LOGGED_IN_PIN_VALIDATE_RESPONSE',
@@ -632,6 +772,22 @@ export function validateManagerPinAction(managerPin,checkLoggedInUserFlag) {
                     payload: data
                 });
             }           
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ URL
+            });
         });
     
     };

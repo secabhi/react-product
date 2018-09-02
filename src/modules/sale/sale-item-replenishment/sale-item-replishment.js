@@ -38,9 +38,7 @@ export class SaleItemReplenishment extends Component {
         this.props.getReplenishData();
         
     }
-    componentDidMount(){
-        document.getElementsByClassName('okbtn')[0].style.opacity="0.4";
-    }
+    
 
     handleqtyChange = (event,index,value) => {
         var value =event.target.value;
@@ -209,7 +207,7 @@ export class SaleItemReplenishment extends Component {
                         }}>CANCEL</div>
                         </button>
                         <div className="oktxt"  onClick={this.updateReplenish.bind(this)}>
-                        <button id="okbtn" className="okbtn" disabled><span id="ok">OK</span></button>
+                        <button id="okbtn" className="okbtn"><span id="ok">OK</span></button>
                         </div>
                         </div>
                         </div>

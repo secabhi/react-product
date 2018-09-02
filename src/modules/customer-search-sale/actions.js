@@ -64,6 +64,14 @@ export function getCustomers(query, associatePin) {
                     });
                     break;
                 }
+                case "CS_GENERALERROR":{
+                    console.log("Inside Switch Block: custnotfound",data.response_text);
+                    dispatch({
+                        type: "CUSTOMSEARCH_REQUEST_VALIDFAILED",
+                        payload: data.data
+                    });
+                    break;
+                }
 
                 default:
                 {

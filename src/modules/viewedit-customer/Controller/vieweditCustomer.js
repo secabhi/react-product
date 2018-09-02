@@ -59,6 +59,7 @@ class ViewEditCustomer extends Component {
             userType: '',
             selectedSalutation: "",
             errors: {},
+            updateFailed:false,
             salutationDataDrop: [],
             zipOverride: false,
             cityModal: false,
@@ -191,6 +192,10 @@ class ViewEditCustomer extends Component {
             var circleData = nextProps.incircleData.data;
             var currentLvl = (circleData.lyBenefitLevelCode > circleData.tyBenefitlevelCode) ? circleData.lyBenefitLevelCode : circleData.tyBenefitlevelCode;
 	        this.setState({ currentLvl: currentLvl, pointsToNextLvl: circleData.pointsAwayToNextPointCard });
+        }
+
+        if(nextProps.viewEditCustomer.errorModal === true && nextProps.viewEditCustomer.successModalFlag === false){
+            this.updateFailedModalToggle();
         }
 
         if (nextProps.cityStateData !== undefined && nextProps.cityStateData !== null) {
@@ -381,6 +386,15 @@ class ViewEditCustomer extends Component {
             this.setState({ errors: errors });
         }
         this.setState({ fields: fields, errors: errors, changedAddress :changedAddress });
+    }
+
+    updateFailedModalToggle = () =>{
+        console.log("yes hello")
+        if(this.state.updateFailed == true){
+            this.setState({updateFailed:false})
+        }else{
+            this.setState({updateFailed:true})
+        }
     }
 
     /* Country change - International */
@@ -741,7 +755,8 @@ class ViewEditCustomer extends Component {
             "COtherPhone": this.state.changedAddress['cust_dom_mobile'] ? this.state.changedAddress['cust_dom_mobile'].replace(/[^A-Z0-9]+/ig, "") : "",
             "Address_Ln1": this.state.changedAddress['cust_dom_address1'],
             "City": this.state.changedAddress['cust_dom_city'],
-            "Zip5": this.state.changedAddress['cust_dom_zip'],
+            "Zip5": this.state.changedAddress['cust_dom_zip'].length ==9 ? this.state.changedAddress['cust_dom_zip'].substr(0,5) : this.state.changedAddress['cust_dom_zip'],
+            'Zip4':this.state.changedAddress['cust_dom_zip'].length ==9 ? this.state.changedAddress['cust_dom_zip'].substr(5) :'',
             "CCssNo": this.state.changedAddress['cust_cssId'],
             "StoreClientNo": (this.props.customerDetails.clientNumber) ? this.props.customerDetails.clientNumber : "",
             "flagByPASS": true,
@@ -813,6 +828,8 @@ class ViewEditCustomer extends Component {
                 populateCity={this.populateCity}
                 closeZipOverideModal={this.closeZipOverideModal}
                 bypassEmailValidation={this.bypassEmailValidation}
+                updateFailedModalToggle={this.updateFailedModalToggle}
+                updateFailed={this.state.updateFailed}
             />
         );
     }

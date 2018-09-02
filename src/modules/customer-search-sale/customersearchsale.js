@@ -17,6 +17,7 @@ import { goToSalesPage } from '../sale/SaleAction.js';
 import { GetIsellCart, GetIsellCartScanner } from './get-isell-cart/getIsellCart';
 import { getIsellCartUpdateAction,getIsellflow } from './get-isell-cart/getIsellCartUpdateAction';
 import { custIncircleInfoRequest,sendCustomerDetailsToAddCustomerAction } from './actions.js';
+import {itemSelectedAction} from '../common/cartRenderer/actions';
 
 import {showException} from '../common/exceptionErrorModal/exceptionAction';
 
@@ -56,7 +57,8 @@ class CustomerSearch extends Component {
         customerFirstName: "",
         customerLastName: ""
       },
-      getIsellflow:false
+      getIsellflow:false,
+      isCartActive: false
     }
 
     this.initialCsrTest = {
@@ -159,6 +161,20 @@ class CustomerSearch extends Component {
     }
   }
 
+//To check if cart is there and if the cart length is >=1 then we are using this flag isCartActive to disable the 
+// ISELLCART Label
+
+  checkCartLength = () =>{
+
+    if(this.props.cart && this.props.cart.data){
+      if(this.props.cart.data.cartItems && this.props.cart.data.cartItems.items.length >=1){
+        this.setState({isCartActive: true});
+      }
+    }
+    else
+    this.setState({isCartActive: false});
+  }
+
   render() {
     console.log("SHIV SEARCHRESULTS:", this.state.searchResult.length)
 
@@ -194,6 +210,9 @@ class CustomerSearch extends Component {
       width: (window.innerWidth > 1900) ? '100%' : '835px'
     }
 
+     
+   
+
     return (
       <div className='customer-search-container'>
         <Header className="header-customer-search-lff" history={this.props.history}></Header>
@@ -202,9 +221,9 @@ class CustomerSearch extends Component {
             <span className='customersearch-subheader-label'>Customer Search</span>
           </div>
           <div className='customersearch-subheader-icons-container'>
-            <div className="customersearch-subheader-icon-container-frst-part" onClick={() => this.openIsellcartScanner()}>
+            <div className= { this.state.isCartActive ? "customersearch-subheader-icon-container-frst-part-disabled" : "customersearch-subheader-icon-container-frst-part"} onClick={() => this.openIsellcartScanner()}>
               <div><img src={isellcart} className='customersearch-subheader-icon isellcart-icon'></img></div>
-              <div className="isellcart-label-lff">ISELL CART</div>
+              <div className= "isellcart-label-lff">ISELL CART</div>
             </div>
             <div className="customersearch-subheader-icon-container-second-part" onClick={this.navigateToAddCustomer.bind(this)}>
               <div><img src={addcustomer} className='customersearch-subheader-icon add-customer-icon button-disabler'></img></div>
@@ -229,7 +248,9 @@ class CustomerSearch extends Component {
                   (this.props.customerSearch.buttonId == '1') ? <div className="skip-to-sale-sff" onClick={this.navigateToSale.bind(this)}>SKIP TO SALE</div> : ''
                 ) : (null)
             }
-            <div className="no-of-search-result-lff">Search Results for "{this.state.searchItem}"</div>
+            { <div className="no-of-search-result-lff"></div>}
+
+            {/* <div className="no-of-search-result-lff">Search Results for "{this.state.searchItem}"</div> */}
             <div className="count-of-customers-lff">{this.state.searchResult.length} Customers found</div>
           </div>
           <div className='customer-search-input-area-row2'>
@@ -368,7 +389,7 @@ class CustomerSearch extends Component {
           <Modal open={this.state.getisellcart_errorModal} little classNames={{ modal: 'sale-errorModal' }} >
             <div className='sale-errorModal-container'>
               <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
-              <div className="sale-errorModal-text">Invalid Request</div>
+              <div className="sale-errorModal-text">Cart Not found</div>
               <button className="sale-errorModal-button" onClick={() => { this.setState({ getisellcart_errorModal: false }) }}>
                 <div className="sale-errorModal-button-text">CLOSE</div>
               </button>
@@ -417,9 +438,9 @@ class CustomerSearch extends Component {
   componentDidMount() {
     // ReactDOM.findDOMNode(this).scrollTop = 0
     // ReactDOM.findDOMNode(this).scrollIntoView();
+    console.log('SHIV customer searc props', this.props);
 
-    (this.state.searchItem === '') ? (document.getElementsByClassName('customer-search-button-sff')[0].disabled) : ('');
-    console.log('customer searc props', this.props)
+    this.state.searchItem === ''? (document.getElementsByClassName('customer-search-button-sff')[0].disabled) : ('');
     if (this.props.customerSearch.data.cusomerList != undefined) {
       if (this.props.customerSearch.data.cusomerList.length > 0) {
         const list = this.props.customerSearch.data.cusomerList;
@@ -438,6 +459,8 @@ class CustomerSearch extends Component {
         customerLastName: ""
       }
     });
+
+    this.checkCartLength();
   }
 
   // method to control accordion
@@ -647,9 +670,9 @@ class CustomerSearch extends Component {
 
 
   navigateToSale = () => {
-
     this.props.goToSalesPage(true, null);
     this.props.setClienteled(false);
+    this.props.itemSelectedAction('');
     this.props.history.push('/sale');
 
   }
@@ -784,7 +807,7 @@ class CustomerSearch extends Component {
             }
             <div className='customer-search-result-panel-content'>
               <div className='customer-search-result-panel-content-clickable' onClick={() => this.navigateToViewEditCustomer(customer, customer.addresses[customerKeys[0]], customerKeys[0])}>
-                <div className='customer-search-result-panel-custname' >{customer.firstName},&nbsp;{customer.lastName}&nbsp;{customer.salutation}</div>
+                <div className={(customer.myClient === "Y") ?'customer-search-result-panel-custname-remove':'customer-search-result-panel-custname'} >{customer.lastName},&nbsp;{customer.firstName}&nbsp;{customer.salutation}</div>
                 <div className="customer-search-result-panel-phone" ><InputMask className="customer-search-result-phone" style={{ borderBottom: 'none' + '' }} mask="(999) 999-9999" maskChar="" value={customer.addresses[customerKeys[0]].phoneNumbers[0].phoneNumber} disabled /></div>
                 <div className="customer-search-result-panel-email" ><div className="customer-search-result-panel-email-inner email-ellipse">{customer.emailAddress}</div></div>
                 <div className="customer-search-result-panel-address" >
@@ -854,8 +877,8 @@ class CustomerSearch extends Component {
   }
 } //end of class
 
-function mapStateToProps({ customerSearch, login}) {
-  return { customerSearch, login }
+function mapStateToProps({ customerSearch, login, cart}) {
+  return { customerSearch, login, cart }
 }
 
 function mapDispatchToProps(dispatch) {
@@ -874,7 +897,8 @@ function mapDispatchToProps(dispatch) {
       setSearchItem: setSearchItemAction,
       getIsellflowInvoker:getIsellflow,
       callErrorException : showException,
-      sendCustomerDetailsToAddCustomerActionInvoker:sendCustomerDetailsToAddCustomerAction
+      sendCustomerDetailsToAddCustomerActionInvoker:sendCustomerDetailsToAddCustomerAction,
+      itemSelectedAction : itemSelectedAction
     }, dispatch)
 }
 

@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
-import { postVoidFinalTransaction } from '../post-void/postVoidAction';
 import { productImgSearchAction } from '../product-search/ProductSearchAction';
 
 // Components
@@ -16,6 +15,7 @@ import {store} from '../../store/store';
 import Footer from '../common/footer/footer'
 import { HeaderView } from '../common/header/View/HeaderView';
 import postVoidCall from '../payment/Orders/void';
+import {xml2json} from '../common/helpers/helpers'
 
 // Styles
 import './postVoid.css';
@@ -52,6 +52,9 @@ class PostVoidDetails extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.postvoid.error) {
+            throw new Error('POST VOID error: '+ nextProps.postvoid.error);
+        }
         if (nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
             //this.props.startSpinner(true);
             this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
@@ -69,17 +72,15 @@ class PostVoidDetails extends Component {
         }
     }
 
-    completePostVoid() {
+   async completePostVoid(){
         const total = this.props.postvoid.selectedTransaction.total;
         const aurusTicket = this.props.postvoid.selectedTransaction.tender_List_Info.tenders[0].chrg.aurus_whizticketnum;
-        console.log('Sweezey CompletePostVoid',total,aurusTicket);
-        const response = postVoidCall(total, aurusTicket,this.postVoidResponse);
-       
+        const jsonResponse = await postVoidCall(total, aurusTicket);
+        //waiting...
+        console.log('POST VOID RESPONSE ', jsonResponse);
     }
 
-    postVoidResponse(data){
-        console.log('PostVoidDetails postVoidResponse', data)
-    }
+   
 
  
     render() {
@@ -133,21 +134,15 @@ class PostVoidDetails extends Component {
         )
     }
 
-    postVoidInvoker = () => {
-        this.props.PostVoidCallInvoker(this.props.login.userpin);
-    }
-
 }// end of class
 
 
 function mapStateToProps(state) {
-
     return { cart: state.cart, login: state.login, postvoid: state.postvoid };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        PostVoidCallInvoker: postVoidFinalTransaction,
         startSpinner: startSpinner, productImgSearchAction
     }, dispatch);
 }

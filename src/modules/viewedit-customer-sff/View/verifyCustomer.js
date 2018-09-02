@@ -90,7 +90,7 @@ export default class VerifyCustomerSale extends React.Component{
                             <div className="fields">
                                 <div className="sale-verify-field1 salutation-verify-field">
                                     <div className="field-title">Sal...</div>
-                                    <div className={this.props.currentAddress.cust_dom_salutation!==this.props.selectedSalutation?"field-value changed-field":"field-value"}>{this.props.selectedSalutation}</div>
+                                    <div className={this.props.currentAddress.cust_dom_salutation!==this.props.selectedSalutation?"field-value changed-field sal-ellpse":"field-value sal-ellpse"}>{this.props.selectedSalutation}</div>
                                 </div>
                                 <div className="sale-verify-field2 frist-name-verify-field">
                                     <div className="field-title">First Name</div>

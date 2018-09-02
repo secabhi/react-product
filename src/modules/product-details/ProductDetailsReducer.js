@@ -1,10 +1,8 @@
-import { PRODUCT_SEARCH_PIMSKU_SUCCESS } from '../common/constants/type';
-import { PRODUCT_SEARCH_PIMSKU_FAIL } from '../common/constants/type';
+import { PRODUCT_SEARCH_UPC_SUCCESS, PRODUCT_SEARCH_UPC_FAIL, PRODUCT_SEARCH_PIMSKU_FAIL, PRODUCT_SEARCH_PIMSKU_SUCCESS, GET_PRICE_SUCCESS } from '../common/constants/type';
 
-import { PRODUCT_SEARCH_UPC_SUCCESS } from '../common/constants/type';
-import { PRODUCT_SEARCH_UPC_FAIL } from '../common/constants/type';
 
 const initialState = {
+   
 };
 
 export function ProductDetailsReducer(state = initialState, action) {
@@ -28,6 +26,13 @@ export function ProductDetailsReducer(state = initialState, action) {
       return {
         [action.payload.pimskuId]: action.payload
       };
+
+    case GET_PRICE_SUCCESS:
+    let prod = state[action.payload.sKUID];
+
+    return {
+        [action.payload.sKUID]:{...prod, ...action.payload}
+    };
 
     default:
       return state;

@@ -1,6 +1,7 @@
 /* Dependencies import */
 import React, {Component} from 'react';
 import Input from 'material-ui/TextField';
+import CancelIcon from '../../../../resources/images/Cross_Green.png'
 
 //Images
 
@@ -78,7 +79,7 @@ export class PaymentCard extends Component {
                     <span className="type-Number">
                         <span className="payment-cardNumber">
                             {this.props.card?this.props.card.CardType+" "+ this.props.card.CardToken:
-                             <span className="payment-asterisk">XXXXXXXXXXXXXXXX</span>
+                             <span className="payment-asterisk">XXX 000000XXXXXX0000</span>
                             }
                         </span>
                     </span>
@@ -90,6 +91,7 @@ export class PaymentCard extends Component {
                             .getAmountDue
                             .bind(this, this.props.index)}
                         >
+                        <span class="currencyinput">$</span>
                         <Input
                             className="inputAmount"
                             autoFocus
@@ -103,6 +105,8 @@ export class PaymentCard extends Component {
                             defaultValue={this.props.props.amountDue}
                             name="input"/>
                         <button className="acceptAmountbttn" type="submit">ACCEPT AMOUNT</button>
+                        <button className="cancelAmountbttn" onClick={this.props.props.cancelPay.bind(this, this.props.index)} ><img className="cancelIcon" src={CancelIcon}/>CANCEL</button>
+
                     </form>
                     <span className={this.props.props.paidValues[this.props.index]?"amountLabel":"amountLabel hide"}>Amount Paid ${this.props.props.paidValues[this.props.index]}</span>
                 </div>}

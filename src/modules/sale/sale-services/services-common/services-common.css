@@ -165,8 +165,27 @@
   box-shadow: 0 -4px 6px 0 #d3d3d3;
   border: solid 2px #4b2b6f;
   margin-left: 40px; 
+  color:#fff;
+  pointer-events:none;
 }
 
+/* Newly added giftwrap button css  */
+.giftwrap-message-ok-btn:disabled {
+    border: 2px solid #a491b9;
+    background-color: #a491b9;
+    color: #fff;
+    font-size:23px;
+}
+
+.giftwrap-message-ok-btn {
+  width: 155px;
+  color: #fff;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px; 
+  font-size:23px;
+}
+/* Ended */
 .calendar-img {
   width: 60px;
   height: 55px;
@@ -360,6 +379,21 @@
   input[type="date"]:focus::-webkit-calendar-picker-indicator {
     -webkit-appearance: none !important;
      display: none !important;
+}
+
+.customer-modal-button-yes-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  height: 60px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 155px;
+  color: #fff;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px;
 }
 
 /* ----------SMALL FORM FACTOR---------- */

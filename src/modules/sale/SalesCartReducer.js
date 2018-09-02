@@ -41,7 +41,9 @@ const initialState = {
         "isValidPIN" : false,
         "isManagerPIN" : false,
         "isAssociatePIN" : false
-    }
+    },
+    error_message:'',
+    isValid : false
 }
 const menuData = {}
 const itemsData = {
@@ -67,7 +69,9 @@ export function SalesCartReducer(state = initialState, action) {
             }
             return {
                 ...state,
-                data:action.payload
+                data:action.payload,
+                error_message:'',
+                isValid : true
             };
         }
 
@@ -84,7 +88,9 @@ export function SalesCartReducer(state = initialState, action) {
             }
             return {
                 ...state,
-                data:action.payload
+                data:action.payload,
+                error_message:'',
+                isValid : true
             };
         }
 
@@ -101,7 +107,9 @@ export function SalesCartReducer(state = initialState, action) {
             }
             return {
                 ...state,
-                data:action.payload
+                data:action.payload,
+                error_message:'',
+                isValid : true
             };
         }
 
@@ -111,7 +119,9 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 getISellData: action.payload,
-                getISellDataFrom: 'GET_ISELL_CART_REQUEST_SUCCESS'
+                getISellDataFrom: 'GET_ISELL_CART_REQUEST_SUCCESS',
+                error_message:'',
+                isValid : true
             };
         }
 
@@ -130,6 +140,8 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 data: action.payload,
+                error_message:'',
+                isValid : true
             };
 
         case TD_DISCOUNTEXCEEDS:
@@ -140,7 +152,9 @@ export function SalesCartReducer(state = initialState, action) {
         return {
             ...state,
             dataFrom: 'DISCOUNT_EXCEEDS',
-            sku:action.sku
+            sku:action.sku,
+            error_message:'',
+            isValid : true
 
         }
 
@@ -160,6 +174,8 @@ export function SalesCartReducer(state = initialState, action) {
 
         case ADD_ITEM_SUCCESS:
             return {
+                error_message:'',
+                isValid : true
                 //  output
             };
 
@@ -168,7 +184,9 @@ export function SalesCartReducer(state = initialState, action) {
             return{
                 ...state,
                 // data: action.payload,
-                dataFrom: 'GP_PRICENOTFOUND'
+                dataFrom: 'GP_PRICENOTFOUND',
+                error_message:'',
+                isValid : true
             };
 
             case 'ADD_ITEM_FAILURE':
@@ -176,20 +194,24 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: '',
                 dataFrom: 'INVALID_SKU-ID',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
             case 'TAX_AUTH_SUCCESS':
             return {
                 ...state,
                 dataFrom: 'TAX_AUTH_SUCCESS',
+                error_message:'',
+                isValid : true
                 
             };
             case 'TAX_AUTH_FAIL':
             return {
                 ...state,
                 dataFrom: 'TAX_AUTH_FAIL',
+                error_message:'',
+                isValid : true
                 
             };
         
@@ -198,8 +220,8 @@ export function SalesCartReducer(state = initialState, action) {
                            ...state,
                            data: '',
                            dataFrom: 'MAX_ITEM_REACHED',
-                           getISellData: '',
-                           getISellDataFrom: '',
+                           error_message:'',
+                           isValid : true
                        };
 
         case 'VOID_LINE_ITEM_SUCCESS':
@@ -208,8 +230,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'LINE_VOID',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
 
         case 'MODIFY_QUANTITY_UPDATE_REQUEST_SUCCESS':
@@ -218,8 +240,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: 'QUANTITY_UPDATE',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
         case 'MODIFY_SPECIAL_INSTRUCTIONS_REQUEST_SUCCESS':
@@ -229,8 +251,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: 'MODIFY_SPECIAL_INSTRUCTIONS_UPDATE',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
         case 'TRANS_TAX_EXEMPT_REQUEST_SUCCESS':
@@ -240,16 +262,16 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: 'TRANS_TAX_EXEMPT_REQUEST_UPDATE',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'TRANS_TAX_EXEMPT_REQUEST_FAILURE':
             return {
                 ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'SPLIT_COMMISSION_REQUEST_SUCCESS':
             action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
@@ -257,49 +279,61 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'SPLIT_COMMISSION_SUCCESS',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'SC_INVALIDPINS':
 
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'SC_INVALIDPINS'
+                dataFrom: 'SC_INVALIDPINS',
+                error_message:'',
+                isValid : true
             };
         case 'SC_INVALIDPIN1':
 
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'SC_INVALIDPIN1'
+                dataFrom: 'SC_INVALIDPIN1',
+                error_message:'',
+                isValid : true
             };
         case 'SC_INVALIDPIN2':
 
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'SC_INVALIDPIN2'
+                dataFrom: 'SC_INVALIDPIN2',
+                error_message:'',
+                isValid : true
             };
         case 'SC_SAMEPINS':
 
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'SC_SAMEPINS'
+                dataFrom: 'SC_SAMEPINS',
+                error_message:'',
+                isValid : true
             };
         case 'SC_PIN1MAND':
 
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'SC_PIN1MAND'
+                dataFrom: 'SC_PIN1MAND',
+                error_message:'',
+                isValid : true
             };
         case 'SC_FAILURE':
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'WEB_SERVICE_ERROR'
+                dataFrom: 'WEB_SERVICE_ERROR',
+                error_message:'',
+                isValid : true
             };
 
         case 'SPLIT_COMMISSION_REQUEST_FAILURE':
@@ -308,8 +342,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
 
@@ -319,40 +353,40 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'REPLENISH_UPDATE',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'REPLENISH_FAIL':
             return {
                 ...state,
                 data: action.payload,
                 dataFrom: 'REPLENISH_FAIL',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'GETREPLENISH_ITEM_SUCCESS':
             return {
                 ...state,
                 data: action.payload,
                 dataFrom: 'GETREPLENISH',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'RP_FAIL':
             return {
                 ...state,
                 // data: action.payload,
                 dataFrom: 'RP_FAIL',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case 'VOID_LINE_ITEM_FAILURE':
             return {
                 ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
         case 'MODIFY_QUANTITY_UPDATE_FAILURE':
@@ -360,8 +394,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: '',
                 dataFrom: 'WEB_SERVICE_ERROR',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
         /**-----------Gift Registry Reducers-------------- **/
@@ -372,18 +406,18 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'GIFT_REGISTRY_UPDATE',
-                getISellData: '',
-                getISellDataFrom: '',
-                giftRegNumber: action.giftRegNumber
+                giftRegNumber: action.giftRegNumber,
+                error_message:'',
+                isValid : true
             };
         case 'GIFTREGISTRYUPDATE_FAIL':
             console.log('**GIFT REG reducer: action.payload.cart', action.payload);
             return {
                 ...state,
                 dataFrom: 'GIFTREGISTRY_FAIL',
+                error_message:'',
+                isValid : true
                 // data: action.payload,
-                getISellData: '',
-                getISellDataFrom: ''
             };
         /**-----------Gift Registry Reducers Close-------------- **/
         /**-----------Gift Receipt Reducers-------------- **/
@@ -393,9 +427,9 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'GIFT_RECEIPT_UPDATE',
-                getISellData: '',
-                getISellDataFrom: '',
-                giftRegNumber: action.giftRegNumber
+                giftRegNumber: action.giftRegNumber,
+                error_message:'',
+                isValid : true
             };
         /**-----------Gift Receipt Reducers Close-------------- **/
 
@@ -405,8 +439,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'PRICE_UPDATE',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
         case 'MENU_ITEM_CHANGED':
@@ -415,8 +449,8 @@ export function SalesCartReducer(state = initialState, action) {
 
                 menuData: action.payload,
                 dataFrom: 'MENU_ITEM_CHANGED',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
 
@@ -428,9 +462,18 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: { ...action.payload },
                 dataFrom: 'TRANS_DISCOUNT_APPLIED',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid: true
             };
+
+        case 'NETWORK_ERROR_TRANSDISCOUNT': 
+            console.log('action',action)
+            return {
+                ...state,
+                error: 'NETWORK_ERROR_TRANSDISCOUNT',
+                isValid: false
+            }
+            
 
 
         case IM_RINGINGASSOCIATE:
@@ -440,18 +483,56 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 dataFrom: 'IM_RINGINGASSOCIATE',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
                 // isInvalid:true
             };
-        
+            case 'IM_ASSOCIATETERMINATED':
+
+            console.log('REDUCER:IM_ASSOCIATETERMINATED', action.payload);
+
+            return {
+                ...state,
+                dataFrom: 'IM_ASSOCIATETERMINATED',
+                getISellData: '',
+                getISellDataFrom: '',
+                error_message:'',
+                isValid : true
+                // isInvalid:true
+            };
+            case 'IM_ASSOCIATENOTELIGIBLE':
+
+            console.log('REDUCER:IM_ASSOCIATENOTELIGIBLE', action.payload);
+
+            return {
+                ...state,
+                dataFrom: 'IM_ASSOCIATENOTELIGIBLE',
+                getISellData: '',
+                getISellDataFrom: '',
+                error_message:'',
+                isValid : true
+                // isInvalid:true
+            };
+            
         case IM_INVALIDASSOCIATE:
             console.log('REDUCER:IM_INVALIDASSOCIATE', action.payload);
             return {
                 ...state,
                 dataFrom: 'IM_INVALIDASSOCIATE',
+                error_message:'',
+                isValid : true
+                // isInvalid:true
+            };
+            
+            case 'IM_INVALIDASSOCIATEID':
+            console.log('REDUCER:IM_INVALIDASSOCIATE', action.payload);
+            return {
+                ...state,
+                dataFrom: 'IM_INVALIDASSOCIATEID',
                 getISellData: '',
-                getISellDataFrom: ''
+                getISellDataFrom: '',
+                error_message:'',
+                isValid : true
                 // isInvalid:true
             };
 
@@ -463,8 +544,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: { ...action.payload },
                 dataFrom: 'Discount',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         case ASSOCIATE_DISCOUNT_ALREADY_APPLIED:
             console.log('REDUCER:TRANS_DISCOUNT_Already_APPLIED', action.payload);
@@ -473,6 +554,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: { ...action.payload },
                 dataFrom: 'IM_DISCOUNTALREADYAPPLIED',
+                error_message:'',
+                isValid : true
 
             };
         case 'SPLIT_COMMISSION_PIN2_VALIDATION_FAIL': {
@@ -482,8 +565,8 @@ export function SalesCartReducer(state = initialState, action) {
                 //pin1Error : "",
                 // pin2Error: action.payload.response.data.message,
                 dataFrom: "SPLIT_COMM_ERROR",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
 
             };
             break;
@@ -494,8 +577,8 @@ export function SalesCartReducer(state = initialState, action) {
                 itemPromotionDetails: action.payload,
                 //itemPromotionDetails : {"pN_MKDPEROFF":"Mkd % off","pP_MKDPEROFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_MKDDOLOFF":"Mkd $ off","pP_MKDDOLOFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_MKDNEWPRICE":"Mkd New Price","pP_MKDNEWPRICE":{"enable":true,"maxItemPercentDisc":0.0},"pN_PRICEOVERRIDE":"Price Override","pP_PRICEOVERRIDE":{"enable":true,"maxItemPercentDisc":0.0},"pN_OMNIMKDPEROFF":"Omni Mkd % off","pP_OMNIMKDPEROFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_OMNIMKDDOLOFF":"Omni Mkd $ off","pP_OMNIMKDDOLOFF":{"enable":true,"maxItemPercentDisc":0.0},"pN_OMNIMKDNEWPRICE":"Omni Mkd New Price","pP_OMNIMKDNEWPRICE":{"enable":true,"maxItemPercentDisc":0.0},"response_Code":"PR_SUCCESS","response_Text":"Success!"},
                 dataFrom: "GET_PROMOTIONS_SUCCESS",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
 
             };
             break;
@@ -505,8 +588,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 itemPromotionDetails: action.payload,
                 dataFrom: "WEB_SERVICE_ERROR",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
 
             };
             break;
@@ -519,9 +602,18 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: "GIFT_WRAP",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
+            break;
+
+            case 'ADD_GIFT_WRAP_ERROR' : {
+                return {
+                    ...state,
+                    isValid : false,
+                    error_message : 'ADD_GIFT_WRAP_ERROR' 
+                }
+             }
             break;
 
         case 'ADD_ALTERATIONS': {
@@ -531,8 +623,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: "ADD_ALTERATIONS",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
         case 'ALTERATION_SUCCESS': {
@@ -545,8 +637,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: "ALTERATION_SUCCESS",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
         case 'ALTERATION_FAILURE': {
@@ -555,8 +647,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: "WEB_SERVICE_ERROR",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
         case 'AA_INVALIDALTERATIONTAG': {
@@ -564,17 +656,26 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: "AA_INVALIDALTERATIONTAG",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
+        case 'AA_ALTTAGALREADYUSED': {
+            return {
+                ...state,
+                ...action.payload,
+                dataFrom: "AA_ALTTAGALREADYUSED",
+                error_message:'',
+                isValid : true
+            }
+        }
         case 'ADD_ALTERATIONS_DEFAULT': {
             return {
                 ...state,
                 ...action.payload,
                 dataFrom: "ADD_ALTERATIONS_DEFAULT",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
         case 'ADD_ALTERATIONS_FAIL': {
@@ -582,8 +683,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 ...action.payload,
                 dataFrom: "ADD_ALTERATIONS_FAIL",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
         case DIRECT_SEND_REQUEST: {
@@ -596,8 +697,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload.data,
                 dataFrom: "DIRECT_SEND_SUCCESS",
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             }
         };
 
@@ -607,8 +708,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'MODIFY_PRICE_SUCCESS',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         }
         case 'MODIFY_PRICE_FAILURE': {
@@ -616,8 +717,8 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'WEB_SERVICE_ERROR',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
         }
 
@@ -628,43 +729,67 @@ export function SalesCartReducer(state = initialState, action) {
                 ...state,
                 data: action.payload,
                 dataFrom: 'TAX_MODIFY_UPDATE_SUCCESS',
-                getISellData: '',
-                getISellDataFrom: ''
+                error_message:'',
+                isValid : true
             };
 
         /** GET DEFAULT SKU* */
         case 'DEFAULT_SKU' : {
             return {
                 ...state,
-                data: action.payload,
+                dataSku: action.payload,
                 dataFrom: 'DEFAULT_SKU',
-                getISellData : '',
-                getISellDataFrom : ''
+                error_message:'',
+                isValid : true
             };
         }
+
+
         case 'PRESALEINITIALRENDER' : {
             return {
                 ...state,
-                data: action.payload,
+                //data: action.payload,
                 presaleinitialrender:false,
                 dataFrom: '',
             };
         }
+        /*Fix MPOS-2177 - starts*/
+        case 'PRESALE_RETAIN_YES' : {
+            return {
+                ...state,
+                presale_retain_yes:action.payload
+            };
+        }
+        /*Fix MPOS-2177 - Ends*/
         case 'IM_SKUNOTFOUND':{
             return{
                 ...state,
-                data: action.payload,
+                //data: action.payload,
                 dataFrom: 'IM_SKUNOTFOUND',
-                getISellData : '',
-                getISellDataFrom : ''
+                error_message:'',
+                isValid : true
             }
         }
+        case 'IM_ITEMNOTFOUND':{
+            return{
+                ...state,
+                //data: action.payload,
+                dataFrom: 'IM_ITEMNOTFOUND',
+                error_message:'',
+                isValid : true
+            }
+        }
+        
+        
+
         case 'ADD_GIFTCARD_SUCCESS' : {
             action.payload.cartItems.items = salesCartReformater(action.payload.cartItems.items, state.productImages)[0];
             return {
                 ...state,
                 data: action.payload,
-                dataFrom: 'ADD_GIFTCARD_SUCCESS'
+                dataFrom: 'ADD_GIFTCARD_SUCCESS',
+                error_message:'',
+                isValid : true
             }
         }
 
@@ -673,7 +798,9 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 // ...state,
                 ...initialState,
-                dataFrom: ''
+                dataFrom: '',
+                error_message:'',
+                isValid : true
             }
         }
 
@@ -681,7 +808,9 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 // ...state,
                 ...state,
-                dataFrom: ''
+                dataFrom: '',
+                error_message:'',
+                isValid : true
             }
             break;
         }        
@@ -689,15 +818,53 @@ export function SalesCartReducer(state = initialState, action) {
             return {
                 ...state,
                 managerPinValidateResponse : action.payload,
-                dataFrom : 'MANAGER_PIN_VALIDATE_RESPONSE'
+                dataFrom : 'MANAGER_PIN_VALIDATE_RESPONSE',
+                error_message:'',
+                isValid : true
             }
         }
         case 'LOGGED_IN_PIN_VALIDATE_RESPONSE' : {
             return {
                 ...state,
                 managerPinValidateResponse : action.payload,
-                dataFrom : 'LOGGED_IN_PIN_VALIDATE_RESPONSE'
+                dataFrom : 'LOGGED_IN_PIN_VALIDATE_RESPONSE',
+                error_message:'',
+                isValid : true
             }
+        }
+        case 'CLEAR_DATA_FROM': {
+            return {
+                ...state,
+                dataFrom : '',
+                error_message:'',
+                isValid : true
+            }
+        }
+        case 'CLEAR_DEFAULT_SKU' : {
+            return {
+                ...state,
+                dataFrom : 'CLEAR_DEFAULT_SKU',
+                error_message:'',
+                isValid : true
+            }
+        }
+        case 'CLEAR_INVALID_SKU-ID' : {
+            return {
+                ...state,
+                dataFrom : '',
+                error_message:'',
+                isValid : true
+            }
+        }
+        case 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED':
+        return{
+            ...state,
+            // searchItem: '',
+            // isSearchItemSet :  false,
+            // data : {},
+            dataFrom : '',
+            error_message: action.message,
+            isValid : false,
         }
         default:
             return state;

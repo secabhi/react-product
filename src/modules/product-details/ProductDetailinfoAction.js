@@ -38,10 +38,9 @@ export function productDetailInfoAction(searchitem, searchfields, successCallbac
                             payload: data.data
                         });
                     }
-                    dispatch(startSpinner(false));
                 });
             };
-            break;
+
             default:
             break;
     }

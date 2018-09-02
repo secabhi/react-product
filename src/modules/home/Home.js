@@ -32,10 +32,10 @@ import warning from '../../resources/images/Warning.svg';
 import NeimanMarcusLogo from '../../resources/images/Neiman_Marcus_logo.svg'
 import { store } from '../../store/store'
 import { startSpinner } from '../common/loading/spinnerAction';
-import {showException} from '../common/exceptionErrorModal/exceptionAction'
+import { showException } from '../common/exceptionErrorModal/exceptionAction'
 
 
-import { getTransactionRequest, getPresaleRequest, setButtonClick, getSalutations, clearHomeStore, clearPED } from './HomeAction';
+import { getTransactionRequest, getPresaleRequest, setButtonClick, getSalutations, clearHomeStore, clearPED,resumeTransactionIdAction } from './HomeAction';
 
 import { getTransactionId } from './HomeSelector';
 import { clearCustomerDataAction } from '../customer-search-sale/actions';
@@ -43,19 +43,18 @@ import { clearCart } from '../sale/SalesCartAction';
 import { itemSelectedAction } from '../common/cartRenderer/actions';
 import { clearCustomerDetailsAction } from '../customer-details/CustomerDetailsActions';
 import { xml2json, json2xml } from '../common/helpers/helpers';
-
+import { getAurusResponse} from '../payment/Controller/paymentActions';
 import './home.css';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
 import warningIcon from '../../resources/images/Warning.svg';
 import { ResumeTransaction, ResumeEnter } from '../resume/resume'
 import ResumeselectTrans from '../resume/resumeSelectTrans'
 import { resumeEntryUpdateAction } from '../resume/resumeAction';
+import CustomerPhone from '../account-lookup/modals/CustomerPhoneModal';
 import { openResumeSelectAction } from '../resume/openResumeSelectAction';
 import { PEDBatteryModal } from './ped-warning-modal/PedBatteryModal';
-import { getAurusResponse } from '../payment/Controller/paymentActions';
+import { clearLoginDataAction } from '../home/HomeAction'
 const CONFIG_FILE = require('../../resources/stubs/config.json');
 
 
@@ -91,11 +90,15 @@ class Home extends Component {
       aurusErrorSubTitle: "Aurus is unable to connect",
       iconClick: "",
       resume_errorModal: false,
-      pedbatterylevel: '',
-      pedbatterythresholdvalue : '',
-      pedwarningmodal : false,
-      pedindicatorwidth : '',
-      pedindicatorcolor : ''
+      pedbatterylevel: '100',
+      pedbatterythresholdvalue: '',
+      pedwarningmodal: false,
+      pedindicatorwidth: '',
+      pedindicatorcolor: '',
+      custPhoneModalFlag: false,
+      warningMessages: ''
+     
+      
     };
     this.bypassRequest = require('../../resources/aurus/BypassScreen.json');
     this.handleShowLogin = this.handleShowLogin.bind(this);
@@ -108,7 +111,18 @@ class Home extends Component {
     this.handleHideErrorPass = this.handleHideErrorPass.bind(this);
     this.getStatusRequestJson = require('../../resources/aurus/GetStatus.json');
     this.pedbatterystatusconfigured = require('../../resources/stubs/config.json');
-    this.timer=null;
+    this.timer = null;
+  }
+
+
+  componentWillMount() {
+    this.props.clearHomeStore();
+    this.props.clearPED(json2xml(this.bypassRequest));
+    var pedbattery = this.pedbatterystatusconfigured.pedbatterylevel_config;
+    console.log("Home:ComponentWillMount PED Battery threshold value:" + pedbattery);
+    this.setState({
+      pedbatterythresholdvalue: pedbattery
+    })
   }
 
 
@@ -123,8 +137,7 @@ class Home extends Component {
     this.props.clearCart();
     this.props.clearItemSelected("");
     this.props.clearCustomerDetails();
-    this.props.clearPED(json2xml(this.bypassRequest))
-    this.getPedBatteryStatus();
+    this.timer = setTimeout(() => { this.getPedBatteryStatus()},5000);
   }
 
 
@@ -163,93 +176,123 @@ class Home extends Component {
     this.props.getSalutationsInvoker();
   }
 
-  componentWillMount() {
-    this.props.clearHomeStore();
-    var pedbattery = this.pedbatterystatusconfigured.pedbatterylevel_config;
-    console.log("Home:ComponentWillMount PED Battery threshold value:" + pedbattery);
-    this.setState({
-      pedbatterythresholdvalue : pedbattery
-    })
-  }
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.home.bypassRes != this.props.home.bypassRes) {
-      this.bypassResReturned(nextProps.home.bypassRes)
-    }
+    if (nextProps.home.isValid) {
+      console.log('HOME: nextProps --->>', nextProps.home);
+      if (nextProps.home.bypassRes != '' && nextProps.home.bypassRes != undefined &&nextProps.home.bypassRes != this.props.home.bypassRes) {
+        this.bypassResReturned(nextProps.home.bypassRes)
+      }
 
-    console.log('LOGIN::::HOME PROPS-------', nextProps.home)
-    if (nextProps.home.loginSuccess === true && nextProps.home.response) {
-      if (nextProps.home.response.response_Code === "PW_SUCCESS" || nextProps.home.response.response_Code === "PW_ABOUTTOCHANGE") {
-        //alert("Logged In Success");
-        //var iconName = event.target.id;
-        // this.props.setButtonClickInvoker(this.state.iconClick);
+      if(nextProps.home.bypassResp != '' && nextProps.home.bypassResp != undefined && nextProps.home.bypassResp != this.props.home.bypassRes){
+        this.processBypassResp(nextProps.home.bypassResp);
+      }
 
+ 
+      if (nextProps.home.loginSuccess === true && nextProps.home.response) {
+        if (nextProps.home.response.response_Code === "PW_SUCCESS" || nextProps.home.response.response_Code === "PW_ABOUTTOCHANGE") {
+          //alert("Logged In Success");
+          //var iconName = event.target.id;
+          // this.props.setButtonClickInvoker(this.state.iconClick);
+
+
+          if (parseInt(this.state.pedbatterylevel) <= parseInt(this.state.pedbatterythresholdvalue)) {
       
-        if(this.state.pedbatterylevel <= this.state.pedbatterythresholdvalue) {
-          this.setState({
-            pedwarningmodal : true
-          })
-        }
+            this.setState({
+              pedwarningmodal: true
+            })
+          }
 
-        else{
-          this.proceedWithLogin()
+          else {
+            this.proceedWithLogin()
+          }
+        }
+        console.log("LOGIN RESPONSE: ", nextProps.home.response);
+      }
+
+      if (nextProps.home.dataFrom === 'error') {
+        console.log("Transaction Failed", nextProps.home.dataFrom);
+        this.setState({
+          showTransErrorModal: true
+        })
+      }
+
+      console.log("^%^%^^%^%^%^%^FOR RESUME TRANSACTION", nextProps);
+      console.log('TL_NOTRANSACTIONFOUND' + JSON.stringify(nextProps));
+      if (nextProps.home.response !== null && nextProps.home.response.response_text == 'TL_NOTRANSACTIONFOUND') {
+        this.cancelSelectModal();
+        this.cancelSelectPrintModal()
+      }
+
+      if (nextProps.home.getResumeDatasFrom === 'RESUME_TRANSACTIONS_SUCCESS') {
+        this.navigateToResumeTransaction();
+        this.props.startSpinner(true);
+        var ResumeTransactionId = nextProps.home.getResumeDatas.transactionId;
+        var ResumeTransactionIdObject = {
+          "response_code": 0,
+          "response_text": "AFS_Success",
+          "transactionNumber": ResumeTransactionId
+        }
+        
+        console.log("RESUME TRANSACTION ID", ResumeTransactionIdObject);
+        this.props.resumeTransactionIdInvoker(ResumeTransactionIdObject);
+
+      }
+
+      if (nextProps.home.getResumeDatasFrom === "RESUME_ENTRY_REQUEST_FAILURE_ERROR") {
+        this.props.startSpinner(false);
+        this.setState({ resume_errorModal: true });
+        this.setState({warningMessages: nextProps.home.error_message});
+        this.props.clearHomeStore();
+
+      }
+
+      if (nextProps.home.dataFrom === "SUSPENDED_TRANSACTION_LIST_FAILURE") {
+        this.props.startSpinner(false);
+        this.setState({ resume_errorModal: true, modal_resume_select_trans: false });
+        this.setState({warningMessages: nextProps.home.error_message});
+      }
+
+
+      if (nextProps.home.navigateToPostVoidDetails === true) {
+        this.props.history.push('/postvoiddetails');
+      }
+
+
+      if (nextProps.home.pedbatteryresp != '' && nextProps.home.pedbatteryresp != undefined) {
+          this.processPedBatteryResp(nextProps.home.pedbatteryresp);
       }
     }
-      console.log("LOGIN RESPONSE: ", nextProps.home.response);
+    else {
+      if (nextProps.cart.error_message != '') {
+        this.callErrorException({
+          showException: true,
+          error: { failedModule: 'Home Resume', failureReason: 'Unexpected Response', failureDescription: 'Unable to resolve the response structure' }
+        })
+      }
     }
 
-    if (nextProps.home.dataFrom === 'error') {
-      console.log("Transaction Failed", nextProps.home.dataFrom);
-      this.setState({
-        showTransErrorModal: true
-      })
-    }
-
-    console.log("^%^%^^%^%^%^%^FOR RESUME TRANSACTION", nextProps);
-    console.log('TL_NOTRANSACTIONFOUND' + JSON.stringify(nextProps));
-    if (nextProps.home.response.response_text == 'TL_NOTRANSACTIONFOUND') {
-      this.cancelSelectModal();
-      this.cancelSelectPrintModal()
-    }
-
-    if (nextProps.home.getResumeDatasFrom === 'RESUME_TRANSACTIONS_SUCCESS') {
-      this.navigateToResumeTransaction();
-      this.props.startSpinner(true);
-    }
-
-    if (nextProps.home.getResumeDatasFrom === "RESUME_ENTRY_REQUEST_FAILURE_ERROR") {
-      this.props.startSpinner(false);
-      this.setState({ resume_errorModal: true });
-      this.props.clearHomeStore();
-
-    }
-
-    if (nextProps.home.dataFrom === "SUSPENDED_TRANSACTION_LIST_FAILURE") {
-      this.props.startSpinner(false);
-      this.setState({ resume_errorModal: true, modal_resume_select_trans: false });
-    }
-
-
-    if (nextProps.home.navigateToPostVoidDetails === true) {
-      this.props.history.push('/postvoiddetails');
-    }
-
-
-    if(nextProps.home.pedbatteryresp !='' && nextProps.home.pedbatteryresp !=undefined && nextProps.home.pedbatteryresp != this.props.home.pedbatteryresp){
-        this.processPedBatteryResp(nextProps.home.pedbatteryresp);
-    }
 
 
   }
 
+  processBypassResp = (data) =>{
+    //debugger;
+    if (data.ByPassScreenResponse.ResponseCode == "00000") {
+      console.log("PED screen bypassed");
+    } else {
+      console.log("PED screen not bypassed");
+      this.setState({ aurusErrorModal: true })
+    }
+  }
 
   bypassResReturned = (data) => {
-    clearTimeout(this.timer);
     console.log("bypass returned");
     if (data.ByPassScreenResponse.ResponseCode == "00000") {
-    
+      console.log("PED Cleared");
     } else {
+      console.log("PED not cleared");
       this.setState({ aurusErrorModal: true })
     }
   }
@@ -263,7 +306,8 @@ class Home extends Component {
     } else if (this.state.iconClick == "3") {
       this.props.history.push('/product-search');
     } else if (this.state.iconClick == "4") {
-      this.props.history.push('/lookup-dummy');
+      //this.props.history.push('/lookup-dummy');
+      this.setState({ custPhoneModalFlag: true });
     }
     else if (this.state.iconClick == "5") {
       this.openPostVoidModal();
@@ -273,7 +317,7 @@ class Home extends Component {
       this.resumeallmodals(true, false, false);
     }
     else if (this.state.iconClick == "7") {
-     
+
       this.openPrintSendModal();
     }
 
@@ -296,7 +340,8 @@ class Home extends Component {
       } else if (iconName == "2") {
         this.props.history.push('/customer-search');
       } else if (iconName == "4") {
-        this.props.history.push('/lookup-dummy');
+        //this.props.history.push('/lookup-dummy');
+        this.setState({ custPhoneModalFlag: true })
       }
 
       else if (iconName == "5") {
@@ -360,6 +405,7 @@ class Home extends Component {
   }
   closeErrorModel = () => {
     this.setState({ print_Error_Modal: false })
+    this.setState({ modal_print_sendselect: false });
   }
   openselectTrans = () => {
     if (this.state.isPrintReceipt) {
@@ -375,13 +421,14 @@ class Home extends Component {
 
   }
   openselectTransPrint = () => {
-
+    this.props.startSpinner(true);
     this.setState({ modal_print_send: false })
     this.setState({ modal_print_sendselect: true });
     this.props.openSelectPrintInvoker(this.state.setUserPin);
 
   }
   openenterTrans = () => {
+    //debugger;
     this.setState({ modal_post_voidenter: true });
 
   }
@@ -415,14 +462,17 @@ class Home extends Component {
     // document.getElementsByClassName('carditemlayoutinitial')[0].classList.add('carditemlayoutinitialActive');
   }
   onClosePostVoid = () => {
-
     this.setState({ modal_post_void: false, isPrintReceipt: false });
-
+    sessionStorage.setItem("loggedIn", "false");
+    this.props.clearLoginDataActionInvoker();
+    this.getTransactionIdInvoker();
   }
+
   onClosePrintSend = () => {
-
     this.setState({ modal_print_send: false });
-
+    sessionStorage.setItem("loggedIn", "false");
+    this.props.clearLoginDataActionInvoker();
+    this.getTransactionIdInvoker();
   }
 
   resumeallmodals = (openResume, openEnterResume, openSelectTrans) => {
@@ -433,6 +483,14 @@ class Home extends Component {
       resume_errorModal: false
     })
   }
+
+  closeModalAndLogout = () => {
+    this.resumeallmodals(false, false, false);
+    sessionStorage.setItem("loggedIn", "false");
+    this.props.clearLoginDataActionInvoker();
+    this.getTransactionIdInvoker();
+  }
+
   resumeEntryUpdate = (resumeEntry) => {
     console.log('resumeentryplususerpin', this.state.setUserPin);
     this.props.startSpinner(true);
@@ -450,72 +508,82 @@ class Home extends Component {
   }
 
   closePedBatteryModal = () => {
-    this.setState({ pedwarningmodal : false })
+    this.setState({ pedwarningmodal: false })
   }
-  
-  getPedBatteryStatus = () =>{
-    var req = json2xml(this.getStatusRequestJson); 
-    this.props.pedBatteryStatusInvoker(req,'PED_BATTERY');
-  
+
+  getPedBatteryStatus = () => {
+    console.log(">>>>>getPedBatteryStatus")
+    var req = json2xml(this.getStatusRequestJson);
+    this.props.aurusActionInvoker(req, 'PED_BATTERY');
   }
-  
-  processPedBatteryResp = (data) =>{
-    var width ="";
-    var color ="";
-    try{
+
+  processPedBatteryResp = (data) => {
+    clearTimeout(this.timer);
+    console.log("Home: >>>>>>>processPedBatteryResp()");
+    var width = "";
+    var color = "green";
+    try {
       if(data.GetStatusResponse.ResponseCode == "00000"){
-        var pedbtrylevel = data.GetStatusResponse.SystemParamters[0].LineItem[0].ParameterValue[0];
-          if(parseInt(pedbtrylevel) < parseInt(this.state.pedbatterythresholdvalue)){
-                width = pedbtrylevel + '%';
-                color = "red";
+          var pedbtrylevel = data.GetStatusResponse.SystemParamters[0].LineItem[0].ParameterValue[0];
+          width = pedbtrylevel + '%';
+          if( parseInt(pedbtrylevel) <= parseInt(this.state.pedbatterythresholdvalue) ){
+            color = "red";
           }
-            this.setState({
-                pedbatterylevel : pedbtrylevel,
-                pedindicatorwidth : width,
-                pedindicatorcolor : color
-            })
-      }else{
-        if(data.GetStatusResponse.ResponseCode !== "00000"){
+          console.log("Home: Setting PED Battery Level",pedbtrylevel)
+          console.log("Home: Setting PED Battery Width",width)
+          console.log("Home: Setting PED Battery Color",color)
           this.setState({
-            pedbatterylevel : "100",
-            pedindicatorwidth : "100%",
-            pedindicatorcolor : "green"
+            pedbatterylevel: pedbtrylevel,
+            pedindicatorwidth: width,
+            pedindicatorcolor: color
           })
-        }
+      }else{
+          this.setState({
+              aurusErrorModal: true 
+          })
       }
-    }catch(err){
-      console.log("Exception in processPedBatteryResp",err)
+    }catch (err) {
+      console.log("Exception in processPedBatteryResp", err)
     }
+    this.props.aurusActionInvoker(json2xml(this.bypassRequest),"BYPASS");
   }
-  
-  exitOnLowPedBattery = () =>{
+
+  exitOnLowPedBattery = () => {
     console.log("Home:exitOnLowPedBattery>>>>>>>");
     this.props.clearHomeStore();
     sessionStorage.setItem("loggedIn", "false")
-    this.setState({pedwarningmodal :false})
+    this.setState({ pedwarningmodal: false })
     this.props.startSpinner(true);
     this.getTransactionIdInvoker();
   }
-  
-  continueOnLowPedBattery = () =>{
-    this.setState({ pedwarningmodal : false},() => {this.proceedWithLogin()})
-    
+
+  continueOnLowPedBattery = () => {
+    this.setState({ pedwarningmodal: false }, () => { this.proceedWithLogin() })
+
   }
 
-  callErrorException = (data) =>{
-    this.setState({showLoginModal:false});
+  callErrorException = (data) => {
+    this.setState({ showLoginModal: false });
     //this.props.startSpinner(false);
-    //debugger;
     this.props.showException(data);
   }
 
+  
+
+  //Account Lookup Popups
+  openAccountLookup = () => {
+    this.setState({ custPhoneModalFlag: true });
+  }
+  closeAccountLookup = () => {
+    this.setState({ custPhoneModalFlag: false });
+  }
   render() {
     console.log('battery props' + JSON.stringify(store.getState().home));
     const POST_VOID_MODAL1_CONTENT = "Post Void Options";
     const PRINT_SEND_MODAL1_CONTENT = "Print / Send Receipt"
 
     const loginModal = this.state.showLoginModal ? (
-      <Login handleHide={this.handleHideLogin.bind(this)} showPass={this.handleShowChangePass.bind(this)} handleUserPin={this.handleUserPin.bind(this)} callErrorException={(errorData) =>this.callErrorException(errorData)} />
+      <Login handleHide={this.handleHideLogin.bind(this)} showPass={this.handleShowChangePass.bind(this)} handleUserPin={this.handleUserPin.bind(this)} callErrorException={(errorData) => this.callErrorException(errorData)} />
     ) : null;
 
     const changePasswordModal = this.state.showChangePassModal ? (
@@ -547,7 +615,7 @@ class Home extends Component {
           <img att="" src={warning}></img>
         </div>
 
-        <div className="transaction-limit-modal-msg"> We are facing technical difficulties <br /> Please Retry or call Production Support.</div>
+        <div className="transaction-limit-modal-msg"> There is a technical difficulty <br /> Please Retry or call Production Support.</div>
         <div className="transaction-limit-modal-btn" onClick={() => {
           this.setState({ showTransErrorModal: false }, () => {
             this.getTransactionIdInvoker();
@@ -564,16 +632,16 @@ class Home extends Component {
       {changePasswordModal}
       {passwordSuccessModal}
       {passwordErrorModal}
-      {aurusErrorModal}
+      {/* {aurusErrorModal} */}
       {transactionErrorModal}
       <div className="pageContent">
         {/*'battery statau'+store.getState().home.batteryStatus.battery_level*/}
         {
-          (window.innerWidth > 1900) ? (<HomeHeader history={this.props.history}  batteryStatus={store.getState().home.batteryStatus.battery_level} handleShowLogin={this.handleShowLogin} pedbatterylevel={this.state.pedbatterylevel} pedindicatorcolor={this.state.pedindicatorcolor} pedindicatorwidth={this.state.pedindicatorwidth}  />) : (<HomeHeaderSmall history={this.props.history} batteryStatus={store.getState().home.batteryStatus.battery_level} userPin={this.props.userPin.userPin.userPin} pedbatterylevel={this.state.pedbatterylevel}></HomeHeaderSmall>)
+          (window.innerWidth > 1900) ? (<HomeHeader history={this.props.history} batteryStatus={store.getState().home.batteryStatus.battery_level} handleShowLogin={this.handleShowLogin} pedbatterylevel={this.state.pedbatterylevel} pedindicatorcolor={this.state.pedindicatorcolor} pedindicatorwidth={this.state.pedindicatorwidth} />) : (<HomeHeaderSmall history={this.props.history} batteryStatus={store.getState().home.batteryStatus.battery_level} userPin={this.props.userPin.userPin.userPin} pedbatterylevel={this.state.pedbatterylevel}></HomeHeaderSmall>)
         }
         {/* store.getState().home.batteryStatus.battery_level */}
         <div className="landingPageButtonSection">
-         {/* <div className="neiman-logo-section">
+          {/* <div className="neiman-logo-section">
             <img src={NeimanMarcusLogo} className="neiman-logo-icon" />
           </div> */}
           <div className="buttonIcon">
@@ -626,6 +694,7 @@ class Home extends Component {
 
           }} onClose={() => { this.onClosePostVoid() }} showCloseIcon={true}>
             <PostVoid
+              //debugger
               isPrintReceipt={this.state.isPrintReceipt}
               openPostVoidModal={this.openPostVoidModal}
               openPrintEnterTrans={this.openPrintEnterTrans}
@@ -698,7 +767,7 @@ class Home extends Component {
             <PrintErrorModal
               errorModal={this.state.print_Error_Modal}
               closeInvalidErrorModal={this.closeErrorModel}
-              
+
             />
           </Modal>
           :
@@ -737,12 +806,11 @@ class Home extends Component {
         }
         {this.state.modal_resume_transaction ?
           <Modal classNames={{ modal: 'resume-transaction-modal-container' }} open={(sku) => {
-          }} onClose={() => {
-
-          }}>
+          }} onClose={() => {}} little showCloseIcon={false} >
             <ResumeTransaction
               resumeallmodals={this.resumeallmodals}
               resumeopenSelectTrans={this.resumeopenSelectTrans}
+              closeModalAndLogout={this.closeModalAndLogout}
             />
           </Modal>
           :
@@ -772,32 +840,47 @@ class Home extends Component {
             <ResumeselectTrans
               resumeallmodals={this.resumeallmodals}
               resumeopenSelectTrans={this.resumeopenSelectTrans}
+              callErrorException={(errorData) => this.callErrorException(errorData)}
+              clearIsValidFlag ={this.clearIsValidFlag}
             />
           </Modal>
           :
           null
         }
 
+        {this.state.custPhoneModalFlag ?
+          <Modal open={this.state.custPhoneModalFlag}
+            onClose={() => { }}
+            showCloseIcon={false}
+            little >
+            <CustomerPhone
+              clientNum={false}
+              closeCustModel={this.closeAccountLookup}
+              getCardsListInvoker={this.getCardsListInvoker}
+              nextCustModel={this.nextCustModel}
+            />
+          </Modal> : null
+        }
 
         <Modal open={this.state.resume_errorModal} little classNames={{ modal: 'sale-errorModal' }} onClose={() => {
 
-}}>
+        }}>
           <div className='sale-errorModal-container'>
             <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
-            <div className="sale-errorModal-text">Invalid Request</div>
+            <div className="sale-errorModal-text">{this.state.warningMessages}</div>
             <button className="sale-errorModal-button" onClick={() => { this.setState({ resume_errorModal: false }) }}>
-              <div className="sale-errorModal-button-text">CLOSE</div>
+              <div className="sale-errorModal-button-text" onClick={() => { this.resumeallmodals(true, false, false)}}>OK</div>
             </button>
           </div>
 
         </Modal>
 
         <PEDBatteryModal
-          pedbatterymodal ={this.state.pedwarningmodal}
-          closePedBatteryModal = {this.closePedBatteryModal}
-          exitOnLowPedBattery = {this.exitOnLowPedBattery}
-          continueOnLowPedBattery = {this.continueOnLowPedBattery}
-          pedbatterythresholdvalue = {this.state.pedbatterythresholdvalue}
+          pedbatterymodal={this.state.pedwarningmodal}
+          closePedBatteryModal={this.closePedBatteryModal}
+          exitOnLowPedBattery={this.exitOnLowPedBattery}
+          continueOnLowPedBattery={this.continueOnLowPedBattery}
+          pedbatterythresholdvalue={this.state.pedbatterythresholdvalue}
         ></PEDBatteryModal>
 
         <Footer history={this.props.history} hideTransactionId={true} />
@@ -860,9 +943,10 @@ function mapDispatchToProps(dispatch) {
     clearHomeStore: () => dispatch(clearHomeStore()),
     openResumeSelectInvoker: (pin) => dispatch(openResumeSelectAction(pin)), setButtonClickInvoker: (buttonId) => dispatch(setButtonClick(buttonId)),
     resumeEntryUpdateActionInvoker: (resumeEntry, pin) => dispatch(resumeEntryUpdateAction(resumeEntry, pin)),
-    showException: (data)=> dispatch(showException(data)),
-    pedBatteryStatusInvoker : (xmlrequest, type) => dispatch(getAurusResponse(xmlrequest, type))
-
+    showException: (data) => dispatch(showException(data)),
+    aurusActionInvoker : (xmlrequest, type) =>  dispatch(getAurusResponse(xmlrequest, type)),
+    clearLoginDataActionInvoker: () => dispatch(clearLoginDataAction()),
+    resumeTransactionIdInvoker: (ResumeTransactionIdObject) => dispatch(resumeTransactionIdAction(ResumeTransactionIdObject))
   };
 }
 

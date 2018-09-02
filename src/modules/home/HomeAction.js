@@ -33,9 +33,8 @@ export function getTransactionRequest(data) {
         });
     };
 
-
-
 }
+
 export function getPresaleRequest(data) {
     const request = callPostWebService(RegisterInfo_URL,data);
 
@@ -167,7 +166,6 @@ export function attachCustomerAction(userpin, transactionId, storeClientNumber, 
     }
 
     const attachCustomerURL = path + 'attachCustomerURL.json';
-    //debugger;
     const request = env.ENV_MODE == 'dev1' ? callPostWebService(URL, reqData) : callGetWebService(attachCustomerURL, {});
     return (dispatch) => {
         request.then(({
@@ -239,3 +237,22 @@ export function clearZipToCitySateDataAction() {
         });
     };
 }
+
+export function clearLoginDataAction() {
+    return (dispatch) => {
+        dispatch({
+            type: 'LOGIN_REQUEST_CLEAR',
+            payload: null
+        });
+    };
+}
+export function resumeTransactionIdAction(data) {
+    console.log('resumeTransactionIdAction',data)
+    return (dispatch) => {
+        dispatch({
+            type: 'TRANSACTION_ID_REQUEST',
+            payload:data
+        });
+    };
+}
+

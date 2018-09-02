@@ -6,7 +6,8 @@ import TextField from 'material-ui/TextField';
 //Images
 import registerIcon from '../../../../../resources/images/Print_To_Register.svg';
 import crossicon from '../../../../../resources/images/Cross_Purple.svg';
-
+import WarningIcon from '../../../../../resources/images/Warning_icon.png';
+import crosswhite from '../../../../../resources/images/Cross_White.svg';
 
 export class PrintReceiptModal extends Component {
 
@@ -21,6 +22,17 @@ export class PrintReceiptModal extends Component {
     }
 
     render() {
+        const errorDiv = this.props.props.printFailure
+            ? (
+                <span className="emailErrorBanner"><img src={WarningIcon} className="warning-icon"/>
+                    <span className="loginErrorText">Print request error</span>
+                    <img
+                        className="closeModalBanner"
+                        src={crosswhite}
+                        onClick={this.props.props.closeError}></img>
+                </span>
+            )
+            : null;
         return (
             <Modal
                 open={this.props.props.printModal}
@@ -31,6 +43,7 @@ export class PrintReceiptModal extends Component {
                 little
                 showCloseIcon={false}>
                 <div className='add-dom-cust-container'>
+                {errorDiv}
                     <img src={registerIcon} className='email-receipt-modal-icon'/>
                     <div className='email-receipt-modal-name'>Print to Register</div>
                     <TextField

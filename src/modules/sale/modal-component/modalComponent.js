@@ -303,7 +303,7 @@ export class ModifyPriceModal extends Component {
 
     handleTextFieldChange = (event) => {
         var validValueCheckFlag = false;
-        var fieldValue = event.target.value;
+        var fieldValue = event.target.value.replace(/[^0-9.]/g,'');
         if (this.props.title === "Price : Mkd % Off") {
             if (fieldValue > 0 && fieldValue <= 100 && validateNonDecimalNumber(fieldValue)) {
                 validValueCheckFlag = true;
@@ -363,22 +363,16 @@ export class ModifyPriceModal extends Component {
         else {
             //DO NOTHING
         }
-        this.setState({
-            fieldValue: event.target.value,
-            errorText: (validValueCheckFlag) ? "" : "Please enter a valid value",
-            buttonEnabled: (validValueCheckFlag) ? true : false
-        });
-    }
 
-    handleKeyUp = (event) => {
-        console.log(event);
-        if(event.key === 'Enter') {
-            if (this.state.buttonEnabled) {
-                this.modifyPrice();
-            }
-            else {
-                //DO NOTHING
-            }
+        if(!isNaN(fieldValue)) {
+            this.setState({
+                fieldValue: fieldValue,
+                errorText: (validValueCheckFlag) ? "" : "Please enter a valid value",
+                buttonEnabled: (validValueCheckFlag) ? true : false
+            });
+        }
+        else {
+            //DO NOTHING
         }
     }
 
@@ -425,7 +419,7 @@ export class ModifyPriceModal extends Component {
             else {
                 showManagerModalFlag = false;
             }
-            if (fieldValue > 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue >= 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
@@ -497,7 +491,7 @@ export class ModifyPriceModal extends Component {
             else {
                 showManagerModalFlag = false;
             }
-            if (fieldValue > 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue >= 0 && fieldValue <= 100 && fieldValue <= this.props.item.itemPrice) {
                 validValueCheckFlag = true;
             }
             else {
@@ -535,7 +529,7 @@ export class ModifyPriceModal extends Component {
             }
         }
         else {
-            this.setState({ errorText: "Discount not allowed" });
+            this.setState({ errorText: "Please enter a valid value" });
         }
     }
 
@@ -605,7 +599,6 @@ export class ModifyPriceModal extends Component {
                         onChange={this.handleTextFieldChange}
                         errorText={this.state.errorText}
                         value={this.state.fieldValue}
-                        onKeyUp={this.handleKeyUp}
                         onKeyPress={(e) => {
                             if(e.key === 'Enter' && this.state.buttonEnabled) {
                                 e.preventDefault();
@@ -1242,11 +1235,13 @@ export class Subclass extends Component {
 
     handleChange = (value,name) => {
        this.setState({Subclass:value});
-      // this.enableButtons();
+       this.enableButtons(value);
         //console.log(this.state.changedAddress);
     }
-    enableButtons=()=>{
-        if(this.state.Subclass)
+    enableButtons=(val)=>{
+        //debugger;
+        //alert(val);
+        if(val)
         this.setState({buttonEnabled:true});
         else
         this.setState({buttonEnabled:false});
@@ -1258,6 +1253,11 @@ export class Subclass extends Component {
         if(e.target.value.length <= 12){
             this.setState({sku: e.target.value})
         }
+    }
+    findDefaultSkuEnabled = () =>{
+        this.props.setDefaultSku(true); 
+        this.props.setSubClass(this.state.Subclass);
+        this.props.getDefaultSKUCall();
     }
 
   render() {
@@ -1344,7 +1344,7 @@ export class Subclass extends Component {
                 
                <div className="btn-devider">or</div>
                 <div className="find-sku-btn-container">
-                    <button className="find-sku-btn" onClick={()=>{this.props.setDefaultSku(true); this.props.setSubClass(this.state.Subclass);this.props.getDefaultSKUCall();}}>FIND DEFAULT SKU</button>
+                    <button className={this.state.buttonEnabled?'find-sku-btn btn-disabled':'find-sku-btn'} onClick={()=>{this.state.buttonEnabled==false?this.findDefaultSkuEnabled():null}}>FIND DEFAULT SKU</button>
                 </div>
 
             <div className="subclass-key-buttons-container">
@@ -1483,7 +1483,7 @@ export class Amount extends Component {
                 //maxLength='2' 
                 onChange={(e)=>this.handleChange(e.target.value,'amount')}
                 value={this.state.amount} 
-                type="text"
+                type="number"
                 floatingLabelText="Amount ($)"
                 floatingLabelStyle={textFieldFloatingLabelStyle}                    
                 style = {textFieldStyle}

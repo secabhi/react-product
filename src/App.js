@@ -4,7 +4,6 @@ import {
   Route
 } from 'react-router-dom';
 import {HashRouter} from 'react-router-dom';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
 
 import IdleTimer from 'react-idle-timer';
 import PostVoidDetails from './modules/post-void/postVoidDetails';
@@ -37,7 +36,7 @@ import PostVoidDetailssmallff from './modules/post-void/postvoiddetailsmallff';
 //import PostVoidTransaction from './modules/post-void/post-void-transaction-model'
 import Reminders from './modules/reminders/reminders'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import {readStartUpFile} from './modules/common/helpers/helpers';
 import ResumeTransactions from './modules/resume/resume-services-transactions/ResumeTransactionsContainer';
 import './App.css';
 
@@ -55,47 +54,46 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const CONFIG_FILE = require('./resources/stubs/config.json');
+          const CONFIG_FILE = require('./resources/stubs/config.json');
 
-    var URL = CONFIG_FILE.initServiceURL;
-    var functionalityId = CONFIG_FILE.timeoutFuncId;
-    fetch(URL, {
-      method: "POST",
-      body: JSON.stringify({
-        "FunctionalityId" : functionalityId
-      }),
-      headers: {
-        "Content-Type": "application/json"
+      var URL = CONFIG_FILE.initServiceURL;
+      var functionalityId = CONFIG_FILE.timeoutFuncId;
+      fetch(URL, {
+        method: "POST",
+        body: JSON.stringify({
+          "FunctionalityId" : functionalityId
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then((response) => {  return (response.json()) })
+      .then((responseJSON) => {
+        var timeoutValue = parseInt(responseJSON.timeout);
+        this.setState({ timeout : timeoutValue });
+      })
+
+      function onBatteryStatus(status) {
+        console.log("Level: " + status.level + " isPlugged: " + status.isPlugged);
+      // this.setState({batteryStatus:status.level});
+        store.dispatch({
+          type : 'BATTERY_LEVEL',
+          payload : {battery_level:status.level}
+        });
       }
-    })
-    .then((response) => {  return (response.json()) })
-    .then((responseJSON) => {
-      var timeoutValue = parseInt(responseJSON.timeout);
-      this.setState({ timeout : timeoutValue });
-    })
+        
+      if(window.cordova) {
+        window.addEventListener("batterystatus",onBatteryStatus, false);
+      } else {
+        //Don't add battery status listener as we are running in browser
+        console.log("Cordova not present - batterystatus");
+        store.dispatch({
+          type : 'BATTERY_LEVEL',
+          payload : {battery_level:100}
+        });
+      }
 
-    function onBatteryStatus(status) {
-      console.log("Level: " + status.level + " isPlugged: " + status.isPlugged);
-     // this.setState({batteryStatus:status.level});
-      store.dispatch({
-        type : 'BATTERY_LEVEL',
-        payload : {battery_level:status.level}
-      });
-      
-  }
-
-    if(window.cordova) {
-       window.addEventListener("batterystatus",onBatteryStatus, false);
-    }
-    else {
-      //Don't add battery status listener as we are running in browser
-      console.log("Cordova not present - batterystatus");
-      store.dispatch({
-        type : 'BATTERY_LEVEL',
-        payload : {battery_level:100}
-      });
-    }
-  }
+   }//end of component will mount
 
   render() {
     return (
@@ -186,7 +184,6 @@ class AppGlobalErrorHandler extends React.Component {
   componentDidCatch(error, info) {
     // Display fallback UI
   //  debugger;
-  NotificationManager.error(window.reactError.message, 'Error');
   const CONFIG_FILE_BuildMode= require('./resources/stubs/config.json').buildMode;
     this.setState((prevState, props) => {
       return { hasError: !prevState.hasError,
@@ -233,17 +230,16 @@ class AppGlobalErrorHandler extends React.Component {
       //window.location.reload(true);
       
         return (
-          // <div>
-          //   <h1>OOPs! Something went wrong</h1>
-          //   <h2>Error Message:</h2><span style={{ fontFamily: 'Roboto', fontSize: '28px', fontWeight: 'normal', fontStyle: 'normal', fontStretch: 'normal', lineHeight: '1.19', letterSpacing: 'normal', textAlign: 'center', color: '#505050', marginTop: '20.5px' }}> {this.state.error.message}</span>
-          //   { (this.state.buildMode == 'debug')?
-          //     (<div>
-          //       <h2>Error Stack: </h2><span style={{ fontFamily: 'Roboto', fontSize: '28px', fontWeight: 'normal', fontStyle: 'normal', fontStretch: 'normal', lineHeight: '1.19', letterSpacing: 'normal', textAlign: 'center', color: '#505050', marginTop: '20.5px' }}>{this.state.error.stack}</span>
-          //       <h2>Module Stack: </h2><span style={{ fontFamily: 'Roboto', fontSize: '28px', fontWeight: 'normal', fontStyle: 'normal', fontStretch: 'normal', lineHeight: '1.19', letterSpacing: 'normal', textAlign: 'center', color: '#505050', marginTop: '20.5px' }}>{this.state.info.componentStack}</span>
-          //     </div>)
-          //     :'' }
-          // </div>
-          <NotificationContainer/>
+          <div>
+            <h1>OOPs! Something went wrong</h1>
+            <h2>Error Message:</h2><span style={{ fontFamily: 'Roboto', fontSize: '28px', fontWeight: 'normal', fontStyle: 'normal', fontStretch: 'normal', lineHeight: '1.19', letterSpacing: 'normal', textAlign: 'center', color: '#505050', marginTop: '20.5px' }}> {this.state.error.message}</span>
+            { (this.state.buildMode == 'debug')?
+              (<div>
+                <h2>Error Stack: </h2><span style={{ fontFamily: 'Roboto', fontSize: '28px', fontWeight: 'normal', fontStyle: 'normal', fontStretch: 'normal', lineHeight: '1.19', letterSpacing: 'normal', textAlign: 'center', color: '#505050', marginTop: '20.5px' }}>{this.state.error.stack}</span>
+                <h2>Module Stack: </h2><span style={{ fontFamily: 'Roboto', fontSize: '28px', fontWeight: 'normal', fontStyle: 'normal', fontStretch: 'normal', lineHeight: '1.19', letterSpacing: 'normal', textAlign: 'center', color: '#505050', marginTop: '20.5px' }}>{this.state.info.componentStack}</span>
+              </div>)
+              :'' }
+          </div>
             )
     
 

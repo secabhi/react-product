@@ -5,11 +5,13 @@ import closeicon from '../../resources/images/Cross_Black.svg';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
-import { PrintSendDetailsTransaction } from '../print-send-receipt/printRecieptAction'
+import { PrintSendDetailsTransaction,clearIsValid } from '../print-send-receipt/printRecieptAction'
 import postVoidIcon from '../../resources/images/Post_Void_Black_SFF.svg';
 import crossicon from '../../resources/images/Close_Bttn_Purple.svg';
 import TextField from 'material-ui/TextField/TextField';
 import scan from '../../resources/images/Scan_Item_Borderless.svg';
+
+import {showException} from '../common/exceptionErrorModal/exceptionAction'
 
 class PrintSendSelect extends Component {
    
@@ -28,36 +30,79 @@ class PrintSendSelect extends Component {
     }
 
     componentDidMount() {     
-        this.props.startSpinner(true);
+        //this.props.startSpinner(true);
     }
 
     componentWillReceiveProps(nextProps) {
         
-        console.log('PostVoidSelect componentWillReceiveProps: ', nextProps);
-        if(nextProps.PrintSendgettransaction.listFetchSuccessFlag === true) {
-            this.props.startSpinner(false);
-            this.setState({ transactionList : nextProps.PrintSendgettransaction.response.transactionList });
-        }
-        else {
-            if(nextProps.PrintSendgettransaction.defaultValue !== true) {
+        console.log('print props ', nextProps);
+        if(nextProps.PrintSendgettransaction.isValid)
+        {   
+            if(nextProps.PrintSendgettransaction.listFetchSuccessFlag === true) {
                 this.props.startSpinner(false);
+                this.setState({ modal_print_sendselect: true });
+                this.setState({ transactionList : nextProps.PrintSendgettransaction.response.transactionList });
             }
+            else {
+                if(nextProps.PrintSendgettransaction.defaultValue !== true) {
+                        this.props.startSpinner(false);
+                }
+            }
+
+            if (nextProps.PrintSendgettransaction.transFail === true) {
+                this.props.startSpinner(false);
+                //this.setState({ modal_print_sendselect: true });
+
+                this.props.OpenErrorModal();
+              }
         }
-        if(nextProps.PrintSendtransdetails.detailsFetchSuccessFlag===true)
-        {
-            this.props.history.push('/print-send-receipt');
+        else{
+            if(nextProps.PrintSendgettransaction.error_message!='')
+                {
+           // alert('network error')
+                this.props.callErrorException(
+                {showException: true,
+                error:{failedModule:'Print/Send Get Transactions',
+                failureReason:'Unexpected Response',
+                failureDescription:nextProps.PrintSendgettransaction.error_message}})
+                }
+                this.props.clearIsvalidFlag();
         }
-        if (nextProps.PrintSendgettransaction.transFail === true) {
-            this.props.startSpinner(false);
-            this.props.cancelSelectPrintModal();
-            this.props.OpenErrorModal();
-          }
+
+        if(nextProps.PrintSendtransdetails.isValid)
+        {   
+            if(nextProps.PrintSendtransdetails.detailsFetchSuccessFlag===true)
+            {   this.props.startSpinner(false);
+                this.props.history.push('/print-send-receipt');
+            }
+           else if(nextProps.PrintSendtransdetails.dataFrom=='TRANS_DETAILS_FAIL' && nextProps.PrintSendtransdetails.detailsFetchSuccessFlag===false){
+                this.props.startSpinner(false);
+                this.props.cancelSelectPrintModal();
+                this.props.OpenErrorModal();
+            }
+            
+        }
+        else{
+            if(nextProps.PrintSendtransdetails.error_message!='')
+                {
+           // alert('network error')
+                this.props.callErrorException(
+                {showException: true,
+                error:{failedModule:'Print/Send Get Transaction Details',
+                failureReason:'Unexpected Response',
+                failureDescription:nextProps.PrintSendgettransaction.error_message}})
+                }
+                this.props.clearIsvalidFlag();
+        }
+       
 
     }
+    
 
     printSendTransInvoker = () => {
         console.log("select",this.props)
         if(this.state.selectedTransaction !== '') {
+            this.props.startSpinner(true);
         this.props.PrintSendTransDetls(this.props.login.userpin,this.state.selectedTransactionDetails,this.state.selectedTransactionDetails.transactionID);
         //this.props.history.push('/postvoiddetails');
         }
@@ -129,6 +174,8 @@ function mapStateToProps({ PrintSendtransdetails,PrintSendgettransaction,login }
 
  function mapDispatchToProps(dispatch) {
     return bindActionCreators({ PrintSendTransDetls: PrintSendDetailsTransaction,
+        callErrorException: (data)=> showException(data),
+        clearIsvalidFlag:clearIsValid,
         startSpinner:startSpinner}, dispatch);
 }
 

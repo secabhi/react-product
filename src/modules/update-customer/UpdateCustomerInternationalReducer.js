@@ -4,6 +4,8 @@ const initialState = {
   addressValidationSuccessFlag : false,
   verifyEmailFlag : false,
   verifyAddressFlag : false,
+  notFoundFlag : false,
+  updateFailModalFlag : false,
   errors : []
 };
 
@@ -15,7 +17,9 @@ export function UpdateCustomerInternationalReducer(state = initialState, action)
         ...state,
         countryList: action.payload.CountryList,          
         successModalFlag : false,
-        isProfileLoaded : false
+        isProfileLoaded : false,
+        notFoundFlag : false,
+        updateFailModalFlag : false
       };
 
       break;
@@ -28,6 +32,8 @@ export function UpdateCustomerInternationalReducer(state = initialState, action)
             verifyEmailFlag: false,
             addressValidationSuccessFlag: false,
             isProfileLoaded : false,
+            notFoundFlag : false,
+            updateFailModalFlag : false,
             errors : []
         };
         break;
@@ -45,7 +51,8 @@ export function UpdateCustomerInternationalReducer(state = initialState, action)
            isProfileLoaded : true,
            verifyAddressFlag : false,
            verifyEmailFlag: false,
-
+           notFoundFlag : false,
+           updateFailModalFlag : false
        };
        break;
    }
@@ -54,13 +61,30 @@ export function UpdateCustomerInternationalReducer(state = initialState, action)
     return{
         ...state,
         verifyEmailFlag : true,
+        notFoundFlag : false,
         errors : [{
             "cust_email" : "INVALID EMAIL"
         }],
-        isProfileLoaded : false
+        isProfileLoaded : false,
+        updateFailModalFlag : false
     }
     break;
 }
+
+    case 'UPDATE_INT_CUST_NOT_FOUND' : {
+        return {
+            ...state,
+            successModalFlag: false,
+            verifyEmailFlag: false,
+            addressValidationSuccessFlag: false,
+            verifyAddressFlag : false,
+            notFoundFlag : true,
+            errors : [],
+            isProfileLoaded : false,
+            updateFailModalFlag : false
+        };
+        break;
+    }
 
 case 'UPDATE_INT_CUST_AV_BAD_REPLY' : {
     return {
@@ -69,8 +93,10 @@ case 'UPDATE_INT_CUST_AV_BAD_REPLY' : {
         addressValidationSuccessFlag: false,
         verifyAddressFlag : true,
         verifyEmailFlag: false,
+        notFoundFlag : false,
         errors : [],
-        isProfileLoaded : false
+        isProfileLoaded : false,
+        updateFailModalFlag : false
     };
     break;
 }
@@ -82,14 +108,13 @@ case 'UPDATE_INT_CUST_EMAIL_OR_ADDR' : {
       addressValidationSuccessFlag: false,
       verifyAddressFlag : false,
       verifyEmailFlag: false,
+      notFoundFlag : false,
       errors : [],
-      isProfileLoaded : false
+      isProfileLoaded : false,
+      updateFailModalFlag : false
   };
   break;
 }
-
-
-
 
 case 'UPDATE_INT_CUST_DOM_INVALID_PHONE' : {
     return {
@@ -101,6 +126,8 @@ case 'UPDATE_INT_CUST_DOM_INVALID_PHONE' : {
         isProfileLoaded : false,
         verifyAddressFlag : false,
         verifyEmailFlag: false,
+        notFoundFlag : false,
+        updateFailModalFlag : false
     }
 }
 
@@ -113,16 +140,33 @@ case 'UPDATE_CUST_DOM_GENERAL_ERROR' : {
         }],
         isProfileLoaded : false,
         verifyAddressFlag : false,
+        notFoundFlag : false,
         verifyEmailFlag: false,
+        updateFailModalFlag : false
+    };
+    break;
+}
+
+case 'UPDATE_CUST_DOM_FAIL': {
+    return {
+        ...state,
+        successModalFlag: false,
+        verifyEmailFlag: false,
+        addressValidationSuccessFlag: false,
+        notFoundFlag : false,
+        errors : [],
+        isProfileLoaded : false,
+        updateFailModalFlag : true
     };
     break;
 }
 
 
-    default:
+default:
       return {
         ...state,          
-        successModalFlag : false
+        successModalFlag : false,
+        updateFailModalFlag : true
       };
   }
 }

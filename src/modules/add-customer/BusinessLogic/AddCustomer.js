@@ -91,6 +91,8 @@ class AddCustomer extends Component {
             salutationDataDrop: [],
             statesList: [],
             storeClientNo: '0',
+            addressSequence: '0',
+            mobileSequence: '0',
             addCardModal: '',
             maxCardWarning: '',
             customercardDetails: [],
@@ -136,6 +138,8 @@ class AddCustomer extends Component {
         console.log('Add Customer: componentWillReceiveProps', nextProps);
         if (nextProps.addCustomer.successModalFlag === true) {
             this.setState({ storeClientNo: nextProps.addCustomer.storeClientNo });
+            this.setState({ addressSequence: nextProps.addCustomer.addressSequence });
+            this.setState({ mobileSequence: nextProps.addCustomer.mobileSequence });
             if (this.state.customercardDetails.length > 0) {
                 this.setState({isDomestic: true})
                 this.addCardDetailsToClienteleInvoker(nextProps.addCustomer.storeClientNo);
@@ -263,10 +267,10 @@ class AddCustomer extends Component {
             this.props.clearZipToCitySateDataActionInvoker();
         }
         // MIKE - testing for add cust form within in Send - can be removed if not working
-        if(nextProps.addCustomer.responseError !== null) {
-            this.setState({errorDescription: nextProps.addCustomer.responseError.response_text});
-            this.setState({errorThrown:true});
-        }
+        // if(nextProps.addCustomer.responseError !== null) {
+        //     this.setState({errorDescription: nextProps.addCustomer.responseError.response_text});
+        //     this.setState({errorThrown:true});
+        // }
 
 
     }
@@ -540,9 +544,14 @@ class AddCustomer extends Component {
         this.setState({
             succesModal: false
         });
-            let selectedCustomer = {
+        /*clear/reset the customer state in store due to issue when 
+        we add customer again after one successfull save of previous.*/
+        this.props.resetAddCustomer();
+        var phoneSequence = (this.state.mobileSequence && this.state.mobileSequence != "") ? this.state.mobileSequence : "0"
+        var addrSequence = (this.state.addressSequence && this.state.addressSequence != "") ? this.state.addressSequence : "0"
+        let selectedCustomer = {
                 addresses: {},
-                clientNumber: "",
+                clientNumber: this.state.storeClientNo,
                 cCSNumber: "",
                 myClient: "N",
                 saluationCode: "",
@@ -551,7 +560,7 @@ class AddCustomer extends Component {
                 firstName: this.state.fields['cust_fname'],
                 emailAddress: this.state.fields['cust_email'],
                 selectedAddress: {
-                    sequenceKey: 1,
+                    sequenceKey: addrSequence,
                     international: '0',
                     Addr1: this.state.fields['cust_addr1'],
                     Addr2: this.state.fields['cust_addr2'],
@@ -561,12 +570,12 @@ class AddCustomer extends Component {
                     Zip: this.state.fields['dom_cust_zip'],
                     PhoneNumbers: [{
                         phoneNumber : this.state.fields['cust_phone1'],
-                        phoneSequence : "",
+                        phoneSequence : phoneSequence,
                         phoneType: ""
                     },
                     {
                         phoneNumber : this.state.fields['cust_phone2'],
-                        phoneSequence : "",
+                        phoneSequence : phoneSequence,
                         phoneType: ""
                     }]
                 }
@@ -582,7 +591,8 @@ class AddCustomer extends Component {
 
               this.props.navigateToDomesticCustomerInvoker(selectedCustomer);
 
-                if(this.props.customerSearch.buttonId == '1' || this.props.customerSearch.flow === "sale") {
+            if(this.props.customerSearch.buttonId == '1' || this.props.customerSearch.flow === "sale") {
+                this.callAttachCustomerActionInvoker();
                 this.props.history.push('/sale');
               } else {
                 this.props.history.push('/customer-details');
@@ -590,8 +600,6 @@ class AddCustomer extends Component {
               
         
             // this.props.custIncircleInfoRequestInvoker(data.CCSNumber);
-
-             this.callAttachCustomerActionInvoker();
             // this.props.history.push('/customer-details/domestic');
         // }
     }
@@ -658,7 +666,6 @@ class AddCustomer extends Component {
     /* Handle input change in form - Domestic */
 
     handleChange = (field, e) => {
-
         let fields = this.state.fields;
         let errors = this.state.errors;
         if (field === 'dom_cust_zip_blur') {
@@ -709,6 +716,7 @@ class AddCustomer extends Component {
         if (!fields['cust_fname']) {
             errors['cust_fname'] = 'First Name cannot be empty';
             fnameValidation = false;
+           
         }
 
         if (!fields['cust_lname']) {
@@ -732,6 +740,7 @@ class AddCustomer extends Component {
             }
         }
 
+      
         if (fields['dom_cust_zip']) {
 
             if (!(fields['dom_cust_zip'].length == 5 || fields['dom_cust_zip'].length == 9)) {
@@ -789,9 +798,9 @@ class AddCustomer extends Component {
             errors["cust_email"] = "";
 
             errors['cust_dom_address1'] = 'Address and Email missing';
-            this.setState({ emailMissingModal: true });
+            this.setState({ filedsMissingModal: true });
         }
-        else if (emailValidation === true && addrValidation === false) {
+        else if (emailEmpty === false) {// && addrValidation === false
             if (!this.validateEmail(fields["cust_email"])) {
                 errors["cust_email"] = "Please enter a valid email";
                 emailValidation = false;
@@ -827,8 +836,8 @@ class AddCustomer extends Component {
 
     callAttachCustomerActionInvoker = () => {
         var storeClientNumber = this.state.storeClientNo;
-        var phoneSequence = (this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != "" && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != undefined) ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence : "0"
-        var addrSequence = (this.props.customerDetails.selectedAddress.Addr1 != "") ? "1" : "0";
+        var phoneSequence = (this.state.mobileSequence && this.state.mobileSequence != "") ? this.state.mobileSequence : "0"
+        var addrSequence = (this.state.addressSequence && this.state.addressSequence != "") ? this.state.addressSequence : "0"
         this.props.attachCustomerActionInvoker(this.props.login.userpin, this.props.transactionId, storeClientNumber, addrSequence, phoneSequence);
     }
     /* Submit add customer data - Domestic */
@@ -840,7 +849,7 @@ class AddCustomer extends Component {
             ...clientConfig,
             'CFirstName': this.state.fields['cust_fname'],
             'CLastName': this.state.fields['cust_lname'],
-            'Salutation ': this.state.selectedSalutation,
+            'Salutation': this.state.selectedSalutation,
             'Address_Ln1': this.state.fields['cust_addr1'],
             'Address_Ln2': this.state.fields['cust_addr2'],
             'City': this.state.fields['cust_city'],
@@ -1051,13 +1060,14 @@ class AddCustomer extends Component {
     /* Close success modal - International */
 
     closeSuccessModalInt = () => {
-        console.log('PRANAV INT MODAL')
         this.setState({
             succesModalInt: false
         });
+        var phoneSequence = (this.state.mobileSequence && this.state.mobileSequence != "") ? this.state.mobileSequence : "0"
+        var addrSequence = (this.state.addressSequence && this.state.addressSequence != "") ? this.state.addressSequence : "0"
         let selectedCustomer = {
             addresses: {},
-            clientNumber: "",
+            clientNumber: this.state.storeClientNo,
             cCSNumber: "",
             myClient: "N",
             saluationCode: "",
@@ -1066,7 +1076,7 @@ class AddCustomer extends Component {
             firstName: this.state.fieldsInt['cust_fname'],
             emailAddress: this.state.fieldsInt['cust_email'],
             selectedAddress: {
-                sequenceKey: 1,
+                sequenceKey: addrSequence,
                 international: '1',
                 Addr1: this.state.fieldsInt['cust_addr1'],
                 Addr2: this.state.fieldsInt['cust_addr2'],
@@ -1076,12 +1086,12 @@ class AddCustomer extends Component {
                 Zip: this.state.fieldsInt['int_cust_postal_code'],
                 PhoneNumbers: [{
                     phoneNumber : this.state.fieldsInt['cust_phone1'],
-                    phoneSequence : "",
+                    phoneSequence : phoneSequence,
                     phoneType: ""
                 },
                 {
                     phoneNumber : this.state.fieldsInt['cust_phone2'],
-                    phoneSequence : "",
+                    phoneSequence : phoneSequence,
                     phoneType: ""
                 }]
             }
@@ -1090,14 +1100,13 @@ class AddCustomer extends Component {
           this.props.navigateToDomesticCustomerInvoker(selectedCustomer);
 
           if(this.props.customerSearch.buttonId == '1') {
+            this.callAttachCustomerActionInvoker();
             this.props.history.push('/sale');
           } else {
             this.props.history.push('/customer-details');
           }
     
         // this.props.custIncircleInfoRequestInvoker(data.CCSNumber);
-
-         this.callAttachCustomerActionInvoker();
         // this.props.history.push('/customer-details/domestic');
     // }
     }
@@ -1217,6 +1226,7 @@ class AddCustomer extends Component {
     bypassAddressValidationInt = () => {
         this.closeFailModalInt();
         this.closeFailModalInt1();
+        
         this.addInternationalCustomerInvoker(true);
     }
      // AddCard Methods
@@ -1361,7 +1371,6 @@ class AddCustomer extends Component {
     /* Render method for the component */
 
     render() {
-        console.log('MIKE ADD CUST sPROPS', this.props.addCustomer)
         return (
             <AddCustomerView
                 statesList={this.state.statesList}
@@ -1458,12 +1467,12 @@ class AddCustomer extends Component {
 
 
 // function formatPhoneint(intPhone) {
-//     console.log('PRANAV FORMATPHONEINT ORIGINAL', intPhone)
+//      FORMATPHONEINT ORIGINAL', intPhone)
 //     var phoneint = intPhone.replace(/[^A-Z0-9]+/ig, "");
 //     var formattedPhone = phoneint;
-//     console.log('PRANAV FORMATPHONEINT REPLACE', formattedPhone)
+//      FORMATPHONEINT REPLACE', formattedPhone)
 //     var lastTen = formattedPhone.substr(formattedPhone.length - 13);
-//     console.log('PRANAV FORMATPHONEINT LAST10', lastTen)
+//      FORMATPHONEINT LAST10', lastTen)
 //     return lastTen;
 // }
 

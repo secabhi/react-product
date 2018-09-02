@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import Slider from "react-slick";
 
 /* Importing the local files*/
@@ -9,7 +8,6 @@ import Details from './details/details';
 import Header from '../../common/header/header';
 import Tabheader from '../../common/tabheaders/cust-det-tabheader';
 import Footer from '../../common/footer/footer';
-
 
 import '../../../resources/stylesheets/slick.min.css';
 import '../../../resources/stylesheets/slick-theme.min.css';
@@ -23,6 +21,7 @@ import proceedToSaleWhite from '../../../resources/images/Sale_White_Filled.svg'
 import edit_profile from '../../../resources/images/Edit_Profile.svg';
 
 import incircle_purple_large_bttn from '../../../resources/images/Incircle_Level_purple_large_bttn.svg';
+
 
 const UpArrow = (props) => {
   const {onClick} = props;
@@ -67,12 +66,14 @@ let carouselSettingsPurchaseHistory = {
 };
 
 const PurchaseSlider = (props) => {
+  console.log('PRANV PURCHASESLIDER PROPS', props)
   let slides = [];
   if(props.purchases) {
     slides = props.purchases.map((product, index) => {
       return ( 
         <HistorySlide 
           key={product.prodDesc + index}
+          pimSkuId={product.pimSku}
           productImageURL={product.productImageURL} 
           index={index}
           prodDesc={product.prodDesc}
@@ -81,6 +82,9 @@ const PurchaseSlider = (props) => {
           displayModal={props.displayModal}
           userPin={props.userPin}
           salesPin={product.associatePin}
+          history={props.history}
+          changeItemPurchasedFlag = {props.changeItemPurchasedFlag}
+
         />
       )
     })
@@ -127,14 +131,14 @@ export class CustomerDetailsView extends Component {
       this.props.customerDetails.name = this.props.customerDetails.updatedCustomer.name;
     }
     //debugger;
-    console.log('Sweezey: customerDetailsView Render props',this.props);
+
     
     return (
       <div className="cusdet-container">
         <div className="cusdet-header">
           <Header history={this.props.history}></Header>
         </div>
-        
+          
         <div className="cusdet-sub-header">
           <div className="back-button" onClick={this.props.navigateBack} >
             <img
@@ -212,7 +216,7 @@ export class CustomerDetailsView extends Component {
                     <div>Purchase History</div>
                   </div>
                   <div className="purchase-history-carousel">
-                    <PurchaseSlider userPin={this.props.userPin} purchases={this.props.customerDetails.purchases} displayModal={(index) => this.props.displayHistoryModal(index)} />
+                    <PurchaseSlider history={this.props.history} userPin={this.props.userPin} purchases={this.props.customerDetails.purchases} displayModal={(index) => this.props.displayHistoryModal(index)} changeItemPurchasedFlag = {this.props.changeItemPurchasedFlag} />
                   </div>
                 </div>
               </div>          

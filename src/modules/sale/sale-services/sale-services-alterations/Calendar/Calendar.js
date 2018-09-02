@@ -55,7 +55,6 @@ export default class Calendar extends Component {
 //     console.log("THIS IS THE DATE!!!!!!!!!",stringDate.slice(2,4))
 //     console.log("THIS IS THE DATE!!!!!!!!!",stringDate.slice(5,9))
 //    if(stringDate.split('/')[0].length < 2) {
-//     console.log('mike-date-picker-stringdate', ('0'+stringDate))
 //     return '0'+stringDate;
 //    } else {
 //        return stringDate;
@@ -63,7 +62,6 @@ export default class Calendar extends Component {
 // }
 
   handleDayClick = (day, modifiers = {}) => {
-    console.log('mike-date-onclick', day)
 
     if(modifiers.disabled){
       //unselect if already selected

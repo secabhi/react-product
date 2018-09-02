@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Modal from 'react-responsive-modal';
 
 /* Import  styles */
@@ -9,20 +9,20 @@ import phonemodalicon from '../../../../../resources/images/Confirm_Phone.svg';
 
 export class PhoneModal extends Component {
 
-    componentDidMount (){
+    componentDidMount() {
         //console.log('phomemodal '+JSON.stringify(this.props))
     }
     render() {
-        return ( 
-            <Modal open = {
+        return (
+            <Modal open={
                 this.props.phoneModalOpen
             }
-            classNames = {{
-                                modal: 'add-dom-cust-modal'
-                            }}
-            little showCloseIcon={false} > 
+                classNames={{
+                    modal: 'add-dom-cust-modal'
+                }}
+                little showCloseIcon={false} onClose={() => { }} >
                 <div className='add-dom-cust-container'>
-                    <img src={phonemodalicon} className='add-dom-cust-modal-icon'/>
+                    <img src={phonemodalicon} className='add-dom-cust-modal-icon' />
                     <div className='add-dom-cust-phone-modal-label'>Is this your correct phone number?</div>
                     <div className='add-dom-cust-phone-modal-conform-phone'>{this.props.phoneModalNum}</div>
                     <div className='add-dom-cust-modal-conform-phone-button-area'>
@@ -37,8 +37,8 @@ export class PhoneModal extends Component {
                             <span className='add-dom-cust-modal-yes-btn-label'>YES</span>
                         </div>
                     </div>
-                </div> 
+                </div>
             </Modal>
-)
-}
+        )
+    }
 }

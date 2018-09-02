@@ -9,7 +9,10 @@ const path = env.PATH;
 
 export function getCardsList(viewCardReq) {
     var viewCardDetails = path + 'viewCardDetails.json';
-
+    const viewCardsObj = require('../../common/responseValidator/responseDictionary').viewCardsObj;
+    var validate = {isValid : false,
+        message :''}
+        
     const CONFIG_FILE = require('../../../resources/stubs/config.json');
     var url = CONFIG_FILE.viewCardUrl;
     var clientConfig = CONFIG_FILE.clientConfig;
@@ -21,16 +24,47 @@ export function getCardsList(viewCardReq) {
     const request = callPostWebService(url, params)/*callGetWebService(viewCardDetails)*/;
     return (dispatch) => {
         request.then(({data}) => {
-            switch (data.response_code) {
-                case 0:{
-                    dispatch({type: 'GET_CARDS_SUCCESS', payload: data})
+            validate = responseValidation(data,viewCardsObj);  
+            console.log("validation"+JSON.stringify(validate));
+            /*switch (data.response_code) {
+                case 0:{*/
+                if(validate.isValid)
+                {   //alert('success case');
+                    switch (data.response_code) {
+                            case 0:{
+                                dispatch({type: 'GET_CARDS_SUCCESS', payload: data})
+                            
+                            break;
+                            }
+                            case 3:{
+                                dispatch({type: 'GET_CARDS_GENERALERROR', payload: data,
+                                message : 'Invalid Request'
+                            })
+                            break;
+                                }
+                            default:{
+                                dispatch({type: 'GET_CARDS_FAIL',payload : data,
+                                    message : 'Invalid Request'
+                                })
+                            }
+                        }
+                    }
+                else{
+                    var errorMessage = validate.message + ' for web service: '+url+' TimeOut Duration:'+require('../../../resources/stubs/config.json').timeout+'ms';
+                    dispatch({
+                        type: 'GET_CARDS_REQUEST_VALIDFAILED',
+                        payload: {  },
+                        message : errorMessage
+                    });
                 }
-                break;
-                default:{
-                        dispatch({type: 'GET_CARDS_FAIL',payload : data})
-                }
-            }
-        })
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            dispatch({
+                type: 'GET_CARDS_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ url
+            });
+        });
     }
 }
 
@@ -60,6 +94,14 @@ export function clearGetCards(){
             payload: {}
         });
 };
+}
+export function clearIsValid(){
+    return (dispatch) => {
+    dispatch({
+        type: 'CLEAR_IS_VALID',
+        payload: ''
+    });
+}
 }
 
 export function setPathname(data){

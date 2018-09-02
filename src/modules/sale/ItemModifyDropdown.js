@@ -166,9 +166,9 @@ export default class ItemModifyDropdown extends Component {
       if(window.innerWidth > 1080) {
         switch(e.target.getAttribute('off')) {
           case 'mkdPerc' : {
-            if(this.props.itemPromotionDetails.pP_MKDPEROFF.enable === true) {
-              if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
-                if(discountsApplied.totalDiscounts < 2) {
+            if(this.props.itemPromotionDetails.pP_MKDPEROFF.enable === true) {              
+              if(discountsApplied.priceOverrideCount > 0) {
+                if(discountsApplied.totalDiscounts < 3) {
                   if(currentItemPrice > 0) {
                     this.props.showItemModifyPriceModal(true,'Price : Mkd % Off','Enter % Off');
                   }
@@ -180,8 +180,8 @@ export default class ItemModifyDropdown extends Component {
                   this.props.showModifyErrorModal(true,"No more discounts allowed",true)
                 }
               }
-              else if(discountsApplied.priceOverrideCount > 0) {
-                if(discountsApplied.totalDiscounts < 3) {
+              else if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
+                if(discountsApplied.totalDiscounts < 2) {
                   if(currentItemPrice > 0) {
                     this.props.showItemModifyPriceModal(true,'Price : Mkd % Off','Enter % Off');
                   }
@@ -215,23 +215,19 @@ export default class ItemModifyDropdown extends Component {
           }
           case 'mkdDollar' : {
             if (this.props.itemPromotionDetails.pP_MKDDOLOFF.enable === true) {
-              if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
-                /* if(discountsApplied.totalDiscounts < 2) {
-                  this.props.showItemModifyPriceModal(true,'Price : Mkd $ Off','Enter $ Off');
-                }
-                else {
-                  this.props.showModifyErrorModal(true,"No more discounts allowed",true)
-                } */
-                this.props.showModifyErrorModal(true,"No more discounts allowed",true)
-              }
-              else if(discountsApplied.priceOverrideCount > 0) {
+              if(discountsApplied.priceOverrideCount > 0) {
                 if(discountsApplied.totalDiscounts < 3) {
-                  if(discountsApplied.mkdDollarCount < 1 && discountsApplied.omniDollarCount < 1) {                    
-                    if(currentItemPrice > 0) {
-                      this.props.showItemModifyPriceModal(true,'Price : Mkd $ Off','Enter $ Off');                      
-                    }
-                    else {
+                  if(discountsApplied.mkdDollarCount < 1 && discountsApplied.omniDollarCount < 1) {
+                    if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
                       this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                    }
+                    else {                
+                      if(currentItemPrice > 0) {
+                        this.props.showItemModifyPriceModal(true,'Price : Mkd $ Off','Enter $ Off');                      
+                      }
+                      else {
+                        this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                      }
                     }
                   }
                   else {
@@ -241,6 +237,15 @@ export default class ItemModifyDropdown extends Component {
                 else {
                   this.props.showModifyErrorModal(true,"No more discounts allowed",true)
                 }
+              }
+              else if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
+                /* if(discountsApplied.totalDiscounts < 2) {
+                  this.props.showItemModifyPriceModal(true,'Price : Mkd $ Off','Enter $ Off');
+                }
+                else {
+                  this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                } */
+                this.props.showModifyErrorModal(true,"No more discounts allowed",true)
               }
               else {
                 if(discountsApplied.totalDiscounts < 2) {
@@ -319,7 +324,17 @@ export default class ItemModifyDropdown extends Component {
                 }
               }
               else {
-                this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                if(discountsApplied.totalDiscounts === 1 && discountsApplied.priceOverrideCount === 1) {
+                  if(currentItemPrice > 0) {
+                    this.props.showItemModifyPriceModal(true,'Price : Mkd New Price','Enter Price');                     
+                  }
+                  else {
+                    this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                  }
+                }
+                else {
+                  this.props.showModifyErrorModal(true,"Discount not allowed",true)
+                }
               }
             }
             else {
@@ -330,8 +345,8 @@ export default class ItemModifyDropdown extends Component {
           case 'omniPerc' : {
             if (this.props.itemPromotionDetails.pP_OMNIMKDPEROFF.enable === true) {
               //this.props.showItemModifyPriceModal(true,'Price : Omni Mkd % Off','Enter % Off');
-              if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
-                if(discountsApplied.totalDiscounts < 2) {                  
+              if(discountsApplied.priceOverrideCount > 0) {
+                if(discountsApplied.totalDiscounts < 3) {                                    
                   if(currentItemPrice > 0) {
                     this.props.showItemModifyPriceModal(true,'Price : Omni Mkd % Off','Enter % Off');                     
                   }
@@ -343,8 +358,8 @@ export default class ItemModifyDropdown extends Component {
                   this.props.showModifyErrorModal(true,"No more discounts allowed",true)
                 }
               }
-              else if(discountsApplied.priceOverrideCount > 0) {
-                if(discountsApplied.totalDiscounts < 3) {                                    
+              else if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
+                if(discountsApplied.totalDiscounts < 2) {                  
                   if(currentItemPrice > 0) {
                     this.props.showItemModifyPriceModal(true,'Price : Omni Mkd % Off','Enter % Off');                     
                   }
@@ -378,23 +393,19 @@ export default class ItemModifyDropdown extends Component {
           case 'omniDollar' : {
             if (this.props.itemPromotionDetails.pP_OMNIMKDDOLOFF.enable === true) {
               //this.props.showItemModifyPriceModal(true,'Price : Omni Mkd $ Off','Enter $ Off');
-              if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
-                /* if(discountsApplied.totalDiscounts < 2) {
-                  this.props.showItemModifyPriceModal(true,'Price : Omni Mkd $ Off','Enter $ Off');
-                }
-                else {
-                  this.props.showModifyErrorModal(true,"No more discounts allowed",true)
-                } */
-                this.props.showModifyErrorModal(true,"No more discounts allowed",true)
-              }              
-              else if(discountsApplied.priceOverrideCount > 0) {
+              if(discountsApplied.priceOverrideCount > 0) {
                 if(discountsApplied.totalDiscounts < 3) {  
                   if(discountsApplied.mkdDollarCount < 1 && discountsApplied.omniDollarCount < 1) {
-                    if(currentItemPrice > 0) {
-                      this.props.showItemModifyPriceModal(true,'Price : Omni Mkd $ Off','Enter $ Off');                    
+                    if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
+                      this.props.showModifyErrorModal(true,"No more discounts allowed",true)
                     }
                     else {
-                      this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                      if(currentItemPrice > 0) {
+                        this.props.showItemModifyPriceModal(true,'Price : Omni Mkd $ Off','Enter $ Off');                    
+                      }
+                      else {
+                        this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                      }
                     }
                   }
                   else {
@@ -404,6 +415,15 @@ export default class ItemModifyDropdown extends Component {
                 else {
                   this.props.showModifyErrorModal(true,"No more discounts allowed",true)
                 }
+              }
+              else if(discountsApplied.mkdNewPriceCount > 0 || discountsApplied.omniNewPriceCount > 0) {
+                /* if(discountsApplied.totalDiscounts < 2) {
+                  this.props.showItemModifyPriceModal(true,'Price : Omni Mkd $ Off','Enter $ Off');
+                }
+                else {
+                  this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                } */
+                this.props.showModifyErrorModal(true,"No more discounts allowed",true)
               }
               else {
                 if(discountsApplied.totalDiscounts < 2) {
@@ -447,7 +467,17 @@ export default class ItemModifyDropdown extends Component {
                 }
               }
               else {
-                this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                if(discountsApplied.totalDiscounts === 1 && discountsApplied.priceOverrideCount === 1) {
+                  if(currentItemPrice > 0) {
+                    this.props.showItemModifyPriceModal(true,'Price : Mkd New Price','Enter Price');                     
+                  }
+                  else {
+                    this.props.showModifyErrorModal(true,"No more discounts allowed",true)
+                  }
+                }
+                else {
+                  this.props.showModifyErrorModal(true,"Discount not allowed",true)
+                }
               }
             }
             else {

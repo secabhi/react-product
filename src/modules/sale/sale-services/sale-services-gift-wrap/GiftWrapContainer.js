@@ -63,6 +63,18 @@ class GiftWrap extends Component {
     this.apiData = { option7: false, giftOption: false, giftWrapMessage: '', }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.giftWrap.error) {
+      throw new Error('GIFT WRAP error: '+ nextProps.giftWrap.error);
+    }
+  }
+
+  componentDidUpdate() {
+
+    this.props.startSpinner(false);
+  }
+
+
   render() {
     const isNextBtnEnabled = () => {
       if (this.props.selectedItems.length === 0){return false};
@@ -197,12 +209,6 @@ class GiftWrap extends Component {
     )
   }
 
-
-  componentDidUpdate() {
-
-    this.props.startSpinner(false);
-  }
-
   setCurrentItem = (itemNumber, itemPrice, itemSku, selectedItem, index) => {
     //debugger;
     let itemList = pluck(this.props.cart.data.cartItems.items[index], 'itemDesc');
@@ -296,7 +302,7 @@ class GiftWrap extends Component {
       }
       //action call
       this.props.startSpinner(true);
-      this.props.addToGiftWrap(optionsObj);
+      this.props.addToGiftWrap(optionsObj,this.props.login.userpin);
       this.navigateToCart();
     }
     else {
@@ -313,7 +319,7 @@ class GiftWrap extends Component {
       }
       //action call
       this.props.startSpinner(true);
-      this.props.addToGiftWrap(optionsObj);
+      this.props.addToGiftWrap(optionsObj,this.props.login.userpin);
       this.navigateToCart();
 
     }
@@ -389,12 +395,13 @@ class GiftWrap extends Component {
 };
 
 
-function mapStateToProps({ giftWrap, cart,customerDetails, selectedItems }) {
+function mapStateToProps({ giftWrap, cart,customerDetails, selectedItems, login }) {
   return {
     giftWrap,
     cart,
     customerDetails,
-    selectedItems
+    selectedItems,
+    login
   }
 }
 

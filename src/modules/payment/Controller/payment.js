@@ -2,7 +2,8 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 
-import {updateCustDetails,getCustDetails,clearState,getAurusResponse,UpdateCartStatusAction,printReceipt,addTender,completeTrans, voidTransaction,cardNotSwiped} from './paymentActions';import { store } from '../../../store/store';
+import {updateCustDetails,getCustDetails,clearState,getAurusResponse,UpdateCartStatusAction,printReceipt,addTender,completeTrans, voidTransaction,cardNotSwiped, convertSALT} from './paymentActions';
+import { store } from '../../../store/store';
 
 // Components
 import {PaymentView} from '../View/paymentView';
@@ -67,6 +68,7 @@ class Payment extends Component {
             purchasesListModal:false,
             error: "", 
             emailFailure: false,
+            printFailure: false,
             emailFname:"",
             emailLname:"",
             salutation: this.props.customerDetails.salutation ? this.props.customerDetails.salutation + '.' : '',
@@ -81,7 +83,10 @@ class Payment extends Component {
             currentLvl: this.props.incircleData ? ((this.props.incircleData.data.lyBenefitLevelCode > this.props.incircleData.data.tyBenefitlevelCode) ? this.props.incircleData.data.lyBenefitLevelCode : this.props.incircleData.data.tyBenefitlevelCode) : 0,
             Update:false,
             PinNUM:"",
-            giftCardNumber:""
+            giftCardNumber:"",
+            isSavedCardTrans: false,
+            UseInTransAccount: null,
+            otherCardList: []
         };
 
         // Variables
@@ -89,21 +94,20 @@ class Payment extends Component {
             this.cartID = this.state.cartID;
             this.value=null;
             this.i=null;
-            this.source=null;
-            this.key_in=null;
+            this.bypassSource=null;
             this.timer=null;
             this.tries=0;
             this.ticketNum=0;
             this.voidFlow=false;
-            this.bypassReason='';
             this.error=false;
-            this.returned=false;
-            this.bypassFlag=false;
+            this.lookup=false;
+            this.giftcardnum=null;
+
+            this.navigateBack=this.navigateBack.bind(this);
     }
 
     componentWillMount() {
         this.screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        //this.bypass()
         if (store.getState().cart.data) {
             console.log(store.getState().cart)
             this.setState({
@@ -117,69 +121,85 @@ class Payment extends Component {
     }
 
     componentDidMount() {
-        //this.activateScanner(); 
+        //this.activateScanner();
+
+        console.log("PURNIMA: props.cards in payment page" + this.props.cards);
+        console.log("PURNIMA: props.cards.usintransaccount in payment page" + this.props.cards.UseInTransAccount);
+        console.log("PURNIMA: props.cards.useintransaccount.kinum in payment page" + this.props.cards.UseInTransAccount.kiNum);
+        
         if(this.state.total==0&&this.props.cart.data.transactionId&&store.getState().cart.data){
             this.completeTransaction();
-        } else if (this.props.cards.UseInTransAccount && this.props.cards.UseInTransAccount.kiNum !== "") {
-            console.log("Account lookup payment call");
+        } else if (this.props.cards && this.props.cards.UseInTransAccount && this.props.cards.UseInTransAccount.kiNum && this.props.cards.UseInTransAccount.kiNum != '') {
+            console.log("PURNIMA: Payment Account look up scenario");
+            var accDetail = this.props.cards.UseInTransAccount;
+            var accDetails = this.props.cards.UseInTransAccounts;
+            this.setState({ isSavedCardTrans: true, UseInTransAccount: accDetail, otherCardList:accDetails });
+            //this.bypass();
+            //this.closeTrans();
         } else {
             this.cardLookup();
         }
     }
 
-    componentWillReceiveProps(nextProps){
+    componentDidCatch(error, info) {
+        this.setState({ errorModal: true, cardErrorMsg: error+": "+info });
+    }
+
+    componentWillReceiveProps(nextProps) {
         console.log("nextprops")
         console.log(JSON.stringify(nextProps.Payment))
-    
-        
-        if(this.returned){   
-            if (nextProps.Payment.getCardBinRes != this.props.Payment.getCardBinRes&&nextProps.Payment.getCardBinRes !== null) {
-                this.getCardBinResReturned(nextProps.Payment.getCardBinRes)
-            }
-            if(nextProps.Payment.notSwipedRes!=this.props.Payment.notSwipedRes){
-                console.log("Not Swiped Reason API Response: ",nextProps.Payment.notSwipedRes)
-            }
-            if (nextProps.Payment.scannerRes != this.props.Payment.scannerRes) {
-                this.scannerResReturned(nextProps.Payment.scannerRes)
-            }
-            if (nextProps.Payment.cancelSwipeRes != this.props.Payment.cancelSwipeRes) {
-                this.cancelSwipeResReturned(nextProps.Payment.cancelSwipeRes)
-            }
-            if (nextProps.Payment.transactionRes != this.props.Payment.transactionRes) {
-                this.transResReturned(nextProps.Payment.transactionRes)
-            }
-            if (nextProps.Payment.signatureRes != this.props.Payment.signatureRes) {
-                this.sigResReturned(nextProps.Payment.signatureRes)
-            }
-            if (nextProps.Payment.bypassRes != this.props.Payment.bypassRes) {
-                this.bypassResReturned(nextProps.Payment.bypassRes)
-            }
-            if (nextProps.Payment.tenderLog != this.props.Payment.tenderLog) {
-                this.tenderLogReturned(nextProps.Payment.tenderLog)
-            }
-            if (nextProps.Payment.data != this.props.Payment.data) {
-                this.printReceiptActionReturned(nextProps.Payment.data)
-            };
-            if (nextProps.Payment.clientData != this.props.Payment.clientData) {
-                this.updateCustomerActionReturned(nextProps.Payment.clientData)
-            };
-            if (nextProps.Payment.transLog != this.props.Payment.transLog) {
-                this.transLogReturned(nextProps.Payment.transLog)
-            }
-            if (nextProps.Payment.closeTransactionRes != this.props.Payment.closeTransactionRes) {
-                this.closeTransReturned(nextProps.Payment.closeTransactionRes)
-            }
-            //if void successful 
-            if(nextProps.Payment.midVoidRes!= this.props.Payment.midVoidRes) {
-                this.props.voidTransactionInvoker(this.props.login.userpin, this.props.cart.data.transactionId)
-            }
-            //if void log successful 
-            if(nextProps.Payment.voidRes) {
-                sessionStorage.setItem("loggedIn", "false");
-                this.props.history.push('/');
-            }
-
+        if (nextProps.Payment.getCardBinRes != this.props.Payment.getCardBinRes) {
+            this.getCardBinResReturned(nextProps.Payment.getCardBinRes)
         }
+        if (nextProps.Payment.notSwipedRes != this.props.Payment.notSwipedRes) {
+            console.log("Not Swiped Reason API Response: ", nextProps.Payment.notSwipedRes)
+        }
+        if (nextProps.Payment.scannerRes != this.props.Payment.scannerRes) {
+            this.scannerResReturned(nextProps.Payment.scannerRes)
+        }
+        if (nextProps.Payment.cancelSwipeRes != this.props.Payment.cancelSwipeRes) {
+            this.cancelSwipeResReturned(nextProps.Payment.cancelSwipeRes)
+        }
+        if (nextProps.Payment.convertSALTRes!=this.props.Payment.convertSALTRes){
+            this.convertSALTResReturned(nextProps.Payment.convertSALTRes)
+        }
+        if (nextProps.Payment.transactionRes != this.props.Payment.transactionRes) {
+            this.transResReturned(nextProps.Payment.transactionRes)
+        }
+        if (nextProps.Payment.signatureRes != this.props.Payment.signatureRes) {
+            this.sigResReturned(nextProps.Payment.signatureRes)
+        }
+        if (nextProps.Payment.bypassRes != this.props.Payment.bypassRes) {
+            this.bypassResReturned(nextProps.Payment.bypassRes)
+        }
+        if (nextProps.Payment.tenderLog != this.props.Payment.tenderLog) {
+            this.tenderLogReturned(nextProps.Payment.tenderLog)
+        }
+        if (nextProps.Payment.printRes != this.props.Payment.printRes) {
+            this.printReceiptActionReturned(nextProps.Payment.printRes)
+        };
+        if (nextProps.Payment.clientData != this.props.Payment.clientData) {
+            this.updateCustomerActionReturned(nextProps.Payment.clientData)
+        };
+        if (nextProps.Payment.transLog != this.props.Payment.transLog) {
+            this.transLogReturned(nextProps.Payment.transLog)
+        }
+        if (nextProps.Payment.closeTransactionRes != this.props.Payment.closeTransactionRes) {
+            this.closeTransReturned(nextProps.Payment.closeTransactionRes)
+        }
+        //if void successful 
+        if (nextProps.Payment.midVoidRes != this.props.Payment.midVoidRes) {
+            this.props.voidTransactionInvoker(this.props.login.userpin, this.props.cart.data.transactionId)
+        }
+        //if void log successful 
+        if (nextProps.Payment.voidRes!=this.props.Payment.voidRes) {
+            sessionStorage.setItem("loggedIn", "false");
+            this.props.history.push('/');
+        }
+        if(nextProps.Payment.failure!=this.props.Payment.failure){
+            this.setState({errorModal:true, cardErrorMsg:nextProps.Payment.failure, errorSource:"Failure"})
+        }
+
         { /*if(nextProps.Payment.type=='UPDATE_ISELL_SUCCESS')
             //this.props.startSpinner(false);
             //alert('I sell cart update successfully');
@@ -189,7 +209,7 @@ class Payment extends Component {
 
             //this.continue();
            // debugger;
-        */} 
+        */}
     }
 
 
@@ -220,133 +240,273 @@ class Payment extends Component {
     }
 
 //Navigate back to sale page
-    navigateBack = () => {
+    async navigateBack() {
         // this.props.clearItemSelected("");
         this.props.history.push('/sale');
-        this.props.clearState()
-        this.bypass();
+        await this.bypass();
+        this.props.clearState()   
     }
 
     //Aurus Scanner Request
     activateScanner=()=> {
         this.UpdateRequestScanJson.UpgradeRequest.POSID = this.aurusVars.POSID;
         this.UpdateRequestScanJson.UpgradeRequest.APPID = this.aurusVars.APPID;
-        this.UpdateRequestScanJson.UpgradeRequest.UpgradeType = 30;
+        if (this.toggle=='on') {//toggle scanner on
+            this.UpdateRequestScanJson.UpgradeRequest.UpgradeType = 30;
+        } else if(this.toggle=='off'){//toggle scanner off
+            this.UpdateRequestScanJson.UpgradeRequest.UpgradeType = 31;
+        }
         this.UpdateRequestScanJson.UpgradeRequest.ClerkID = this.aurusVars.ClerkID;
         this.UpdateRequestScanJson.UpgradeRequest.ServerIP = this.aurusVars.ServerIP;
         this.UpdateRequestScanJson.UpgradeRequest.ServerPort = this.aurusVars.ServerPort;
         this.setState({returnScannerRes:true});
         var req = json2xml(this.UpdateRequestScanJson);
-        this.returned=true;
+       
         this.props.aurusActionInvoker(req,'SCANNER');
-        
     }
 
     scannerResReturned=(data)=>{
-        this.returned=false;
+        
         clearTimeout(this.timer);
         this.setState({returnScannerRes:false});
         if(data.UpgradeResponse.ResponseCode[0]=="00000"){
+            if (this.toggle == 'on') {//checks if scanner toggled on and proceed to cardlookup
+                this.cardLookup()
+            } 
         } else {
             this.setState({ errorModal: true, cardErrorMsg: data.UpgradeResponse.ResponseText })        }
     }
 
 //Aurus GetCardBIN Request
-    cardLookup = (entrySource, manuallyEnteredCardNum) =>{
+    cardLookup = (entrySource) =>{
         this.error=false;
+        this.lookup=false;
         console.log("cardlookup "+entrySource)
         this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
         this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
         this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
-        if (this.bypassFlag) {
-            this.getCardBinJson.GetCardBINRequest.LookUpFlag = 2;
-        }
-        else {
-            this.getCardBinJson.GetCardBINRequest.LookUpFlag = this.aurusVars.LookUpFlag;
-
-        }
+        this.getCardBinJson.GetCardBINRequest.LookUpFlag = this.aurusVars.LookUpFlag;
         this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = this.aurusVars.NotAllowedKeyedEntry;
-
-        if (entrySource == 1) {
-            console.log(manuallyEnteredCardNum)
+        if (entrySource == 1) { //entry source 1 means key-in
             this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = this.aurusVars.AllowKeyedEntry;
-            if (manuallyEnteredCardNum) {
-                if (manuallyEnteredCardNum.length > 16 && manuallyEnteredCardNum.length < 18) {
-                    this.bypassFlag=true;
-                    //this.getCardBinJson.GetCardBINRequest.EntrySource = entrySource;
-                    this.getCardBinJson.GetCardBINRequest.CardNumber = manuallyEnteredCardNum;
-                    this.getCardBinJson.GetCardBINRequest.LookUpFlag = 2;
-                    this.error = true;
-                    this.cancelSwipe()
-                } else {
-                    this.setState({ error: "A 17-digit gift card number is required" })
-                    this.error = true;
-                }
-            } else {
-                //this.getCardBinJson.GetCardBINRequest.EntrySource = entrySource;
-            }
+            if (this.giftcardnum != null) {//checks if a gift card number was keyed-in
+                this.getCardBinJson.GetCardBINRequest.CardNumber = this.giftcardnum;
+                this.error = false;
+                this.giftcardnum = null;
+            } 
         }
-        if (!this.error) {
+        if (!this.error) { //checks if there was an error in key-in giftcard
             var req = json2xml(this.getCardBinJson);
-            this.returned=true;
-            this.props.aurusActionInvoker(req, 'GETCARDBIN');
-            this.bypassFlag=false;
-            this.timer = setTimeout(function () { }, 240000);
+            setTimeout(() => {this.props.aurusActionInvoker(req, 'GETCARDBIN')}, 1000);
+            this.timer = setTimeout(function () {this.openErrorModal('timeout',"Timeout") }, 240000);
+            
         }
+        setTimeout(() => {this.getCardBinJson.GetCardBINRequest.CardNumber = ""}, 1000) //clears out card number
     };
 
     getCardBinResReturned=(data)=>{
         console.log("getcardbin returned")
-        this.returned=false;
+        this.setState({giftCardModal: false});
         clearTimeout(this.timer);
         if (data.GetCardBINResponse.ResponseCode[0] == "00000") {
-            var newArray = this.state.cards.slice();
-            newArray.push(data.GetCardBINResponse);
-            this.setState({
-                cards: newArray,
-                isCards: true, 
-                giftCardModal: false
-            });
-            /* this.UpdateRequestScanJson.UpgradeRequest.UpgradeType = 31;
-            var req = json2xml(this.UpdateRequestScanJson);
-            this.props.aurusActionInvoker(req, 'SCANNER'); */
-            if(this.key_in==true && this.source=='KEYPAD' && data.GetCardBINResponse.CardEntryMode[0] == 'K'){
-                this.key_in=null;
-                this.handleCardSwiped();
-            }
-        } else if (data.GetCardBINResponse.ResponseText[0].startsWith("Transaction Cancelled")) {
-            if(this.key_in==true){
-                this.key_in=null;
-                this.cancelSwipe()
+            if (['VIC', "VID", "MCC", "MCD", "AXC", "DCC", "NVC", "NVD", "JBC", "GCC", "SCC", "PLC"].includes(data.GetCardBINResponse.CardType[0])){
+                var dateObj = new Date();
+                console.log(this.bypassSource, data.GetCardBINResponse.CardEntryMode[0])
+                if (data.GetCardBINResponse.CardExpiryDate[0] != "") {
+                    if (data.GetCardBINResponse.CardExpiryDate[0].substr(2) > ((dateObj.getUTCFullYear()).toString().substr(2))) {
+                        var newArray = this.state.cards.slice();
+                        newArray.push(data.GetCardBINResponse);
+                        this.setState({
+                            cards: newArray,
+                            isCards: true
+                        });
+                        this.toggle = "off";//turn scanner off
+                        if (this.bypassSource == 'KEYPAD' && data.GetCardBINResponse.CardEntryMode[0] == 'K') {
+                            this.handleCardSwiped();
+                        }
+                    } else if (data.GetCardBINResponse.CardExpiryDate[0].substr(2) == ((dateObj.getUTCFullYear()).toString().substr(2))) {
+                        if (data.GetCardBINResponse.CardExpiryDate[0].substr(0, 2) >= (dateObj.getUTCMonth() + 1)) {
+                            var newArray = this.state.cards.slice();
+                            newArray.push(data.GetCardBINResponse);
+                            this.setState({
+                                cards: newArray,
+                                isCards: true
+                            });
+                            this.toggle = "off";
+                            if (this.bypassSource == 'KEYPAD' && data.GetCardBINResponse.CardEntryMode[0] == 'K') {
+                                this.handleCardSwiped();
+                            }
+                        } else {
+                            this.openErrorModal('GETCARDBIN', "Card expired")
+                        }
+                    }
+                }
+                else {
+                    var newArray = this.state.cards.slice();
+                    newArray.push(data.GetCardBINResponse);
+                    this.setState({
+                        cards: newArray,
+                        isCards: true
+                    });
+                    if (this.bypassSource == 'KEYPAD' && data.GetCardBINResponse.CardEntryMode[0] == 'K') {
+                        this.handleCardSwiped();
+                    }
+                }
             } else {
-                this.cardLookup();
-            }  
-        } else if (data.GetCardBINResponse.ResponseCode[0] == "40099"){
-            this.setState({ errorModal: true, cardErrorMsg: data.GetCardBINResponse.ResponseText[0] });
+                this.openErrorModal('GETCARDBIN',"Card type is not supported")
+            }
+            
+        } else if(data.GetCardBINResponse.ResponseText[0].startsWith("Transaction Cancelled")){
+            this.cardLookup();
         }  else if (data.GetCardBINResponse.ResponseCode[0].startsWith("4")) {
             this.bypass('GETCARDBIN', data.GetCardBINResponse.ResponseText[0])
         }   else {
             console.log(data.GetCardBINResponse.ResponseCode[0]);
             this.bypass('GETCARDBIN', data.GetCardBINResponse.ResponseText[0])
         }
-        this.source='';
+        this.bypassSource=''; //clear bypass source
     }
 
+    keyGiftCard=(giftcardnum)=>{
+        if (giftcardnum.length > 16 && giftcardnum.length < 18) {
+            this.props.convertSALT(giftcardnum)
+        } else {
+            this.setState({ error: "A 17-digit gift card number is required" })
+            this.error = true;
+        }
+    }
+    convertSALTResReturned=(data)=>{
+        if (data.code == 200) {
+            this.giftcardnum = data.Result.GC.embossedCardNumber;
+            this.lookup = true;
+            this.cancelSwipe();
+        } else {
+            this.setState({ errorModal: true, error: data.message })
+            this.error = true;
+        }
+    }
     cancelSwipe=()=>{
-        this.returned=true;
-        this.props.aurusActionInvoker(json2xml(this.bypassJson),'CANCELSWIPE');
-        this.timer = setTimeout(function(){ }, 35000);
+       console.log("sending cancel swipe bypass request")
+       setTimeout(() => {this.props.aurusActionInvoker(json2xml(this.bypassJson),'CANCELSWIPE')},1000);
+        this.timer = setTimeout(function(){this.openErrorModal('timeout',"Timeout") }, 35000);
     }
 
     cancelSwipeResReturned=(data)=>{
-        this.returned=false;
+        console.log("cancelswipe returned")
         clearTimeout(this.timer);
         if(data.ByPassScreenResponse.ResponseCode=="00000"){
             this.error = false;
-            this.cardLookup(1)
+            if (this.lookup == true) {//check if giftcard lookup is toggled on
+                this.cardLookup(1)
+            } else {
+                this.cardLookup();
+            }
+        } else {
+            this.bypass();
         }
     }
-  
+    
+  //Aurus Bypass Request
+  bypass=(source, msg)=>{
+    this.bypassSource=source;
+    console.log("sending bypass: "+this.bypassSource+" "+msg)
+    this.setState({bypassErrorMsg:msg})
+   
+    setTimeout(() => {this.props.aurusActionInvoker(json2xml(this.bypassJson),'BYPASS')},1000);
+
+    this.timer = setTimeout(function(){this.openErrorModal('timeout',"Timeout") }, 35000);
+}
+
+bypassResReturned = (data) => {
+    console.log("bypass returned: source "+this.bypassSource);
+    
+    clearTimeout(this.timer);
+    if (data.ByPassScreenResponse.ResponseCode == "00000") {
+        switch (this.bypassSource) {
+            case 'KEYPAD':
+                {
+                    console.log("bypass keypad") 
+                    this.cardLookup(1)
+                    break;
+                }
+            case 'GETCARDBIN':
+                {
+                    console.log("bypass getcardbin")
+                    this.setState({ errorModal: true, cardErrorMsg: this.state.bypassErrorMsg });
+                    break;
+                }
+            case 'TRANS':
+                {
+                    //remove card
+                    console.log("bypass trans")
+                    var copyArray = [...this.state.cards];
+                    copyArray.splice(this.i, 1);
+                    var copyTransInfoArray = [...this.state.transInfo];
+                    copyTransInfoArray.splice(this.i, 1)
+                    this.setState({ errorModal: true, cards: copyArray, transInfo: copyTransInfoArray, cardErrorMsg: "Card declined" });//this.state.bypassErrorMsg
+                    break;
+                }
+            case 'MIDVOID':
+            {
+                console.log("bypass MIDVOID")
+
+                this.voidFlow=true;
+                this.closeTrans();
+                break;
+            }
+            case 'GIFTCARD':{
+                console.log("bypass giftcard");
+                this.toggle="on";
+                this.activateScanner()
+                this.setState({giftCardModal:true}) 
+                break;
+            }
+            case 'BYPASS':{
+                this.cancelSwipe();
+            }
+
+            default:
+                {
+                    console.log("inside default switch bypass")
+                        //this.setState({errorModal:true})
+                    break;
+                }
+        }
+    }
+    
+    }
+
+    openErrorModal = (src, msg) => {
+        this.setState({ errorModal: true, cardErrorMsg: msg, errorSource: src })
+    }
+
+    closeErrorModal = () => {
+        this.setState({ errorModal: false })
+        if (this.state.cardErrorMsg.startsWith("Unable To Connect")) {
+            this.bypass();
+        } else if (this.state.cardErrorMsg.startsWith("PED ")) {
+            this.cancelSwipe();
+        } else if (this.state.cardErrorMsg.startsWith("Card declined")) {
+            this.cardLookup();
+        }
+        switch (this.state.errorSource) {
+            case "tenderLog": {
+                this.addToTender();
+            } case "transLog": {
+                this.completeTransaction();
+            } case 'SIG': {
+                this.setState({ signatureModal: true });
+            } case 'Failure': {
+                //void
+            } case 'timeout':{
+
+            } default: {
+                this.cardLookup();
+            }
+        }
+
+    }
+
     //Paying Amount
      handleChange=(index, event)=> {
         event.preventDefault()
@@ -356,71 +516,95 @@ class Payment extends Component {
         this.setState({ payValues: newArray });
 
     }
+
+    cancelPay=(i,e)=>{
+        e.preventDefault()
+        this.i=i;
+        var copyArray = [...this.state.cards];
+        copyArray.splice(this.i, 1);
+        var copyTransInfoArray = [...this.state.transInfo];
+        copyTransInfoArray.splice(this.i, 1)
+        this.setState({ cards: copyArray, transInfo: copyTransInfoArray});
+        this.cardLookup()
+    }
     
     //Aurus Transaction Request
     getAmountDue=(i,e )=>{
-        console.log("sending transreq")
-        e.preventDefault()
-        this.i=i
-        this.setState({authModal:false})
-        if(e.currentTarget.tagName != 'BUTTON') {
-            if (e.currentTarget.input.value <= this.state.amountDue) {
-                let copyArray = [...this.state.payValues];
-                this.value = e.currentTarget.input.value;
-                copyArray[i] = parseFloat(this.value).toFixed(2);
-                this.setState({ payValues: copyArray })
-            }
-        }
-        var amount=parseFloat(this.state.amountDue)==NaN?0:parseFloat(this.state.amountDue)
-        var condition=this.value <= amount
-        if (condition) {
-            this.setInactive();
-            this.props.startSpinner(true);
-            //this.updateCartStatus();
-            //this.props.UpdateCartStatusInvoker(this.orderNumber,this.carID);
-            this.TransRequestJson.TransRequest.POSID = this.state.cards[i].POSID;
-            this.TransRequestJson.TransRequest.APPID = this.state.cards[i].APPID;
-            this.TransRequestJson.TransRequest.CCTID = this.state.cards[i].CCTID;
-            this.TransRequestJson.TransRequest.KI = this.state.cards[i].KI;
-            this.TransRequestJson.TransRequest.KIType = this.state.cards[i].KIType;
-            this.TransRequestJson.TransRequest.CardType = this.state.cards[i].CardType;
-            this.TransRequestJson.TransRequest.CardToken = this.state.cards[i].CardToken;
-            this.TransRequestJson.TransRequest.TransAmountDetails.TransactionTotal = this.state.total + "~" + parseFloat(this.value).toFixed(2);
-            this.TransRequestJson.TransRequest.CustomerFirstName = this.state.cards[i].FirstName;
-            this.TransRequestJson.TransRequest.CustomerLastName = this.state.cards[i].LastName;
-/*             this.TransRequestJson.TransRequest.TicketProductData.TicketCount=this.state.cart.length;
-            this.TransRequestJson.TransRequest.TicketProductData.Tickets.Ticket.TicketNumber=this.state.cart
-            this.TransRequestJson.TransRequest.TicketProductData.Tickets.Ticket.ProductCount=this.state.cart.length;
-            this.TransRequestJson.TransRequest.TicketProductData.Tickets.Ticket.Products.Product=this.state.cart */
-
-            if (this.state.transInfo.length != 0) {
-                if (this.state.transInfo[this.state.currentCard].ResponseCode[0] == "20001") {
-                    this.TransRequestJson.TransRequest.ApprovalCode = this.state.authCode;
-                    this.TransRequestJson.TransRequest.TransactionType = 40;
+            console.log("sending transreq")
+            e.preventDefault()
+            this.i=i;
+            if(e.currentTarget.tagName != 'BUTTON') { //if source is not from callfromauth
+                if (e.currentTarget.input.value <= this.state.amountDue) {
+                    let copyArray = [...this.state.payValues];
+                    this.value = e.currentTarget.input.value;
+                    copyArray[i] = parseFloat(this.value).toFixed(2);
+                    this.setState({ payValues: copyArray })
                 }
             }
-            if (this.state.cards[i].CardType == "GCC") {
-                this.TransRequestJson.TransRequest.TransactionType = "42";
+            var amount=parseFloat(this.state.amountDue)==NaN?0:parseFloat(this.state.amountDue);
+            var condition=this.value <= amount;
+            if (condition) {
+                this.setInactive();
+                this.props.startSpinner(true);
+                if (this.state.isSavedCardTrans) {
+                    var state = this.state;
+                    this.TransRequestJson.TransRequest.POSID = this.aurusVars.POSID;
+                    this.TransRequestJson.TransRequest.APPID = this.aurusVars.APPID;
+                    this.TransRequestJson.TransRequest.CCTID = this.aurusVars.CCTID;
+                    this.TransRequestJson.TransRequest.KI = this.state.otherCardList[i].kiNum;
+                    this.TransRequestJson.TransRequest.KIType = "12";
+                    this.TransRequestJson.TransRequest.CardType = this.state.otherCardList[i].chargeType;
+                    this.TransRequestJson.TransRequest.CardToken = this.state.otherCardList[i].cardToken;
+                    this.TransRequestJson.TransRequest.TransAmountDetails.TransactionTotal = this.state.total + "~" + parseFloat(this.value).toFixed(2);
+                    this.TransRequestJson.TransRequest.CustomerFirstName = this.state.otherCardList[i].customerFname;
+                    this.TransRequestJson.TransRequest.CustomerLastName = this.state.otherCardList[i].customerLname;
+                    this.TransRequestJson.TransRequest.TransactionType = '';
+                }
+                else {
+                    //this.updateCartStatus();
+                    //this.props.UpdateCartStatusInvoker(this.orderNumber,this.carID);
+                    this.TransRequestJson.TransRequest.POSID = this.state.cards[i].POSID;
+                    this.TransRequestJson.TransRequest.APPID = this.state.cards[i].APPID;
+                    this.TransRequestJson.TransRequest.CCTID = this.state.cards[i].CCTID;
+                    this.TransRequestJson.TransRequest.KI = this.state.cards[i].KI;
+                    this.TransRequestJson.TransRequest.KIType = this.state.cards[i].KIType;
+                    this.TransRequestJson.TransRequest.CardType = this.state.cards[i].CardType;
+                    this.TransRequestJson.TransRequest.CardToken = this.state.cards[i].CardToken;
+                    this.TransRequestJson.TransRequest.TransAmountDetails.TransactionTotal = this.state.total + "~" + parseFloat(this.value).toFixed(2);
+                    this.TransRequestJson.TransRequest.CustomerFirstName = this.state.cards[i].FirstName;
+                    this.TransRequestJson.TransRequest.CustomerLastName = this.state.cards[i].LastName;
+                    /*this.TransRequestJson.TransRequest.TicketProductData.TicketCount=this.state.cart.length;
+                    this.TransRequestJson.TransRequest.TicketProductData.Tickets.Ticket.TicketNumber=this.state.cart
+                    this.TransRequestJson.TransRequest.TicketProductData.Tickets.Ticket.ProductCount=this.state.cart.length;
+                    this.TransRequestJson.TransRequest.TicketProductData.Tickets.Ticket.Products.Product=this.state.cart */
+                    if (this.state.transInfo.length != 0) {
+                        //Call for Auth
+                        if (this.state.transInfo[this.state.currentCard].ResponseCode[0] == "20001") {
+                            this.TransRequestJson.TransRequest.ApprovalCode = this.state.authCode;
+                            this.TransRequestJson.TransRequest.TransactionType = 40;
+                        }
+                    }
+                    if (this.state.cards[i].CardType == "GCC") {
+                        this.TransRequestJson.TransRequest.TransactionType = "42";
+                    }
+                }
+    
+    
+                if (this.aurusVars.SignatureFlag == "Y") {
+                    this.TransRequestJson.TransRequest.SignatureFlag = "Y"
+                }
+    
+                var xml = json2xml(this.TransRequestJson)
+                this.props.aurusActionInvoker(xml, 'TRANSACTIONREQUEST')
+    
+                this.timer = setTimeout(function(){this.openErrorModal('timeout',"Timeout") }, 240000);
             }
-
-            if (this.aurusVars.SignatureFlag == "Y") {
-                this.TransRequestJson.TransRequest.SignatureFlag = "Y"
-            }
-
-            var xml = json2xml(this.TransRequestJson)
-            this.returned=true;
-            this.props.aurusActionInvoker(xml, 'TRANSACTIONREQUEST')
-
-            this.timer = setTimeout(function(){  }, 240000);
-        }
-
-        console.log("skipped if statement")
     }
 
     transResReturned=(data)=>{
         console.log("recieved transresponse")
         this.props.startSpinner(false);
-        this.returned=false;
+        
         clearTimeout(this.timer);
         var newArray = this.state.transInfo.slice();
         var transResponse = data.TransResponse.TransDetailsData[0].TransDetailData[0];
@@ -431,9 +615,15 @@ class Payment extends Component {
         if (transResponse.ResponseCode[0] == "00000") {
             const paidValuesCopy = [...this.state.paidValues];
             paidValuesCopy[this.i] = transResponse.TransactionAmount[0];
-            this.setState({ paidValues: paidValuesCopy, amountDue: parseFloat(this.state.amountDue - this.value).toFixed(2), receiptModal: false, emailModal: false, printModal: false, emailverifyModal: false  })
-            this.openSignatureModal(transResponse)
-        } else if (transResponse.ResponseCode[0] == "20001") {
+            this.setState({ paidValues: paidValuesCopy, amountDue: parseFloat(this.state.amountDue - this.value).toFixed(2), receiptModal: false, emailModal: false, printModal: false, emailverifyModal: false, authModal:false  })
+            this.openSignatureModal(transResponse);
+            //hides cursor
+            var inputElement = document.querySelectorAll("div>div>div.payment-page-content>div.payment-left-content>div.payment-cards-container>div>div>form>.inputAmount input")
+            for(var x=0; x<inputElement.length; x++){
+                inputElement[x].blur();
+            }
+
+        } else if (transResponse.ResponseCode[0] == "20001") { //show call for auth modal
             this.setState({ authModal: true });
         } else if (transResponse.ResponseCode[0].startsWith("2") || transResponse.ResponseCode[0].startsWith("1")) {
             console.log(transResponse.TransactionResponseText);
@@ -442,106 +632,9 @@ class Payment extends Component {
         } else if(transResponse.TransactionResponseText[0].startsWith("Transaction Cancelled")){
             this.bypass('TRANS', "Transaction Cancelled")
         }else if(transResponse.ResponseCode[0].startsWith("4")) {
-            //openerrormodal and suspend
             this.bypass('TRANS', transResponse.TransactionResponseText[0])
         }
-    }
-
-    //Aurus Bypass Request
-    bypass=(source, msg)=>{
-        console.log("sending bypass")
-        this.source=source;
-        this.setState({bypassErrorMsg:msg})
-        this.returned=true;
-        this.props.aurusActionInvoker(json2xml(this.bypassJson),'BYPASS');
-
-        this.timer = setTimeout(function(){ }, 35000);
-    }
-
-    bypassResReturned = (data) => {
-        console.log("bypass returned", data);
-        this.returned=false;
-        clearTimeout(this.timer);
-        if (data.ByPassScreenResponse.ResponseCode == "00000") {
-            switch (this.source) {
-                case 'KEYPAD':
-                    {
-                        //If someone presses key-in button after card was added but before clicking accept amount
-                        if (this.state.cards.length > 0) {
-                            //remove card
-                            console.log(this.state.paidValues[this.state.paidValues.length-1])
-                            if (this.state.paidValues[this.state.paidValues.length-1]==undefined && this.state.cards[this.state.cards.length - 1].ResponseCode) {
-                                var copyArray = [...this.state.cards];
-                                copyArray.splice(this.state.cards.length - 1, 1);
-                                this.setState({ cards: copyArray });
-                                this.cardLookup();
-                            }
-                        } else {
-                            this.key_in = true;
-                            this.cardLookup(1)
-                        }
-                        console.log("bypass keypad")
-                        break;
-                    }
-                case 'GETCARDBIN':
-                    {
-                        console.log("bypass getcardbin")
-                        this.setState({ errorModal: true, cardErrorMsg: this.state.bypassErrorMsg });
-                        break;
-                    }
-                case 'TRANS':
-                    {
-                        //remove card
-                        console.log("bypass trans")
-                        var copyArray = [...this.state.cards];
-                        copyArray.splice(this.i, 1);
-                        var copyTransInfoArray = [...this.state.transInfo];
-                        copyTransInfoArray.splice(this.i, 1)
-                        this.setState({ errorModal: true, cards: copyArray, transInfo: copyTransInfoArray, cardErrorMsg: this.state.bypassErrorMsg });
-                        break;
-                    }
-                case 'MIDVOID':
-                {
-                    console.log("bypass MIDVOID")
-
-                    this.voidFlow=true;
-                    this.closeTrans();
-                    break;
-                }
-                case 'GIFTCARD':{
-                    console.log("bypass giftcard")  
-                    this.setState({giftCardModal:true})
-                    this.cardLookup()
-                    break;
-                }
-
-                default:
-                    {
-                        console.log("inside default switch bypass")
-                        if(this.state.cardErrorMsg.startsWith("4")){
-                            this.setState({errorModal:true})
-                        }
-                        //this.props.clearState();
-                        break;
-                    }
-            }
-        }
-    }
-
-    closeErrorModal=()=>{
-        this.setState({errorModal:false})
-        if(this.state.cardErrorMsg.startsWith("Unable To Connect")||this.state.cardErrorMsg.startsWith("PED IS ")){
-            this.exit();
-        } else if(this.state.errorSource=="tenderLog"){
-            this.addToTender();
-        } else if(this.state.errorSource=="transLog"){
-            this.completeTransaction();
-        } else if(this.state.errorSource=="Failed") {
-            this.cardLookup();
-        } else {
-            this.cardLookup();
-        }
-        
+        this.bypassSource=''; //clear bypass source
     }
 
     //Payment card row CSS
@@ -584,20 +677,19 @@ class Payment extends Component {
             this.addToTender();
         } else {
             var hexSig = (base64toHEX(sig.toDataURL('image/jpeg', .1).slice(23)));
-            console.log(hexSig)
             this.signatureJson.SignatureRequest.SignatureData = hexSig;
             this.signatureJson.SignatureRequest.TransactionIdentifier = this.props.Payment.transactionRes.TransResponse.TransDetailsData[0].TransDetailData[0].TransactionIdentifier;
             var sigXml = json2xml(this.signatureJson);
-            this.returned=true;
+           
             this.props.aurusActionInvoker(sigXml, 'SIGNATURE');
 
-            this.timer = setTimeout(function(){  }, 35000);
+            this.timer = setTimeout(function(){this.openErrorModal('timeout',"Timeout") }, 35000);
         }
     }
 
     sigResReturned = (data) => {
         console.log("signature req returned")
-        this.returned=false;
+        
         clearTimeout(this.timer);
         if (data.SignatureResponse.ResponseCode[0] == "00000") {
             this.props.startSpinner(false);
@@ -605,52 +697,47 @@ class Payment extends Component {
             this.addToTender();
         } else {
             this.props.startSpinner(false);
-            this.bypass()
-            this.setState({ signatureModal: true});
+            this.openErrorModal("SIG","Signature request error")
         }
+        this.bypassSource=''; //clear bypass source
     }
 
     //AddTenderAPI Call
     addToTender = () => {
-        console.log("sending addtoTender")
-        var tenderDetails=this.state.transInfo[this.currentCard]
+        var tenderDetails=this.state.transInfo[this.state.currentCard]
+        console.log("sending addtoTender: ", JSON.stringify(tenderDetails))
+
         const transactionObj = {
-            ...clientConfig,
+            "ClientID": clientConfig.ClientID,
+            "ClientTypeID": clientConfig.ClientTypeID,
+            "SourceApp": clientConfig.SourceApp,
+            "SourceLoc": clientConfig.SourceLoc,
+            "Store": clientConfig.Store,
+            "Terminal": clientConfig.Terminal,
             "StoreAssoc": this.props.login.userpin,
             "TransactionId": this.props.cart.data.transactionId,
             "CardTender": {
                 "TenderType": tenderDetails.TransactionTypeCode[0],
                 "TranslatorTenderType": 7,
-                "TenderAmount": tenderDetails.TransactionAmount[0],
-                "TenderLocale": 1,
+                "TenderAmount": "9",//tenderDetails.TransactionAmount[0],
                 "ForeignAmount": 0,
                 "ForeignLocale": 0,
-                "ExchangeRate": tenderDetails.DCCDetails[0].DCCExchangeRate[0],
+                "ExchangeRate": tenderDetails.DCCDetails?tenderDetails.DCCDetails[0].DCCExchangeRate[0]:"0",
                 "TenderQty": 0,
-                "TenderFlags": 8020,
-                "AuthFlags": "0",
                 "ManagerID": "0",
-                "NonSwipeReason": 0,
-                "MerchantID": tenderDetails.ECOMMInfo[0].MerchantIdentifier[0],
-                "TerminalID": tenderDetails.ECOMMInfo[0].TerminalId[0],
+                "NonSwipeReason": this.state.nonSwipeReason!=''?this.state.nonSwipeReason:0,
+                "MerchantID":  tenderDetails.ECOMMInfo?tenderDetails.ECOMMInfo[0].MerchantIdentifier[0]:"",
+                "TerminalID":  tenderDetails.ECOMMInfo?tenderDetails.ECOMMInfo[0].TerminalId[0]:"",
                 "StatusCode": "01",
                 "Auth": "",
-                "Data_Type": 3,
                 "ChargeInfo": {
                     "Account": "000000000000000000000000000000",
-                    "Hash_Acct": "$FF74A1$A602AD97682B9F6E0885D915582FAEFD98804EAE1D7FC2AD92BB656FA186C724",
-                    "Hash_Type": '0',
-                    "Enc_Acct": "da854488be433882b1071f1f02ab51aca1ae3efa05959a08b7006cc655fbd4404f1039120e776d3287308c2d656f788a6cfa7faf7fe41896dd3474975fde2cee",
-                    "Enc_Type": '0',
-                    "Last_Four": "7894",
+                    "Last_Four": tenderDetails.CardNumber[0].slice(-4),
                     "KI": tenderDetails.KI[0],
                     "Name": tenderDetails.CardType[0],
                     "Expdate": tenderDetails.CardExpiryDate[0],
                     "Effdate": "00000000",
-                    "Issue_no": tenderDetails.IssuerNumber[0],
-                    "Plan_Code": "",
-                    "Charge_Trans_Ident": "",
-                    "Charge_Validation_Code": "",
+                    "Issue_no": tenderDetails.IssuerNumber?tenderDetails.IssuerNumber[0]:"",
                     "Payment_Svce_Indicator": '0',
                     "Payment_Svce_Swipecode": "90",
                     "Auth_Reason_Code": "",
@@ -662,16 +749,14 @@ class Payment extends Component {
                     "Flags": '',
                     "Usage_Type": '',
                     "Misc_Flags": '0',
-                    "Discretionary_Data_Length": '0',
                     "Discretionary_Data": "",
                     "Partial_Approval": tenderDetails.PartialApprovedFlag[0],
-                    "Authorization_Service": '',
                     "Aurus_Cust_ID": tenderDetails.CustomerTokenNumber[0],
                     "Aurus_Whizticketnum": this.ticketNum,
-                    "Aurus_Cardtoken": tenderDetails.CardToken[0],
+                    "Aurus_Cardtoken": tenderDetails.CardNumber[0],
                     "KI_Type": tenderDetails.KIType[0],
-                    "Customer_Present": tenderDetails.PurchaserPresent[0],
-                    "Card_Present": tenderDetails.CardPresent[0],
+                    "Customer_Present": tenderDetails.PurchaserPresent?tenderDetails.PurchaserPresent[0]:"",
+                    "Card_Present": tenderDetails.CardPresent?tenderDetails.CardPresent:"",
                     "Debit_Flag": '',
                     "Aurus_CardEntryMode": tenderDetails.CardEntryMode[0],
                     "Aurus_Cardtype": tenderDetails.CardType[0],
@@ -681,13 +766,13 @@ class Payment extends Component {
                 "aurus_whizticketnum": this.ticketNum
             }
         }
-        this.returned=true;
+       
         this.props.addTenderInvoker(transactionObj);
     }
 
     //check if amountdue is 0
     tenderLogReturned = (data) => {
-        this.returned=false;
+        
         console.log("addtoTender returned")
         if (data.response_code==0) {
             if (this.state.amountDue === "0.00" || this.state.amountDue === "0" || this.state.amountDue === 0) { //need to show receipt/email only if entire amount is paid
@@ -698,11 +783,11 @@ class Payment extends Component {
             }
             this.tries=0;
         } else {
-            if (this.tries < 4) {
-                this.setState({ errorModal: true, cardErrorMsg: "Failed to log Tender. Try again?", errorSource: "tenderLog" });
+            if (this.tries < 4) { //retry 3 times
+                this.openErrorModal("tenderLog", "Failed to log Tender. Try again?");
                 this.tries += 1;
             } else {
-                this.setState({ errorModal: true, cardErrorMsg: "Unable to log Transaction. Proceed to void", errorSource: "Failed" });
+                this.openErrorModal("Failure", "Unable to log Transaction. Proceed to void.");
             }
         }
     }
@@ -712,17 +797,22 @@ class Payment extends Component {
         console.log("sending translog api")
 
         const transactionObj = {
-            ...clientConfig,
+            "ClientID": clientConfig.ClientID,
+            "ClientTypeID": clientConfig.ClientTypeID,
+            "SourceApp": clientConfig.SourceApp,
+            "SourceLoc": clientConfig.SourceLoc,
+            "Store": clientConfig.Store,
+            "Terminal": clientConfig.Terminal,
             "StoreAssoc": this.props.login.userpin,
             "TransactionId": this.props.cart.data.transactionId
         }
-        this.returned=true;
+       
         this.props.completeTransactionInvoker(transactionObj);
     }
 
     transLogReturned = (data) => {
         console.log("translog returned")
-        this.returned=false;
+        
         if(data.response_code==29){
             if(this.state.cards.length==0){
                 this.setState({ receiptModal: true })
@@ -736,7 +826,7 @@ class Payment extends Component {
                 this.setState({ errorModal: true, cardErrorMsg: "Failed to log Transaction. Try again?", errorSource: "transLog" });
                 this.tries += 1;
             } else {
-                this.setState({ errorModal: true, cardErrorMsg: "Unable to log Transaction. Proceed to void", errorSource: "Failed" });
+                this.setState({ errorModal: true, cardErrorMsg: "Unable to log Transaction. Proceed to void", errorSource: "Failure" });
             }
         }
     }
@@ -745,13 +835,13 @@ class Payment extends Component {
     closeTrans = () => {
 
         var closeTransXml = json2xml(this.closeTransJson);
-        this.returned=true;
+       
         this.props.aurusActionInvoker(closeTransXml, 'CLOSETRANSACTION');
-        this.timer = setTimeout(function () { }, 35000);
+        this.timer = setTimeout(function () {this.openErrorModal('timeout',"Timeout")}, 35000);
     }
 
     closeTransReturned=(data)=>{
-        this.returned=false;
+        
         clearTimeout(this.timer);
         if(data.CloseTransactionResponse.ResponseCode=="00000"){
 
@@ -776,37 +866,38 @@ class Payment extends Component {
     //Print Reciept
     printReceipt = (val) => {
         var params = {
-     
-            ...clientConfig,
+            "Store": clientConfig.Store,
+            "Terminal": clientConfig.Terminal,
             "StoreAssoc": this.props.login.userpin,
             "TransactionId": this.props.cart.data.transactionId,
-            "registerNum": val
+            "registerNum": val,
+            "multiGiftWrap": "true",
+            "RePrint": "true"
         }
         if(val==null || val==""){
 
         }else {
             this.props.startSpinner(true);
-            this.returned=true;
+           this.setState({printFailure:false})
             this.props.printReceiptInvoker(params);
         }
     }
 
     printReceiptActionReturned=(data)=>{
-        this.returned=false;
+        
         this.props.startSpinner(false);
         if(data.responseCode==0){
             this.exit();  
           } else {
-              console.log(data.responseText)
-          }
+            this.setState({printFailure:true})
+        }
     }
 
     openprintModal = () => {
         this.setState({printModal: true, receiptModal: false, emailModal: false, queueprintModal:false})
     }
     closePrintModal = () => {
-        this.setState({printModal: false, receiptModal: false, emailModal: false})
-        this.exit();
+        this.setState({printModal: false, receiptModal: true, emailModal: false})
     }
 
     //Email Receipt
@@ -849,44 +940,45 @@ class Payment extends Component {
         this.setState({
             emailverifyModal:false, 
             emailModal: true, 
-            emailFailure: false
+            emailFailure: false,
+            error:""
         })
     }
 
     emailSend = () => {
         var params = {
             "ReqHeader": {
-                ...clientConfig,
+                "RegisterNum": clientConfig.RegisterNum,
+                "StoreNum": clientConfig.Store,
                 "AssociateNumber": this.props.login.userpin,
-                "TransactionNum": this.props.cart.data.transactionId            
+                "TransactionNum": this.props.cart.data.transactionId
             },
             "FirstName": this.state.emailFname,
             "LastName": this.state.emailLname,
             "EmailAddress": this.state.email,
-            "ClientSmartId": "0001000284641"
+            "ClientSmartId": clientConfig.ClientID
         };
         if(this.state.email=="" || this.state.email==null){
 
         } else {
             this.props.startSpinner(true);
             this.setState({ emailFailure: false})
-            this.returned=true;
+           
             this.props.updateCustDetailsInvoker(params);
         }
     }
 
     updateCustomerActionReturned=(data)=>{
-        this.returned=false;
+        
         this.props.startSpinner(false);
         this.setState({emailFailure:false})
-        if (data.ResponseCode=="0") {
+        if (data.responseCode=="0") {
             if (this.state.queueprintModal) {
                 this.openprintModal();
             } else {
                 this.exit()
             }
         } else {
-            console.log(data.ResponseString)
             this.setState({
                 emailverifyModal:true,
                 emailFailure: true,
@@ -895,7 +987,7 @@ class Payment extends Component {
     }
 
     closeError=()=>{
-        this.setState({emailFailure:false})
+        this.setState({emailFailure:false, printFailure:false})
     }
    
     openemailModal = () => {
@@ -912,20 +1004,20 @@ class Payment extends Component {
     }
 
     //iSell
-    updateCartStatus=(/*e*/)=>{
-       // e.preventDefault();
-        
+    updateCartStatus = (/*e*/) => {
+        // e.preventDefault();
+
         /*this.setState({orderNumber:"323345435890"});
         this.setState({cartID:"201803082365"});*/
         var cartID = this.cartID;
-        console.log("cart id in payment.js"+cartID);
-        console.log("order id and cartid"+this.orderNumber+' '+this.cartID)
-        if(this.state.isIsellTrans){
-        this.props.UpdateCartStatusInvoker({orderNumber : this.orderNumber,cartID:this.cartID});
-    }else{
-        console.log('this is iSell cart Transaction');
-        //this.props.startSpinner(true);
-    }
+        console.log("cart id in payment.js" + cartID);
+        console.log("order id and cartid" + this.orderNumber + ' ' + this.cartID)
+        if (this.state.isIsellTrans) {
+            this.props.UpdateCartStatusInvoker({ orderNumber: this.orderNumber, cartID: this.cartID });
+        } else {
+            console.log('this is iSell cart Transaction');
+            //this.props.startSpinner(true);
+        }
     }
 
     emailPrintReceipt = () => {
@@ -966,6 +1058,7 @@ class Payment extends Component {
     handleGiftCardModal = () => {
         if(this.state.giftCardModal == true){
             this.setState({giftCardModal:false})
+            this.cancelSwipe();
         }else{
             this.bypass('GIFTCARD')
         }
@@ -984,6 +1077,7 @@ class Payment extends Component {
         this.bypass();
         sessionStorage.setItem("loggedIn", "false");
         this.props.history.push('/');
+        this.props.clearState();
     }
 
     onMidVoid = () => {
@@ -1003,8 +1097,53 @@ class Payment extends Component {
         }  
     }
 
+    // CALLING AURUS ISSUE GIFTCALL API AFTER SUCCESSFUL PAYMENT
+     aurusIssueGiftCardCall = () => {
+        this.TransRequestJson.TransRequest.CardNumber =" this.state.validCardNumber GET FROM JSON OBJECT";
+        this.TransRequestJson.TransRequest.EntrySource = 'K';
+        this.TransRequestJson.TransRequest.TransAmountDetails.ServicesTotalAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.ProductTotalAmount = "this.validIncreaseAmount GET FROM CART";
+        this.TransRequestJson.TransRequest.TransAmountDetails.TaxAmount = "this.tax GET FROM CART";
+        this.TransRequestJson.TransRequest.TransAmountDetails.Discount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.EBTAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.FSAAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.DutyTotalAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.FreightTotalAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.AlternateTaxAmount ="0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.TipAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.DonationAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = "this.validIncreaseAmount + this.tax GET FROM CART";
+       
+        this.TransRequestJson.TransRequest.TransactionType = 11;
+        const params = json2xml(this.TransRequestJson);
+        this.props.getAurusResponse(params)
+      }
+    
+
+    // CALLING AURUS RELOADING GIFCARD API AFTER THE SUCCESSFULL PAYMENT
+       aurusReloadGiftCardCall = () => {
+        this.TransRequestJson.TransRequest.CardNumber = "GET FROM OBJECT CREATED";
+        this.TransRequestJson.TransRequest.EntrySource = 'K';
+        this.TransRequestJson.TransRequest.TransAmountDetails.ServicesTotalAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.ProductTotalAmount = "GET FROM CART";
+        this.TransRequestJson.TransRequest.TransAmountDetails.TaxAmount = "GET FROM CART";
+        this.TransRequestJson.TransRequest.TransAmountDetails.Discount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.EBTAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.FSAAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.DutyTotalAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.FreightTotalAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.AlternateTaxAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.TipAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.DonationAmount = "0.00";
+        this.TransRequestJson.TransRequest.TransAmountDetails.TenderAmount = "this.validIncreaseAmount + this.tax GET FROM CART";
+    
+        this.TransRequestJson.TransRequest.TransactionType = 16;
+        const params = json2xml(this.TransRequestJson);
+        this.props.getAurusResponse(params);
+      }
+
+
     render() {
-        console.log('cards in payment'+JSON.stringify(this.props.cards));
         return (<PaymentView
             useStoredCard = {this.props.cards.useStoredCard}
             path = {this.props.cards.path}
@@ -1013,12 +1152,12 @@ class Payment extends Component {
             otherCards = {this.props.cards.UseInTransAccount}
             history={this.props.history}
             /*added for testing**/customerInfo={this.customerInfo}
-            getAmountDue={this.getAmountDue}
             cards={this.state.cards}
             transInfo={this.state.transInfo}
             isCards={this.state.isCards}
             cart={this.state.cart}
             cardLookup={this.cardLookup}
+            keyGiftCard={this.keyGiftCard}
             amountDue={this.state.amountDue}
             subtotal={this.state.subtotal}
             total={this.state.total}
@@ -1035,6 +1174,7 @@ class Payment extends Component {
             receiptModal={this.state.receiptModal}
             emailModal={this.state.emailModal}
             emailverifyModal={this.state.emailverifyModal}
+            otherCardList = {this.state.otherCardList}
             printModal={this.state.printModal}
             printGiftModal={this.state.printGiftModal}
             closePrintGiftReceiptModal={this.closePrintGiftReceiptModal}
@@ -1048,6 +1188,7 @@ class Payment extends Component {
             currentLvl={this.state.currentLvl}
             error={this.state.error}
             emailFailure={this.state.emailFailure}
+            printFailure={this.state.printFailure}
             giftCardNumber={this.state.giftCardNumber}
             PinNUM={this.state.PinNUM}
             navigateBack={this.navigateBack}
@@ -1055,6 +1196,7 @@ class Payment extends Component {
             advanceDeposit={this.advanceDeposit}
             giftCardModal={this.state.giftCardModal}
             handleGiftCardModal={this.handleGiftCardModal}
+            cancelPay={this.cancelPay}
             getAmountDue={this.getAmountDue}
             printGiftReceipt={this.printGiftReceipt}
             printReceipt={this.printReceipt}
@@ -1113,7 +1255,8 @@ function mapDispatchToProps(dispatch) {
         addTenderInvoker : (data) => dispatch(addTender(data)),
         cardNotSwipedInvoker : (data) => dispatch(cardNotSwiped(data)),
         completeTransactionInvoker : (data) => dispatch(completeTrans(data)),
-        voidTransactionInvoker:(data)=>dispatch(voidTransaction(data))    }
+        voidTransactionInvoker:(data)=>dispatch(voidTransaction(data)),
+        convertSALT:(data)=>dispatch(convertSALT(data))    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

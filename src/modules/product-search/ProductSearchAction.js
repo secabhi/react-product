@@ -69,11 +69,10 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
             break;
 
         case "pimsku_search":
-
             var testPimSKU = "401058977854";
             var storeLocation = "050,001";
             var offset = "050";
-            let getProductByPIMSKUAddress = URL_SKU + `/search?version=v2&pimskuList=${searchfields.search_pimsku}&locationList=${storeLocation}&offset`;
+            let getProductByPIMSKUAddress = URL_SKU + `/search?version=v2&pimskuList=${searchfields.search_pimsku ? searchfields.search_pimsku : searchfields.pimskuId}&locationList=${storeLocation}&offset`;
             var body = {
                 "AppKey": APP_KEY,
                 "AppID": "MPOS"
@@ -99,11 +98,10 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             payload: data.data
                         });
                         successCallback({failure:true});
+                        dispatch(startSpinner(false));
                     }
-                    dispatch(startSpinner(false));
 
                 });
-               
             };
             break;
 

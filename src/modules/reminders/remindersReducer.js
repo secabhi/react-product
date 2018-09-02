@@ -1,7 +1,9 @@
-import {REMINDERS_SUCCESS, REMINDERS_INVALID,REMINDERS_GENERAL } from './constants';
+import {REMINDERS_SUCCESS, REMINDERS_INVALID,REMINDERS_GENERAL,REMINDERS_REQUEST_VALIDFAILED,IM_NOREMINDER } from './constants';
 
 
 const initialState = {
+  error_message: '',
+  isValid : true
 };
 
 //hardcoded for response. Needs to be removed
@@ -13,27 +15,48 @@ const reminderListSample =[{"eventNumber": 100030208,"longDesc": "REPLENISHMENT 
 
 export function RemindersReducer(state = initialState, action) {
   console.log('action.type',action.type)
+  //debugger;
   switch (action.type) {
       case REMINDERS_SUCCESS:
         return {
           ...state,
-          remindersList : action.payload.reminders
+          remindersList : action.payload.reminders,
+          error_message: '',
+          isValid : true,
         }
         
       case REMINDERS_INVALID:
         return {
           ...state,
+          error_message: '',
+          isValid : true,
          
         }
        
       case REMINDERS_GENERAL:
         return {
           ...state,
+          error_message: '',
+          isValid : true,
          
         }
+      case IM_NOREMINDER:
+        return {
+          ...state,
+          remindersList : action.payload.reminders,
+          error_message: '',
+          isValid : true,
+         
+        }
+      case REMINDERS_REQUEST_VALIDFAILED:
+       return{
+         ...state,
+         error_message: action.message,
+         isValid : false
+       }
         
 
     default:
-    return state;
+      return state;
   }
 }

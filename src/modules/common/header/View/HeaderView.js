@@ -77,7 +77,7 @@ export class HeaderView extends Component {
           <div className="header-right-container">
             <div className="div-battery-indicator">
             <div className = "ped-battery-indicator">
-            <div className = "ped-battery-color-area">
+            <div className = "commonheader-ped-battery-color-area">
              <div className = "ped-battery-color-area-inner"
                style = {{
                 width : this.props.pedindicatorwidth ,

@@ -18,6 +18,7 @@ import VerifyCustomerDomestic from '../../verify_customer/View/VerifyCustomerDom
 import VerifyCustomer from '../../verify_customer/View/VerifyCustomerIntView';
 import { ModifyPriceErrorModal } from '../../sale/modal-component/modalComponent'; 
 import { UpdateInvalidEmailModal } from '../../update-customer/View/Components/AlertModals/UpdateInvalidEmailModal';
+import { UpdateFailedModal } from '../../update-customer/View/Components/AlertModals/UpdateFailedModal';
 
 import savebtn from '../../../resources/images/Save.svg';
 import incircle_purple_large_bttn from '../../../resources/images/Incircle_Level_purple_large_bttn.svg';
@@ -803,7 +804,11 @@ export default class ViewEditCustomerView extends Component {
             <UpdateInvalidEmailModal failModal1={this.props.failModal1}
                 closeFailModal={this.props.closeFailModal}
                 bypassEmailValidation={this.props.bypassEmailValidation} />
-                <Footer></Footer>
+
+            <UpdateFailedModal failedToUpdateModal={this.props.updateFailed}
+                closeFailedToUpdate={this.props.updateFailedModalToggle}/>
+
+            <Footer></Footer>
             </div>
         );
     }

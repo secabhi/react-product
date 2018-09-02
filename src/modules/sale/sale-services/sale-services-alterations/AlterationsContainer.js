@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ServicesHeader from '../services-common/ServicesHeader';
 import ServicesFooter from '../services-common/ServicesFooter';
 import Modal from 'react-responsive-modal';
+import { showException } from '../../../common/exceptionErrorModal/exceptionAction';
 import { ContactDetailsModal, 
          AlterationDetailsModal, 
          CustomerDetailsModal, 
@@ -92,6 +93,7 @@ class Alterations extends Component {
       this.props.startSpinner(false);
       this.setState({alteration_success_modal: false})
     } */
+    if (nextprops.cart.isValid) {
     if(nextprops.cart.dataFrom === 'ALTERATION_SUCCESS') {
       /* debugger;
       this.startSpinner(false); */
@@ -127,6 +129,21 @@ class Alterations extends Component {
       }
       this.props.startSpinner(false);
     }
+
+    else if(nextprops.cart.dataFrom === 'AA_ALTTAGALREADYUSED') {
+      console.log("already used dataform", nextprops.cart.dataFrom)
+      this.setState({
+        invalidTag_modal: true
+      })
+      this.alterationObject = {
+        promiseDate: '',
+        alterationID: '',
+        quotedPrice: '',
+        contactName: '',
+        contactExt: ''
+      }
+      this.props.startSpinner(false);
+    }
     
     else if(nextprops.cart.dataFrom === 'ADD_ALTERATIONS_FAIL') {
       this.renderErrorModal();
@@ -136,19 +153,26 @@ class Alterations extends Component {
     else if(nextprops.cart.dataFrom === 'WEB_SERVICE_ERROR') {
       this.props.startSpinner(false);
     }
-
+  }
+  else {
+    if (nextprops.cart.error_message != '') {
+      this.props.callErrorException({
+        showException: true,
+        error: { failedModule: 'Sale', failureReason: 'Unexpected Response', failureDescription: nextprops.cart.error_message }
+      })
+    }
   }
 
+  }
+  
+
   render() {
-    console.log('Alterations Props before next',this.props);
     const isAlterationNextBtnEnabled = () => {
       console.log('Alterations Props after next',this.props);
       if (this.props.selectedItems.length >=1){return true};
       if (this.props.cart.dataFrom === 'LINE_VOID') return false;
       return false;
     }
-
-    console.log('MIKE----------ALTERATION PROPS',this.props)
     console.log('state: ALTERATION', this.state.alteration_success_modal )
     return (
       <div>
@@ -236,6 +260,7 @@ class Alterations extends Component {
           skipCustomerInfo={this.state.isSkip}
           address1={this.state.address1}
           address2={this.state.address2}
+          history={this.props.history}
         />
         <div>
           <ServicesHeader>
@@ -308,10 +333,9 @@ class Alterations extends Component {
     // apiDateFormat[2] = apiDateFormat[2].slice(2);
     // //apiDateFormat = apiDateFormat.join('');
     
-    var apiFormatDate = moment(values.promiseDate).format('MMDDYY');
-    var finalApiDateFormat = apiFormatDate;
+    var finalFormatDate = moment(values.promiseDate).format('MMDDYY');
 
-    console.log('API DATE FORMAT', finalApiDateFormat);
+    console.log('API DATE FORMAT', finalFormatDate);
 
     const index = this.props.selectedItems[0];
 
@@ -330,9 +354,9 @@ class Alterations extends Component {
       "transactionId": transId,
       "ItemNumber": sku,
       "LineNumber": selectedItem.lineNumber,
-      "PromisedDate": finalApiDateFormat,
-      "QuotedPrice": this.alterationObject.quotedPrice,
-      "AlterationTag": this.alterationObject.alterationID,
+      "PromisedDate": finalFormatDate,
+      "QuotedPrice": values.quotedPrice,
+      "AlterationTag": values.alterationID,
       "AlterationType" : "",
       "AssociateName" :"mmmm",
       "AssociateExtn": 1234567,
@@ -343,7 +367,7 @@ class Alterations extends Component {
     }
     console.log('B4 API CALL', this.props.cart.data)
     this.props.startSpinner(true)
-    this.props.addAlterations(alterationsObj)
+    this.props.addAlterations(alterationsObj,this.props.login.userpin)
     // this.props.startSpinner(false)
   }
 
@@ -454,13 +478,14 @@ class Alterations extends Component {
 
 }// end of class
 
-function mapStateToProps({ alterationComplete, cart, sale, selectedItems,  }) {
+function mapStateToProps({ alterationComplete, cart, sale, selectedItems, login }) {
   return { alterationComplete, 
            cart, 
            otherPageData: sale.otherPageData,
           //  customerDetails:customerDetails,
            selectedItems,
           //  addCustomer
+          login
           }
 }
 
@@ -471,6 +496,7 @@ function mapDispatchToProps(dispatch) {
         resetAlterationComplete,
         startSpinner,
         itemSelectedAction,
+        callErrorException: showException,
         // addCustomerActionInvoker: addCustomerAction,
       }, dispatch)
 }

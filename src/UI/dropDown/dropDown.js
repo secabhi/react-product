@@ -24,11 +24,7 @@ export default class DropDown extends Component {
     render(){
         const header = React.cloneElement(this.props.children[0], {...this.state})
         let active = this.props.active;
-        // if(active){
-        //     this.setState({show:false})
 
-        // }
-        console.log('Sweezey Active', active)
         return (
             <div className={active ? 'dropDown': 'dropdown-element-disabled'} >
                 <div className="dropDown-main-flex" onClick={() => {this.toggleChildrensVisibility() }}>

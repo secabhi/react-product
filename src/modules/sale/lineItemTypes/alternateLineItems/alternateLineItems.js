@@ -13,15 +13,12 @@ import './alternateLineItems.css';
 export default class AlternateLineItems extends Component{
     handleOnClick = (lineNumber) => {
         //only handle click if alteration or giftWrap and came from sales container
-        console.log(`sweezey: tile: ${this.props.title}, lineNumber: ${lineNumber} clickable: ${this.props.nonSkuItemsAreClickable}`);
         if(this.props.nonSkuItemsAreClickable && (this.props.title === "Alterations" || this.props.title === "Gift Wrap:" )){
-            console.log(`Sweezey: Selecting alternate linenumber(if)`);
             this.props.selectNonSkuItem(lineNumber);
         }
     }
 
     render(){   
-        console.log(`Sweezey: selectItemStyle ${this.props.selectedItemStyle}, this.props.indexStyle ${this.props.indexStyle}`)
         const indexStyle = this.props.selectedItemStyle ? 'selected' : this.props.indexStyle;
 
         var taxLength;

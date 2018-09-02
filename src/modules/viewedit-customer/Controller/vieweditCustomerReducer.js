@@ -1,3 +1,5 @@
+import {UPDATE_CUST_SUCCESS, UPDATE_CUST_GENERAL_ERROR, UPDATE_CUST_MISSING_DETAILS, UPDATE_CUST_RECORD_NOT_UPDATED, VIEW_EDIT_CUST_INVALID_EMAIL, VIEW_EDIT_CUST_FAILURE } from '../../common/constants/type';
+
 const initialState = {
     successModalFlag : false,
     addressValidationSuccessFlag : false,
@@ -7,7 +9,8 @@ const initialState = {
     isUpdateSuccess  :false, 
     errors : [],
     countryList:[],
-    storeClientNumber:""
+    storeClientNumber:"",
+    errorModal:false,
 };
 
 export function ViewEditCustomerReducer(state, action) {
@@ -27,7 +30,7 @@ export function ViewEditCustomerReducer(state, action) {
                 isUpdateSuccess : false
             };
         }
-        case 'UPDATE_CUST_SUCCESS': {
+        case UPDATE_CUST_SUCCESS: {
             return {
                 ...state,
                 successModalFlag: true,
@@ -54,7 +57,7 @@ export function ViewEditCustomerReducer(state, action) {
             };
         }
 
-        case 'VIEW_EDIT_CUST_INVALID_EMAIL' :{
+        case VIEW_EDIT_CUST_INVALID_EMAIL :{
             return{
                 ...state,
                 verifyEmailFlag: true,
@@ -66,6 +69,13 @@ export function ViewEditCustomerReducer(state, action) {
                 isCountryList : false,
                 isProfileData : false,
                 isUpdateSuccess : false
+            }
+        }
+
+        case VIEW_EDIT_CUST_FAILURE :{
+            return{
+                ...state,
+                errorModal:true,
             }
         }
         // case "STORE_CLIENT_REQ_SUCCESS":

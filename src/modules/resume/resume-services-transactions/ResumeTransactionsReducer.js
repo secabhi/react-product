@@ -21,7 +21,7 @@ const initialState = {
     getResumeDataFrom : ''
   }
 export function ResumeTransactionsReducer (state = initialState, action) {
-    console.log("**** RESUME Transactions REDUCER",action)
+    //console.log("**** RESUME Transactions REDUCER",action)
     switch (action.type) {   
       default:
           return state;

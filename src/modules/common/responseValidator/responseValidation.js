@@ -13,7 +13,8 @@ export function responseValidation(responseObj, dictObj)
                     return ({ isValid: false, message: 'Response timedout' })
                     break;
                 }
-
+                return ({ isValid: false, message: 'Invalid Request' })
+                break;
             }
             else {
                 if ((responseObj.key == null) || (responseObj.key == undefined)) {

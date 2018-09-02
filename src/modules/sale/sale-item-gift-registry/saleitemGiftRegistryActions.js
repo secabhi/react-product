@@ -1,5 +1,6 @@
 import { callPostWebService, callGetWebService, callPutWebService } from '../../common/helpers/helpers';
 import { startSpinner } from '../../common/loading/spinnerAction';
+import {responseValidation} from '../../common/responseValidator/responseValidation';
 //grabs url and other data from config file.
 //const CONFIG_FILE = require('../../../resources/stubs/config.json');
 const CONFIG_FILE = require('../../../resources/stubs/config.json');
@@ -24,6 +25,9 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
 	"TransModify": modify_type=='IteamRegistry'?"N":"Y",
 	"GiftRegistryNum": gift
     };
+    var validated = {isValid : false,
+        message :''}
+    const SaleItemResponseObj = require('../../common/responseValidator/responseDictionary').saleItemResponseObj;
     const request = env.ENV_MODE=='dev1'?callPutWebService(URL, params):callGetWebService(giftRegistryURL, {});
     
     console.log("saleitemGiftRegistryUpdate Parameters being sent", params);
@@ -31,7 +35,8 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
     
     return (dispatch) => {
          request.then(({data}) => {
-             console.log(data);
+            validated = responseValidation(data,SaleItemResponseObj);             
+            if(validated.isValid){
 
             if(data.response_text == "GREC_SUCCESS") {
                 dispatch({
@@ -1307,16 +1312,23 @@ export function saleitemGiftRegistryUpdate(item,transactionId,gift,modify_type,u
                 });
             }
 
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
            
         }).catch((err) => {
-            dispatch(startSpinner(false));
             dispatch({
-                    type: 'GIFTREGISTRYUPDATE_FAIL',
-                    payload:'No Result'
-                });
-            // console.log("ERROR",err);
-            // alert("ERROR");
-        }); 
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ URL
+            });
+        });
         
     };
 }

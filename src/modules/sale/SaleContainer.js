@@ -1,32 +1,28 @@
 
-
-
 import React, { Component } from 'react';
 import SaleMenu from './SaleMenu';
 import SaleKeypad from './SaleKeypad';
 import SaleFooter from './SaleFooter';
 import SaleContent from './SaleContent';
-import SaleItems from './SaleItems';
 import Modal from 'react-responsive-modal';
 import ReactTooltip from 'react-tooltip'
 import TextField from 'material-ui/TextField';
 import info from '../../resources/images/Info.svg';
 import warningIcon from '../../resources/images/Warning.svg';
 import { validateDecimal } from '../common/helpers/helpers';
-import { callPostWebService, callGetWebService } from '../common/helpers/helpers';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setCurrnetItem, presaleInitialRender,priceActions, addItemsRequest, addItemsSuccess, addItemsFailure, voidLineItemAction, applyTransDiscountToCart, applyAssociateDiscountToCart, getPromotionsAction, modifyPriceAction, modifyTaxAuthAction, modifyTaxAction, getDefaultSKU, validateManagerPinAction } from './SalesCartAction';
+import { setCurrnetItem, presaleInitialRender, presaleRetainYes, addItemsRequest,voidLineItemAction, applyTransDiscountToCart, applyAssociateDiscountToCart, getPromotionsAction, modifyPriceAction, modifyTaxAuthAction, modifyTaxAction, getDefaultSKU, validateManagerPinAction, clearDefaultSku, clearDataFrom, clearInvalidSkuId } from './SalesCartAction';
 /*import {navigateToLookupOptions} from '../account-lookup/controllers/accountLookupActions';*/
-import {useStoredCard,clearTendering} from '../account-lookup/controllers/accountLookupActions';
+import { useStoredCard, clearTendering } from '../account-lookup/controllers/accountLookupActions';
 import Cancel_Purple_SFF from '../../resources/images/Cancel_Purple_SFF.svg';
 import { goToSendPage } from './SaleAction';
 import { itemSelectedAction } from '../common/cartRenderer/actions';
 import { getTransactionId } from '../home/HomeSelector';
 import { SaleItemReplenishment } from './sale-item-replenishment/sale-item-replishment';
-import { pluck, indexOf, each } from 'underscore';
+import { each } from 'underscore';
 
-import { AddSkuModal, SearchModal, MaxItemCountModal, WarningCountModal, ScannerNotDockedModal, VoidLineConfirmModal, ModifyPriceModal, ModifyTaxModal, TaxAttemptModal, ManagerApprovalModal, ModifyPriceErrorModal, AmountToBeEnteredModal, KeyDeptModal, Subclass, Amount, PJmodal, QuantityInfoModal } from './modal-component/modalComponent';
+import { AddSkuModal, MaxItemCountModal, WarningCountModal, ScannerNotDockedModal, VoidLineConfirmModal, ModifyPriceModal, ModifyTaxModal, TaxAttemptModal, ManagerApprovalModal, ModifyPriceErrorModal, AmountToBeEnteredModal, KeyDeptModal, Subclass, Amount, PJmodal, QuantityInfoModal } from './modal-component/modalComponent';
 
 //import { keyDeptModal } from './modal-component/ringSale/modalComponent';
 
@@ -40,7 +36,6 @@ import EmailTrackingModal from './sendModals/emailTrackingModal/emailTrackingMod
 import VerifyEmailModal from './sendModals/verifyEmailModal/verifyEmailModal';
 import SenderRecipientSameModal from './sendModals/senderRecipientSameModal/senderRecipientSameModal';
 //import { ModifyPrice } from './price/price'
-import Modal2 from '../../UI/modal-two/modal-two';
 import { saleitemModifyQuantityUpdate } from './sale-item-modify-quantity/saleitemModifyQuantityActions';
 import { saleitemGiftRegistryUpdate } from './sale-item-gift-registry/saleitemGiftRegistryActions';
 import { saleitemGiftReceiptUpdate } from './sale-item-gift-receipt/saleitemGiftReceiptActions';
@@ -59,8 +54,7 @@ import { startSpinner } from '../common/loading/spinnerAction';
 import SelectItemCartRenderer from '../common/cartRenderer/SelectItemCartRenderer';
 // import GiftRegistryModal from '../sale/transModifiy/giftRegistry/giftRegistry';
 
-
-import salesCartReformater from './helpers/salesCartReformater';
+import { showException } from '../common/exceptionErrorModal/exceptionAction';
 import { productImgSearchAction } from '../product-search/ProductSearchAction';
 import { productSearchAction } from '../product-search/ProductSearchAction';
 // import { SelectDeptModal } from './modal-component/modalComponent';
@@ -74,16 +68,30 @@ import {getCardsList} from '../account-lookup/controllers/accountLookupActions.j
 import CardDetailsModal from '../account-lookup/modals/CardDetailsModal';
 
 
-import './sale-container.css'; 
-import { DEFAULT_SKU } from '../common/constants/type';
+import './sale-container.css';
 //import { config } from '../../../../platforms/windows/cordova/node_modules/shelljs/src/common';
 //import { DEFAULT_PARSER } from '../../../../platforms/windows/cordova/node_modules/elementtree/lib/constants';
 import ErrorAlertImage from '../../resources/images/Error_Alert.svg';
 import preSaleImage from '../../resources/images/Sale_Black.svg';
 
+
+// AURUS 
+import { getAurusResponse } from '../payment/Controller/paymentActions';
+import { json2xml } from "../common/helpers/helpers";
+const CONFIG_FILE = require('../../resources/stubs/config.json');
+var clientConfig = CONFIG_FILE.clientConfig;
+
+
 class SaleContainer extends Component {
   constructor(props) {
     super(props);
+
+    // AURUS JSON
+    this.aurusVars = require("../../resources/aurus/aurusVars.json");
+    this.getCardBinJson = require("../../resources/aurus/GetCardBINRequest.json");
+    this.UpdateRequestScanJson = require("../../resources/aurus/UpdateRequestScan.json")
+    this.closeTransJson = require("../../resources/aurus/CloseTran.json");
+    console.log("aurusVars", this.aurusVars);
     this.state = {
       cartIsShowingItems: false,
       giftRegistryErrorModal: true,
@@ -94,6 +102,7 @@ class SaleContainer extends Component {
       sale_errorModal: false,
       sku_errorModal: false,
       modal_default_sku_error: false,
+      modal_default_sku_error_msg:'',
       replenishClientOpen: false,
       TranDiscPriceOverrideFlag: false,
       TranDiscPriceOverrideFlagPopup: false,
@@ -101,15 +110,15 @@ class SaleContainer extends Component {
       userPin2: '',
       items: [],
 
-        dept:'',
-        class:'',
-        subClass:'',
-        amount:'',
-        PJnum:'',
-      defaultSKU:'',
-      deptType:'',
-      directDefault:false,
-      disableGiftReceipt:false,
+      dept: '',
+      class: '',
+      subClass: '',
+      amount: '',
+      PJnum: '',
+      defaultSKU: '',
+      deptType: '',
+      directDefault: false,
+      disableGiftReceipt: false,
       currentPopup: '',
       modify_type: '',
       modal_TransDiscount: false,
@@ -211,7 +220,7 @@ class SaleContainer extends Component {
       itemarraylength: false,
       gifwrapError: false,
       PreSale_FlagModal: false,
-      presaleFlaginCart:false,
+      presaleFlaginCart: false,
       skuError: '',
       AuthCode: '',
       modal_items_handled: false,
@@ -219,7 +228,7 @@ class SaleContainer extends Component {
       GiftWrap_Message: '',
       AlterationsMessage: '',
       SendsMessage: '',
-      Sends7Message:'',
+      Sends7Message: '',
       getisellFlagDisplayObject: [],
       gp: false,
       giftreg: '',
@@ -228,14 +237,14 @@ class SaleContainer extends Component {
       itemNotFound: [],
       giftreceipt: false,
       disableTransGiftReceipt: false,
-      giftreg:'',
-      managerModalErrorMessage : '',
+      giftreg: '',
+      managerModalErrorMessage: '',
       //Account Lookup States
-      tenderingCard:false,
+      //tenderingCard: false,
       custPhoneModalFlag: false,
       DLModalFlag: false,
       byPassModalFlag: false,
-      cards:{}
+      cards: {}
 
 
     }
@@ -271,43 +280,49 @@ class SaleContainer extends Component {
   }
 
   componentWillMount() {
-   
     if (this.props.cart.getISellData !== '') {
       this.props.startSpinner(true);
     }
   }
-  
+
   componentDidMount() {
-    var currentDateTime=new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()
-    console.log("currentdatetime "+currentDateTime)
-    if(store.getState().home.registerInfoData && store.getState().home.registerInfoData.preSale!==null && store.getState().home.registerInfoData.preSale!==undefined)
-    {
-      var startDate=store.getState().home.registerInfoData.fromDate;
-      var targetDate= store.getState().home.registerInfoData.toDate;
-      var  endDate= new Date(targetDate);
+    var currentDateTime = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
+    console.log("currentdatetime " + currentDateTime);
+
+    if (store.getState().home.registerInfoData && store.getState().home.registerInfoData.preSale !== null && store.getState().home.registerInfoData.preSale !== undefined) {
+      var startDate = store.getState().home.registerInfoData.fromDate;
+      var targetDate = store.getState().home.registerInfoData.toDate;
+      var endDate = new Date(targetDate);
       endDate.setDate(endDate.getDate() - 1);
-      var  previousDay=endDate.toLocaleDateString()+" "+endDate.toLocaleTimeString()
+      var previousDay = endDate.toLocaleDateString() + " " + endDate.toLocaleTimeString()
       //this.setState({PreSale_FlagModal:store.getState().home.registerInfoData.preSale})
       if (store.getState().home.registerInfoData.preSale === true && (Date.parse(currentDateTime) >= Date.parse(startDate)) && (Date.parse(currentDateTime) <= Date.parse(previousDay))) {
         if (store.getState().cart && store.getState().cart.presaleinitialrender !== undefined &&
-          store.getState().cart.presaleinitialrender == false)
-          this.setState({ PreSale_FlagModal: false })
+          store.getState().cart.presaleinitialrender == false){
+             /*Fix MPOS-2177 - starts*/
+            if(store.getState().cart && store.getState().cart.presale_retain_yes !== undefined &&
+            store.getState().cart.presale_retain_yes == true){
+              this.props.makePresaleHeader();
+            }
+             /*Fix MPOS-2177 - Ends*/
+            this.setState({ PreSale_FlagModal: false })
+          }
         else {
           this.setState({ PreSale_FlagModal: true })
         }
       }
-    
+
       console.log('presal flag has set');
     }
-    else
-    {
-      this.setState({PreSale_FlagModal:false})
+    else {
+      this.setState({ PreSale_FlagModal: false })
     }
     document.getElementsByClassName('product-search-button')[0].style.opacity = 0.4;
     console.log("COMP DID MOUNT SALECONTAINER: ", this.props);
     const { cartItems, subTotal, totalTax, total, transactionId } = this.props.cart.data
     //if we have nothing showing and there are items in cart - rerender
-    if (this.state.cartIsShowingItems === false && this.props.cart.data) {
+    if (this.state.cartIsShowingItems === false && this.props.cart.data.cartItems) {
+      // if(this.props.cart.data.data) {
       this.setState({
         items: cartItems.items,
         subTotal,
@@ -315,23 +330,27 @@ class SaleContainer extends Component {
         total,
         transactionId,
       });
+      // }
     }
     else {
       this.setState({ transactionId: this.props.transactionId })
     }
 
     //if (this.props
-    if (this.props.cart.data.cartItems.items.length > 0) {
-      console.log("COMP DID MOUNT CART DETAILS: ", this.props.cart.data);
-      this.setState({
-        subTotal: this.props.cart.data.cartItems.subTotal,
-        taxTotal: this.props.cart.data.cartItems.totalTax,
-        total: this.props.cart.data.cartItems.total,
-        taxExemptID:this.props.cart.data.taxExemptID
-      })
+    //debugger
+    if (this.props.cart.data.cartItems) {
+      if (this.props.cart.data.cartItems.items.length > 0) {
+        console.log("COMP DID MOUNT CART DETAILS: ", this.props.cart.data);
+        this.setState({
+          subTotal: this.props.cart.data.cartItems.subTotal,
+          taxTotal: this.props.cart.data.cartItems.totalTax,
+          total: this.props.cart.data.cartItems.total,
+          taxExemptID: this.props.cart.data.taxExemptID
+        })
+      }
     }
 
-   
+
 
     if (this.props.cart.getISellData !== '' && this.props.cart.getISellData !== null) {
       this.props.startSpinner(true);
@@ -344,7 +363,7 @@ class SaleContainer extends Component {
         }
         skuIdmultiple[i] = GetisellInfo;
       }
-      
+
       console.log("Multiple SkuID's", skuIdmultiple);
       this.retrieveSkuMultiple(skuIdmultiple);
     }
@@ -364,14 +383,13 @@ class SaleContainer extends Component {
       document.getElementsByClassName('Ok-button-area')[0].style.opacity = ".4";
     }
     else {
-      var decimalVal=validateDecimal(event.target.value)
-      if (decimalVal)
-      {
-      document.getElementsByClassName("Ok-button-area")[0].disabled = false;
-      document.getElementsByClassName('Ok-button-area')[0].style.opacity = "1";
+      var decimalVal = validateDecimal(event.target.value)
+      if (decimalVal) {
+        document.getElementsByClassName("Ok-button-area")[0].disabled = false;
+        document.getElementsByClassName('Ok-button-area')[0].style.opacity = "1";
       }
-      else{
-        document.getElementById('Ok-button-area').disabled= true;
+      else {
+        document.getElementById('Ok-button-area').disabled = true;
         document.getElementsByClassName('Ok-button-area')[0].style.opacity = ".4";
       }
     }
@@ -392,7 +410,7 @@ class SaleContainer extends Component {
     });
 
 
-    this.setState({ amount_to_be_entered_modal: flag });
+    // this.setState({ amount_to_be_entered_modal: flag });
   }
 
 
@@ -401,7 +419,7 @@ class SaleContainer extends Component {
     console.log('Selected Items Empty', this.props);
     var navigateToPaymentFlag = false;
     console.log('this.props.cart.getISellData.itemDetailsList', this.props.cart.getISellData.itemDetailsList);
-
+    this.setUseStoredCard(true);
     if (this.state.GetisellFlag === true) {
       var getisellprops = this.props.cart.getISellData.itemDetailsList;
       var giftwrapmsgflag = false;
@@ -459,7 +477,7 @@ class SaleContainer extends Component {
 
 
             if (getsellitem.flgAlt === true) {
-              if (item[0].hasAlteration === true ) {
+              if (item[0].hasAlteration === true) {
                 navigateToPaymentFlag = true;
               }
               else {
@@ -599,7 +617,8 @@ class SaleContainer extends Component {
       navigateToPaymentFlag = true;
     }
     if (navigateToPaymentFlag) {
-      this.setCurrentItem("","","","","","");
+      //debugger;
+      this.setCurrentItem("", "", "", "", "", "");
       console.log('Selected Items Check', this.props.selectedItem);
       this.props.history.push('/payment', this.props.history.location.state ? { isClienteled: this.props.history.location.state.isClienteled } : { isClienteled: true })
     }
@@ -611,535 +630,572 @@ class SaleContainer extends Component {
   componentWillReceiveProps(nextProps) {
     //if(nextProps.cart.dataFrom != this.props.cart.dataFrom ){
     //debugger;
-    let errors = {};
-    console.log('props in container', this.props);
-    console.log('type' + nextProps.cart.dataFrom);
-    this.setState({ scrollCheck: false });
-    //debugger;
-    if(nextProps.cards.dataFrom === 'SET_TENDERING'){
-      this.navigateToPayment();
 
-      
+    if (JSON.stringify(nextProps.cart) === JSON.stringify(this.props.cart) && nextProps.cart.dataFrom !== 'UPDATED_IMAGES') {
+      //DO NOTHING AS NO CHANGE IN CART DATA
     }
-    //do we need product images
-    if (nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
-      //const multiImageTest = {updated: false, imageUrls: {401052070933:'',401014934152:'',401058977854:'',401015154958:''}}
-      //this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
-      //this.props.productImgSearchAction(multiImageTest.imageUrls);
-      
-        //this.props.startSpinner(true);
-        this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
-    
-    }
-    //for calling additemtocart API with default SKU
-    if (nextProps.cart.dataFrom === 'DEFAULT_SKU') {
-      console.log('default props'+JSON.stringify(nextProps.cart.data));
-      this.setState({deptType:nextProps.cart.data.deptType})
-      //var deptType = this.state.deptType;
-      this.setState({defaultSKU:nextProps.cart.data.defaultSKU});
-      this.deptDetails.DefaultSKU = nextProps.cart.data.defaultSKU;
+    else {
 
-      if(nextProps.cart.data.deptType==2 && this.state.directDefault==false)
+
+      let errors = {};
+      console.log('props in container', this.props);
+      console.log('type' + nextProps.cart.dataFrom);
+      this.setState({ scrollCheck: false });
+      if (nextProps.cart.isValid) {
+
+        //debugger;
+        if (nextProps.cards.dataFrom === 'SET_TENDERING') {
+          this.navigateToPayment();
+        }
+        //do we need product images
+        if (nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
+          //const multiImageTest = {updated: false, imageUrls: {401052070933:'',401014934152:'',401058977854:'',401015154958:''}}
+          //this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
+          //this.props.productImgSearchAction(multiImageTest.imageUrls);
+
+          //this.props.startSpinner(true);
+          this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
+
+        }
+        //for calling additemtocart API with default SKU
+        if (nextProps.cart.dataFrom === 'DEFAULT_SKU') {
+          console.log('default props' + JSON.stringify(nextProps.cart.dataSku));
+          this.setState({ deptType: nextProps.cart.dataSku.deptType })
+          //var deptType = this.state.deptType;
+          this.setState({ defaultSKU: nextProps.cart.dataSku.defaultSKU });
+          this.deptDetails.DefaultSKU = nextProps.cart.dataSku.defaultSKU;
+
+          if (nextProps.cart.dataSku.deptType == 2 && this.state.directDefault == false) {
+            this.setState({ modal_pj: true })
+            if (this.props.spinner.startSpinner)
+              this.props.startSpinner(false);
+          }
+          else {
+
+            this.setState({ modal_amount: true })
+            console.log('defaultSKU in container' + nextProps.cart.data.defaultSKU);
+            if (this.props.spinner.startSpinner)
+              this.props.startSpinner(false);
+            console.log('defaultSKU in container' + this.state.defaultSKU);
+          }
+          this.props.clearDefaultSkuData();
+        }
+
+        if (nextProps.cart.dataFrom === 'IM_SKUNOTFOUND') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({ modal_default_sku_error: true,modal_default_sku_error_msg:'Default SKU not found. Please use keyword search.' });
+          this.props.clearDefaultSkuData();
+        }
+        if (nextProps.cart.dataFrom === 'IM_ITEMNOTFOUND') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({ modal_default_sku_error: true,modal_default_sku_error_msg:'Invalid item number' });
+          this.props.clearDefaultSkuData();
+        }
+        
+
+        if (nextProps.cart.dataFrom === 'TAX_AUTH_FAIL') {
+          this.showItemModifyTaxModal(true, 'Tax', 'Override Authorization Code');
+          this.setState({ is_tax_fail: true })
+          if (this.props.spinner.startSpinner) {
+            this.props.startSpinner(false);
+          }
+        }
+        else if (nextProps.cart.dataFrom === 'TAX_AUTH_SUCCESS') {
+          this.setState({ modal_tax_modify: false });
+          this.setState({ is_tax_fail: false })
+          this.props.modifyTaxInvoker(this.state.transactionId, this.state.items[this.state.currentItemIndex][0], this.state.AuthCode,this.props.login.userpin);
+
+        }
+        //check for transaction id in redux
+        if (nextProps.cart.dataFrom === 'SC_INVALIDPIN1') {
+          errors["spliterror1"] = "Pin1 is Invalid"
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'SPLIT_COMMISSION_REQUEST_SUCCESS') {
+
+          //this.showSplitCommissionModal(false);
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'SC_INVALIDPIN2') {
+          errors["spliterror2"] = "Pin2 is Invalid"
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'SC_INVALIDPINS') {
+          errors["spliterror1"] = "Pin1 is Invalid"
+          errors["spliterror2"] = "Pin2 is Invalid"
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'GIFTREGISTRY_FAIL') {
+          this.setState({ cart_errorModal: true })
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'SC_SAMEPINS') {
+          errors["spliterror2"] = "PIN1 and pin2 are same"
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom !== 'WEB_SERVICE_ERROR' && nextProps.cart.dataFrom !== 'GP_PRICENOTFOUND' && nextProps.cart.dataFrom !== 'INVALID_SKU-ID' && nextProps.cart.dataFrom !== 'RP_FAIL' && nextProps.cart.dataFrom !== 'REPLENISH_FAIL' && nextProps.cart.dataFrom !== 'SPLIT_COMM_ERROR' && nextProps.cart.dataFrom !== 'IM_DISCOUNTALREADYAPPLIED' && nextProps.cart.dataFrom !== 'GET_PROMOTIONS_SUCCESS' && nextProps.cart.dataFrom !== 'TAX_AUTH_FAIL' && nextProps.cart.dataFrom !== 'DEFAULT_SKU' && nextProps.cart.dataFrom !== 'IM_SKUNOTFOUND') {
+          console.log('transactionID' + nextProps.cart.data.transactionId);
+          if (nextProps.cart.data && (nextProps.cart.data.transactionId !== undefined || nextProps.cart.data.transactionId)) {
+            this.setState({ transactionId: nextProps.cart.data.transactionId });
+          }
+          //added as a work around for special instructions
+          else if (nextProps.cart.data && nextProps.cart.data.data && nextProps.cart.data.data.transactionId) {
+            this.setState({ transactionId: nextProps.cart.data.data.transactionId });
+          }
+          else {
+            console.log('will receive props');
+
+            // if(nextProps.cart.dataFrom!=='DEFAULT_SKU')
+            //commenting the below code as incorrect transaction id is getting passed in some scenarios.
+            //this.setState({ transactionId: '1249' })
+          }
+        }
+        if (nextProps.cart.dataFrom == 'INVALID_SKU-ID') {
+          this.setState({ sku_errorModal: true })
+        }
+        {/*if(nextProps.cart.dataFrom=='RP_FAIL' && store.getState().customerSearch.clienteled!==false)
       {
-        this.setState({ modal_pj:true })
-        if (this.props.spinner.startSpinner)
-        this.props.startSpinner(false);
+        this.setState({sale_errorModal:true});
+      }*/}
+        if (nextProps.cart.dataFrom == 'WEB_SERVICE_ERROR') {
+          this.setState({ sale_errorModal: false });
+        }
+
+        console.log(nextProps);
+
+        //dont write here ...append to last
+        // if(nextProps.cart.data.cartItems.items[0].salePrice==1)
+        // {
+
+        //   this.amount_to_be_inserted_modal(true);
+
+        // //  this.setState({  amount_to_be_entered_modal:true });
+        // }
+
+
+        //update only if adding item or applying Discount.. may need to add to condition for other things
+        if (nextProps.cart.dataFrom === 'ADD_ITEM' || nextProps.cart.dataFrom === 'ADD_ITEM1' || nextProps.cart.dataFrom === 'UPDATED_IMAGES') {
+          this.setState({ scrollCheck: true, amount_to_be_entered_modal: false });
+        }
+        if (nextProps.cart.dataFrom === 'ADD_ITEM' || nextProps.cart.dataFrom === 'ADD_ITEM1' || nextProps.cart.dataFrom === 'TRANS_DISCOUNT_APPLIED'
+          || nextProps.cart.dataFrom === 'MODIFY_SPECIAL_INSTRUCTIONS_UPDATE' || nextProps.cart.dataFrom === 'GIFT_WRAP' || nextProps.cart.dataFrom === 'UPDATED_IMAGES' || nextProps.cart.dataFrom === 'ADD_GIFTCARD_SUCCESS' || nextProps.cart.dataFrom === "DIRECT_SEND_SUCCESS") {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          //cartIsShowingItems is used as one of factors to rerenderCart when component is unmounted
+          //this.setState({ cartIsShowingItems: true, scrollCheck: true });
+          //this.setState({disableOptions:true});
+          this.setState({ amount_to_be_entered_modal: false })
+          if (nextProps.cart.dataFrom === 'TRANS_DISCOUNT_APPLIED') {
+            this.setState({ tranDiscAppliedFlag: true });
+          }
+          var itemArrayLength = 0;
+          var maxTransDiscountValue = 0;
+          for (var i = 0; i < this.state.items.length; ++i) {
+            if (this.state.items[i][0].quantity > 0) {
+              itemArrayLength++;
+            }
+          }
+          for (var i = 0; i < nextProps.cart.data.cartItems.items.length; ++i) {
+            if (i === 0) {
+              maxTransDiscountValue = nextProps.cart.data.cartItems.items[i][0].maxDiscount;
+            }
+            else {
+              if (nextProps.cart.data.cartItems.items[i][0].maxDiscount < maxTransDiscountValue) {
+                maxTransDiscountValue = nextProps.cart.data.cartItems.items[i][0].maxDiscount;
+              }
+            }
+          }
+
+          if (itemArrayLength < nextProps.cart.data.cartItems.items.length) {
+
+            if (nextProps.cart.data.cartItems.items[itemArrayLength][0].isAutoReplenish === true && store.getState().customerSearch.clienteled === true) {
+              this.setState({
+                autoreplenishflag: true,
+                currentItemIndexAuto: itemArrayLength,
+                Replenishment_FlagModal: true,
+              });
+
+            }
+
+          }
+
+          if (itemArrayLength < this.MAX_ITEM_COUNT) {
+            if (itemArrayLength === (this.WARNING_COUNT - 1)) {
+              this.setState({
+                items: nextProps.cart.data.cartItems.items,
+                subTotal: nextProps.cart.data.subTotal,
+                taxTotal: nextProps.cart.data.totalTax,
+                total: nextProps.cart.data.total,
+                modal_sku: false, modal_warning: true,
+                maxTransDiscountValue: maxTransDiscountValue
+              });
+
+            }
+            else {
+              let { subTotal, totalTax, total } = nextProps.cart.data;
+              this.setState({
+                items: nextProps.cart.data.cartItems.items,
+                subTotal: nextProps.cart.data.subTotal,
+                taxTotal: nextProps.cart.data.totalTax,
+                total: nextProps.cart.data.total,
+                maxTransDiscountValue: maxTransDiscountValue,
+                taxExemptID: nextProps.cart.data.taxExemptID
+              });
+            }
+          }
+          // else {
+          //   if (this.state.items.length !== nextProps.cart.data.cartItems.items.length)
+          //     this.setState({ modal_quantity_info: false, modal_sku: false, modal_maxitem: true, modal_amount: false, maxTransDiscountValue: maxTransDiscountValue });
+          // }
+
+          // console.log('nextProps.cart', nextProps.cart.data);
+          // var Additemtocartkeys = Object.keys(nextProps.cart.data);
+          // console.log('allkeys', Additemtocartkeys);
+
+          // if (Additemtocartkeys === "itemNotFound") {
+          //   alert('ITEM NOT FOUND');
+          //   nextProps
+          // }
+          if (nextProps.cart.data.hasOwnProperty('itemNotFound')) {
+            if (nextProps.cart.data.itemNotFound !== null && nextProps.cart.data.itemNotFound.length > 0) {
+              var itemNotFound = [];
+              itemNotFound = nextProps.cart.data.itemNotFound;
+              console.log(itemNotFound);
+              this.setState({ modal_item_price_notfound_handled: true, itemNotFound: itemNotFound })
+            }
+          }
+        }
+        else if (nextProps.cart.dataFrom === 'GP_PRICENOTFOUND') {
+
+          console.log("PRICE_NOT_FOUND");
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.amount_to_be_inserted_modal(true);
+
+
+        }
+
+        else if (nextProps.cart.dataFrom === 'LINE_VOID') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total,
+            currentItem: '',
+            currentItemIndex: ''
+          });
+          if (nextProps.selectedItem.length > 0 && nextProps.selectedItem.length == 1 && this.state.items.length > 0) {
+            this.setState({ currentItemIndex: nextProps.selectedItem[0] })
+          }
+        }
+
+        else if (nextProps.cart.dataFrom === 'QUANTITY_UPDATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total
+          });
+          var isQuantityUpdated = false;
+          this.state.items.forEach((item) => {
+            var obj = nextProps.cart.data.cartItems.items.filter((obj) => obj[0].lineNumber === item[0].lineNumber)[0];
+            if (item[0].quantity !== obj[0].quantity) {
+              isQuantityUpdated = true;
+            }
+          });
+          if (isQuantityUpdated == false) {
+            this.setState({ modal_quantity_info: true, modal_sku: false, modal_maxitem: false, modal_amount: false });
+          }
+        }
+
+
+        else if (nextProps.cart.dataFrom === 'DISCOUNT_EXCEEDS') {
+          //this.props.startSpinner(false);
+          console.log('props trans' + JSON.stringify(nextProps));
+          this.setState({ TranDiscPriceOverrideFlag: true });
+          this.setState({ transDicountSku: nextProps.cart.sku })
+        }
+
+
+        else if (nextProps.cart.dataFrom === 'GIFT_REGISTRY_UPDATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total
+
+          });
+
+          this.disableGiftRec(nextProps.cart.data.cartItems.items);
+
+        }
+        else if (nextProps.cart.dataFrom === 'TRANS_TAX_EXEMPT_REQUEST_UPDATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total,
+            taxExemptID: nextProps.cart.data.taxExemptID,
+          });
+
+        }
+        else if (nextProps.cart.dataFrom === 'TAX_MODIFY_UPDATE_SUCCESS') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total,
+            taxExemptID: nextProps.cart.data.taxExemptID,
+          });
+
+        }
+        else if (nextProps.cart.dataFrom === 'GIFT_RECEIPT_UPDATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total,
+
+          });
+        }
+
+
+        else if (nextProps.cart.dataFrom === 'WEB_SERVICE_ERROR') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'INVALID_SKU-ID') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === 'MAX_ITEM_REACHED') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          if (this.state.items.length < 50) {
+            this.setState({ modal_maxitem: true })
+          }
+        }
+
+        else if (nextProps.cart.dataFrom === 'GETREPLENISH') {
+          var cycleFromService = nextProps.cart.data.Cycle;
+          var descriptionFromService = nextProps.cart.data.Description;
+          var valuesFromService = {
+            daysValue: cycleFromService,
+            description: descriptionFromService
+          }
+          this.setState({ values: valuesFromService });
+        }
+
+        else if (nextProps.cart.dataFrom === 'MENU_ITEM_CHANGED') {
+          this.setState({
+            menuData: nextProps.cart.menuData
+          })
+        }
+        else if (nextProps.cart.dataFrom === "SPLIT_COMMISSION_SUCCESS") {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          if (window.innerWidth > 1900) {
+            this.setState({
+              items: nextProps.cart.data.cartItems.items,
+              modal_split_commission: false
+            });
+          } else {
+            this.setState({ items: nextProps.cart.data.cartItems.items });
+            this.hideItemModifyModalSmallFF()
+          }
+
+        }
+        else if (nextProps.cart.dataFrom === "SPLIT_COMM_ERROR") {
+          this.setState({ pin2Error: nextProps.cart.pin2Error });
+        }
+        else if (nextProps.cart.dataFrom === "GET_PROMOTIONS_SUCCESS") {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({ itemPromotionDetails: nextProps.cart.itemPromotionDetails });
+        }
+        else if (nextProps.cart.dataFrom === "GET_PROMOTIONS_FAILURE") {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+        }
+        else if (nextProps.cart.dataFrom === "MODIFY_PRICE_SUCCESS") {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total
+          });
+        }
+
+        else if (nextProps.cart.dataFrom === 'QUANTITY_UPDATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.data.cartItems.items,
+            subTotal: nextProps.cart.data.data.subTotal,
+            taxTotal: nextProps.cart.data.data.totalTax,
+            total: nextProps.cart.data.data.total
+          });
+        }
+        else if (nextProps.cart.dataFrom === 'REPLENISH_UPDATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            /*subTotal: nextProps.cart.data.data.subTotal,
+            taxTotal: nextProps.cart.data.data.totalTax,
+            total: nextProps.cart.data.data.total*/
+          });
+        }
+
+
+        else if (nextProps.cart.dataFrom == 'IM_RINGINGASSOCIATE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          // if(nextProps.cart.isInvalid == true){
+          this.showTransModifyAssociateDiscountErrorModal(true, '');
+          // }
+        }
+        else if (nextProps.cart.dataFrom == 'IM_ASSOCIATETERMINATED') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.showTransModifyAssociateTerminatedErrorModal(true, '');
+        }
+        else if (nextProps.cart.dataFrom == 'IM_ASSOCIATENOTELIGIBLE') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.showTransModifyAssociateNotEligibleErrorModal(true, '');
+        }
+
+        else if (nextProps.cart.dataFrom == 'IM_INVALIDASSOCIATE' ||
+          nextProps.cart.dataFrom == 'IM_INVALIDASSOCIATEID') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+          this.showTransInvalidAssociateErrorModal(true, '');
+          // if(nextProps.cart.isInvalid == true){
+          // }
+        }
+
+        else if (nextProps.cart.dataFrom == 'IM_DISCOUNTALREADYAPPLIED') {
+          if (this.props.spinner.startSpinner)
+            this.props.startSpinner(false);
+
+          this.setState({ AssociateDiscountAlreadyAppliedModal: true })
+
+
+          // }
+        }
+        else if (nextProps.cart.dataFrom === 'ALTERATION_SUCCESS') {
+
+          /* this.startSpinner(false); */
+          this.setState({
+            items: nextProps.cart.data.cartItems.items,
+            subTotal: nextProps.cart.data.subTotal,
+            taxTotal: nextProps.cart.data.totalTax,
+            total: nextProps.cart.data.total
+          });
+          //this.props.history.push('/sale');
+        }
+        else if (nextProps.cart.dataFrom === 'MANAGER_PIN_VALIDATE_RESPONSE') {
+          try {  //if (this.props.spinner.startSpinner)  {          
+            this.props.startSpinner(false);
+            if (nextProps.cart.managerPinValidateResponse.isManagerPIN === true) {
+              this.showManagerApprovalModal(false, this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption);
+              if (this.state.activeModifyPriceOption === 'TransDiscount') {
+                if (this.props.spinner.startSpinner)
+                  this.props.startSpinner(true);
+                this.setState({ tranDiscPriceOverrideFlag: true });
+                this.props.applyTransDiscountToCart(this.state.modifyPriceFieldValue, this.state.transactionId);
+              }
+              else if (this.state.activeModifyPriceOption === 'TransDiscountAlreadyApplied') {
+                this.setState({ modal_TransDiscount: true })
+              }
+              else if (this.state.activeModifyPriceOption === 'TransDiscAppliedAddNewSku') {
+                this.setState({ tranDiscPriceOverrideFlag: true }, () => {
+                  this.retrieveSku(this.state.SKUValue.toString())
+                })
+              }
+              else {
+                this.modifyPrice(this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption, this.state.managerPin);
+              }
+            }
+            else {
+              console.log('Manager PIN invalid');
+              this.setState({ managerModalErrorMessage: 'Please enter a valid Manager PIN' });
+            }
+            //}
+          } catch (e) {
+            console.log(e);
+          }
+        }
+
+        if (nextProps.cart.dataFrom === 'LOGGED_IN_PIN_VALIDATE_RESPONSE') {
+          try { //if (this.props.spinner.startSpinner)  {           
+            this.props.startSpinner(false);
+            if (nextProps.cart.managerPinValidateResponse.isManagerPIN === true) {
+              this.setState({ managerPin: this.props.login.userpin });
+              if (this.state.activeModifyPriceOption === 'TransDiscount') {
+                this.props.startSpinner(true);
+                this.setState({ tranDiscPriceOverrideFlag: true });
+                this.props.applyTransDiscountToCart(this.state.modifyPriceFieldValue, this.state.transactionId);
+              }
+              else if (this.state.activeModifyPriceOption === 'TransDiscountAlreadyApplied') {
+                this.setState({ modal_TransDiscount: true })
+              }
+              else if (this.state.activeModifyPriceOption === 'TransDiscAppliedAddNewSku') {
+                this.setState({ tranDiscPriceOverrideFlag: true }, () => {
+                  this.retrieveSku(this.state.SKUValue.toString())
+                })
+              }
+              else {
+                this.modifyPrice(this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption, this.props.login.userpin);
+              }
+            }
+            else {
+              console.log('Logged in user is not a manager');
+              this.showManagerApprovalModal(true, this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption, false);
+            }
+            //}
+          } catch (e) {
+            console.log(e);
+          }
+        }
+
+        this.setState({ errors: errors })
+        //}
       }
-      else{
 
-        this.setState({ modal_amount:true })
-        console.log('defaultSKU in container'+nextProps.cart.data.defaultSKU);
-        if (this.props.spinner.startSpinner)
-        this.props.startSpinner(false);
-        console.log('defaultSKU in container' + this.state.defaultSKU);
-      }
-
-    }
-
-    if(nextProps.cart.dataFrom === 'IM_SKUNOTFOUND') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({modal_default_sku_error:true});
-      
-    }
-    if (nextProps.cart.dataFrom === 'TAX_AUTH_FAIL') {      
-      this.showItemModifyTaxModal(true, 'Tax', 'Override Authorization Code');
-      this.setState({ is_tax_fail: true })
-      if (this.props.spinner.startSpinner)
-      {
-        this.props.startSpinner(false);
-      }        
-    }
-    else if (nextProps.cart.dataFrom === 'TAX_AUTH_SUCCESS') {
-      this.setState({modal_tax_modify:false});
-      this.setState({ is_tax_fail: false })
-      this.props.modifyTaxInvoker(this.state.transactionId, this.state.items[this.state.currentItemIndex][0], this.state.AuthCode);
-
-    }
-    //check for transaction id in redux
-    if (nextProps.cart.dataFrom === 'SC_INVALIDPIN1') {
-      errors["spliterror1"] = "Pin1 is Invalid"
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'SPLIT_COMMISSION_REQUEST_SUCCESS') {
-
-      //this.showSplitCommissionModal(false);
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'SC_INVALIDPIN2') {
-      errors["spliterror2"] = "Pin2 is Invalid"
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'SC_INVALIDPINS') {
-      errors["spliterror1"] = "Pin1 is Invalid"
-      errors["spliterror2"] = "Pin2 is Invalid"
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'GIFTREGISTRY_FAIL') {
-      this.setState({ cart_errorModal: true })
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'SC_SAMEPINS') {
-      errors["spliterror2"] = "PIN1 and pin2 are same"
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom !== 'WEB_SERVICE_ERROR' && nextProps.cart.dataFrom !== 'GP_PRICENOTFOUND' && nextProps.cart.dataFrom !== 'INVALID_SKU-ID' && nextProps.cart.dataFrom !== 'RP_FAIL' && nextProps.cart.dataFrom !== 'REPLENISH_FAIL' && nextProps.cart.dataFrom !== 'SPLIT_COMM_ERROR' && nextProps.cart.dataFrom !== 'IM_DISCOUNTALREADYAPPLIED' && nextProps.cart.dataFrom !== 'GET_PROMOTIONS_SUCCESS' && nextProps.cart.dataFrom !== 'TAX_AUTH_FAIL' && nextProps.cart.dataFrom !== 'DEFAULT_SKU' && nextProps.cart.dataFrom !== 'IM_SKUNOTFOUND') {
-      console.log('transactionID' + nextProps.cart.data.transactionId);
-      if (nextProps.cart.data && (nextProps.cart.data.transactionId !== undefined || nextProps.cart.data.transactionId)) {
-        this.setState({ transactionId: nextProps.cart.data.transactionId });
-      }
-      //added as a work around for special instructions
-      else if (nextProps.cart.data && nextProps.cart.data.data && nextProps.cart.data.data.transactionId) {
-        this.setState({ transactionId: nextProps.cart.data.data.transactionId });
-      }
       else {
-        console.log('will receive props');
-
-        // if(nextProps.cart.dataFrom!=='DEFAULT_SKU')
-        //commenting the below code as incorrect transaction id is getting passed in some scenarios.
-        //this.setState({ transactionId: '1249' })
-      }
-    }
-    if (nextProps.cart.dataFrom == 'INVALID_SKU-ID') {
-      this.setState({ sku_errorModal: true })
-    }
-    {/*if(nextProps.cart.dataFrom=='RP_FAIL' && store.getState().customerSearch.clienteled!==false)
-    {
-      this.setState({sale_errorModal:true});
-    }*/}
-    if (nextProps.cart.dataFrom == 'WEB_SERVICE_ERROR') {
-      this.setState({ sale_errorModal: false });
-    }
-
-    console.log(nextProps);
-
-    //dont write here ...append to last
-    // if(nextProps.cart.data.cartItems.items[0].salePrice==1)
-    // {
-
-    //   this.amount_to_be_inserted_modal(true);
-
-    // //  this.setState({  amount_to_be_entered_modal:true });
-    // }
-
-
-    //update only if adding item or applying Discount.. may need to add to condition for other things
-    if (nextProps.cart.dataFrom === 'ADD_ITEM' || nextProps.cart.dataFrom === 'ADD_ITEM1' || nextProps.cart.dataFrom === 'UPDATED_IMAGES') {
-      this.setState({ scrollCheck: true });
-    }
-    if (nextProps.cart.dataFrom === 'ADD_ITEM' || nextProps.cart.dataFrom === 'ADD_ITEM1' || nextProps.cart.dataFrom === 'TRANS_DISCOUNT_APPLIED'
-      || nextProps.cart.dataFrom === 'MODIFY_SPECIAL_INSTRUCTIONS_UPDATE' || nextProps.cart.dataFrom === 'GIFT_WRAP' || nextProps.cart.dataFrom === 'UPDATED_IMAGES' || nextProps.cart.dataFrom === 'ADD_GIFTCARD_SUCCESS' || nextProps.cart.dataFrom === "DIRECT_SEND_SUCCESS") {
-        if(this.props.spinner.startSpinner)
-        this.props.startSpinner(false);
-      //cartIsShowingItems is used as one of factors to rerenderCart when component is unmounted
-      //this.setState({ cartIsShowingItems: true, scrollCheck: true });
-      //this.setState({disableOptions:true});
-      if (nextProps.cart.dataFrom === 'TRANS_DISCOUNT_APPLIED') {
-        this.setState({ tranDiscAppliedFlag: true });
-      }
-      var itemArrayLength = 0;
-      var maxTransDiscountValue = 0;
-      for (var i = 0; i < this.state.items.length; ++i) {
-        if (this.state.items[i][0].quantity > 0) {
-          itemArrayLength++;
-        }
-      }
-      for (var i = 0; i < nextProps.cart.data.cartItems.items.length; ++i) {
-        if (i === 0) {
-          maxTransDiscountValue = nextProps.cart.data.cartItems.items[i][0].maxDiscount;
-        }
-        else {
-          if (nextProps.cart.data.cartItems.items[i][0].maxDiscount < maxTransDiscountValue) {
-            maxTransDiscountValue = nextProps.cart.data.cartItems.items[i][0].maxDiscount;
-          }
-        }
-      }
-
-      if (itemArrayLength < nextProps.cart.data.cartItems.items.length) {
-
-        if (nextProps.cart.data.cartItems.items[itemArrayLength][0].isAutoReplenish === true && store.getState().customerSearch.clienteled === true) {
-          this.setState({
-            autoreplenishflag: true,
-            currentItemIndexAuto: itemArrayLength,
-            Replenishment_FlagModal: true,
-          });
-
-        }
-
-      }
-
-      if (itemArrayLength < this.MAX_ITEM_COUNT) {
-        if (itemArrayLength === (this.WARNING_COUNT - 1)) {
-          this.setState({
-            items: nextProps.cart.data.cartItems.items,
-            subTotal: nextProps.cart.data.subTotal,
-            taxTotal: nextProps.cart.data.totalTax,
-            total: nextProps.cart.data.total,
-            modal_sku: false, modal_warning: true,
-            maxTransDiscountValue: maxTransDiscountValue 
-          });
-
-        }
-        else {
-          let { subTotal, totalTax, total } = nextProps.cart.data;
-          this.setState({
-            items: nextProps.cart.data.cartItems.items,
-            subTotal: nextProps.cart.data.subTotal,
-            taxTotal: nextProps.cart.data.totalTax,
-            total: nextProps.cart.data.total,
-            maxTransDiscountValue: maxTransDiscountValue
-          });
-        }
-      }
-      // else {
-      //   if (this.state.items.length !== nextProps.cart.data.cartItems.items.length)
-      //     this.setState({ modal_quantity_info: false, modal_sku: false, modal_maxitem: true, modal_amount: false, maxTransDiscountValue: maxTransDiscountValue });
-      // }
-
-      // console.log('nextProps.cart', nextProps.cart.data);
-      // var Additemtocartkeys = Object.keys(nextProps.cart.data);
-      // console.log('allkeys', Additemtocartkeys);
-
-      // if (Additemtocartkeys === "itemNotFound") {
-      //   alert('ITEM NOT FOUND');
-      //   nextProps
-      // }
-      if (nextProps.cart.data.hasOwnProperty('itemNotFound')) {
-        if (nextProps.cart.data.itemNotFound !== null && nextProps.cart.data.itemNotFound.length > 0) {
-          var itemNotFound = [];
-          itemNotFound = nextProps.cart.data.itemNotFound;
-          console.log(itemNotFound);
-          this.setState({ modal_item_price_notfound_handled: true, itemNotFound: itemNotFound })
+        if (nextProps.cart.error_message != '') {
+          this.props.callErrorException({
+            showException: true,
+            error: { failedModule: 'Sale', failureReason: 'Unexpected Response', failureDescription: nextProps.cart.error_message }
+          })
         }
       }
     }
-    else if (nextProps.cart.dataFrom === 'GP_PRICENOTFOUND') {
-
-      console.log("PRICE_NOT_FOUND");
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.amount_to_be_inserted_modal(true);
-
-
-    }
-    
-    else if (nextProps.cart.dataFrom === 'LINE_VOID') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total,
-        currentItem: '',
-        currentItemIndex: ''
-      });
-      if (nextProps.selectedItem.length > 0 && nextProps.selectedItem.length == 1 && this.state.items.length > 0) {
-        this.setState({ currentItemIndex: nextProps.selectedItem[0] })
-      }
-    }
-
-    else if (nextProps.cart.dataFrom === 'QUANTITY_UPDATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total
-      });
-      var isQuantityUpdated = false;
-     this.state.items.forEach((item) => {
-       var obj = nextProps.cart.data.cartItems.items.filter((obj) => obj[0].lineNumber === item[0].lineNumber)[0];
-       if (item[0].quantity !== obj[0].quantity) {
-         isQuantityUpdated = true;
-       }
-     });
-     if (isQuantityUpdated == false) {
-       this.setState({ modal_quantity_info: true, modal_sku: false, modal_maxitem: false,modal_amount:false });
-     }
-    }
-
-
-    else if (nextProps.cart.dataFrom === 'DISCOUNT_EXCEEDS') {
-      //this.props.startSpinner(false);
-      console.log('props trans' + JSON.stringify(nextProps));
-      this.setState({ TranDiscPriceOverrideFlag: true });
-      this.setState({ transDicountSku: nextProps.cart.sku })
-    }
-
-
-    else if (nextProps.cart.dataFrom === 'GIFT_REGISTRY_UPDATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total
-
-      });
-
-      this.disableGiftRec(nextProps.cart.data.cartItems.items);
-
-    }
-    else if (nextProps.cart.dataFrom === 'TRANS_TAX_EXEMPT_REQUEST_UPDATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total,
-        taxExemptID: nextProps.cart.data.taxExemptID,
-      });
-
-    }
-    else if (nextProps.cart.dataFrom === 'TAX_MODIFY_UPDATE_SUCCESS') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total,
-        taxExemptID: nextProps.cart.data.taxExemptID,
-      });
-
-    }
-    else if (nextProps.cart.dataFrom === 'GIFT_RECEIPT_UPDATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total,
-
-      });
-    }
-
-
-    else if (nextProps.cart.dataFrom === 'WEB_SERVICE_ERROR') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'INVALID_SKU-ID') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === 'MAX_ITEM_REACHED') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      if (this.state.items.length < 50) {
-        this.setState({ modal_maxitem: true })
-      }
-    }
-
-    else if (nextProps.cart.dataFrom === 'GETREPLENISH') {
-      var cycleFromService = nextProps.cart.data.Cycle;
-      var descriptionFromService = nextProps.cart.data.Description;
-      var valuesFromService = {
-        daysValue: cycleFromService,
-        description: descriptionFromService
-      }
-      this.setState({ values: valuesFromService });
-    }
-
-    else if (nextProps.cart.dataFrom === 'MENU_ITEM_CHANGED') {
-      this.setState({
-        menuData: nextProps.cart.menuData
-      })
-    }
-    else if (nextProps.cart.dataFrom === "SPLIT_COMMISSION_SUCCESS") {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      if (window.innerWidth > 1900) {
-        this.setState({
-          items: nextProps.cart.data.cartItems.items,
-          modal_split_commission: false
-        });
-      } else {
-        this.setState({ items: nextProps.cart.data.cartItems.items });
-        this.hideItemModifyModalSmallFF()
-      }
-
-    }
-    else if (nextProps.cart.dataFrom === "SPLIT_COMM_ERROR") {
-      this.setState({ pin2Error: nextProps.cart.pin2Error });
-    }
-    else if (nextProps.cart.dataFrom === "GET_PROMOTIONS_SUCCESS") {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({ itemPromotionDetails: nextProps.cart.itemPromotionDetails });
-    }
-    else if (nextProps.cart.dataFrom === "GET_PROMOTIONS_FAILURE") {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-    }
-    else if (nextProps.cart.dataFrom === "MODIFY_PRICE_SUCCESS") {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total
-      });
-    }
-
-    else if (nextProps.cart.dataFrom === 'QUANTITY_UPDATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.data.cartItems.items,
-        subTotal: nextProps.cart.data.data.subTotal,
-        taxTotal: nextProps.cart.data.data.totalTax,
-        total: nextProps.cart.data.data.total
-      });
-    }
-    else if (nextProps.cart.dataFrom === 'REPLENISH_UPDATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        /*subTotal: nextProps.cart.data.data.subTotal,
-        taxTotal: nextProps.cart.data.data.totalTax,
-        total: nextProps.cart.data.data.total*/
-      });
-    }
-
-
-    else if (nextProps.cart.dataFrom == 'IM_RINGINGASSOCIATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      // if(nextProps.cart.isInvalid == true){
-
-      this.showTransModifyAssociateDiscountErrorModal(true, '');
-
-      // }
-    }
-
-    else if (nextProps.cart.dataFrom == 'IM_INVALIDASSOCIATE') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-      // if(nextProps.cart.isInvalid == true){
-      this.setState({ AssociateDiscountInvalidPin: true })
-      // }
-    }
-
-    else if (nextProps.cart.dataFrom == 'IM_DISCOUNTALREADYAPPLIED') {
-      if (this.props.spinner.startSpinner)
-      this.props.startSpinner(false);
-
-      this.setState({ AssociateDiscountAlreadyAppliedModal: true })
-
-
-      // }
-    }
-    else if (nextProps.cart.dataFrom === 'ALTERATION_SUCCESS') {
-
-      /* this.startSpinner(false); */
-      this.setState({
-        items: nextProps.cart.data.cartItems.items,
-        subTotal: nextProps.cart.data.subTotal,
-        taxTotal: nextProps.cart.data.totalTax,
-        total: nextProps.cart.data.total
-      });
-      //this.props.history.push('/sale');
-    }
-    else if (nextProps.cart.dataFrom === 'MANAGER_PIN_VALIDATE_RESPONSE') { 
-      try {             
-        this.props.startSpinner(false);
-        if(nextProps.cart.managerPinValidateResponse.isManagerPIN === true) {
-          this.showManagerApprovalModal(false, this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption);
-          if (this.state.activeModifyPriceOption === 'TransDiscount') {
-            this.props.startSpinner(true);
-            this.setState({ tranDiscPriceOverrideFlag: true });
-            this.props.applyTransDiscountToCart(this.state.modifyPriceFieldValue, this.state.transactionId);
-          }
-          else if (this.state.activeModifyPriceOption === 'TransDiscountAlreadyApplied') {
-            this.setState({ modal_TransDiscount: true })
-          }
-          else if (this.state.activeModifyPriceOption === 'TransDiscAppliedAddNewSku') {
-            this.setState({ tranDiscPriceOverrideFlag: true }, () => {
-              this.retrieveSku(this.state.SKUValue.toString())
-            })
-          }
-          else {
-            this.modifyPrice(this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption,this.state.managerPin);
-          }
-        }
-        else {
-          console.log('Manager PIN invalid');
-          this.setState({ managerModalErrorMessage : 'Please enter a valid Manager PIN' });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    
-    if (nextProps.cart.dataFrom === 'LOGGED_IN_PIN_VALIDATE_RESPONSE') {
-      try {             
-        this.props.startSpinner(false);
-        if(nextProps.cart.managerPinValidateResponse.isManagerPIN === true) {
-          this.setState({ managerPin : this.props.login.userpin });
-          if (this.state.activeModifyPriceOption === 'TransDiscount') {
-            this.props.startSpinner(true);
-            this.setState({ tranDiscPriceOverrideFlag: true });
-            this.props.applyTransDiscountToCart(this.state.modifyPriceFieldValue, this.state.transactionId);
-          }
-          else if (this.state.activeModifyPriceOption === 'TransDiscountAlreadyApplied') {
-            this.setState({ modal_TransDiscount: true })
-          }
-          else if (this.state.activeModifyPriceOption === 'TransDiscAppliedAddNewSku') {
-            this.setState({ tranDiscPriceOverrideFlag: true }, () => {
-              this.retrieveSku(this.state.SKUValue.toString())
-            })
-          }
-          else {
-            this.modifyPrice(this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption,this.props.login.userpin);
-          }
-        }
-        else {
-          console.log('Logged in user is not a manager');
-          this.showManagerApprovalModal(true, this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption, false);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-   
-    this.setState({ errors: errors })
-  
-  //}
 
   }
 
@@ -1166,13 +1222,14 @@ class SaleContainer extends Component {
       return;
     }
     else {
-      var transactionId = this.state.transactionId;
+      var transactionId = this.props.transactionId;
       this.props.startSpinner(true);
       this.setState({ GetisellFlag: true });
       this.props.addItemsRequestInvoker({
         "ItemNumbers": skuArray,
         // "TranDiscPriceOverrideFlag":this.state.TranDiscPriceOverrideFlag==true?true:false,
-        "TransactionId": transactionId
+        "TransactionId": transactionId,
+        "StoreAssoc": this.props.login.userpin
       });
     }
 
@@ -1204,8 +1261,8 @@ class SaleContainer extends Component {
     }
   }
 
-  changeSku(){
-    this.setState({skuError:''})
+  changeSku() {
+    this.setState({ skuError: '' })
   }
 
   retrieveSku(sku) {
@@ -1217,16 +1274,22 @@ class SaleContainer extends Component {
       return;
     }
     else {
-      this.setState({ SKUValue: sku });
-      var transactionId = this.state.transactionId;
+      //this.setState({ SKUValue: sku });
+      console.log('StoreAssoc additems to cart', this.props.login.userpin);
+      var transactionId = this.props.transactionId;
       this.props.startSpinner(true);
       if (this.state.items.length < this.MAX_ITEM_COUNT) {
         this.setState({ SKUValue: sku });
+        /*Fix MPOS-2177 - starts*/
+        var preSaleFlag;
+        preSaleFlag = (this.props.cart && this.props.cart.presale_retain_yes) ? this.props.cart.presale_retain_yes: this.state.presaleFlaginCart;
+        /*Fix MPOS-2177 - Ends*/
         this.props.addItemsRequestInvoker({
           "ItemNumber": sku.toString(),
           "TranDiscPriceOverrideFlag": this.state.tranDiscPriceOverrideFlag,
           "TransactionId": transactionId,
-          "PresaleFlag": this.state.presaleFlaginCart
+          "PresaleFlag": preSaleFlag,
+          "StoreAssoc": this.props.login.userpin
 
         });
       } else {
@@ -1239,19 +1302,40 @@ class SaleContainer extends Component {
     this.setState({ modal_sku: false }); // dismisses modal after submitting sku
 
   }
- 
-  AddItemtoCartDefault = ()=> {
-      console.log('pj num '+this.state.PJnum);
-      var sku = this.deptDetails.DefaultSKU;
-      var transactionId = this.state.transactionId;
-      this.props.startSpinner(true);
-      this.props.addItemsRequestInvoker({
-        "ItemNumber": sku.toString(),
-        "TranDiscPriceOverrideFlag": this.state.tranDiscPriceOverrideFlag,
-        "TransactionId": transactionId,
-        "PJNumber":this.state.PJnum?this.state.PJnum:'',
-        "ManualPrice":this.deptDetails.ManualPrice?this.deptDetails.ManualPrice:''
-      });
+
+  AddItemtoCartDefault = () => {
+    console.log('pj num ' + this.state.PJnum);
+    var leasedObj;
+    if(this.state.deptType==1)
+    {
+       leasedObj = {
+        "Department":this.deptDetails.Dept,
+        "Class":this.deptDetails.Class,
+        "Subclass" :this.deptDetails.SubClass
+      }
+      //{"Dept":"841","Class":"15","SubClass":"15","ManualPrice":"","DefaultSKU":0}
+    }
+    else{
+       leasedObj = {
+        "Department":'',
+        "Class":'',
+        "Subclass" :''
+      }
+    }
+    var sku = this.deptDetails.DefaultSKU;
+    var transactionId = this.state.transactionId;
+    this.props.startSpinner(true);
+    this.props.addItemsRequestInvoker({
+      "Department" : leasedObj.Department,
+      "Class" : leasedObj.Class,
+      "Subclass" : leasedObj.Subclass,
+      "ItemNumber": this.state.deptType==1?sku.toString():'',
+      "TranDiscPriceOverrideFlag": this.state.tranDiscPriceOverrideFlag,
+      "TransactionId": transactionId,
+      "PJNumber": this.state.PJnum ? this.state.PJnum : '',
+      "StoreAssoc": this.props.login.userpin,
+      "ManualPrice": this.deptDetails.ManualPrice ? this.deptDetails.ManualPrice : ''
+    });
 
     this.setState({ modal_sku: false, modal_amount: false }); // dismisses modal after submitting sku
 
@@ -1271,11 +1355,10 @@ class SaleContainer extends Component {
   }
 
   voidLineItem = (item) => {
-    console.log('MIKE ITEM SELECTED', item)
     this.props.startSpinner(true);
     //clearSelection - redux action
     this.props.itemSelectedAction('');
-    this.props.voidLineItemInvoker(item, this.state.transactionId);
+    this.props.voidLineItemInvoker(item, this.state.transactionId,this.props.login.userpin);
   }
 
   sendGiftReceipt = (item) => {
@@ -1324,15 +1407,14 @@ class SaleContainer extends Component {
   }
 
   saleitemModifyQuantityUpdate = (quantity) => {
-    this.props.startSpinner(true);  
+    this.props.startSpinner(true);
     var qty = parseInt(quantity)
-    if((this.state.items[this.state.currentItemIndex][0].quantity)!==qty)
-    {
-      this.props.saleitemModifyQuantityUpdateInvoker(this.state.items[this.state.currentItemIndex][0], this.state.transactionId, quantity);
+    if ((this.state.items[this.state.currentItemIndex][0].quantity) !== qty) {
+      this.props.saleitemModifyQuantityUpdateInvoker(this.state.items[this.state.currentItemIndex][0], this.state.transactionId, quantity,this.props.login.userpin);
     }
-    else{
+    else {
       this.props.startSpinner(false);
-      this.setState({ modal_quantity_info: true, modal_sku: false, modal_maxitem: false,modal_amount:false });
+      this.setState({ modal_quantity_info: true, modal_sku: false, modal_maxitem: false, modal_amount: false });
     }
     if (window.innerWidth < 1900) {
       this.hideItemModifyModalSmallFF();
@@ -1373,7 +1455,7 @@ class SaleContainer extends Component {
 
   showTransDiscount = (showFlag) => {
     this.handleChangeTransdropdownColor("TransDiscount");
-    // this.setState({ modal_TransDiscount: showFlag });
+     //this.setState({ modal_TransDiscount: showFlag });
   }
 
   showTransTaxExempt = (showFlag) => {
@@ -1382,7 +1464,7 @@ class SaleContainer extends Component {
 
   itemModifySpecialInstructionsUpdate = (specialInstructions) => {
     this.props.startSpinner(true);
-    this.props.itemModifySpecialInstructionsUpdateInvoker(this.state.items[this.state.currentItemIndex][0], this.state.transactionId, specialInstructions);
+    this.props.itemModifySpecialInstructionsUpdateInvoker(this.state.items[this.state.currentItemIndex][0], this.state.transactionId, specialInstructions,this.props.login.userpin);
 
     if (window.innerWidth < 1900) {
       this.hideItemModifyModalSmallFF();
@@ -1394,7 +1476,7 @@ class SaleContainer extends Component {
 
   transTaxExemptUpdate = (transtaxexempt) => {
     this.props.startSpinner(true);
-    this.props.transTaxExemptUpdateInvoker(this.state.items[this.state.currentItemIndex], this.state.transactionId, transtaxexempt);
+    this.props.transTaxExemptUpdateInvoker(this.state.items[this.state.currentItemIndex], this.state.transactionId, transtaxexempt,this.props.login.userpin);
 
     if (window.innerWidth < 1900) {
       this.hideItemModifyModalSmallFF();
@@ -1431,8 +1513,8 @@ class SaleContainer extends Component {
   }
 
   showItemGiftRegistryModal = (showFlag, type) => {
-   
-   
+
+
     this.setState({ modify_type: type })
     if (type == 'IteamRegistry') {
       var isTransGiftRegEmpty = true;
@@ -1444,20 +1526,20 @@ class SaleContainer extends Component {
         }
       }
 
-      console.log('------------Current item index-----------: ',this.state.currentItemIndex,this.state.items[this.state.currentItemIndex][0].gift_reg)
+      console.log('------------Current item index-----------: ', this.state.currentItemIndex, this.state.items[this.state.currentItemIndex][0].gift_reg)
       if (isTransGiftRegEmpty === true) {
         this.setState({ modal_gift_registry: showFlag });
       }
-      else if(isTransGiftRegEmpty === false && this.state.items[this.state.currentItemIndex][0].gift_reg && (parseInt(this.state.items[this.state.currentItemIndex][0].gift_reg) === 0 || this.state.items[this.state.currentItemIndex][0].gift_reg === '')){        
+      else if (isTransGiftRegEmpty === false && this.state.items[this.state.currentItemIndex][0].gift_reg && (parseInt(this.state.items[this.state.currentItemIndex][0].gift_reg) === 0 || this.state.items[this.state.currentItemIndex][0].gift_reg === '')) {
         this.saleitemGiftRegistryUpdate(giftRegNumber, type)
-      }      
+      }
       else {
         this.saleitemGiftRegistryUpdate("", type)
       }
-     
+
     }
     else if (type == 'trans') {
-  
+
       //if (this.props.cart.giftRegNumber === "" || this.props.cart.giftRegNumber === undefined || this.props.cart.giftRegNumber === null) {
       var isTransGiftRegEmpty = true;
       var giftRegNumber = '';
@@ -1472,23 +1554,23 @@ class SaleContainer extends Component {
           giftRegPresentForAll = false;
         }
       }
-    //isTransGiftRegEmpty = false;
+      //isTransGiftRegEmpty = false;
       if (giftRegPresentForAll === true) {
         //this.setState({ modal_gift_registry_remove: showFlag });
         this.saleitemGiftRegistryUpdate("", type);
       }
-      else if(giftRegPresentForAll === false && isTransGiftRegEmpty === false) {
+      else if (giftRegPresentForAll === false && isTransGiftRegEmpty === false) {
         this.saleitemGiftRegistryUpdate(giftRegNumber, type);
       }
       else {
         this.setState({ modal_gift_registry: showFlag });
       }
       //}
-        /* else {
-       
-        this.saleitemGiftRegistryUpdate("", type)
-      } */
-      
+      /* else {
+     
+      this.saleitemGiftRegistryUpdate("", type)
+    } */
+
       //var checkGift = this.state.items[0].gift_reg;
 
     }
@@ -1507,27 +1589,27 @@ class SaleContainer extends Component {
       var isTransGiftRegEmpty;
       var giftreg;
       for (var i = 0; i < this.state.items.length; i++) {
-        giftreg=this.state.items[i][0].gift_reg;
+        giftreg = this.state.items[i][0].gift_reg;
         if (this.state.items[i][0].print_GWGR_Msg && this.state.items[i][0].print_GWGR_Msg != 0) {
-          
+
         }
         else {
           isTransGiftRegEmpty = true;
         }
       }
-      
+
       //isTransGiftRegEmpty = false;
-      if (!isTransGiftRegEmpty || isTransGiftRegEmpty == undefined ) {
-       if(giftreg!=="000000000000"){
-        this.setState({ modal_gift_receiptflag: true });
-        }else{
+      if (!isTransGiftRegEmpty || isTransGiftRegEmpty == undefined) {
+        if (giftreg !== "000000000000") {
+          this.setState({ modal_gift_receiptflag: true });
+        } else {
           //this.setState({ modal_gift_receipt_remove: showFlag });
           this.saleitemGiftReceiptUpdate();
         }
       }
       else {
         this.saleitemGiftReceiptUpdate();
-      //  this.setState({ modal_gift_receipt: showFlag });
+        //  this.setState({ modal_gift_receipt: showFlag });
       }
 
     }
@@ -1599,10 +1681,10 @@ class SaleContainer extends Component {
   }
 
   applyTransDiscount = (percentage) => {
-  
+
     //hide modal and enable options menu & apply discount
     console.log(this.state.maxTransDiscountValue);
-    if (percentage < this.state.maxTransDiscountValue) {
+    if (percentage < this.state.maxTransDiscountValue && this.state.tranDiscAppliedFlag==false) {
       this.setState({ modal_TransDiscount: false, disableOptions: false });
       this.props.startSpinner(true);
       this.props.applyTransDiscountToCart(percentage, this.state.transactionId);
@@ -1614,7 +1696,7 @@ class SaleContainer extends Component {
   }
 
   applyAssociateDiscount = (pin, id) => {
- 
+
     //hide modal and enable options menu & apply discount
     this.setState({ modal_AssociateDiscount: false, disableOptions: false });
     this.props.startSpinner(true);
@@ -1704,11 +1786,11 @@ class SaleContainer extends Component {
     this.props.startSpinner(true);
     if (this.state.autoreplenishflag == true) {
 
-      this.props.updateReplishmentDataInvoker(daysValue, description, this.state.items[this.state.currentItemIndexAuto], this.state.transactionId);
+      this.props.updateReplishmentDataInvoker(daysValue, description, this.state.items[this.state.currentItemIndexAuto], this.state.transactionId,this.props.login.userpin);
 
     } else {
 
-      this.props.updateReplishmentDataInvoker(daysValue, description, this.state.items[this.state.currentItemIndex], this.state.transactionId);
+      this.props.updateReplishmentDataInvoker(daysValue, description, this.state.items[this.state.currentItemIndex], this.state.transactionId,this.props.login.userpin);
 
 
 
@@ -1927,8 +2009,8 @@ class SaleContainer extends Component {
 
   showSplitCommissionModal = (showFlag, calledfrom) => {
     var cart = this.state.items
-    console.log('me',this.state)
-    console.log('meprop',this.props)
+    console.log('me', this.state)
+    console.log('meprop', this.props)
     const itemIndex = this.state.currentItemIndex;
     if (showFlag) {
       if (cart) {
@@ -1990,11 +2072,11 @@ class SaleContainer extends Component {
     //   var userPin2= this.state.values.userPin2;
     // }
     if (this.state.type_split_commission == 'itemsplit') {
-      this.props.updateSplitCommisssionInvoker(userPin1, userPin2, this.state.items[this.state.currentItemIndex][0], this.state.transactionId, "false");
+      this.props.updateSplitCommisssionInvoker(userPin1, userPin2, this.state.items[this.state.currentItemIndex][0], this.state.transactionId, "false",this.props.login.userpin);
       this.props.startSpinner(true);
     }
     if (this.state.type_split_commission == 'transmodifysplit') {
-      this.props.updateSplitCommisssionInvoker(userPin1, userPin2, '', this.state.transactionId, "true");
+      this.props.updateSplitCommisssionInvoker(userPin1, userPin2, '', this.state.transactionId, "true",this.props.login.userpin);
       this.props.startSpinner(true);
     }
 
@@ -2006,7 +2088,13 @@ class SaleContainer extends Component {
   }
 
   showItemModifyTaxModal = (showFlag, title, placeholder, errorText) => {
-    this.setState({ modal_tax_modify: showFlag, modifyTaxModalTitle: title, modifyTaxModalPlaceholder: placeholder, taxErrorText: errorText });
+
+    if (this.state.taxExemptID) {
+      this.setState({ modal_taxattemptdone: true });
+    }
+    else {
+      this.setState({ modal_tax_modify: showFlag, modifyTaxModalTitle: title, modifyTaxModalPlaceholder: placeholder, taxErrorText: errorText });
+    }
   }
 
   modifyPrice = (modifyValue, calledFrom, managerPin = '') => {
@@ -2027,15 +2115,15 @@ class SaleContainer extends Component {
       this.showItemModifyPriceModal(false, '', '');
     }
     this.props.startSpinner(true);
-    this.props.modifyTaxAuthInvoker(this.state.transactionId, modifyValue);
+    this.props.modifyTaxAuthInvoker(this.state.transactionId, modifyValue,this.props.login.userpin);
   }
 
   showManagerApprovalModal = (showFlag, fieldValue, calledFrom, loggedInUserCheck = true) => {
     this.setState({ activeModifyPriceOption: calledFrom, modifyPriceFieldValue: fieldValue });
     console.log('Logged in user: ' + this.props.login.userpin);
-    if(showFlag === true && loggedInUserCheck === true) {
+    if (showFlag === true && loggedInUserCheck === true) {
       this.props.startSpinner(true);
-      this.props.validateManagerPinActionInvoker(this.props.login.userpin,true);
+      this.props.validateManagerPinActionInvoker(this.props.login.userpin, true);
     }
     else {
       this.setState({ modal_manager_approval: showFlag });
@@ -2046,9 +2134,9 @@ class SaleContainer extends Component {
     console.log('validateManagerApproval');
     //this.setState({ managerPin: managerPin, tranDiscPriceOverrideFlag: true });
     //this.showManagerApprovalModal(false, this.state.modifyPriceFieldValue, this.state.activeModifyPriceOption);
-    this.setState({ managerPin: managerPin, managerModalErrorMessage : '' });
+    this.setState({ managerPin: managerPin, managerModalErrorMessage: '' });
     this.props.startSpinner(true);
-    this.props.validateManagerPinActionInvoker(managerPin,false);
+    this.props.validateManagerPinActionInvoker(managerPin, false);
     /* if (this.state.activeModifyPriceOption === 'TransDiscount') {
       this.props.startSpinner(true);
       this.props.applyTransDiscountToCart(this.state.modifyPriceFieldValue, this.state.transactionId);
@@ -2063,14 +2151,43 @@ class SaleContainer extends Component {
 
   showModifyErrorModal = (showFlag, errorText, giftRecieptFlow) => {
     if (giftRecieptFlow)
-      this.setState({ modal_modify_price_error: showFlag, modifyPriceError: errorText,});
+      this.setState({ modal_modify_price_error: showFlag, modifyPriceError: errorText, });
     else
       this.setState({ modal_modify_price_error: showFlag, modifyPriceError: errorText, AssociateDiscountInvalidPin: showFlag, AssociateDiscountAlreadyAppliedModal: showFlag, discountalreadyapplied: errorText, modal_gift_receiptflag: false });
   }
-
+  showTransInvalidAssociateErrorModal = (showFlag, val) => {
+    if (showFlag)
+      this.setState({ AssociateDiscountInvalidPin: true })
+    else {
+      this.props.clearDataFrom();
+      this.setState({ AssociateDiscountInvalidPin: false });
+    }
+  }
   showTransModifyAssociateDiscountErrorModal = (showFlag, val) => {
+    if (showFlag)
+      this.setState({ associatetranserrormodal: showFlag });
+    else {
+      this.props.clearDataFrom();
+      this.setState({ associatetranserrormodal: showFlag });
+    }
+  }
 
-    this.setState({ associatetranserrormodal: showFlag });
+  showTransModifyAssociateTerminatedErrorModal = (showFlag, val) => {
+    if (showFlag)
+      this.setState({ associatetransterminatederrormodal: showFlag });
+    else {
+      this.props.clearDataFrom();
+      this.setState({ associatetransterminatederrormodal: false });
+    }
+  }
+
+  showTransModifyAssociateNotEligibleErrorModal = (showFlag, val) => {
+    if (showFlag)
+      this.setState({ associatetransnoteligibleerrormodal: showFlag });
+    else {
+      this.props.clearDataFrom();
+      this.setState({ associatetransnoteligibleerrormodal: false });
+    }
   }
   /*Navigate back to Product Search */
 
@@ -2139,25 +2256,25 @@ class SaleContainer extends Component {
   setAmount = (amount) => {
     this.setState({ amount: amount });
     this.deptDetails.ManualPrice = amount;
-
+    console.log('department details'+JSON.stringify(this.deptDetails));
     console.log('class' + JSON.stringify(this.state.class));
     console.log('amount' + JSON.stringify(this.state.amount));
   }
 
   setPJnum = (pj) => {
-    this.setState({PJnum:pj});
+    this.setState({ PJnum: pj });
   }
 
-  setDept = (deptType) =>{
-    this.setState({deptType:deptType});
+  setDept = (deptType) => {
+    this.setState({ deptType: deptType });
   }
 
   setDefaultSku = (flag) => {
-    this.setState({directDefault:flag})
+    this.setState({ directDefault: flag })
   }
 
-  getDefaultSKUCall=(subclass)=>{
-    console.log('deptType '+this.state.deptType);
+  getDefaultSKUCall = (subclass) => {
+    console.log('deptType ' + this.state.deptType);
 
     /*if(this.state.deptType=='pj')
     {
@@ -2165,23 +2282,25 @@ class SaleContainer extends Component {
       this.setState({ modal_subclass:false })
     }
     else{*/
-      var deftInfo = {
-        Dept:this.deptDetails.Dept,
-        Class:this.deptDetails.Class,
-        SubClass:this.deptDetails.SubClass?this.deptDetails.SubClass:'',
-      }
-      this.setState({ modal_subclass:false })
-      this.setState({ modal_dept_key: false});
-      this.props.startSpinner(true);
-      this.props.getDefaultSKUInvoker(deftInfo);
+    var deftInfo = {
+      Dept: this.deptDetails.Dept,
+      Class: this.deptDetails.Class,
+      SubClass: this.deptDetails.SubClass ? this.deptDetails.SubClass : '',
+      "StoreAssoc": this.props.login.userpin
+    }
+    this.setState({ modal_subclass: false })
+    this.setState({ modal_dept_key: false });
+    this.props.startSpinner(true);
+    this.props.getDefaultSKUInvoker(deftInfo);
     /*}*/
 
   }
 
   showHideSubClassModal = (showFlag) => {
-   // this.setState({ modal_dept_key: false});
-    this.setState({ modal_subclass: showFlag});
+    // this.setState({ modal_dept_key: false});
+    this.setState({ modal_subclass: showFlag });
     this.setState({ modal_sku: false });
+    this.setState({ modal_dept_key: false });
   }
 
   showHidePjModal = (showFlag) => {
@@ -2215,6 +2334,9 @@ class SaleContainer extends Component {
       presaleFlaginCart: true,
     })
     this.props.presaleInitialRender();
+	  /*Fix MPOS-2177 - starts*/
+    this.props.presaleRetainYes(true);
+	  /*Fix MPOS-2177 - Ends*/
     this.props.makePresaleHeader();
   }
   /**ring a sale closing */
@@ -2222,9 +2344,9 @@ class SaleContainer extends Component {
   setTransDesc = (flag) => {
     /* var transactionId = this.state.transactionId; */
     /* this.setState({ TranDiscPriceOverrideFlag: false }); */
-    this.setState({ TranDiscPriceOverrideFlagPopup: false, activeModifyPriceOption : 'TransDiscAppliedAddNewSku', modifyPriceFieldValue : '' });
-    if(flag === true) {
-      this.showManagerApprovalModal(true,'','TransDiscAppliedAddNewSku')
+    this.setState({ TranDiscPriceOverrideFlagPopup: false, activeModifyPriceOption: 'TransDiscAppliedAddNewSku', modifyPriceFieldValue: '' });
+    if (flag === true) {
+      this.showManagerApprovalModal(true, '', 'TransDiscAppliedAddNewSku')
     }
     /* var transactionId = this.state.transactionId; */
     /* this.setState({ TranDiscPriceOverrideFlag: false }); */
@@ -2243,27 +2365,30 @@ class SaleContainer extends Component {
 
   checkItemAvailable = (from) => {
     //this.state.currentItem === '' && this.props.nonSkuSelection
-   
-  //only used for Transmodiy to determine if items in cart not counting voids
-   for(let n = 0; n < this.state.items.length; n++) {
-     console.log('sweezey this.state.items[n]',this.state.items[n][0].quantity);
-     if(this.state.items[n][0].quantity) return true
-   }
+
+    //only used for Transmodiy to determine if items in cart not counting voids
+    for (let n = 0; n < this.state.items.length; n++) {
+      if (this.state.items[n][0].quantity) return true
+    }
     return false
   }
 
-  opentenderingCard = () =>{
-    this.setState({tenderingCard:true});
-  }
 
-  closetenderingCard = () =>{
-    this.setState({tenderingCard:false});
-  }
 
-  setUseStoredCard = (flag)=>{
+/*  closetenderingCard = () => {
+    //this.setState({ tenderingCard: false });
+  } */
+
+  setUseStoredCard = (flag) => {
     this.props.useStoredCardFlag(flag);
-    
   }
+
+ /* opentenderingCard = () => {
+    //debugger;
+    //this.setState({ tenderingCard: true });
+    this.setUseStoredCard(true);
+    this.navigateToPayment();
+  } */
   //Account Lookup methods
   /*closeDLModel = () =>
   {
@@ -2316,10 +2441,23 @@ getCardsListInvoker = () =>{
     this.props.getCardsList(request);
 }
 */
+
+  // CALLING AURUS GETCARDBIN API AND ACTIVATING THE SWIP
+  activateSwipGiftCard = () => {
+    console.log("------> CALLING THE GET CARDBIN API----------------> 2400");
+    this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
+    this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
+    this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
+    this.getCardBinJson.GetCardBINRequest.LookUpFlag = this.aurusVars.LookUpFlag;
+    this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = "N";
+    this.getCardBinJson.GetCardBINRequest.CardNumber = this.state.validCardNumber;
+
+    var req = json2xml(this.getCardBinJson);
+    this.props.getAurusResponse(req, 'GIFTCARD_GETCARDBIN');
+  }
+
   render() {
-    console.log('PRANAV THIS', this)
     const activeTransModify = this.checkItemAvailable() && !this.props.nonSkuSelection && !(this.props.selectedItem[0] !== undefined);
-    console.log('Sweezey activeTransModify render', activeTransModify);
     var textFieldStyle = {
       height: '41px',
       width: '95px'
@@ -2483,7 +2621,7 @@ getCardsListInvoker = () =>{
         />
       )
     }
-    console.log('card details in sale container'+JSON.stringify(store.getState().Cards))
+    console.log('card details in sale container' + JSON.stringify(store.getState().Cards))
     itemModifyCategoryContent = {
       'replenishment': (<div className="replenishmentmainDiv">
         {selectedItemObject}
@@ -2766,7 +2904,10 @@ getCardsListInvoker = () =>{
             <div className='sale-errorModal-container'>
               <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
               <div className="sale-errorModal-text">Item not on Item file</div>
-              <button className="sale-errorModal-button" onClick={() => { this.setState({ sku_errorModal: false }) }}>
+              <button className="sale-errorModal-button" onClick={() => {
+                this.props.clearInvalidSkuIdData();
+                this.setState({ sku_errorModal: false });
+              }}>
                 <div className="sale-errorModal-button-text">CLOSE</div>
               </button>
             </div>
@@ -2801,8 +2942,7 @@ getCardsListInvoker = () =>{
             little showCloseIcon={false}>
             <div className='sale-errorModal-container'>
               <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
-              <div className="sale-errorModal-text">Default SKU not found.
-Please use keyword search.</div>
+              <div className="sale-errorModal-text">{this.state.modal_default_sku_error_msg}</div>
               <button className="sale-errorModal-button" onClick={() => { this.setState({ modal_default_sku_error: false }) }}>
                 <div className="sale-errorModal-button-text">CLOSE</div>
               </button>
@@ -2831,7 +2971,7 @@ Please use keyword search.</div>
                 <div className='sale-override-Discount-button'>
                   <div className="sale-override-Discount-ok-button" onClick={() => { this.setTransDesc(true) }}>OK</div>
                 </div>
-                 </div>
+              </div>
             </div>
           </Modal>
 
@@ -2872,8 +3012,8 @@ Please use keyword search.</div>
             </div>
           </Modal>
           <Modal open={this.state.PreSale_FlagModal} little classNames={{ modal: 'Presale-Modal-container' }}
-           little showCloseIcon={false}
-           onClose={() => { }} >
+            little showCloseIcon={false}
+            onClose={() => { }} >
 
             <div className='preSale-flag-container'>
 
@@ -2885,14 +3025,17 @@ Please use keyword search.</div>
 
                 <div className="preSale-cancel" onClick={() => {
                   this.setState({ PreSale_FlagModal: false, presaleFlaginCart: false })
-                  this.props.presaleInitialRender()
+                  this.props.presaleInitialRender();
+					        /*Fix MPOS-2177 - starts*/
+                  this.props.presaleRetainYes(false);
+					        /*Fix MPOS-2177 - Ends*/
                 }}>
 
                   <div className="preSale-cancel-btn">NO</div>
 
                 </div>
 
-                <button className="preSale-ok"  onClick={this.preSaleYesClick}>YES</button>
+                <button className="preSale-ok" onClick={this.preSaleYesClick}>YES</button>
 
               </div>
 
@@ -3047,7 +3190,7 @@ Please use keyword search.</div>
                 setSubClass={this.setSubClass}
                 getDefaultSKUCall={this.getDefaultSKUCall}
                 showHidePjModal={this.showHidePjModal}
-                setDefaultSku = {this.setDefaultSku}
+                setDefaultSku={this.setDefaultSku}
               />
             </Modal>
             :
@@ -3089,8 +3232,8 @@ Please use keyword search.</div>
                 showHideAmountModal={this.showHideAmountModal}
                 AddItemtoCartDefault={this.AddItemtoCartDefault}
                 showHidePjModal={this.showHidePjModal}
-                setAmount = {this.setAmount}
-                setPJnum = {this.setPJnum}
+                setAmount={this.setAmount}
+                setPJnum={this.setPJnum}
               />
             </Modal>
             :
@@ -3126,7 +3269,7 @@ Please use keyword search.</div>
             null
           }
 
-          {this.state.modal_quantity_info ?
+          {/* {this.state.modal_quantity_info ?
             <Modal classNames={{ modal: 'max-warning-modal-container' }} open={(sku) => { }} 
               little showCloseIcon={false}>
               <QuantityInfoModal
@@ -3135,7 +3278,7 @@ Please use keyword search.</div>
             </Modal>
             :
             null
-          }
+          } */}
 
           {this.state.modal_taxattemptdone ?
             <Modal classNames={{ modal: 'tax-exempt-done-modal-container' }} open={(sku) => {
@@ -3153,8 +3296,8 @@ Please use keyword search.</div>
 
           {this.state.modal_warning ?
             <Modal classNames={{ modal: 'max-warning-modal-container' }} open={(sku) => this.retrieveSku(sku)} onClose={() => { }}
-            little showCloseIcon={false}
-             >
+              little showCloseIcon={false}
+            >
               <WarningCountModal MAX_ITEM_COUNT={this.WARNING_COUNT} REMAINING_COUNT={this.REMAINING_COUNT} done={() => this.setState({ modal_warning: false })} />
             </Modal>
             :
@@ -3209,7 +3352,7 @@ Please use keyword search.</div>
               onClose={() => {
 
               }} little showCloseIcon={false}>
-              
+
               <SaleItemSplitCommission
                 onSubmitshowSplitCommissionModal={this.onSubmitshowSplitCommissionModal}
                 type_split_commission={this.state.type_split_commission}
@@ -3234,6 +3377,7 @@ Please use keyword search.</div>
               onClose={() => {
 
               }}
+              little showCloseIcon={false}
             >
               <ModifyPriceModal
                 title={this.state.modifyPriceModalTitle}
@@ -3340,7 +3484,7 @@ Please use keyword search.</div>
             :
             null
           }
-      {this.state.modal_gift_receiptflag ?
+          {this.state.modal_gift_receiptflag ?
             <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
               open={() => {
 
@@ -3366,6 +3510,7 @@ Please use keyword search.</div>
               onClose={() => {
 
               }}
+              little showCloseIcon={false}
             >
               <ManagerApprovalModal
                 showManagerApprovalModal={this.showManagerApprovalModal}
@@ -3385,6 +3530,7 @@ Please use keyword search.</div>
               onClose={() => {
 
               }}
+              little showCloseIcon={false}
             >
               <ModifyPriceErrorModal
                 errorText={this.state.modifyPriceError}
@@ -3406,6 +3552,25 @@ Please use keyword search.</div>
             </Modal>)
             : ''}
 
+          {this.state.AssociateDiscountInvalidPin ?
+            <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
+              open={() => {
+
+              }}
+              onClose={() => {
+
+              }}
+              little showCloseIcon={false}
+            >
+              <ModifyPriceErrorModal
+
+                errorText={<div>You have entered an<br />invalid associate.</div>}
+                showModifyErrorModal={this.showTransInvalidAssociateErrorModal}
+              />
+            </Modal>
+            :
+            null
+          }
           {this.state.associatetranserrormodal ?
             <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
               open={() => {
@@ -3414,11 +3579,50 @@ Please use keyword search.</div>
               onClose={() => {
 
               }}
+              little showCloseIcon={false}
             >
               <ModifyPriceErrorModal
 
                 errorText={<div>Ringing associate cannot<br />be purchasing associate.</div>}
                 showModifyErrorModal={this.showTransModifyAssociateDiscountErrorModal}
+              />
+            </Modal>
+            :
+            null
+          }
+          {this.state.associatetransterminatederrormodal ?
+            <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
+              open={() => {
+
+              }}
+              onClose={() => {
+
+              }}
+              little showCloseIcon={false}
+            >
+              <ModifyPriceErrorModal
+
+                errorText={<div>Associate is terminated.</div>}
+                showModifyErrorModal={this.showTransModifyAssociateTerminatedErrorModal}
+              />
+            </Modal>
+            :
+            null
+          }
+          {this.state.associatetransnoteligibleerrormodal ?
+            <Modal classNames={{ modal: 'modify-price-error-modal-container' }}
+              open={() => {
+
+              }}
+              onClose={() => {
+
+              }}
+              little showCloseIcon={false}
+            >
+              <ModifyPriceErrorModal
+
+                errorText={<div>Associate is not eligible.</div>}
+                showModifyErrorModal={this.showTransModifyAssociateNotEligibleErrorModal}
               />
             </Modal>
             :
@@ -3433,6 +3637,7 @@ Please use keyword search.</div>
               onClose={() => {
                 this.setState({ disableOptions: false })
               }}
+              little showCloseIcon={false}
             >
               <ModifyPriceErrorModal
                 errorText={<div>No More Discounts Allowed</div>}
@@ -3456,7 +3661,7 @@ Please use keyword search.</div>
                 handleamountchange={this.handleamountchange}
                 amount_to_be_inserted_modal={this.amount_to_be_inserted_modal}
                 modify_amount_on_submit={this.modify_amount_on_submit}
-                modified_amount_value={this.state.modified_amount_value} 
+                modified_amount_value={this.state.modified_amount_value}
               />
             </Modal>
             :
@@ -3470,7 +3675,7 @@ Please use keyword search.</div>
 
                 <div className="modal_items_handled-return">
                   <div className="modal_items_handled-return-btn" onClick={() => { this.setState({ modal_items_handled: false }) }}>RETURN</div>
-                  <button className="modal_items_handled-ok"  type="submit" onClick={() => this.props.history.push('/payment', this.props.history.location.state ? { isClienteled: this.props.history.location.state.isClienteled } : { isClienteled: true })}>OK</button>
+                  <button className="modal_items_handled-ok" type="submit" onClick={() => this.props.history.push('/payment', this.props.history.location.state ? { isClienteled: this.props.history.location.state.isClienteled } : { isClienteled: true })}>OK</button>
                 </div>
               </div>
 
@@ -3496,31 +3701,31 @@ Please use keyword search.</div>
             :
             null
           }
-{this.state.tenderingCard ?
-  <Modal classNames={{ modal: 'confirm-card-details-container' }}
-    open={() => {
+        {/*  {this.state.tenderingCard ?
+            <Modal classNames={{ modal: 'confirm-card-details-container' }}
+              open={() => {
 
-    }}
-    onClose={() => {
+              }}
+              onClose={() => {
 
-    }}
-    showCloseIcon={false}
-  >
-    <CardDetailsModal
-      setUseStoredCard = {this.setUseStoredCard}
-      opentenderingCard={this.opentenderingCard}
-      closetenderingCard={this.closetenderingCard}
-      navigateToPayment = {this.navigateToPayment}
-    />
-  </Modal>
-  :
-  null
-}
-
-
+              }}
+              showCloseIcon={false}
+            >
+              <CardDetailsModal
+                setUseStoredCard={this.setUseStoredCard}
+                opentenderingCard={this.opentenderingCard}
+                closetenderingCard={this.closetenderingCard}
+                navigateToPayment={this.navigateToPayment}
+              />
+            </Modal>
+            :
+            null
+          } */}
 
 
-          
+
+
+
 
 
 
@@ -3554,17 +3759,18 @@ Please use keyword search.</div>
             splitCommissionOpened={() => this.splitCommissionOpened('transmodifysplit')}
             transGiftRegistry={() => this.transGiftRegistry('transregistry')}
             transGiftReceipt={() => this.transGiftReceipt('transregistry')}
+            activateSwipGiftCard = {() => this.activateSwipGiftCard()}
             showItemModifyPriceModal={this.showItemModifyPriceModal}
             showItemModifyTaxModal={this.showItemModifyTaxModal}
             loadPriceDrpDown={this.loadPriceDrpDown}
             loadTaxDrpDown={this.loadTaxDrpDown}
             showTransDiscount={() => {
-              if (this.state.tranDiscAppliedFlag === false) {
+             // if (this.state.tranDiscAppliedFlag === false) {
                 this.setState({ modal_TransDiscount: true })
-              }
-              else {
-                this.showManagerApprovalModal(true, '', 'TransDiscountAlreadyApplied')
-              }
+              //}
+              //else {
+               // this.showManagerApprovalModal(true, '', 'TransDiscountAlreadyApplied')
+             // }
             }}
             showAssociateDiscount={() => {
               console.log(this.props.cart);
@@ -3622,10 +3828,9 @@ Please use keyword search.</div>
               />
             </div>
             <div className="sale-footer-container-outer" style={disabledStyle}>
-              <SaleFooter
-                tenderingCard = {this.state.tenderingCard}
-                lookupPath = {this.props.cards.path}
-                opentenderingCard = {this.opentenderingCard}
+              <SaleFooter 
+                lookupPath={this.props.cards.path}
+                opentenderingCard={this.opentenderingCard}
                 tax={this.SALES_TAX}
                 total={this.state.total}
                 subTotal={this.state.subTotal}
@@ -3650,20 +3855,20 @@ Please use keyword search.</div>
 };
 
 function mapStateToProps(state) {
-  console.log('@@@@@@@@@  SALE CAONTAINER **********', state)
+  //console.log('@@@@@@@@@  SALE CAONTAINER **********', state)
   return {
     selectedItem: state.selectedItems,
-    cards:state.Cards,
+    cards: state.Cards,
     cart: state.cart,
     transactionId: getTransactionId(state),
     login: state.login,
     isClienteled: state.clienteled,
     nonSkuSelection: state.nonSkuSelection,
-    emailTrackingInfo:state.emailTrackingInfo,
-    registerInfo:state.home.registerInfoData,
-    spinner:state.spinner,
-    registerInfo:state.home.registerInfoData,
-    customerDetails:state.customerDetails
+    emailTrackingInfo: state.emailTrackingInfo,
+    registerInfo: state.home.registerInfoData,
+    spinner: state.spinner,
+    registerInfo: state.home.registerInfoData,
+    customerDetails: state.customerDetails
   }
 }
 
@@ -3672,8 +3877,8 @@ function mapDispatchToProps(dispatch) {
     {
       addItemsRequestInvoker: addItemsRequest,
       voidLineItemInvoker: voidLineItemAction,
-      MKDDiscountsActionInvoker: priceActions,
       presaleInitialRender: presaleInitialRender,
+      presaleRetainYes: presaleRetainYes,
       saleitemModifyQuantityUpdateInvoker: saleitemModifyQuantityUpdate,
       saleitemGiftRegistryUpdateInvoker: saleitemGiftRegistryUpdate,
       saleitemGiftReceiptUpdateInvoker: saleitemGiftReceiptUpdate,
@@ -3691,15 +3896,20 @@ function mapDispatchToProps(dispatch) {
       modifyPriceInvoker: modifyPriceAction,
       modifyTaxAuthInvoker: modifyTaxAuthAction,
       modifyTaxInvoker: modifyTaxAction,
+      getAurusResponse: getAurusResponse,
       itemSelectedAction,
       productSearchAction,
       /*getCardsList:getCardsList,
       navigateToLookupOptions:navigateToLookupOptions,*/
       productImgSearchAction,
       goToSendPage,
-      validateManagerPinActionInvoker : validateManagerPinAction,
-      useStoredCardFlag:useStoredCard,
-      clearTenderingFlag:clearTendering
+      validateManagerPinActionInvoker: validateManagerPinAction,
+      useStoredCardFlag: useStoredCard,
+      clearTenderingFlag: clearTendering,
+      clearDefaultSkuData: clearDefaultSku,
+      clearDataFrom: clearDataFrom,
+      callErrorException: showException,
+      clearInvalidSkuIdData: clearInvalidSkuId
     }, dispatch)
 }
 

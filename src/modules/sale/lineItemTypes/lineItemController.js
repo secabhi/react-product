@@ -34,7 +34,6 @@ export default class LineItemController extends Component{
         
         console.log('giftWrapFlagDisplayed LineitemController',this.props.giftWrapFlagDisplayed);
 
-        console.log('mike-props-lineitem', this.props)
         console.log("ITEMTYPE:", this.state.itemType);
         if(this.state.itemType == "alterations"){
             // console.log('IN ALTERATIONS', this.props);
@@ -296,15 +295,8 @@ export default class LineItemController extends Component{
                             transactionDiscount = {this.props.transactionDiscount}
                             transactionDiscountAmount = {this.props.transactionDiscountAmount}    
                             associateDiscount = {this.props.associateDiscount}
-                            associateDiscountAmount = {this.props.associateDiscountAmount}                            
-                            percentageMarkdownDiscount={this.props.percentageMarkdownDiscount}
-                            percentageMarkdownDiscountAmount={this.props.percentageMarkdownDiscountAmount}
-                            dollarMarkdownDiscount={this.props.dollarMarkdownDiscount}
-                            dollarMarkdownDiscountAmount={this.props.dollarMarkdownDiscountAmount}
-                            priceOverrideMarkdownDiscount={this.props.priceOverrideMarkdownDiscount}
-                            priceOverrideMarkdownDiscountAmount={this.props.priceOverrideMarkdownDiscountAmount}
-                            newPriceMarkdownDiscount={this.props.newPriceMarkdownDiscount}
-                            newPriceMarkdownDiscountAmount={this.props.newPriceMarkdownDiscountAmount}                   
+                            associateDiscountAmount = {this.props.associateDiscountAmount}                 
+                            discountsAppliedArray={this.props.discountsAppliedArray}
                             taxAmount = {this.props.taxAmount}
                             isDiscount = {this.props.isDiscount}
                             isREPL = {this.props.isREPL}

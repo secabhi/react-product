@@ -28,7 +28,7 @@ export class ResumeTransaction extends Component {
         return (
             <div>
                 <div className='resume-transaction-modal-container'>
-                    <div><img src={closeicon} className="closeicon" onClick={() => this.props.resumeallmodals(false,false,false)} /></div>
+                    <div><img src={closeicon} className="closeicon" onClick={() => this.props.closeModalAndLogout()} /></div>
                     <div><img src={resumeIcon} className='resume-transaction-modal-icon' /></div>
                     <div className='resume-transaction-modal-label'>Resume Transaction</div>
                     <div className='resume-transaction-modal-button-area'>
@@ -47,22 +47,25 @@ export class ResumeEnter extends Component {
         super(props)
         this.state = {
             ResumeEntry: '',
+            IdMaxLength:false
         }
     }
     
     
     updateResumeEntry(e) {
         const { ResumeEntry } = this.state;
-        this.setState({
-            ResumeEntry: e.target.value,
-        });
-        if ((e.target.value.length < 1)) {
-            document.getElementsByClassName("enter-resume-okbtn")[0].disabled = true;
-        }
-        else {
-            document.getElementsByClassName("enter-resume-okbtn")[0].disabled = false;
+        if(e.target.value.length <= 9) {
+            this.setState({
+                ResumeEntry: e.target.value,
+                IdMaxLength: false
+            });
+        } else {
+            this.setState({
+                IdMaxLength: true
+            })
         }
     }
+
     ResumeEntryForm(e) {
         e.preventDefault();
         console.log('ResumeEntry Update SUBMITING');
@@ -108,6 +111,22 @@ export class ResumeEnter extends Component {
             width: (window.innerWidth > 1900) ? '602.5px' : '738px',
             maxWidth: '680px'
         }
+
+        const errorStyle = {
+            bottom: '0',
+            fontFamily: 'Roboto',
+            fontSize: '26px',
+            fontWeight: 'normal',
+            fontStyle: 'normal',
+            fontStretch: 'normal',
+            letterSpacing: 'normal',
+            textAlign: 'left',
+            color: '#d53560',
+            lineHeight: '20px !important',
+            marginTop: '15px'
+        }
+
+        console.log('resume entry & length', this.state.ResumeEntry, this.state.ResumeEntry.length)
         return (
             <div>
                 <div className="enter-resume-modal-container">
@@ -118,14 +137,16 @@ export class ResumeEnter extends Component {
                             (<div className="enter-resume-textfield-scan-cls">
                                 <TextField
                                     required
-                                    type="text"
+                                    type="number"
                                     floatingLabelText="Resume #"
                                     floatingLabelStyle={textFieldFloatingLabelStyle}
                                     fullWidth={true}
                                     inputStyle={textFieldInputStyle}
                                     style={textFieldStyle}
-                                    // maxlength="9"
                                     onChange={e => this.updateResumeEntry(e)}
+                                    value={this.state.ResumeEntry}
+                                    errorText={this.state.IdMaxLength == true ? "Maximum of 8 characters allowed" : ""}
+                                    errorStyle={errorStyle}
                                 />
                                 <img className="enter-resume-textfield-scan" src={scan} /></div>) :
 
@@ -144,7 +165,7 @@ export class ResumeEnter extends Component {
                             )}
                         <div className="enter-resume-button-area">
                             <button className="enter-resume-cancelbtn" onClick={() => this.props.resumeallmodals(true,false,false)}><img className="enter-resume-cross" src={crossicon} /><label className="enter-resume-cancel-label">CANCEL</label></button>
-                            <button className="enter-resume-okbtn" type="submit" disabled><label className="enter-resume-ok-label">OK</label></button>
+                            <button className="enter-resume-okbtn" type="submit" disabled={this.state.ResumeEntry.length < 1}><label className="enter-resume-ok-label">OK</label></button>
                         </div>
                     </form>
                 </div>

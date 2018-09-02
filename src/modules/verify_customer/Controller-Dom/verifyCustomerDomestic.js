@@ -88,7 +88,7 @@ class VerifyCustomerDomestic extends React.Component{
                             <div className="field1">
                                 <div className="field1-salutation">
                                     <div className="field-title">Sal...</div>
-                                    <div className="field-value">{this.props.currentAddress.cust_dom_salutation}</div>
+                                    <div className="field-value sal-ellpse">{this.props.currentAddress.cust_dom_salutation}</div>
                                 </div>
                                 <div className="field1-first-name">
                                     <div className="field-title">First Name</div>
@@ -149,7 +149,7 @@ class VerifyCustomerDomestic extends React.Component{
                                 <div className="field1-salutation">
                                     <div className="field-title">Sal...</div>
                                     <div 
-                                        className={this.props.currentAddress.cust_dom_salutation!==this.props.selectedSalutation?"field-value changed-field":"field-value"}
+                                        className={this.props.currentAddress.cust_dom_salutation!==this.props.selectedSalutation?"field-value changed-field sal-ellpse":"field-value sal-ellpse"}
                                     >
                                         {this.props.selectedSalutation}
                                     </div>

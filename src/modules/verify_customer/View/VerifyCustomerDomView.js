@@ -98,7 +98,7 @@ class VerifyCustomerDomestic extends React.Component{
                                 <div className="field1-salutation">
                                     <div className="field-title">Sal...</div>
                                     <div 
-                                        className={this.props.currentAddress.cust_dom_salutation!==this.props.selectedSalutation?"field-value changed-field":"field-value"}
+                                        className={this.props.currentAddress.cust_dom_salutation!==this.props.selectedSalutation?"field-value changed-field sal-ellpse":"field-value sal-ellpse"}
                                     >
                                         {this.props.selectedSalutation}
                                     </div>

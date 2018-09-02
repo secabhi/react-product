@@ -1,4 +1,5 @@
 import { callPostWebService, callGetWebService } from '../../../common/helpers/helpers';
+import { responseValidation } from '../../../common/responseValidator/responseValidation';
 const config = require('../../../../resources/stubs/config.json');
 const clientConfig= config.clientConfig;
 
@@ -13,21 +14,26 @@ const env = require('../../../../settings/env.js');
 const path = env.PATH;
 const apiTransTaxExempt = path+'apiTransTaxExempt.json';
 
-export function transTaxExemptUpdate(item,transactionId,transtaxexempt){
+export function transTaxExemptUpdate(item,transactionId,transtaxexempt,userpin){
     
     const params = {
         ...clientConfig,
         // "ItemNumber":item.itemNumber,
         "TransactionId":transactionId,
         // "LineNumber":item.lineNumber,
-        "TaxExemptID":transtaxexempt
+        "TaxExemptID":transtaxexempt,
+        "StoreAssoc":userpin
     };
     console.log("****** IN ACTION ", params);
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(apiTransTaxExempt, params);
-    
+    const SaleItemResponseObj = require('../../../common/responseValidator/responseDictionary').saleItemResponseObj;
+    var validated = {isValid : false,
+                    message :''}
     
     return (dispatch) => {
-        request.then((data) => {
+        request.then((data) => { validated = responseValidation(data.data,SaleItemResponseObj);
+            //debugger;
+      if(validated.isValid){
             console.log('transTaxExempt data:', data);
             if(data.data.response_text == "UC_SUCCESS") {
                 dispatch({
@@ -42,6 +48,22 @@ export function transTaxExemptUpdate(item,transactionId,transtaxexempt){
                     payload: data
                 });
             }
+        }
+        else{
+            var errorMessage = validated.message + ' for web service: '+URL+' TimeOut Duration:'+require('../../../../resources/stubs/config.json').timeout+'ms';
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : errorMessage
+            });
+        }
+        }).catch((err) => {
+            console.log(`Error: ${err}`);
+            dispatch({
+                type: 'SALE_ITEM_MODIFY_REQUEST_VALIDFAILED',
+                payload: {  },
+                message : 'Exception occured during webservice call '+ URL
+            });
         });
         
     };

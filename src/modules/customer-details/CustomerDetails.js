@@ -1,16 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Slider from "react-slick";
 
 /*import View Components */
 import { CustomerDetailsView } from './View/CustomerDetailsView';
+import SystemError from '../../UI/systemError/systemError';
 
 /* import actions */
-import {getCsrPurchasesNRecommends, navigateToDomesticCustomer,getSalesSummaryAction,clearCustomerDetailsAction} from './CustomerDetailsActions';
+import {getCsrPurchasesNRecommends, navigateToDomesticCustomer,getSalesSummaryAction,clearCustomerDetailsAction, changeItemPurchasedFlag} from './CustomerDetailsActions';
 import { bindActionCreators } from 'redux';
 import { goToSalesPage } from '../sale/SaleAction.js';
 import { getReminders} from '../reminders/remindersAction';
 import { attachCustomerAction } from '../home/HomeAction.js'
+import {showException} from '../common/exceptionErrorModal/exceptionAction';
+
+export class CustomerDetailsErrorHandler extends Component {
+  state = {hasError: false, errorInfo: {err: '', info: ''}}
+
+  componentDidCatch(err, info) {
+    //this.props.history.push('/');
+    const errorInfo = {};
+    errorInfo.err = err.message;
+    errorInfo.info = info.componentStack;
+    this.setState({hasError: true, errorInfo: errorInfo});
+  }
+
+  render() {
+    if(this.state.hasError) {
+      return ( 
+          <SystemError from='Customer Details Component' redirect={()=>this.props.history.push('/customer-search')}>
+            <h6>{this.state.errorInfo.err}: {this.state.errorInfo.info}</h6>
+          </SystemError>  
+      )   
+    } else {
+      return(
+        this.props.children
+      )
+    }
+  }
+}  //end of class CustomerDetailsErrorHandler
 
 
 class CustomerDetails extends Component {
@@ -40,6 +67,12 @@ class CustomerDetails extends Component {
     console.log('CustomerDetails componentDidMount props',this.props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.customerDetails.error) {
+      throw new Error('Errror in CustomerDetails: ', nextProps.customerDetails.error)
+    }
+  }
+
   callAttachCustomerActionInvoker = () => {
     var storeClientNumber = (this.props.customerDetails.clientNumber) ? this.props.customerDetails.clientNumber : "";
     var phoneSequence = (this.props.customerDetails.selectedAddress.PhoneNumbers.length > 0 && this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence != "") ? this.props.customerDetails.selectedAddress.PhoneNumbers[0].phoneSequence : "0"
@@ -62,35 +95,39 @@ class CustomerDetails extends Component {
 
   /*Navigate back home*/
   navigateBack = () => {
-    this.props.clearCustomerDetails();
-    this.props.history.push('/customer-search'); ``
+    // this.props.clearCustomerDetails();
+    this.props.history.push('/customer-search');
   }
 
   displayHistoryModal =() => {
     console.log('Test')
   }
+
  
   render() {
     return (
-      <CustomerDetailsView
-        history={this.props.history}
-        customerDetails={this.props.customerDetails}
-        navigateBack={this.navigateBack}
-        displayHistoryModal={this.displayHistoryModal}
-        displayRecommendsModal={this.displayRecommendsModal}
-        navigateToUpdateCustomer={this.navigateToUpdateCustomer}
-        navigateToIncircleNonMember={this.navigateToIncircleNonMember}
-        inCircleInfo={this.inCircleInfo}
-        currentlvl={this.state.currentlvl}
-        nextLvl={this.nextLvl}
-        pointsToNextLvl={this.state.pointsToNextLvl}
-        navigateToSale={this.navigateToSale}
-        navigateToProductSearch = {this.navigateToProductSearch}
-        navigateToProductDummy = {this.navigateToProductDummy}
-        toCamelCase={this.toCamelCase}
-        userPin={this.props.login.userpin}
-        remindersCount = {(this.props.reminders.remindersList != undefined)?this.props.reminders.remindersList.length:0}
-      />
+      <CustomerDetailsErrorHandler history={this.props.history}>
+        <CustomerDetailsView
+          history={this.props.history}
+          customerDetails={this.props.customerDetails}
+          navigateBack={this.navigateBack}
+          displayHistoryModal={this.displayHistoryModal}
+          displayRecommendsModal={this.displayRecommendsModal}
+          navigateToUpdateCustomer={this.navigateToUpdateCustomer}
+          navigateToIncircleNonMember={this.navigateToIncircleNonMember}
+          inCircleInfo={this.inCircleInfo}
+          currentlvl={this.state.currentlvl}
+          nextLvl={this.nextLvl}
+          pointsToNextLvl={this.state.pointsToNextLvl}
+          navigateToSale={this.navigateToSale}
+          navigateToProductSearch = {this.navigateToProductSearch}
+          navigateToProductDummy = {this.navigateToProductDummy}
+          toCamelCase={this.toCamelCase}
+          userPin={this.props.login.userpin}
+          remindersCount = {(this.props.reminders.remindersList != undefined)?this.props.reminders.remindersList.length:0}
+          changeItemPurchasedFlag = {this.props.changeItemPurchasedFlag}
+        />
+      </CustomerDetailsErrorHandler> 
     )
   }
 
@@ -114,7 +151,6 @@ class CustomerDetails extends Component {
   navigateToIncircleNonMember = () => {
     this.props.history.push('/incircle-non-member');
   }
-
 }
 
 function mapStateToProps({ updatedCustomer, customerDetails, customerSearch,login,reminders, home }) {
@@ -132,7 +168,12 @@ function mapDispatchToProps(dispatch) {
   clearCustomerDetails: clearCustomerDetailsAction,
   getReminders:getReminders,
   attachCustomerActionInvoker: attachCustomerAction,
+  changeItemPurchasedFlag: changeItemPurchasedFlag,
+  callErrorException: showException
   }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomerDetails);
+
+
+

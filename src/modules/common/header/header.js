@@ -6,21 +6,25 @@ import { bindActionCreators } from 'redux';
 import Modal from 'react-responsive-modal';
 /* Importing the local files*/
 import { ModifyPriceErrorModal } from '../../sale/modal-component/modalComponent'
-import {store} from '../../../store/store'
-import {xml2json} from '../../common/helpers/helpers'
+import { store } from '../../../store/store'
+import { xml2json } from '../../common/helpers/helpers'
 import { startSpinner } from '../../common/loading/spinnerAction';
 
 import { testAction, callVoidTransaction, suspendAction, clearPED } from './HeaderAction';
-import {clearState}  from '../../payment//Controller/paymentActions';
+import { clearState } from '../../payment//Controller/paymentActions';
 import { CartWarningModal } from '../../sale/modal-component/modalComponent'
+import { showException } from '../../common/exceptionErrorModal/exceptionAction'
 
-import {navigateToLookupOptions,setPathname,setNextInquiry} from '../../account-lookup/controllers/accountLookupActions';
-import {getCardsList,isThirdParty} from '../../account-lookup/controllers/accountLookupActions.js'
+import warningIcon from '../../../resources/images/Warning.svg';
+
+import { navigateToLookupOptions, setPathname, setNextInquiry, clearIsValid } from '../../account-lookup/controllers/accountLookupActions';
+import { getCardsList, isThirdParty } from '../../account-lookup/controllers/accountLookupActions.js'
 import DLModal from '../../account-lookup/modals/DLModal';
 import ByPassModal from '../../account-lookup/modals/BypassModal';
 import confirmDetailsModal from '../../account-lookup/modals/confrimDetailsModal'
 /*Account Lookup modals*/
 import CustomerPhone from '../../account-lookup/modals/CustomerPhoneModal';
+import ScanOrSwipeGiftCard from '../../sale/sale-giftcard/GiftCardContent/ScanOrSwipeGiftCard/ScanOrSwipeGiftCard';
 
 /* Importing the resource images and icons*/
 
@@ -43,27 +47,30 @@ class Header extends Component {
       cartWarningError: false,
       CartErrortoHomeModal: false,
       suspendNoItemModal: false,
-      pedbatterythresholdvalue :'',
+      pedbatterythresholdvalue: '',
+      pedbatterylevel: '100',
       inTransaction: this.props.inTransaction,
       custPhoneModalFlag: false,
-      exitModal:false,
-       //Account Lookup States
-       custPhoneModalFlag: false,
-       DLModalFlag: false,
-       byPassModalFlag: false,
-       confirmDetailsFlag:false,
-       cards:{},
-       currentPath:''
+      exitModal: false,
+      printModal: false,
+      same_giftCardNumber: false,
+      //Account Lookup States
+      custPhoneModalFlag: false,
+      DLModalFlag: false,
+      byPassModalFlag: false,
+      confirmDetailsFlag: false,
+      cards: {},
+      currentPath: '',
+      getCardsError: false
     }
     this.pedbatterystatusconfigured = require('../../../resources/stubs/config.json');
   }
 
-  componentDidMount(){
-      console.log('next enquery'+JSON.stringify(this.props.cards.isNextInquiry));
-      if(this.props.cards.isNextInquiry==true)
-      {
-        this.setState({custPhoneModalFlag:true});
-      }
+  componentDidMount() {
+    console.log('next enquery' + JSON.stringify(this.props.cards.isNextInquiry));
+    if (this.props.cards.isNextInquiry == true) {
+      this.setState({ custPhoneModalFlag: true });
+    }
     if (this.props.cart.data.cartItems && this.props.cart.data.cartItems.items.length >= 1) {
       if (this.props.history.location.pathname === '/sale') {
         this.setState({ CartErrortoHomeModal: true })
@@ -75,16 +82,15 @@ class Header extends Component {
 
   }
 
-  componentWillMount(){
+  componentWillMount() {
     var pedbattery = this.pedbatterystatusconfigured.pedbatterylevel_config;
     this.setState({
-      pedbatterythresholdvalue : pedbattery
+      pedbatterythresholdvalue: pedbattery
     })
   }
 
   componentWillReceiveProps(nextProps) {
-
-    if (!nextProps.history.location.pathname == '/payment') {
+    if (!(nextProps.history.location.pathname == '/payment')) {
       console.log('Header-nextProps', nextProps)
       console.log('nextProps.history.location.pathname', nextProps.history.location.pathname)
       if (nextProps.cart.data.cartItems && nextProps.cart.data.cartItems.items.length >= 1) {
@@ -95,74 +101,110 @@ class Header extends Component {
           //  this.navigateToHome();
         }
       }
-    console.log('Header-nextProps', nextProps)
-    console.log('nextProps.history.location.pathname', nextProps.history.location.pathname)
-    
-    if (nextProps.voidTransDetails && nextProps.voidTransDetails.void == true) {
-      this.closeVoid();
-      this.navigateToHomeReturn();
-    }
-    if (nextProps.voidTransDetails && nextProps.voidTransDetails.voidFail == true) {
-      this.openVoidError();
-    }
-    if (nextProps.suspendTransDetails && nextProps.suspendTransDetails.suspendSuccess == true) {
-      this.setState({ printModal: false })
-      this.navigateToHomeReturn();
-    }
-    if (nextProps.suspendTransDetails && nextProps.suspendTransDetails.suspendFail == true) {
-      this.setState({ printModal: false })
-      this.openSuspendError();
-    }
-    if(nextProps.header && nextProps.header.pedbatteryresp != '' && nextProps.header.pedbatteryresp != undefined){
-        this.processPedBatteryResp(nextProps.header.pedbatteryresp);
-    }
-  }
 
-  
-  if (nextProps.cards.dataFrom === "GET_CARDS_SUCCESS") {
-    this.props.startSpinner(false);
-    this.props.isThirdPartySet(true);
-    this.props.history.push('/account-lookup');
-  }
-this.setState({currentPath:nextProps.history.location.pathname});
-  }
+      console.log('nextProps.history.location.pathname', nextProps.history.location.pathname)
 
-
- 
-    processPedBatteryResp = (data) =>{
-      var width ="";
-      var color ="";
-      try{
-        if(data.GetStatusResponse.ResponseCode == "00000"){
-          var pedbtrylevel = data.GetStatusResponse.SystemParamters[0].LineItem[0].ParameterValue[0];
-            if(parseInt(pedbtrylevel) < parseInt(this.state.pedbatterythresholdvalue)){
-                  width = pedbtrylevel + '%';
-                  color = "red";
-            }
-              this.setState({
-                  pedbatterylevel : pedbtrylevel,
-                  pedindicatorwidth : width,
-                  pedindicatorcolor : color
-              })
-        }else{
-          if(data.GetStatusResponse.ResponseCode !== "00000"){
-            this.setState({
-              pedbatterylevel : "100",
-              pedindicatorwidth : "100%",
-              pedindicatorcolor : "green"
-            })
-          }
-        }
-      }catch(err){
-        console.log("Exception in processPedBatteryResp",err)
+      if (nextProps.voidTransDetails && nextProps.voidTransDetails.void == true) {
+        this.closeVoid();
+        this.navigateToHomeReturn();
       }
+      if (nextProps.voidTransDetails && nextProps.voidTransDetails.voidFail == true) {
+        this.openVoidError();
+      }
+      if (nextProps.suspendTransDetails && nextProps.suspendTransDetails.suspendSuccess == true) {
+        this.setState({ printModal: false })
+        this.navigateToHomeReturn();
+      }
+      if (nextProps.suspendTransDetails && nextProps.suspendTransDetails.suspendFail == true) {
+        this.setState({ printModal: false })
+        this.openSuspendError();
+      }
+      if (nextProps.header && nextProps.header.pedbatteryresp != '' && nextProps.header.pedbatteryresp != undefined) {
+        this.processPedBatteryResp(nextProps.header.pedbatteryresp);
+      }
+    }
+
+    if (nextProps.cards.isValid) {
+      if (nextProps.cards.dataFrom === "GET_CARDS_SUCCESS") {
+        this.props.startSpinner(false);
+        this.props.isThirdPartySet(true);
+        this.props.history.push('/account-lookup');
+      }
+      if (nextProps.cards.dataFrom === "GET_CARDS_GENERALERROR") {
+        this.props.startSpinner(false);
+        this.props.isThirdPartySet(true);
+        this.setState({ getCardsError: true });
+        //alert('invalid request');
+        /*this.props.callErrorException( {
+          showException: true,
+          error:{failedModule:'Account Lookup',
+          failureReason:'Unexpected Response',
+          failureDescription:'Unable to resolve the response structure'}})*/
+        //this.props.history.push('/account-lookup');
+      }
+
+    }
+    else {
+      if (nextProps.cards.error_message != '') {
+
+        this.props.callErrorException(
+          {
+            showException: true,
+            error: {
+              failedModule: 'Account Lookup',
+              failureReason: 'Unexpected Response',
+              failureDescription: nextProps.cards.error_message
+            }
+          })
+        this.props.clearIsValidFlag();
+      }
+
+    }
+    this.setState({ currentPath: nextProps.history.location.pathname });
   }
-  
+  /*callErrorException = (data) => {
+
+  }*/
+
+
+  processPedBatteryResp = (data) => {
+    var width = "";
+    var color = "green";
+    try {
+      if (data.GetStatusResponse.ResponseCode == "00000") {
+        var pedbtrylevel = data.GetStatusResponse.SystemParamters[0].LineItem[0].ParameterValue[0];
+        width = pedbtrylevel + '%';
+        if (parseInt(pedbtrylevel) <= parseInt(this.state.pedbatterythresholdvalue)) {
+          color = "red";
+        }
+        this.setState({
+          pedbatterylevel: pedbtrylevel,
+          pedindicatorwidth: width,
+          pedindicatorcolor: color
+        })
+      } else {
+        if (data.GetStatusResponse.ResponseCode !== "00000") {
+          this.setState({
+            pedbatterylevel: "100",
+            pedindicatorwidth: "100%",
+            pedindicatorcolor: "green"
+          })
+        }
+      }
+    } catch (err) {
+      console.log("Exception in processPedBatteryResp", err)
+    }
+  }
+
 
   showErrorModal = (showFlag) => {
     if (showFlag == false) {
       this.closeVoidError();
     }
+  }
+
+  closegetCardsErroModal = (showFlag) => {
+    this.setState({ getCardsError: showFlag })
   }
 
   closeSuspendErrorModal = (showFlag) => {
@@ -174,75 +216,83 @@ this.setState({currentPath:nextProps.history.location.pathname});
   }
 
   openAccountLookup = () => {
-    this.setState({custPhoneModalFlag:true});
+    this.setState({ custPhoneModalFlag: true });
   }
   closeAccountLookup = () => {
-    this.setState({custPhoneModalFlag:false});
+    this.setState({ custPhoneModalFlag: false });
   }
 
-   //Account Lookup methods
-   closeDLModel = () =>
-   {
-     this.setState({ DLModalFlag: false });
-   }
-   OpenThridParty = () =>
-   {
- 
-   }
-   closeCustModel = () =>
-   {
-     //alert('close is called');
-     this.setState({ custPhoneModalFlag: false });
-   }
-   nextCustModel = () =>
-   {
-    this.setState({ custPhoneModalFlag: false,      
-       DLModalFlag:true });
-   }
-   nextDLModel = () =>
-   {
-     this.setState({       
-       DLModalFlag:false
-      });
-   }
-   OpenByPassModel = () =>
-   {
-     this.setState({       
-       DLModalFlag:false,
-      byPassModalFlag:true
-      });
-   }
-   closeByPassModel = () =>
-   {
-     this.setState({      
-       byPassModalFlag:false });
-   }
-   nextByPassModel = () =>
-   {
-     this.setState({      
-       byPassModalFlag:false });
-   }
- getCardsListInvoker = () =>{
-   //alert('hi');
-   this.setState({custPhoneModalFlag:false});
-   this.props.setNextInquiryFalg(false);
-   console.log('cards path'+JSON.stringify(this.props.history.location.pathname));
-  /* let request = {
-     "storeClientNo" : client_id
- }*/
- 
-     let request = {
-       "storeClientNo" : store.getState().customerDetails.clientNumber
-     }
-     this.props.startSpinner(true);
-     this.props.setPath(this.props.history.location.pathname);
-     this.props.getCardsList(request);
-     //this.props.history.push('/account-lookup');
- }
- showAccountLookupModal = () => {
-  this.props.setNextInquiryFalg(false);
-  this.setState({ custPhoneModalFlag: true });
-}
+  //Account Lookup methods
+  closeDLModel = () => {
+    this.setState({ DLModalFlag: false });
+  }
+  OpenThridParty = () => {
+
+  }
+  closeCustModel = () => {
+    //alert('close is called');
+    this.props.setNextInquiryFalg(false);
+    this.setState({ custPhoneModalFlag: false });
+
+  }
+  nextCustModel = () => {
+    this.setState({
+      custPhoneModalFlag: false,
+      DLModalFlag: true
+    });
+  }
+  nextDLModel = () => {
+    this.setState({
+      DLModalFlag: false
+    });
+  }
+  OpenByPassModel = () => {
+    this.setState({
+      DLModalFlag: false,
+      byPassModalFlag: true
+    });
+  }
+  closeByPassModel = () => {
+    this.setState({
+      byPassModalFlag: false
+    });
+  }
+  nextByPassModel = () => {
+    this.setState({
+      byPassModalFlag: false
+    });
+  }
+  isValidCard = (value) => {
+    let validNumber = value;
+    if (validNumber.length === 16 && !isNaN(Number(value)) && { value }) {
+      this.setState({ validCard: true })
+    }
+    else {
+      this.setState({ validCard: false })
+    }
+  }
+
+  getCardsListInvoker = () => {
+    //alert('hi');
+    this.setState({ custPhoneModalFlag: false });
+    this.props.setNextInquiryFalg(false);
+    console.log('cards path' + JSON.stringify(this.props.history.location.pathname));
+    /* let request = {
+       "storeClientNo" : client_id
+   }*/
+
+    let request = {
+      "storeClientNo": store.getState().customerDetails.clientNumber
+    }
+    this.props.startSpinner(true);
+    this.props.setPath(this.props.history.location.pathname);
+    this.props.getCardsList(request);
+    //this.props.history.push('/account-lookup');
+  }
+  showAccountLookupModal = () => {
+    this.props.setNextInquiryFalg(false);
+    this.setState({ custPhoneModalFlag: true });
+  }
   render() {
 
     const clientNum = store.getState().customerDetails.clientNumber;
@@ -258,7 +308,7 @@ this.setState({currentPath:nextProps.history.location.pathname});
           openPostVoidModal={this.props.openPostVoidModal}
           navigateToHome={this.navigateToHome}
           printModal={this.state.printModal}
-          closeAccountLookup = {this.closeAccountLookup}
+          closeAccountLookup={this.closeAccountLookup}
           closePrintModal={this.closePrintModal}
           openPrintRecpt={this.openPrintRecpt}
           voidTransaction={this.voidTransaction}
@@ -274,13 +324,13 @@ this.setState({currentPath:nextProps.history.location.pathname});
           transactionId={this.props.transactionId}
           callVoidTransactionInvoker={this.props.callVoidTransactionInvoker}
           userPin={this.props.userPin}
-          pedindicatorwidth = {this.state.pedindicatorwidth}
-          pedindicatorcolor = { this.state.pedindicatorcolor}
-          pedbatterythresholdvalue = {this.state.pedbatterythresholdvalue}
+          pedindicatorwidth={this.state.pedindicatorwidth}
+          pedindicatorcolor={this.state.pedindicatorcolor}
+          pedbatterythresholdvalue={this.state.pedbatterythresholdvalue}
           confirmExit={this.confirmExit}
           startMidVoid={this.props.startMidVoid}
-          showAccountLookupModal = {this.showAccountLookupModal}
-           />
+          showAccountLookupModal={this.showAccountLookupModal}
+        />
         {this.state.voidError
           ? (<Modal classNames={{ modal: 'modify-price-error-modal-container' }}
             open={() => { }}
@@ -316,87 +366,109 @@ this.setState({currentPath:nextProps.history.location.pathname});
             />
           </Modal>)
           : ''}
-          {this.state.exitModal?(<Modal classNames={{ modal: 'confirmExitModal' }}
-            open={() => { }}
-            onClose={() => { }}
-          >
-            <ConfirmExitModal
-              props={this.props}
-            />
-          </Modal>):''}
-
-          {/*Account Lookup popups*/}
-          {this.state.custPhoneModalFlag?
-          <Modal open={this.state.custPhoneModalFlag} 
+        {this.state.exitModal ? (<Modal classNames={{ modal: 'confirmExitModal' }}
+          open={() => { }}
           onClose={() => { }}
-          showCloseIcon={false}
-          little >
+        >
+          <ConfirmExitModal
+            props={this.props}
+          />
+        </Modal>) : ''}
+
+        {/*Account Lookup popups*/}
+        {this.state.custPhoneModalFlag ?
+          <Modal open={this.state.custPhoneModalFlag}
+            onClose={() => { }}
+            showCloseIcon={false}
+            little >
             <CustomerPhone
               closeCustModel={this.closeCustModel}
-              clientNum = {clientNum?true:false}
-              getCardsListInvoker = {this.getCardsListInvoker}
+              clientNum={clientNum ? true : false}
+              getCardsListInvoker={this.getCardsListInvoker}
               nextCustModel={this.nextCustModel}
             />
-        </Modal>: null
+          </Modal> : null
         }
-        {this.state.DLModalFlag?
-          <Modal open={this.state.DLModalFlag} 
-          onClose={() => { }}
-          showCloseIcon={false}
-          little >
+        {this.state.DLModalFlag ?
+          <Modal open={this.state.DLModalFlag}
+            onClose={() => { }}
+            showCloseIcon={false}
+            little >
             <DLModal
-            closeDLModel={this.closeDLModel}
-            OpenByPassModel={this.OpenByPassModel}
-            nextDLModel={this.nextDLModel}
+              closeDLModel={this.closeDLModel}
+              OpenByPassModel={this.OpenByPassModel}
+              nextDLModel={this.nextDLModel}
             />
-        </Modal>: null
+          </Modal> : null
         }
-        {this.state.byPassModalFlag?
-          <Modal open={this.state.byPassModalFlag} 
-          onClose={() => { }}
-          showCloseIcon={false}
-          little >
+        {this.state.byPassModalFlag ?
+          <Modal open={this.state.byPassModalFlag}
+            onClose={() => { }}
+            showCloseIcon={false}
+            little >
             <ByPassModal
-            closeByPassModel={this.closeByPassModel}
-            nextByPassModel={this.nextByPassModel}
+              closeByPassModel={this.closeByPassModel}
+              nextByPassModel={this.nextByPassModel}
             />
-        </Modal>: null
+          </Modal> : null
         }
 
-        {this.state.confirmDetailsFlag?
-          <Modal open={this.state.confirmDetailsFlag} 
-          onClose={() => { }}
-          showCloseIcon={false}
-          little >
+        {this.state.confirmDetailsFlag ?
+          <Modal open={this.state.confirmDetailsFlag}
+            onClose={() => { }}
+            showCloseIcon={false}
+            little >
             <confirmDetails
-            closeByPassModel={this.closeByPassModel}
-            nextByPassModel={this.nextByPassModel}
+              closeByPassModel={this.closeByPassModel}
+              nextByPassModel={this.nextByPassModel}
             />
-        </Modal>: null
+          </Modal> : null
         }
-
-          
-            <Modal classNames={{ modal: 'suspend-noItem-modal' }} open={this.state.suspendNoItemModal} onClose={() => this.setState({ suspendNoItemModal: false })} closeOnOverlayClick={false}
-            little showCloseIcon = {false} >
-            <div className="suspend-noItem-img">
-              <img src={warning}></img>
+        {this.state.getCardsError ?
+          <Modal open={this.state.getCardsError} little classNames={{ modal: 'sale-errorModal' }}
+            little showCloseIcon={false}>
+            <div className='sale-errorModal-container'>
+              <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+              <div className="sale-errorModal-text">Invalid Request</div>
+              <button className="sale-errorModal-button" onClick={() => { this.setState({ getCardsError: false }) }}>
+                <div className="sale-errorModal-button-text">CLOSE</div>
+              </button>
             </div>
 
-            <div className="suspend-noItem-msg"> There are no items to Suspend.</div>
-            <div className="suspend-noItem-btn" onClick={() => this.setState({ suspendNoItemModal: false })}><span className="suspend-noItem-txt">OK</span></div>
           </Modal>
+          : null
+        }
+
+        <Modal classNames={{ modal: 'suspend-noItem-modal' }} open={this.state.suspendNoItemModal} onClose={() => this.setState({ suspendNoItemModal: false })} closeOnOverlayClick={false}
+          little showCloseIcon={false} >
+          <div className="suspend-noItem-img">
+            <img src={warning}></img>
+          </div>
+
+          <div className="suspend-noItem-msg"> There are no items to Suspend.</div>
+          <div className="suspend-noItem-btn" onClick={() => this.setState({ suspendNoItemModal: false })}><span className="suspend-noItem-txt">OK</span></div>
+        </Modal>
+        <ScanOrSwipeGiftCard
+          error={this.props.error}
+          aurusCardLookup={() => { this.props.aurusCardLookup() }}
+          sameGiftcardNumber={this.state.same_giftCardNumber}
+          validateCard={(value) => { this.props.validateCard(value) }}
+          getCardNumber={(value) => { this.props.getCardNumber(value) }}
+        />
       </div>
+
+
 
     );
   }
 
   navigateToHome = () => {
-   // console.log('this.props.cart.data.cartItems.items.length',this.props.cart.data.cartItems.items.length)
-   // console.log('this.props.cart.data.cartItems.items.length',this.state.CartErrortoHomeModal)
-    console.log('this.props.history.location.pathname',this.props.history.location.pathname)
+    // console.log('this.props.cart.data.cartItems.items.length',this.props.cart.data.cartItems.items.length)
+    // console.log('this.props.cart.data.cartItems.items.length',this.state.CartErrortoHomeModal)
+    console.log('this.props.history.location.pathname', this.props.history.location.pathname)
     if (this.state.CartErrortoHomeModal === true) {
-          this.opencartwarningError();
-        }
+      this.opencartwarningError();
+    }
     else {
       if (!this.state.inTransaction) {
         sessionStorage.setItem("loggedIn", "false");
@@ -409,13 +481,13 @@ this.setState({currentPath:nextProps.history.location.pathname});
           isSuspend: false,
           isVoid: false
         })
-      } else if(this.state.inTransaction){
-        this.setState({exitModal:true});
+      } else if (this.state.inTransaction) {
+        this.setState({ exitModal: true });
       }
     }
   }
 
-  confirmExit=()=>{
+  confirmExit = () => {
     //void
     sessionStorage.setItem("loggedIn", "false");
     this
@@ -429,8 +501,8 @@ this.setState({currentPath:nextProps.history.location.pathname});
     })
   }
 
-  closeModal=()=>{
-    this.setState({exitModal:false});
+  closeModal = () => {
+    this.setState({ exitModal: false });
   }
 
   navigateToHomeReturn = () => {
@@ -463,23 +535,23 @@ this.setState({currentPath:nextProps.history.location.pathname});
   }
 
   suspendTransaction = () => {
-    if(this.props.cart.data.cartItems.items.length){
-    if (this.state.isSuspend === false) {
-      this.setState({
-        isSuspend: true
-      })
+    if (this.props.cart.data.cartItems && this.props.cart.data.cartItems.items.length >= 1) {
+      if (this.state.isSuspend === false) {
+        this.setState({
+          isSuspend: true
+        })
+      } else {
+        this.setState({
+          isSuspend: false
+        })
+      }
     } else {
       this.setState({
-        isSuspend: false
+        suspendNoItemModal: true
       })
     }
-  }else{
-    this.setState({
-      suspendNoItemModal:true
-    })
   }
-}
-  
+
   voidTransaction = () => {
     if (this.state.isVoid === false) {
       this.setState({
@@ -544,7 +616,9 @@ function mapStateToProps(state) {
     userPin: state.login.userpin, suspendTransDetails: state.suspendTrans,
     voidTransDetails: state.voidDetails, transactionId: state.home.transactionData ? state.home.transactionData.transactionNumber : '',
     cart: state.cart,
-    cards:state.Cards
+    spinner: state.spinner,
+
+    cards: state.Cards
   }
 }
 function mapDispatchToProps(dispatch) {
@@ -552,14 +626,16 @@ function mapDispatchToProps(dispatch) {
     testActionInvoker: testAction,
     suspendActionInvoker: suspendAction,
     callVoidTransactionInvoker: callVoidTransaction,
-    clearPEDInvoker: clearPED, 
+    clearPEDInvoker: clearPED,
     clearStateInvoker: clearState,
-    getCardsList:getCardsList,
-    navigateToLookupOptions:navigateToLookupOptions,
+    getCardsList: getCardsList,
+    navigateToLookupOptions: navigateToLookupOptions,
     startSpinner: startSpinner,
-    setPath:setPathname,
-    setNextInquiryFalg:setNextInquiry,
-    isThirdPartySet:isThirdParty
+    setPath: setPathname,
+    setNextInquiryFalg: setNextInquiry,
+    isThirdPartySet: isThirdParty,
+    callErrorException: (data) => showException(data),
+    clearIsValidFlag: clearIsValid
 
   }, dispatch)
 }

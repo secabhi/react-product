@@ -1,6 +1,10 @@
 import { callAxiosWebService } from '../../common/helpers/helpers';
 import { callPostWebService, callGetWebService } from '../../common/helpers/helpers';
 import { startSpinner } from '../../common/loading/spinnerAction';
+
+import { CS_SUCCESS, CS_GENERALERROR, CS_INVALIDEMAIL, CS_CUSTNOTFOUND, CS_MISSINGDETAILS, CS_INVALIDASSOCIATE, CS_FAI, CS_INVALIDZIP, CS_RECORDNOTUPDATED, CS_COUNTRYCODEMISSING, UPDATE_CUST_SUCCESS, UPDATE_CUST_GENERAL_ERROR, UPDATE_CUST_MISSING_DETAILS, UPDATE_CUST_RECORD_NOT_UPDATED, VIEW_EDIT_CUST_FAILURE, VIEW_EDIT_CUST_INVALID_EMAIL } from '../../common/constants/type';
+
+
 const env = require('../../../settings/env.js');
 const path = env.PATH;
 /* To add customer - Domestic */
@@ -15,63 +19,94 @@ export function viewCustomerAction(updateCustDomData) {
         request.then(({
                 data
             }) => {
-                switch (JSON.parse(data.response_code)) {
+                switch (data.response_text) {
 
-                    case 0:
+                    case CS_SUCCESS:
                     {
                         dispatch({
-                            type: 'UPDATE_CUST_SUCCESS',
+                            type: UPDATE_CUST_SUCCESS,
                             payload: { data: data, ClienteleUpdateFlag: updateCustDomData.ClienteleUpdateFlag }
                         });
                         dispatch(startSpinner(false));
                         break;
                     }
-                    case 1:
+                    case CS_GENERALERROR:
                     
                         {
                             dispatch({
-                                type: 'UPDATE_CUST_GENERAL_ERROR',
+                                type: UPDATE_CUST_GENERAL_ERROR,
                                 payload: data
                             });
                             break;
                         }
 
-                    case 2:
+                    case CS_MISSINGDETAILS:
                         {
                             dispatch({
-                                type: 'UPDATE_CUST_MISSING_DETAILS',
+                                type: VIEW_EDIT_CUST_FAILURE,
                                 payload: data
                             });
                             break;
                         }
 
-                    case 3:
-                
+                    case CS_RECORDNOTUPDATED:
                         {
                             dispatch({
-                                type: 'UPDATE_CUST_RECORD_NOT_ADDED',
+                                type: VIEW_EDIT_CUST_FAILURE,
                                 payload: data
                             });
                             break;
                         }
-
-                    case 4:
-                        {
-                            dispatch({
-                                type: 'UPDATE_CUST_RECORD_NOT_UPDATED',
-                                payload: data
-                            });
-                            break;
-                        }
-                    case 5:
+                    case CS_INVALIDEMAIL:
                     {
                         dispatch({
-                            type: 'VIEW_EDIT_CUST_INVALID_EMAIL',
+                            type: VIEW_EDIT_CUST_INVALID_EMAIL,
                             payload: data
                         });
                         dispatch(startSpinner(false));
                         break;
-                    }   
+                    } 
+
+                    case CS_MISSINGDETAILS:
+                    {
+                        dispatch({
+                            type: VIEW_EDIT_CUST_FAILURE,
+                            payload: data
+                        });
+                        dispatch(startSpinner(false));
+                        break;
+                    } 
+
+                    case CS_INVALIDASSOCIATE:
+                    {
+                        dispatch({
+                            type: VIEW_EDIT_CUST_FAILURE,
+                            payload: data
+                        });
+                        dispatch(startSpinner(false));
+                        break;
+                    } 
+
+                    case CS_FAI:
+                    {
+                        dispatch({
+                            type: VIEW_EDIT_CUST_FAILURE,
+                            payload: data
+                        });
+                        dispatch(startSpinner(false));
+                        break;
+                    } 
+
+                    case CS_INVALIDZIP:
+                    {
+                        dispatch({
+                            type: VIEW_EDIT_CUST_FAILURE,
+                            payload: data
+                        });
+                        dispatch(startSpinner(false));
+                        break;
+                    } 
+                    
                     default:
                         {
                             dispatch({

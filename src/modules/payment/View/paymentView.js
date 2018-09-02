@@ -33,6 +33,7 @@ var incircle_purple_large_bttn = require("../../../resources/images/Incircle_Lev
 
 
 export class PaymentView extends Component {
+
     componentWillMount() {
         this.screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     }
@@ -44,10 +45,9 @@ export class PaymentView extends Component {
       }
 
     render() {
-        
-        console.log('cards in payment view'+JSON.stringify(this.props.otherCards.kiNum));
-        console.log('path in payment view'+this.props.path);
-        console.log('usestoredcard in payment vieww'+this.props.useStoredCard);
+        this.props.otherCards.kiNum=='4154'
+    /*     console.log('cards in payment view'+JSON.stringify(this.props.otherCards.kiNum));
+        console.log('usestoredcard in payment vieww'+this.props.useStoredCard); */
         var leftContentHeader = (
             <div className="left-content-header">
                 <span className="amountDueLabel">Amount Due&nbsp;
@@ -110,21 +110,23 @@ export class PaymentView extends Component {
                         <div className="payment-left-content">
                             {this.props.isCards === true
                                 ? leftContentHeader
-                                : <div/>}
+                                : <div />}
                             <div className="payment-cards-container">
-                                {
-                                    
-                                    this.props.isCards === true 
+
+
+                                {this.props.isCards === true
                                     ? this.props.cards.map((card, index) => {
-                                        return <PaymentCard props={this.props} index = {index} card={card} />
+                                        return <PaymentCard props={this.props} index={index} card={card} />
+                                    })
+                                    : this.props.otherCardList && this.props.useStoredCard
+                                        ? this.props.otherCardList.map((card, index) => {
+                                            return <PaymentCard props={this.props} index={index} otherCards={true} card={card} />
                                         })
-                                    : this.props.otherCards.kiNum && (this.props.useStoredCard || this.props.path=='/payment')
-                                    ? <PaymentCard props={this.props} otherCards={true} card={this.props.otherCards}/>
-                                        :emptyCardContainer}
+                                        : emptyCardContainer}
                             </div >
                             <div className="left-content-footer">
-                                <button className="gift-cards" onClick={this.props.handleGiftCardModal}>GIFT CARDS</button>
-                                <img className="keypad" src={keyPad} onClick={this.props.keyPad}></img>
+                                <button className="gift-cards" onClick={this.props.cards.length > this.props.transInfo.length ? console.log(this.props.cards.length > this.props.transInfo.length) : this.props.handleGiftCardModal}>GIFT CARDS</button>
+                                <img className="keypad" src={keyPad} onClick={this.props.cards.length > this.props.transInfo.length ? "" : this.props.keyPad}></img>
                             </div>
                         </div>
                         <div className="payment-right-content">

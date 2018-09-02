@@ -109,7 +109,7 @@ export default class MainItemLarge extends Component{
         if(this.props.gp){
             var allservicesflags=this.props.giftWrapFlagDisplayedmaintem
         }
-
+        var pimSKUID =  this.props.obj.subClass+'-'+this.props.obj.pim_SKU_ID!=''&&this.props.obj.pim_SKU_ID?this.props.obj.pim_SKU_ID:'';
         return(
             
             (this.props.obj.quantity > 0) ? ( <div className="saleContent-card-large"> 
@@ -182,7 +182,7 @@ export default class MainItemLarge extends Component{
                     <div className='item-description'>
                         {/*<div className="item-category">{"Shirts/Tops"}</div> */}
                         <div className="item-desc">{this.props.obj.itemDesc}</div>
-                        <div className="item-sku">{this.props.obj.department+"-"+this.props.obj.class+"-"+this.props.obj.subClass+'-'+this.props.obj.pim_SKU_ID}</div>
+                        <div className="item-sku">{this.props.obj.department+"-"+this.props.obj.class+"-"+pimSKUID}</div>
                         {(this.props.obj.brandDesc!=="UNMAPPED") ?
                             <div className="item-style-desc">{this.props.obj.styleDesc}</div>:null
                         }
@@ -201,17 +201,10 @@ export default class MainItemLarge extends Component{
                         
                     /> */}
                     <div className="item-codes">
-                        {/* <span>Gp</span> */}
-                            {/* <span className=''>{this.state.indicators}</span>  */}
-                         {/* <span className={(this.props.obj.item_Flag_1 === 2 && this.props.obj.item_Flag_2 === 8192) || (this.props.obj.item_Flag_1 === 2 && this.props.obj.item_Flag_2 === 0) || this.props.isGiftReg ? "giftregistry_symbol":"lineItemDisplayNone"}>G</span>  */}
-                         <span className={this.props.isGiftRec ? "giftregistry_symbol":"lineItemDisplayNone"}>G</span> 
-                         {/* <span className={this.props.obj.item_Flag_2 === 8192 || this.props.isGiftReg ? "giftregistry_symbol":"lineItemDisplayNone"}>G</span>  */}
-
-                         <span className={this.props.getisellFlagDisplayed.giftwrapdisplayFlag || this.props.obj.item_Flag_2 === 2 || (this.props.obj.item_Flag_1 === 4098 && this.props.obj.item_Flag_2 === 8192) ? "giftregistry_symbol":"lineItemDisplayNone"}>A</span>
-                         {/* <span className={this.props.getisellFlagDisplayed.alterationdisplayFlag || this.props.obj.alterationID.length > 1 ? "giftregistry_symbol":"lineItemDisplayNone"}>A</span>  */}
+                         <span className={this.props.getisellFlagDisplayed.giftwrapdisplayFlag || this.props.obj.hasGiftWrap === true  ? "giftregistry_symbol":"lineItemDisplayNone"}>GP</span>
+                         <span className={(this.props.isGiftRec === true && this.props.obj.hasGiftWrap === true)  ? "lineItemDisplayNone" : (this.props.isGiftRec === true) ? "giftregistry_symbol":"lineItemDisplayNone"}>G</span> 
+                         <span className={this.props.getisellFlagDisplayed.alterationdisplayFlag || this.props.obj.hasAlteration === true  ? "giftregistry_symbol":"lineItemDisplayNone"}>A</span>
                          <span className={this.props.getisellFlagDisplayed.sendsdisplayFlag || this.props.obj.sendOption === 1 || this.props.obj.sendOption === 2 ? "giftregistry_symbol":"lineItemDisplayNone"}>S</span> 
-                         {/* <span className={this.props.getisellFlagDisplayed.sends7displayFlag || this.props.obj.sendOption === 2 ? "giftregistry_symbol":"lineItemDisplayNone"}>S</span>  */}
-                        {/* <span className={this.props.isSplInstn ? "":" lineItemDisplayNone"}>S</span> */}
                     </div>
                     <div className="item-price-info-container">
                         <div className="item-price">
@@ -223,6 +216,80 @@ export default class MainItemLarge extends Component{
                     <div className="item-calc">
                         <div className={this.props.isDiscount ? "item-sale-percent":"item-sale-percent lineItemDisplayNone"}>
                             <div className="item-sale-amount">
+                                {
+                                    this.props.discountsAppliedArray.map((discountObject, index) => {
+                                        if(discountObject.discountName === 'Mkd Percentage Off') {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"MKD% (" + discountObject.discountValue + "%)"}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    -{" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                        else if(discountObject.discountName === 'Omni Percentage Off') {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"MKD% (" + discountObject.discountValue + "%)"}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    -{" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                        else if(discountObject.discountName === 'Mkd Dollar Off') {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"MKD$"}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    -{" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                        else if(discountObject.discountName === 'Omni Dollar Off') {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"MKD$"}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    -{" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                        else if(discountObject.discountName === 'Mkd New Price Off') {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"MKD Old/New"}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    {" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                        else if(discountObject.discountName === 'Omni New Price Off') {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"MKD Old/New"}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    {" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                        else if(discountObject.discountName === 'Price Override Off' && parseFloat(discountObject.discountAmount).toFixed(2) != parseFloat(discountObject.originalAmount).toFixed(2)) {
+                                            return <div className="item-discount-percent-spacing">
+                                                <div style={{flex: 1, paddingRight: '10px'}}>
+                                                    {"Price Override "}
+                                                </div>
+                                                <div className="item-discount-number-off">
+                                                    {" "+discountObject.discountAmount}
+                                                </div>
+                                            </div>
+                                        }
+                                    },this)
+                                }
                                 <div className={ this.props.associateDiscount > 0 ? "item-discount-associate":"item-discount-associate lineItemDisplayNone"}>{"Assoc Disc " + "(" + this.props.associateDiscount + "%)"}
                                 <span className='item-associate-discount-amount'>-{parseFloat(this.props.associateDiscountAmount).toFixed(2)}</span>
                                 </div>
@@ -234,7 +301,7 @@ export default class MainItemLarge extends Component{
                                     - {" "+parseFloat(this.props.transactionDiscountAmount).toFixed(2)}</div>
                                 </div>
                                 :''}
-                                {this.props.percentageMarkdownDiscount || this.props.percentageMarkdownDiscount!=0 ?
+                                {/*this.props.percentageMarkdownDiscount || this.props.percentageMarkdownDiscount!=0 ?
                                 <div className="item-discount-percent-spacing">
                                    <div style={{flex: 1, paddingRight: '10px'}}> {"MKD% (" + this.props.percentageMarkdownDiscount + "%)"}</div>
 
@@ -265,7 +332,7 @@ export default class MainItemLarge extends Component{
                                 <div className="item-discount-number-off">
                                     -{" "+this.props.priceOverrideMarkdownDiscountAmount}</div>
                                 </div>
-                                :''}
+                                :''*/}
                             </div>
                         </div>
                         <div className={this.props.obj.itemsTax>0?"item-tax-container":"item-tax-container-hide"}>
@@ -293,7 +360,7 @@ export default class MainItemLarge extends Component{
                         <td className="item-extra-line-item-data">In {this.props.obj.replenishDays} Days {(this.props.obj.eventDescription)?',':''}  {this.props.obj.eventDescription} </td>
                     </tr> }
                     { this.props.obj.salesId > 0 && <tr className={this.props.obj.salesId > 0 ? "item-extra-split-comm":"item-extra-split-comm lineItemDisplayNone"} >
-                        <td className="item-extra-line-item-titles">Split Commission:</td>
+                        <td className="item-extra-line-item-titles">Split Comm:</td>
                         <td className="item-extra-line-item-data">PIN - {this.props.obj.salesId}{(this.props.obj.assistId > 0) ? (',  ' + this.props.obj.assistId) : ''}</td>
                     </tr> }
                     { this.props.isGiftReg && <tr className={ this.props.isGiftReg ? "item-extra-gift-registry": "item-extra-gift-registry lineItemDisplayNone" }>
@@ -330,6 +397,7 @@ MainItemLarge.defaultProps = {
         alterationdisplayFlag: false,
         sendsdisplayFlag:false,
         sends7displayFlag:false,
-    }
+    },
+    discountsAppliedArray : []
 }
 

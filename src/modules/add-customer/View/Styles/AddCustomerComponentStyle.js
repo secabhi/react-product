@@ -9,7 +9,6 @@ export const customStyle= {
         overflow: 'hidden',
         textOverflow: 'initial',
         whiteSpace: 'nowrap',
-        width: '34px',
         lineHeight: '1.19',
         letterSpacing: '2px',
         textAlign: 'left',

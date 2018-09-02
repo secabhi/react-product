@@ -89,17 +89,7 @@ class CartRenderer extends Component {
                     var associateDiscount = 0;
                     var associateDiscountAmount = 0;
 
-                    var percentageMarkdownDiscount = 0;
-                    var percentageMarkdownDiscountAmount = 0;
-                    
-                    var dollarMarkdownDiscount = 0;
-                    var dollarMarkdownDiscountAmount = 0;
-                    
-                    var newPriceMarkdownDiscount = 0;
-                    var newPriceMarkdownDiscountAmount = 0;
-
-                    var priceOverrideMarkdownDiscount = 0;
-                    var priceOverrideMarkdownDiscountAmount = 0;
+                    var discountsAppliedArray = [];
 
                     for (var i = 0; i < obj.discounts.length; i++) {
                         if (obj.discounts[i].discounttype === "Associate Discount") {
@@ -107,37 +97,77 @@ class CartRenderer extends Component {
                             associateDiscountAmount = obj.discounts[i].discountAmount;
                         }
                         else if (obj.discounts[i].discounttype === "Mkd Percentage Off") {
-                            percentageMarkdownDiscount = percentageMarkdownDiscount + obj.discounts[i].discountValue;
-                            percentageMarkdownDiscountAmount = percentageMarkdownDiscountAmount + obj.discounts[i].discountAmount.toFixed(2); 
+                            //percentageMarkdownDiscount = percentageMarkdownDiscount + obj.discounts[i].discountValue;
+                            //percentageMarkdownDiscountAmount = percentageMarkdownDiscountAmount + obj.discounts[i].discountAmount.toFixed(2); 
+                            discountsAppliedArray.push({
+                                discountName : 'Mkd Percentage Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: obj.discounts[i].discountAmount.toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else if (obj.discounts[i].discounttype === "Mkd Dollar Off") {
-                            dollarMarkdownDiscount = dollarMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-                            dollarMarkdownDiscountAmount = dollarMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-
+                            //dollarMarkdownDiscount = dollarMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            //dollarMarkdownDiscountAmount = dollarMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            discountsAppliedArray.push({
+                                discountName : 'Mkd Dollar Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else if (obj.discounts[i].discounttype === "Price Override Off") {
-                            priceOverrideMarkdownDiscount = priceOverrideMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-                            priceOverrideMarkdownDiscountAmount = priceOverrideMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-
+                            //priceOverrideMarkdownDiscount = priceOverrideMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            //priceOverrideMarkdownDiscountAmount = priceOverrideMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            console.log('WHAT IS OBJ', obj)
+                            console.log('discount', 'old price', obj.discounts[i].oldPrice, 'new price', obj.discounts[i].newPrice, 'disc amount', obj.discounts[i].oldPrice - obj.discounts[i].newPrice)
+                            console.log('quantity:', obj.quantity)
+                            discountsAppliedArray.push({
+                                discountName : 'Price Override Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: (obj.discounts[i].newPrice).toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else if (obj.discounts[i].discounttype === "Mkd New Price Off") {
-                            newPriceMarkdownDiscount = newPriceMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-                            newPriceMarkdownDiscountAmount = newPriceMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-
+                            //newPriceMarkdownDiscount = newPriceMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            //newPriceMarkdownDiscountAmount = newPriceMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            discountsAppliedArray.push({
+                                discountName : 'Mkd New Price Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: (obj.discounts[i].newPrice).toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else if (obj.discounts[i].discounttype === "Omni Percentage Off") {
-                            percentageMarkdownDiscount = percentageMarkdownDiscount + obj.discounts[i].discountValue;
-                            percentageMarkdownDiscountAmount = percentageMarkdownDiscountAmount + obj.discounts[i].discountAmount.toFixed(2);
-
+                            //percentageMarkdownDiscount = percentageMarkdownDiscount + obj.discounts[i].discountValue;
+                            //percentageMarkdownDiscountAmount = percentageMarkdownDiscountAmount + obj.discounts[i].discountAmount.toFixed(2);
+                            discountsAppliedArray.push({
+                                discountName : 'Omni Percentage Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: obj.discounts[i].discountAmount.toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else if (obj.discounts[i].discounttype === "Omni Dollar Off") {
-                            dollarMarkdownDiscount = dollarMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-                            dollarMarkdownDiscountAmount = dollarMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-
+                            //dollarMarkdownDiscount = dollarMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            //dollarMarkdownDiscountAmount = dollarMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            discountsAppliedArray.push({
+                                discountName : 'Omni Dollar Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else if (obj.discounts[i].discounttype === "Omni New Price Off") {
-                            newPriceMarkdownDiscount = newPriceMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
-                            newPriceMarkdownDiscountAmount = newPriceMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            //newPriceMarkdownDiscount = newPriceMarkdownDiscount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            //newPriceMarkdownDiscountAmount = newPriceMarkdownDiscountAmount + (obj.discounts[i].oldPrice - obj.discounts[i].newPrice).toFixed(2);
+                            discountsAppliedArray.push({
+                                discountName : 'Omni New Price Off',
+                                originalAmount: (obj.discounts[i].oldPrice).toFixed(2),
+                                discountAmount: (obj.discounts[i].newPrice).toFixed(2),
+                                discountValue: obj.discounts[i].discountValue
+                            });
                         }
                         else {
                             transactionDiscount += obj.discounts[i].discountValue;
@@ -194,14 +224,7 @@ class CartRenderer extends Component {
                         transactionDiscountAmount={transactionDiscountAmount}
                         associateDiscount={associateDiscount}
                         associateDiscountAmount={associateDiscountAmount}
-                        percentageMarkdownDiscount={percentageMarkdownDiscount}
-                        percentageMarkdownDiscountAmount={percentageMarkdownDiscountAmount}
-                        dollarMarkdownDiscount={dollarMarkdownDiscount}
-                        dollarMarkdownDiscountAmount={dollarMarkdownDiscountAmount}
-                        priceOverrideMarkdownDiscount={priceOverrideMarkdownDiscount}
-                        priceOverrideMarkdownDiscountAmount={priceOverrideMarkdownDiscountAmount}
-                        newPriceMarkdownDiscount={newPriceMarkdownDiscount}
-                        newPriceMarkdownDiscountAmount={newPriceMarkdownDiscountAmount}
+                        discountsAppliedArray={discountsAppliedArray}
                         tax={this.props.tax}
                         taxAmount={taxAmount}
                         isDiscount={isDiscount}

@@ -26,6 +26,8 @@ class InCircle extends Component {
         activecircleNum: "circleNum",
         activeIcon: null,
         openModal: false,
+        error_modal: false,
+        errorMessage: '',
         init: true, 
         current_lvl: '',
         hasCards: '',
@@ -61,6 +63,8 @@ class InCircle extends Component {
         activecircleNum: "circleNum",
         activeIcon: null,
         openModal: false,
+        errorMessage: '',
+        error_modal: false,
         init: true, 
         current_lvl: '',
         hasCards: '',
@@ -140,6 +144,15 @@ class InCircle extends Component {
         this.props.history.push('/incircle-non-member')
       }
     }
+
+    // Error handling for InCircle API
+    if(nextProps.Incircle.error != null) {
+      this.setState({
+        error_modal: true,
+        errorMessage: nextProps.Incircle.errorMessage
+      })
+    }
+
 }
 
   //Functions
@@ -239,6 +252,8 @@ class InCircle extends Component {
       activecircleNum={this.state.activecircleNum}
       activeIcon={this.state.activeIcon}
       openModal={this.state.openModal}
+      errorModal={this.state.error_modal}
+      errorMessage={this.state.errorMessage}
       init={this.state.init}
       salutation={this.state.salutation}
       fname={this.state.fname}

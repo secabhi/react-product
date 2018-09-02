@@ -19,59 +19,17 @@ import PostVoidSelect from '../post-void/postVoid'
 import warningIcon from '../../resources/images/Warning.svg';
 
 class HomeHeader extends Component {
-
-  openPostVoidModal = () => {
-    this.setState({modal_post_void:true})
-  }
-  
-  cancelEnterModal = () => {
-    this.setState({modal_post_void:false})
-    
-  }
-  openselectTrans = () => {
-    this.props.openSelectInvoker();
-    this.setState({modal_post_voidselect:true,modal_post_void:false});
-    
-  }
- 
-  cancelSelectModal = () => {
-    this.setState({modal_post_voidselect:false});
-    
-  }
- 
-  openenterTrans = () => {
-    this.setState({modal_post_voidenter:true});
-    this.setState({modal_post_void:false});
-  }
-  cancelEnterTrans = () => {
-    this.setState({modal_post_voidenter:false});
-    
-  }
-  closePostVoidModal = () => {
-    this.setState({modal_post_void:false})
-  }
-
-  
-
-
-  onChangeTransNumber = (event,value,target) => {
-      if(value!==""){
-        document.getElementsByClassName('enterokbtn')[0].style.opacity="1";
-        this.setState({enteredTxnNumber:value})
-      }
-      else{
-        document.getElementsByClassName('enterokbtn')[0].style.opacity="0.4";
-      }
-}
-  
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.state = {
       modal_post_void :false,
       modal_post_voidenter:false,
       modal_post_voidselect:false,
     }
+  }
+
+  componentWillReceiveProps() {
+
   }
 
   render() {
@@ -175,11 +133,50 @@ class HomeHeader extends Component {
           :
           null
           }
-          
-          
-          
         </div>
     );
+  }
+
+  openPostVoidModal = () => {
+    this.setState({modal_post_void:true})
+  }
+  
+  cancelEnterModal = () => {
+    this.setState({modal_post_void:false})
+    
+  }
+  openselectTrans = () => {
+    this.props.openSelectInvoker();
+    this.setState({modal_post_voidselect:true,modal_post_void:false});
+    
+  }
+ 
+  cancelSelectModal = () => {
+    this.setState({modal_post_voidselect:false});
+    
+  }
+ 
+  openenterTrans = () => {
+    //debugger;
+    this.setState({modal_post_voidenter:true});
+    this.setState({modal_post_void:false});
+  }
+  cancelEnterTrans = () => {
+    this.setState({modal_post_voidenter:false});
+    
+  }
+  closePostVoidModal = () => {
+    this.setState({modal_post_void:false})
+  }
+
+  onChangeTransNumber = (event,value,target) => {
+      if(value!==""){
+        document.getElementsByClassName('enterokbtn')[0].style.opacity="1";
+        this.setState({enteredTxnNumber:value})
+      }
+      else{
+        document.getElementsByClassName('enterokbtn')[0].style.opacity="0.4";
+      }
   }
 }
 

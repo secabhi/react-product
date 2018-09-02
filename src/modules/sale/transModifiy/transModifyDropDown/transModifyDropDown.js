@@ -12,7 +12,7 @@ import './transModifyDropDown.css';
 
 //DropDown take two divs - the parent and the children
 export default (props) => {
-    console.log('Sweezey Transmodify DropDown', props.activeTransModify)
+
     return(
         <DropDown active={props.activeTransModify} >
             <Header
@@ -81,7 +81,6 @@ export default (props) => {
 }
 
 const Header = (props) => {
-    console.log('Sweezey TransmodifyHeader props.activeTransModify ', props.activeTransModify)
     return (
         <div className='trans-discount-main-flex'>
             <img className={props.activeTransModify ? 'trans-discount-img' : 'trans-discount-img-disabled'} src={props.show ? transModify_selected : transModify} alt='transmodify icon' />

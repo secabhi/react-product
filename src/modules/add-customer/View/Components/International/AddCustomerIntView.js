@@ -33,13 +33,12 @@ import { InvalidEmailModal } from '../AlertModals/invalidEmailModal';
 import { Salutation } from '../Fields/Salutation';
 import CardContainer from '../../../../add-card/cardContainer'
 import cardContainer from '../../../../add-card/cardContainer';
-import {AddCardModal} from '../../../../add-card/View/Components/Modals/AddCardModal/AddCardModal'
+import {AddCardModal} from '../../../../add-card/View/Components/Modals/AddCardModal'
 export class AddCustomerIntView extends Component {
     componentDidMount(){
         
     }
     render() { 
-        console.log('MIKE ADD CUST INT', this)
         var Dropdownicon = (props) => (
 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47.5 24.4">

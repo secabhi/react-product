@@ -6,6 +6,8 @@ import AccountLookupHeader from './accountLookupHeader';
 import AccountLookupMenu from './accountLookupMenu';
 import CardData from './cardData';
 import Modal from 'react-responsive-modal';
+import { getAurusResponse} from '../payment/Controller/paymentActions'
+import {json2xml,xml2json} from '../common/helpers/helpers';
 
 
 import ConfrimDetailsModal from './modals/confrimDetailsModal'
@@ -18,7 +20,8 @@ import {storeCard,clearGetCards,setNextInquiry,isThirdParty,useStoredCard} from 
 var cardListObj = {};
 
 class AccountLookup extends Component {
-
+    aurusVars = null;
+    getCardBinJson = null;
     constructor(props) {
         super(props);
         this.state = {
@@ -42,11 +45,20 @@ class AccountLookup extends Component {
             confirmDetailsFlag:false,
             cardsAvailable:true,
         }
+        this.aurusVars = require("../../resources/aurus/aurusVars")
+        this.getCardBinJson = require("../../resources/aurus/GetCardBINRequest.json");
+        this.bypassJson = require("../../resources/aurus/BypassScreen.json");
     }
     componentDidMount = () =>{
         console.log('next enquery'+JSON.stringify(this.props.cards.isNextInquiry));
+        
+      //  console.log(JSON.stringify(this.props.cards.data.cardList));
+       if(this.props.cards.data.cardList==undefined || this.props.cards.data.cardList.length==0)
+        {
+            this.setState({cardsAvailable:false})
+        }
        this.props.clearItemSelected("");
-
+   
     }
     
     componentWillReceiveProps = (nextProps) =>{
@@ -59,6 +71,7 @@ class AccountLookup extends Component {
        
         if (nextProps.cards.dataFrom === "GET_CARDS_SUCCESS") {
             console.log('kim num'+nextProps.cards.data.cardList[0].kiNum);
+            
             nextProps.cards.data.cardList?this.setState({cardsAvailable:true}):null;
         }
     }
@@ -81,8 +94,24 @@ class AccountLookup extends Component {
             customerFname:"",
             customerLname:""
     };*/
+    //debugger;
+        //this.props.aurusActionInvoker(json2xml(this.bypassJson),'BYPASS');
         this.props.startSpinner(true);
-        this.props.storeCardDetails(this.state.selectedCardData);
+        this.getCardBinJson.GetCardBINRequest.POSID = this.aurusVars.POSID;
+        this.getCardBinJson.GetCardBINRequest.APPID = this.aurusVars.APPID;
+        this.getCardBinJson.GetCardBINRequest.CCTID = this.aurusVars.CCTID;
+        this.getCardBinJson.GetCardBINRequest.LookUpFlag = 2;
+        this.getCardBinJson.GetCardBINRequest.AllowKeyedEntry = 'N';
+        this.getCardBinJson.GetCardBINRequest.KI = this.state.selectedCardData.UseInTransAccount.kiNum;
+        this.getCardBinJson.GetCardBINRequest.KIType = '12';
+        if(this.state.selectedCardData.UseInTransAccount.chargeType === "VISA"  || this.state.selectedCardData.UseInTransAccount.chargeType === "MASTERCARD"){
+            this.getCardBinJson.GetCardBINRequest.CardEntryMode = 'C';
+        }
+        var request = json2xml(this.getCardBinJson);
+        console.log("PURNIMA : aurus request object account look up" + request);
+        setTimeout(() => {this.props.aurusActionInvoker(request,"USE_IN_TRANS")},1000);
+        // alert(JSON.stringify(this.state.selectedCardData))
+        //this.props.storeCardDetails(this.state.selectedCardData);
         //this.props.lookupFlow()
         if(this.props.cards.path=='/payment')
         this.props.useStoredCardFlag(true);
@@ -201,7 +230,7 @@ class AccountLookup extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('@@@@@@@@@  Account Lookup **********', state)
+    //console.log('@@@@@@@@@  Account Lookup **********', state)
     return {
         cards:state.Cards,
         customerDetails:state.customerDetails
@@ -215,6 +244,7 @@ function mapStateToProps(state) {
         storeCardDetails : storeCard,
         clearGetCardsInvoker:clearGetCards,
         setNextInquiryFalg:setNextInquiry,
+        aurusActionInvoker : getAurusResponse,
         useStoredCardFlag:useStoredCard,
         clearItemSelected: (item) => dispatch(itemSelectedAction(item)),
 

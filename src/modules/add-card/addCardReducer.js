@@ -1,44 +1,16 @@
 const initialState = {
-    isGetStoreClientId: false,
-    isGetCardDetails: false,
-    isAurusResponse : false,
     isAddCardClientele : false,
     isAddCardClienteleFail : false,
     viewCarDetailsResp : '',
     getCardBinResp:'',
     bypassResp: '',
-    closeTransactionResp:''
-
-    
-
+    error_message:'',
+    isValid : false
 };
 
 export function AddCardReducer(state = initialState, action) {
+    console.log("AddCard Reducer:",action.payload);
     switch (action.type) {
-        case "AURUS_ADDCARD_SUCCESS_RESPONSE" : {
-            return {
-                ...state,
-                response: action.payload,
-                isGetStoreClientId: false,
-                isGetCardDetails: false,
-                isAurusResponse : true,
-                isAddCardClientele : false,
-                isAddCardClienteleFail : false
-            }
-        }
-        break;
-        case "STORE_CLIENT_REQ_SUCCESS" : {
-            return {
-                ...state,
-                response: action.payload,
-                isGetStoreClientId: true,
-                isGetCardDetails: false,
-                isAurusResponse : false,
-                isAddCardClientele : false,
-                isAddCardClienteleFail : false
-            }
-        }
-        break;
         case "GET_CARD_DETAILS_SUCCESS" : {
             return { 
                 ...state,
@@ -47,11 +19,29 @@ export function AddCardReducer(state = initialState, action) {
                 isGetCardDetails: true,
                 isAurusResponse : false,
                 isAddCardClientele : false,
-                isAddCardClienteleFail : false
+                isAddCardClienteleFail : false,
+                error_message:'',
+                isValid : true
             }
 
         }
         break;
+        case "GET_CARD_DETAILS_FAIL" : {
+            return { 
+                ...state,
+                viewCarDetailsResp : '', 
+                isGetStoreClientId: false,
+                isGetCardDetails: true,
+                isAurusResponse : false,
+                isAddCardClientele : false,
+                isAddCardClienteleFail : false,
+                error_message: action.message,
+                isValid : false
+            }
+        }
+        break;
+
+
         case "ADD_CARD_CLIENTELE_SUCCESS" : {
             return {
                 ...state,
@@ -60,7 +50,9 @@ export function AddCardReducer(state = initialState, action) {
                 isGetCardDetails: false,
                 isAurusResponse : false,
                 isAddCardClientele : true,
-                isAddCardClienteleFail : false
+                isAddCardClienteleFail : false,
+                error_message:'',
+                isValid : true
             }
           
         }
@@ -73,30 +65,40 @@ export function AddCardReducer(state = initialState, action) {
                 isGetCardDetails: false,
                 isAurusResponse : false,
                 isAddCardClientele :false,
-                isAddCardClienteleFail : true
+                isAddCardClienteleFail : true,
+                error_message:'',
+                isValid : true
             }
         }
         break;
-        case "AURUS_CALL_SUCCESS_RESPONSE":{
-           return{
-            ...state,
-            isGetStoreClientId: false,
-            isGetCardDetails: false,
-            isAddCardClientele : false,
-            isAddCardClientele : false,
-            isAddCardClienteleFail : false  
-           }
+        
+        case "ADD_CARD_CLIENTELE_API_FAIL" : {
+            return{
+                ...state,
+                response: action.payload,
+                isGetStoreClientId: false,
+                isGetCardDetails: false,
+                isAurusResponse : false,
+                isAddCardClientele :false,
+                isAddCardClienteleFail : false,
+                error_message:action.message,
+                isValid : false
+            }
         }
         break;
+
         case "BYPASS" : {
             return{
                 ...state,
                 bypassResp:action.payload,
                 isAddCardClientele : false,
                 isAddCardClienteleFail : false ,
-                getCardBinResp:'' 
+                getCardBinResp:'' ,
+                error_message:'',
+                isValid : true
             }
         }
+        break;
 
         case "GETCARDBIN" : {
             return{
@@ -105,9 +107,12 @@ export function AddCardReducer(state = initialState, action) {
                 isAddCardClientele : false,
                 isAddCardClienteleFail : false  ,
                 bypassResp: '',
+                error_message:'',
+                isValid : true
             }
         }
         break;
+
         case 'CANCELSWIPE': {
            return{
                ...state,
@@ -115,27 +120,24 @@ export function AddCardReducer(state = initialState, action) {
                isAddCardClientele : false,
                isAddCardClienteleFail : false, 
                bypassResp: '', 
-               getCardBinResp:'' 
+               getCardBinResp:'' ,
+               error_message:'',
+               isValid : true
            }
         }
         break;
-        case 'CLOSETRANSACTION':
-        return {
-            ...state,
-            closeTransactionResp: action.payload,
-            isAddCardClientele : false,
-            isAddCardClienteleFail : false
-        }
-        break;
+        
         default :
             return {
-                ...state,
-                viewCarDetailsResp : '',
-                getCardBinResp:'',
-                bypassResp: '',
-                closeTransactionResp:'',
-                isAddCardClientele : false,
-                isAddCardClienteleFail : false  
-            }
+              ...state,
+              viewCarDetailsResp : '',
+              getCardBinResp:'',
+              bypassResp: '',
+              cancelSwipeResp : '',
+              isAddCardClientele : false,
+              isAddCardClienteleFail : false  ,
+              error_message:'',
+              isValid : true
+        }
     }
 }

@@ -9,7 +9,7 @@ import {CS_SUCCESS ,CS_INVALIDEMAIL ,CS_MISSINGDETAILS ,CS_GENERALERROR ,CS_INVA
         ,ADD_CUST_DOM_MISSING_DETAILS,ADD_CUST_DOM_INVALID_EMAIL ,ADD_CUST_DOM_SUCCESS,ADD_CUST_INT_SUCCESS
         ,ADD_CUST_INT_INVALID_EMAIL,ADD_CUST_INT_MISSING_DETAILS,ADD_CUST_INT_GENERAL_ERROR
         ,ADD_CUST_INT_INVALID_PHONE,ADD_CUST_INT_RECORD_NOT_ADDED,ADD_CUST_INT_ADDR_BAD_REPLY
-        ,ADD_CUST_INT_DEFAULT,ADD_CUST_COUNTRY_LIST_RETRIEVED, ADD_CUST_INT_COUNTRY_CODE_MISSING} from './constants';
+        ,ADD_CUST_INT_DEFAULT,ADD_CUST_COUNTRY_LIST_RETRIEVED, ADD_CUST_INT_COUNTRY_CODE_MISSING, CS_INVALIDASSOCIATE, ADD_CUST_DOM_INVALIDASSOCIATE, ADD_CUST_DOM_FAI, CS_FAI} from './constants';
 
 const clientConfig =  require('../../../resources/stubs/config.json').clientConfig;
 
@@ -152,15 +152,35 @@ export function addCustomerAction(addCustDomData) {
                             break;
                         }
 
-                    default:
+                    case CS_INVALIDASSOCIATE:
                         {
                             dispatch({
-                                type: ADD_CUST_DOM_DEFAULT,
-                                payload: data
-                            });
+                                type: ADD_CUST_DOM_INVALIDASSOCIATE,
+                                payload: 'Incorrect Sales Associate ID'
+                            })
                             dispatch(startSpinner(false));
                             break;
                         }
+
+                    case CS_FAI:
+                        {
+                            dispatch({
+                                type: ADD_CUST_DOM_FAI,
+                                payload: 'Customer Add Failed.'
+                            })
+                            dispatch(startSpinner(false));
+                            break;
+                        }
+
+                    // default:
+                    //     {
+                    //         dispatch({
+                    //             type: ADD_CUST_DOM_DEFAULT,
+                    //             payload: data
+                    //         });
+                    //         dispatch(startSpinner(false));
+                    //         break;
+                    //     }
                 }
             })
             .catch(error => {
@@ -200,7 +220,6 @@ export function addCustomerIntAction(addCustIntData) {
                 data
             }) => {
 
-                console.log('PRANAV CUSTINT data',data);
                 switch (data.response_text) {
 
                     case CS_SUCCESS:
@@ -284,15 +303,35 @@ export function addCustomerIntAction(addCustIntData) {
                             break;
                         }
 
-                    default:
+                    case CS_INVALIDASSOCIATE:
                         {
                             dispatch({
-                                type: ADD_CUST_INT_DEFAULT,
-                                payload: data
-                            });
+                                type: ADD_CUST_DOM_INVALIDASSOCIATE,
+                                payload: 'Incorrect Sales Associate ID'
+                            })
                             dispatch(startSpinner(false));
                             break;
                         }
+
+                    case CS_FAI:
+                        {
+                            dispatch({
+                                type: ADD_CUST_DOM_FAI,
+                                payload: 'Customer Add Failed.'
+                            })
+                            dispatch(startSpinner(false));
+                            break;
+                        }
+
+                    // default:
+                    //     {
+                    //         dispatch({
+                    //             type: ADD_CUST_INT_DEFAULT,
+                    //             payload: data
+                    //         });
+                    //         dispatch(startSpinner(false));
+                    //         break;
+                    //     }
                 }
             })
             .catch(error => {

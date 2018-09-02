@@ -19,7 +19,6 @@ export default class GiftCardScanSwipeModal extends Component {
 
     componentDidMount(){
         // this.openCameraScanner();
-         this.props.props.cardLookup();
     }
 
     // openCameraScanner = () => {
@@ -157,12 +156,18 @@ export default class GiftCardScanSwipeModal extends Component {
                         }
 
                         }} 
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                this.props.props.keyGiftCard(this.props.props.giftCardNumber);
+                            }
+                        }} 
                 />
 
                 <div className="scan-giftCard-buttonContainer">
                     <button className="scan-giftCard-cancelButton" onClick={this.props.props.handleGiftCardModal}><img src={closeIcon} className="scan-giftCard-closeIcon"></img>CANCEL</button>
                     <button className={this.state.isDisabled?"scan-giftCard-acceptButton giftCard-disabled":"scan-giftCard-acceptButton"} disabled={this.state.isDisabled} onClick={() => {
-                        this.props.props.cardLookup(1, this.props.props.giftCardNumber);
+                        this.props.props.keyGiftCard(this.props.props.giftCardNumber);
 
                         }}>OK</button>
                 </div>

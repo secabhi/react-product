@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Modal from 'react-responsive-modal';
+import SelectField from 'material-ui/SelectField';
+import TextField from 'material-ui/TextField';
+import MenuItem from 'material-ui/MenuItem';
+import InputMask from 'react-input-mask';
 
-import { startSpinner } from '../../common/loading/spinnerAction';
-import Spinner from '../../common/loading/spinner';
-
+/* Stylesheets and images*/
+import './UpdateCustomerDomView.css';
+import '../View/Styles/UpdateCustomerDomestic.css';
+import { customStyle } from '../View/Styles/UpdateCustomerComponentStyle';
 import backicon from '../../../resources/images/Back.svg';
 import verifyicon from '../../../resources/images/Verify_White.svg';
 import reseticon from '../../../resources/images/Reset_All.svg';
+import crossicon from '../../../resources/images/Cross_Purple.svg';
+import arrowDown from '../../../resources/images/Arrow_Down.svg';
 
-import ReactTooltip from 'react-tooltip'
-import cardicon from '../../../resources/images/Add_Card.svg';
-import clearallbtn from '../../../resources/images/Clear_All.svg';
-import savebtn from '../../../resources/images/Save.svg';
-import backarrow from '../../../resources/images/Back.svg';
-import updatecustomer from '../../../resources/images/Add_Customer.svg';
-import updatecustomerselected from '../../../resources/images/Add_Customer_Selected.svg';
-import updateintcustomer from '../../../resources/images/Add_International_Customer.svg';
-import updateintcustomerselected from '../../../resources/images/Add_International_Customer_Selected.svg';
+/* Importing Modals */
 import PhoneModal from '../../update-customer/View/Components/AlertModals/PhoneModal'
 import TextOptModal from '../../update-customer/View/Components/AlertModals/TextOptModal'
 import EmailModal from '../../update-customer/View/Components/AlertModals/EmailModal';
@@ -27,38 +25,13 @@ import { CustNotFound } from '../View/Components/AlertModals/CustNotFound';
 import { AddrEmailModal } from '../View/Components/AlertModals/AddressModal';
 import { ModifyPriceErrorModal } from '../../sale/modal-component/modalComponent';
 import { UpdateFailedModal } from '../View/Components/AlertModals/UpdateFailedModal';
-import './UpdateCustomerDomView.css';
-import Modal from 'react-responsive-modal';
+import SuccessModal from '../../update-customer/View/Components/AlertModals/SuccessModal';
 
-import phonemodalicon from '../../../resources/images/Confirm_Phone.svg';
-import crossicon from '../../../resources/images/Cross_Purple.svg';
-import tickicon from '../../../resources/images/Tick_White.svg';
-
-import emailmodalicon from '../../../resources/images/Confirm_Email.svg';
-
-import erroricon from '../../../resources/images/Error_Red.svg';
-import editIcon from '../../../resources/images/Edit_Profile.svg';
-import info from '../../../resources/images/Info.svg';
-
-
-import arrowDown from '../../../resources/images/Arrow_Down.svg';
-
+/* Importing components */
 import Popup from '../../popup/popup';
 import VerifyCustomerDomestic from '../../verify_customer/View/VerifyCustomerDomView';
-
-import SelectField from 'material-ui/SelectField';
-import SvgIcon from 'material-ui/SvgIcon';
-
-import TextField from 'material-ui/TextField';
-import MenuItem from 'material-ui/MenuItem';
-import InputMask from 'react-input-mask';
-import { parsePhoneNumber } from '../../common/helpers/helpers';
-
-import '../View/Styles/UpdateCustomerDomestic.css';
-import { customStyle } from '../View/Styles/UpdateCustomerComponentStyle';
 import Footer from '../../common/footer/footer';
 import Header from '../../common/header/header';
-import SuccessModal from '../../update-customer/View/Components/AlertModals/SuccessModal';
 import {Salutation} from '../../add-customer/View/Components/Fields/Salutation';
 
 export default class UpdateCustomerDomView extends Component {
@@ -274,7 +247,8 @@ export default class UpdateCustomerDomView extends Component {
                                 floatingLabelStyle={customStyle.textFieldFloatingLabelStyle}
                                 style={customStyle.textFieldStyle}
                                 underlineStyle={customStyle.underlineStyle}
-
+                                errorText={this.props.errors["cust_dom_city"]}
+                                errorStyle={customStyle.errorStyle}
                                 fullWidth={true}
                                 inputStyle={customStyle.textFieldInputStyle}
                                 refs='cust_dom_city'
@@ -288,6 +262,8 @@ export default class UpdateCustomerDomView extends Component {
                         onChange={this.props.handleCustStateChange}
                         floatingLabelText="State"
                         fullWidth={true}
+                        errorText={this.props.errors["cust_dom_state"]}
+                        errorStyle={customStyle.errorStyle}
                         floatingLabelStyle={customStyle.selectFieldFloatingLabelStyle}
                         style={customStyle.selectFieldStyle}
                         labelStyle={customStyle.selectFieldLabelStyle}
@@ -323,7 +299,7 @@ export default class UpdateCustomerDomView extends Component {
                                 onBlur={this.props.handleChange
                                     .bind(this, "cust_dom_zip_blur")}
                                 value={this.props.changedAddress['cust_dom_zip'].replace(/[^0123456789]/ig, '')}
-                                errorText={this.props.invlaid_cust_dom_zip}
+                                errorText={this.props.errors["cust_dom_zip"]}
                                 errorStyle={customStyle.errorStyle}
                             />
                         </div>
@@ -354,12 +330,7 @@ export default class UpdateCustomerDomView extends Component {
                 </div>
                 <div className="update-custint-buttonfooter">
                     <div className="update-custint-verifybtn-div">
-                        <div className="update-custint-verifybtn"
-                            onClick={this.props.togglePopup.bind(this)
-                            }
-
-                        >
-
+                        <div className="update-custint-verifybtn" onClick={this.props.togglePopup.bind(this)} >
                             <img src={verifyicon} className="update-custint-clearicon" />VERIFY</div>
                     </div>
                     

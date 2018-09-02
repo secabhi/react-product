@@ -14,7 +14,7 @@ export default(props) => {
                                 return (<CardDisplay
                                     cardNumber = {item.lastFour}
                                     cardType = {item.chargeType}
-                                    custFname = {props.custFname}
+                                    custFname = { (props.custFname).toUpperCase()}
                                 />);
                             })}
                         <div className='add-card-button-section' onClick={props.openCardModals}>

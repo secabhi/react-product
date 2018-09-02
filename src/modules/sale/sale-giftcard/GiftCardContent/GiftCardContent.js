@@ -51,6 +51,7 @@ export default class GiftCardContent extends Component {
                 validateLicenseCall={this.props.validateLicenseCall}
                 GC_data={this.props.GC_data}
                 getGiftCardClass={this.props.getGiftCardClass}
+                cardBalanceinqDetails = {this.props.cardBalanceinqDetails}
             //  getCardNumber={(value) => {this.props.getCardNumber(value)}}
             //  component={(value) => {this.getComponentValue(value)}}
             />)

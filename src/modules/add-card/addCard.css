@@ -284,7 +284,7 @@
 .cardlist-container {
     margin-left: 51.2px;
     margin-top: 38.5px;
-    height: 150px;
+    height: 160px;
     display: flex;
     flex-direction: row;
 
@@ -388,6 +388,96 @@
     padding-right: 12.1px;
     padding-bottom: 9px;
 }
+
+/* AddCard display- new design */
+
+.card-display-container{
+    display: flex;
+    flex-direction: column;
+    width: 295px;
+    height: 150px;
+    box-shadow: 0 3px 6px 0 #aaaaaa;
+    background-color: #ffffff;
+    border: solid 1px #d3d3d3; 
+    margin-right: 40px;
+}
+
+.card-display-customername-area{
+    margin-left: 20px;
+    margin-top: 20px;
+    max-width: 255px;
+    height: 28px;
+}
+
+.card-display-customername{
+    font-family: Roboto;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.86;
+    letter-spacing: 0.2px;
+    text-align: left;
+    color: #505050;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-display-cardnumberarea{
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-right: 71px;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.card-display-cardstars{
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.75;
+    letter-spacing: 0.2px;
+    text-align: center;
+    color: #bfbfbf;
+}
+
+.card-display-cardnumber{
+    width: 48px;
+    height: 28px;
+    font-family: Roboto;
+    font-size: 21px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.86;
+    letter-spacing: 0.2px;
+    text-align: center;
+    color: #505050;
+}
+
+.card-display-cardtypearea{
+    margin-left: 20px;
+    margin-top: 12px;
+}
+
+.card-display-cardtype{
+    height: 28px;
+    font-family: Roboto;
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.86;
+    letter-spacing: 0.2px;
+    text-align: left;
+    color: #505050;
+}
+
+
 
 /* -------------- ADD CARD SECTION ------- */
 

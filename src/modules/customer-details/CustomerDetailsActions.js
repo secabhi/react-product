@@ -1,7 +1,9 @@
 import { callAxiosWebService } from '../common/helpers/helpers';
 import moment from 'moment';
 
-import {GET_CSR_HISTORY} from '../common/constants/type';
+import {GET_CSR_HISTORY, PURCHASED_FLAG} from '../common/constants/type';
+import {responseValidation} from '../common/responseValidator/responseValidation';
+import {customerPurchaseHistoryObj, customerRecommendationsObj} from '../common/responseValidator/responseDictionary';
 
 const cxp = require('../../resources/stubs/config.json').cxp;
 const AppKey= cxp.AppKey;
@@ -31,12 +33,18 @@ export function getCsrPurchasesNRecommends(cssId) {
         history
         .then(response => {
             console.log('RESPONSE', response);
-            dispatch({
-                type: GET_CSR_HISTORY,
-                payload: {purchases: response[0].data.data.purchases, recommendations: response[1].data.products}
-            })
+            if( responseValidation(response[0].data.data, customerPurchaseHistoryObj).isValid && responseValidation(response[1].data, customerRecommendationsObj).isValid) {
+                dispatch({
+                    type: GET_CSR_HISTORY,
+                    payload: {purchases: response[0].data.data.purchases, recommendations: response[1].data.products}
+                })
+            } else {
+                dispatch({
+                    type: 'PURCHASES_RECOMMENDS_ERROR',
+                })
+            }    
         })
-        .catch(err => console.log(`Network Error: ${err}`))
+        .catch( err => dispatch({type: 'NETWORK_ERROR_PURCHASE_N_RECOMMENDS'}))
     }
 }
 
@@ -77,7 +85,7 @@ export function getSalesSummaryAction(cssId, associatePin) {
             });
     
         }).catch((err) => {
-            console.log(`Error: ${err}`);
+            dispatch({type: 'NETWORK_ERROR_GET_SALES_SUMMARY'})
         });
     };
 }
@@ -90,4 +98,13 @@ export function clearCustomerDetailsAction(){
                 payload: {}
             });
     };
+}
+
+export function changeItemPurchasedFlag(data) {
+    return (dispatch) => {
+        dispatch({
+            type: PURCHASED_FLAG,
+            payload: data
+        })
+    }
 }

@@ -11,14 +11,15 @@ const apiSaleItemModifyQuantity = path+'apiSaleItemModifyQuantity.json';
 //sets url to be used for api call
 const URL = CONFIG_FILE.apiSaleItemModifyQuantity;
 
-export function saleitemModifyQuantityUpdate(item,transactionId,quantity){
+export function saleitemModifyQuantityUpdate(item,transactionId,quantity,userpin){
     
     const params = {
         ...clientConfig,
         "ItemNumber":item.itemNumber,
         "TransactionId":transactionId,
         "LineNumber":item.lineNumber,
-        "Quantity":quantity
+        "Quantity":quantity,
+        "StoreAssoc":userpin
     };
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, params):callGetWebService(apiSaleItemModifyQuantity, {});
     

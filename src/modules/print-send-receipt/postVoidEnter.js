@@ -86,7 +86,7 @@ import {postVoidTransactionList} from '../post-void/postVoidAction';
                         (<div className="textfield-scan-cls">
                             <TextField
                                 required
-                                type="text"
+                                type="number"
                                 floatingLabelText="Transaction #"
                                 floatingLabelStyle={textFieldFloatingLabelStyle}
                                 fullWidth={true}

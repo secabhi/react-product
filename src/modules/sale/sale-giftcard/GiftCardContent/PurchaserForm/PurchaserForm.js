@@ -76,7 +76,6 @@ export default class PurchaserFrom extends Component {
 
   setInternational = () => {
     this.setState({intlForm:'international'})
-    console.log('mike state change', this.state)
   }
 
 };

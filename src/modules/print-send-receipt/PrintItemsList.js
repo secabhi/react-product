@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../common/loading/spinnerAction';
-import { sendEmail, printReceipt, clearPrintSend } from './printRecieptAction';
+import { sendEmail, printReceipt, clearPrintSend,clearIsValid } from './printRecieptAction';
 import { productImgSearchAction } from '../product-search/ProductSearchAction';
 
 // Components
@@ -18,6 +18,7 @@ import { ErrorModal } from './Modals/ErrorModal';
 import { EmailSugestionModal } from './Modals/EmailSugestionModal'
 import { VerifyEmailModal } from './Modals/VerifyEmailModal';
 import { store } from '../../store/store'
+import {showException} from '../common/exceptionErrorModal/exceptionAction'
 
 
 
@@ -63,6 +64,9 @@ class PrintItemsList extends Component {
     }
     componentDidMount() {
         console.log("post void", this.props)
+
+        
+        
         if (this.props.cart.dataFrom === 'UPDATE_IMAGES') {
             //this.props.startSpinner(true);
             this.props.productImgSearchAction(this.props.cart.productImages.imageUrls);
@@ -85,39 +89,54 @@ class PrintItemsList extends Component {
         /*if (nextProps.cart.dataFrom === 'UPDATE_IMAGES') {
             this.props.productImgSearchAction(nextProps.cart.productImages.imageUrls);
         }*/
+        if(nextProps.PrintSend.isValid)
+        {  
+            if (nextProps.PrintSend.dataFrom === 'REPRINT_RECEIPT_FAILURE') {
+                this.props.startSpinner(false);
+                this.setState({ receiptModal: false,
+                    errorModal: true })
+                this.props.clearPrintSend();
+
+            }
+        else if (nextProps.PrintSend.dataFrom === 'FAILURE') {
+                this.props.startSpinner(false);
+                this.setState({ emailSugestionModal: true,
+                    suggestedEmail:this.state.email  })
+                this.props.clearPrintSend();
+
+            }
+            else if (nextProps.PrintSend.dataFrom === 'UPDATE_CLIENT_DETAILS') {
+                this.props.startSpinner(false);
+                //this.setState({ emailSugestionModal: false})
+                this.props.clearPrintSend();
+            }
+        }
+
+        else{
+            if(nextProps.PrintSend.error_message!='')
+                {
+                this.props.callErrorException(
+                {showException: true,
+                error:{failedModule:'Print/Send Component',
+                failureReason:'Unexpected Response',
+                failureDescription:nextProps.PrintSend.error_message}})
+                }
+                this.props.clearIsvalidFlag();
+        }
+
+		
+            if (this.props.cart.dataFrom === '') {
+                //Do nothing
+            } else {
+                //this.props.startSpinner(false);
+                this.setState({
+                    items: this.props.cart.data.cartItems.items,
+                    total: this.props.cart.data.total,
+                    subTotal: this.props.cart.data.subTotal,
+                    totalTax: this.props.cart.data.totalTax
+                });
+            }
         
-        if (nextProps.PrintSend.dataFrom === 'REPRINT_RECEIPT_FAILURE') {
-            this.props.startSpinner(false);
-            this.setState({ receiptModal: false,
-                errorModal: true })
-            this.props.clearPrintSend();
-
-        }
-       else if (nextProps.PrintSend.dataFrom === 'FAILURE') {
-            this.props.startSpinner(false);
-            this.setState({ emailSugestionModal: true,
-                suggestedEmail:this.state.email  })
-            this.props.clearPrintSend();
-
-        }
-        else if (nextProps.PrintSend.dataFrom === 'UPDATE_CLIENT_DETAILS') {
-            debugger
-            this.props.startSpinner(false);
-            //this.setState({ emailSugestionModal: false})
-             this.props.clearPrintSend();
-        }
-        else if (this.props.cart.dataFrom === '') {
-            //Do nothing
-        } else {
-            //this.props.startSpinner(false);
-            this.setState({
-                items: this.props.cart.data.cartItems.items,
-                total: this.props.cart.data.total,
-                subTotal: this.props.cart.data.subTotal,
-                totalTax: this.props.cart.data.totalTax
-            });
-        }
-
         //if(nextProps.cart.detailsFetchSuccessFlag)
         if (nextProps.cart.data.cartItems.purchaseClientNumber && nextProps.cart.data.cartItems.purchaseClientNumber != '00000000000000') {
             this.setState({
@@ -483,7 +502,9 @@ function mapDispatchToProps(dispatch) {
         sendRecieptActionInvoker: sendEmail,
         startSpinner: startSpinner, productImgSearchAction,
         printReceiptInvoker: printReceipt,
-        clearPrintSend: clearPrintSend
+        clearPrintSend: clearPrintSend,
+        clearIsvalidFlag:clearIsValid,
+        callErrorException: (data)=> showException(data),
 
     }, dispatch);
 }

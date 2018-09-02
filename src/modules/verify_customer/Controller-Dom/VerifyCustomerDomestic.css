@@ -297,7 +297,11 @@
     display: flex;
     flex-direction: column;
 }
- 
+.sal-ellpse{
+    text-overflow: ellipsis !important;
+    width: 85px !important;
+
+}
 .vercust-dom-container .vercust-changed-address-row1 .field2 {
     flex: 1.1 1;
     width: 639px;

@@ -144,7 +144,9 @@ export function CustomerSearchReducer(state = initialState, action) {
         return{
             ...state,
             flow:action.payload,
-            dataFrom:'SET_ISELL_FLOW'
+            dataFrom:'SET_ISELL_FLOW',
+            error_message:'',
+            isValid : true
         }
         case 'CS_CUSTNOTFOUND':
         return {
@@ -154,6 +156,13 @@ export function CustomerSearchReducer(state = initialState, action) {
             isValid : true
             
         }
+        case 'CS_GENERALERROR':
+            return{
+                ...state,
+                dataFrom:'CS_GENERALERROR',
+                error_message:'',
+                isValid: false
+            }
 
         case 'CUSTOMSEARCH_REQUEST_VALIDFAILED':
                 return{

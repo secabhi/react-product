@@ -4,7 +4,7 @@ import noImageAvailable from '../../../../resources/images/Image_placeholder.svg
 
 export default (props) => {
 
-  const {index, userPin, prodDesc, displayModal, salesPin} = props;
+  const {index, pimSkuId, userPin, prodDesc, displayModal, salesPin, history, changeItemPurchasedFlag} = props;
   let {productImageURL} = props;
   console.log(`userPin ${userPin}, salesPin ${salesPin}, Equal ${salesPin === userPin}`);
   const rtn = props.return;
@@ -23,7 +23,10 @@ export default (props) => {
   }
 
   return (
-    <div className='historySlide' onClick={() => displayModal(index)}>
+    <div className='historySlide' onClick={() => {
+      changeItemPurchasedFlag(true);
+      history.push('/product-details/'+pimSkuId)
+      }}>
       <div className={itemIndicator}></div>
       <img className='image' src={productImageURL} alt={productImageURL} />
       <div className='image-details'>
