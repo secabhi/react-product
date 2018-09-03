@@ -292,6 +292,7 @@ class Header extends Component {
   }
 
   keyGiftCard = (giftcardnum) => {
+    debugger; // call GET-CARDBIN from here
     if (giftcardnum.length > 16 && giftcardnum.length < 18) {
       this.props.convertSALT(giftcardnum)
     } else {
@@ -340,6 +341,7 @@ class Header extends Component {
 
     const swipeData={
       handleGiftCardModal:this.handleGiftCardModal,
+      giftCardNumber:this.state.giftCardNumber,
       giftCardModal:this.state.giftCardModal,
       keyGiftCard:this.keyGiftCard,
       handleGiftCardNumInput:this.handleGiftCardNumInput,
