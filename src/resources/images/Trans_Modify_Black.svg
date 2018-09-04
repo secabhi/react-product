@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+    <defs>
+        <style>
+            .cls-1,.cls-3{fill:none}.cls-1{stroke:#505050;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-width:2px}.cls-2{stroke:none}
+        </style>
+    </defs>
+    <g id="Trans_Modify" transform="translate(-3217 -506)">
+        <g id="Ellipse_564" class="cls-1" data-name="Ellipse 564" transform="translate(3217 506)">
+            <circle cx="60" cy="60" r="60" class="cls-2"/>
+            <circle cx="60" cy="60" r="59" class="cls-3"/>
+        </g>
+        <path id="Path_4473" d="M56.459 16H32.692L19.4 29.292v40.34h50.351v-40.34z" class="cls-1" data-name="Path 4473" transform="translate(3232.6 523)"/>
+        <path id="Line_758" d="M0 0h50.351" class="cls-1" data-name="Line 758" transform="translate(3252 552.292)"/>
+        <path id="Line_759" d="M16.888 0L0 16.888" class="cls-1" data-name="Line 759" transform="translate(3269.045 564.176)"/>
+        <circle id="Ellipse_565" cx="4.222" cy="4.222" r="4.222" class="cls-1" data-name="Ellipse 565" transform="translate(3266.23 561.674)"/>
+        <circle id="Ellipse_566" cx="4.222" cy="4.222" r="4.222" class="cls-1" data-name="Ellipse 566" transform="translate(3279.991 575.434)"/>
+        <path id="Line_760" d="M0 13.292V0" class="cls-1" data-name="Line 760" transform="translate(3277.176 539)"/>
+    </g>
+</svg>

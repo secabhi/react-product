@@ -1,0 +1,119 @@
+.send-barcode-containerFlex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 1915px;
+    height: 538px;
+    /* border: 2px solid blue; */
+}
+
+.send-barcode-scannerFlex{
+    display: flex;
+    flex-direction: column;
+    width: 306px;
+    height: 275px;
+    margin-right: 247px;
+    /* border: 2px solid red; */
+
+}
+
+.send-barcode-dividerTextFlex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 275px;
+    width: 50px;
+    /* border: 2px solid green;     */
+}
+
+.send-barcode-dividerText{
+    width: 48px;
+    height: 48px;
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #4b2b6f;
+}
+
+.send-barcode-keyInButtonFlex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 273px;
+    height: 275px;
+    margin-left: 236px;
+    /* border: 2px solid orange; */
+}
+
+.send-barcode-keyInButton{
+    width: 273px;
+    height: 60px;
+    background-color: #4b2b6f;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: lighter;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 2px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.send-scanner-inner-top-div{
+    display: flex;
+    flex-direction: row;
+    /* border: 2px solid green; */
+}
+
+.send-scanner-inner-bottom-div{
+    display: flex;
+    flex-direction: row;
+    /* margin-top: 240px; */
+}
+
+.send-scanner-inner-corner-div{
+    /* border: 2px solid blueviolet; */
+    height: 57px;
+    width: 57px;
+}
+
+.send-scanner-inner-space-div{
+    /* border: 2px solid orangered; */
+    width: 296px;
+    height: 57px;
+}
+
+.left-top{
+    border-top: 2px solid #613b8c;
+    border-left: 2px solid #613b8c;
+}
+
+.left-bottom{
+    border-bottom: 2px solid #613b8c;
+    border-left: 2px solid #613b8c;
+}
+
+.right-top{
+    border-top: 2px solid #613b8c;
+    border-right: 2px solid #613b8c;
+}
+
+.right-bottom{
+    border-bottom: 2px solid #613b8c;
+    border-right: 2px solid #613b8c;
+}
+
+.send-scanner-inner-camera-div{
+    /* border: 2px solid blue; */
+    width: 296px;
+    height: 206px;
+    margin-left: 10px;
+    font-size: 50px; /*to be removed*/ 
+    text-align: center; /*to be removed*/
+}

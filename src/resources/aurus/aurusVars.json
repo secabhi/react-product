@@ -1,0 +1,15 @@
+﻿{
+  "POSID": "005402",
+  "APPID": "402",
+  "CCTID": "402",
+
+  "LookUpFlag": "0",
+  "AllowKeyedEntry": "Y",
+  "NotAllowedKeyedEntry": "N",
+  "SignatureFlag": "Y",
+
+  "UpgradeType": "30",
+  "ClerkID": "03",
+  "ServerIP": "10.93.248.73",
+  "ServerPort": "15584"
+}

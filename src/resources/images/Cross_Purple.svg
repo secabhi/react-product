@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.828 18.829">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-1 {
+        stroke: #612e9b;
+      }
+
+      .cls-2 {
+        stroke: #613b8c;
+      }
+    </style>
+  </defs>
+  <g id="Cross_Purple" transform="translate(-810.689 -798.266)">
+    <line id="Line_134" data-name="Line 134" class="cls-1" x2="16" y2="16" transform="translate(812.103 799.68)"/>
+    <line id="Line_135" data-name="Line 135" class="cls-2" x1="16" y2="16" transform="translate(812.103 799.68)"/>
+  </g>
+</svg>

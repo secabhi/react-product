@@ -1,0 +1,171 @@
+{
+	
+		"TransRequest": {
+		  "POSID": "01",
+		  "APPID": "04",
+		  "CCTID": "06",
+		  "CardToken": "",
+		  "CardPresent": "Y",
+		  "PurchaserPresent": "Y",
+		  "KeyedEntryAVSFlag": "N",
+		  "GiftPurchaseAuthIndicator": "N",
+		  "EcommerceIndicator": "N",
+		  "EnableNFCReader": "N",
+		  "CardDataInfo": {
+			"CardDataSource": "6",
+			"EncryptionMode": "1"
+		  },
+		  "TransAmountDetails": {
+			"ServicesTotalAmount": "",
+			"ProductTotalAmount": "0.00",
+			"TaxAmount": "",
+			"Discount": "",
+			"TipAmount": "",
+			"DonationAmount": "",
+			"TransactionTotal": "10.00"
+		  },
+		  "ECOMMInfo": {
+			"DomainId": "1",
+			"TemplateId": "1",
+			"URLType": "1"
+		  },
+		  "GiftCardList": {
+			"GiftCard": {
+				 "GiftCardNumber": "" 
+				}
+		  },
+		  "TransactionType": "",
+		  "POSIP": "10.93.249.8",
+		  "POSClientName": "MPOS-DEV13",
+		  "CustomerFirstName": "John",
+		  "CustomerLastName": "Mathew",
+		  "StoreCardFlag": "0",
+		  "PostAuthSequenceNo": "01",
+		  "PostAuthCount": "01",
+		  "BillingAddress": {
+			
+		  },
+		  "ShippingAddress": {
+			
+		  },
+		  "CheckInfo": {
+			
+		  },
+		  "FraudScoreInfo": {
+			
+		  },
+		  "ShowResponse": "1",
+		  "CurrencyCode": "840",
+		  "DCCExchangeRate": "0.00",
+		  "DCCFgnAmount": "0.00",
+		  "DCCOffered": "0",
+		  "ClerkID": "111",
+		  "TransactionDate": "",
+		  "TransactionTime": "",
+		  "TipEligible": "0",
+		  "AmountNoBar": "0",
+		  "AllowknukleBuster": "0",
+		  "TicketProductData": {
+			"TicketCount": "1",
+			"Tickets": {
+			  "Ticket": {
+				"TicketNumber": "",
+				"ProductCount": "2",
+				"Products": {
+				  "Product": [
+					{
+					  "ProductID": "1",
+					  "ProductName": "Product 1",
+					  "ProductShortDescription": "PrdShrt1",
+					  "DepartmentID": "001",
+					  "DepartmentName": "Electronic's",
+					  "Quantity": "2",
+					  "Price": "5.3"
+					},
+					{
+					  "ProductID": "2",
+					  "ProductName": "Product 2",
+					  "ProductShortDescription": "PrdShrt2",
+					  "DepartmentID": "002",
+					  "DepartmentName": "Computer",
+					  "Quantity": "3",
+					  "Price": "15.4"
+					}
+				  ]
+				}
+			  }
+			}
+		  },
+		  "UPCDetails": {
+			"UPCItems": {
+			  "UPCItem": [
+				{
+				  
+				},
+				{
+				  
+				}
+			  ]
+			}
+		  },
+		  "FleetData": {
+			"FleetProducts": {
+			  "FleetProduct": [
+				{
+				  
+				},
+				{
+				  
+				}
+			  ]
+			}
+		  },
+		  "Level3ProductsData": {
+			"Level3ProductCount": "2",
+			"Level3Products": {
+			  "Level3Product": [
+				{
+				  "L3ProductSeqNo": "001",
+				  "L3ProductCode": "ProductCode",
+				  "L3ProductName": "Product1",
+				  "L3ProductQuantity": "2",
+				  "L3UnitOfMeasure": "O",
+				  "L3ProductUnitPrice": "3",
+				  "L3ProductDiscount": "1.00",
+				  "L3ProductTax": "1.11",
+				  "L3ProductTotalAmount": "12"
+				},
+				{
+				  "L3ProductSeqNo": "002",
+				  "L3ProductCode": "ProductCode",
+				  "L3ProductName": "Product2",
+				  "L3ProductQuantity": "4",
+				  "L3UnitOfMeasure": "UOM",
+				  "L3ProductUnitPrice": "3",
+				  "L3ProductDiscount": "1.00",
+				  "L3ProductTax": "1.11",
+				  "L3ProductTotalAmount": "12"
+				}
+			  ]
+			}
+		  },
+		  "SignatureFlag": "N",
+		  "IsTokenizedTransaction": "0",
+		  "AllowZipPrompt": "0",
+		  "PartialAllowed": "1",
+		  "PrintOnlyMode": "N",
+		  "AdditionalTags": {
+			"Tags": {
+			  "Tag": [
+				{
+				  
+				},
+				{
+				  
+				}
+			  ]
+			}
+		  }
+		}
+	  
+}

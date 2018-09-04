@@ -1,0 +1,9 @@
+{
+  "InitAdsdkRequest": {
+    "POSID": "005402",
+    "APPID": "402",
+    "CCTID": "402",
+    "ServerIP": "10.198.5.203",
+    "ServerPort": "4050"
+  }
+}

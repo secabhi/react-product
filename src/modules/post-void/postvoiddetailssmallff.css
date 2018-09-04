@@ -1,0 +1,272 @@
+.postvoid-container{
+    width: 1075px;
+   
+}
+.postvoid-header-container{
+    width: 1080px;
+  height: 230px;
+  background-color: #4b2b6f;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.5);
+}
+.postvoid-header-label{
+  
+    padding-top: 70px!important;
+    padding-left: 40.2px!important;
+    font-family: Roboto;
+    font-size: 68px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: 2px;
+    text-align: left;
+    color: #ffffff;
+}
+.postvoid-subheader-container{
+    width: 1080px!important;
+    height:160px!important
+}
+.postvoid-subheader-label{
+    
+      font-family: Roboto;
+    font-size: 75px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 45px;
+    margin-top: 50px;
+}
+.post-void-sff-item-content-container{
+    width: 1080px;
+    height: 514.4px;
+    flex:1;
+    flex-direction: row;
+    display:flex;
+    background-color: #ffffff;
+    background-color: var(--white);
+    border: solid 2px #e6e6e6;
+}
+.post-void-sff-item-index{
+    
+    background-color: #ffffff;
+    border: solid 2px #ededed;
+    margin-left: 46px;
+    margin-top: 20px;
+    width: 44px;
+    height: 277px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: 10px;
+    text-align: left;
+    color: #333333;
+            }
+.post-void-sff-item-image{
+    flex:0.3;
+    width: 190px;
+    height: 238px;
+    margin-left: 10px;
+    margin-top: 44px;
+}
+.post-void-sff-item-descrption{
+   
+    display: flex;
+    flex-direction:column;
+    flex:1;
+    width: 450px;
+    margin-top: 10px;
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+    margin-left: 31px;
+    justify-content: space-evenly;
+}
+.scrolldiv{
+  overflow: scroll !important;
+  height:1020px !important;
+}
+.post-void-sff-item-price{
+    display: flex;
+    flex-direction: column;
+}
+.post-void-sff-item-One{
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.post-void-sff-item-two{
+  font-family: Roboto;
+  font-size: 37px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.31;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.post-void-sff-item-three{
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.post-void-sff-item-four{
+  font-family: Roboto;
+  font-size: 34px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+.post-void-sff-item-five{
+    display: flex;
+    flex-direction: row;
+    
+}
+.post-void-sff-item-six{
+  font-family: Roboto;
+  font-size: 38px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+   letter-spacing: normal;
+  color: #333333;
+}
+.post-void-sff-item-seven
+{
+    font-size: 38px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.32;
+  color: #333333;
+  margin-left: 48px;
+}
+.post-void-sff-item-eight{
+    font-family: Roboto;
+    font-size: 40px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #333333;
+    margin-left: 48px;
+}
+.post-void-sff-item-priceVal{
+  font-family: Roboto;
+  font-size: 46px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: right;
+  color: #4b2b6f;
+  margin-right: 48px;
+  margin-top: 20px;
+}
+.post-void-sff-item-pricetax{
+    font-family: Roboto;
+  font-size: 39px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.03;
+  text-align: right;
+  color: #333333;
+  margin-top: 248px;
+  margin-right: 48px;
+  padding-top: 72px;
+}
+.post-void-sff-item-priceDesc{
+    font-family: Roboto;
+  font-size: 38px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.26;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  margin-top: 35px;
+  
+}
+.post-void-sff-item-nobtn{
+ 
+  background-color: #ffffff;
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.5);
+  font-family: Roboto;
+  font-size: 44px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.32;
+  letter-spacing: normal;
+    color: #613b8c;
+  margin-left: 200px;
+  margin-top: 40px;
+  width: 310px;
+  height: 120px;
+  border: solid 4px #613b8c;
+}
+.post-void-sff-item-yesbtn{
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  font-family: Roboto;
+  font-size: 44px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.32;
+  letter-spacing: normal;
+   color: #ffffff;
+  width: 310px;
+  height: 120px;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  margin-left: 50px;
+  }
+  .postvoiddetailssmallff-footer-button{
+    height: 200px;
+    position: fixed;
+    bottom: 110px;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.5);
+    margin-top: 10px
+  }
+  .post-void-sff-item-nine{
+   margin-left: 201px;
+  }
+ 

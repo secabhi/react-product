@@ -1,0 +1,16 @@
+<svg id="Hamberger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 30.922">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #505050;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <line id="Line_594" data-name="Line 594" class="cls-1" x2="38" transform="translate(1 1)"/>
+  <line id="Line_595" data-name="Line 595" class="cls-1" x2="38" transform="translate(1 15.461)"/>
+  <line id="Line_596" data-name="Line 596" class="cls-1" x2="38" transform="translate(1 29.922)"/>
+</svg>

@@ -1,0 +1,330 @@
+.logModal {
+    background-color: #ffffff;
+    position: absolute;
+    width: 719.5px;
+    height: 527.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+.loginErrorIcon{
+    width: 28px;
+    height: 28px;
+    position: absolute; 
+    margin-left: 15px; 
+    margin-top: 11px;
+}
+
+.warning-icon {
+    width: 28px;
+    height: 28px;
+    margin: 15px 25px;
+}
+
+.loginErrorText{
+    position: absolute;
+    top: 15px;
+    left: 80px;
+    width: 494px;
+    height: 28px;
+    font-family: Roboto-Light;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+}
+
+.loginErrorBanner{
+     position: absolute; 
+    z-index: 2;      
+    width: 719.5px;
+    height: 49.7px;
+    background-color: #a31818;
+    color: #ffffff;
+    font-size: 21px;
+    margin-bottom: 50px;
+    top: -10px;
+
+}
+
+.loginModal-backdrop {
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    height: 94.1%;
+    width: 100%;
+    top: 0;
+    left: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1; 
+}
+
+.logoLogin {
+    /* padding-top: 60.5px; */
+    margin-top: 50.5px;
+    height: 120px;
+    width:100%;
+}
+
+.inputsMargin {
+    margin-left: 53px;
+    margin-right: 52.5px;
+    margin-top: 17.5px;
+}
+
+.passInputsMargin{
+    margin-top: 35px;
+    margin-left: 53px;
+    margin-right: 52.5px;
+}
+
+.loginForm{
+    width: 719.5px;
+    height: 527.5px;
+}
+
+.titleLogin {
+    font-family: Roboto; 
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #505050;
+    margin-top: 20.5px;
+}
+
+.loginButton {
+    width: 719.5px;
+    height: 54px;
+    border: 0;
+    background-color: #4b2b6f;
+     font-family: Roboto; 
+    font-size: 21px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 72.5px;
+    border: solid 1px #a87ed6;
+}
+
+.closeModalBanner {
+    position: absolute;
+    top: 15px;
+    right: 19.8px;
+    width: 24.7px;
+    height: 24.7px;
+
+}
+
+.closeModalLogin {
+    position: absolute;
+    top: 15px;
+    right: 19.8px;
+    width: 24.7px;
+    height: 24.7px;
+}
+
+input[type=tel] {
+    width: 619px;
+    padding: 10px 10px;
+    padding-top: 50px;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 0.5px solid #b4b4b4;
+    color: #b4b4b4;
+    font-size: 21px;
+}
+
+input[type=password] {
+    width: 619px;
+    padding: 10px 10px; 
+    padding-top: 75px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    border-bottom: 0.5px solid #b4b4b4;
+    color: #b4b4b4;
+    font-size: 21px;
+}
+
+.close-icon-login-modal {
+    width: 24.7px;
+    height: 24.7px;
+}
+
+@media only screen and (max-width: 1900px) {
+    .logModal {
+        width: 890px;
+        height: 1426px;
+    }
+
+    .closeModalLogin {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 60px;
+        height: 60px;
+    }
+
+    .close-icon-login-modal {
+        width: 60px;
+        height: 60px;
+    }
+
+    .loginModal-backdrop {
+        height: 1920px !important;
+        width: 1080px !important;
+    }
+
+    .logoLogin {
+        /* padding-top: 60.5px; */
+        margin-top: 140px;
+        height: 300px;
+        width: 100%;
+    }
+
+    .loginForm {
+        width: 100%;
+        height: 100%;
+    }
+
+    .titleLogin {
+        margin-top: 42px;
+        height: 98px;
+        font-family: Roboto;
+        font-size: 74px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #505050;
+    }
+
+    .loginButton {
+        width: 890px;
+        height: 170px;
+        border: 0;
+        background-color: #4b2b6f;
+        font-family: Roboto;
+        margin-top: 182px;
+        border: solid 1px #a87ed6;
+        font-size: 56px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: center;
+        color: #faf7f7;
+    }
+
+    .inputsMargin {
+        margin-left: 76px;
+        margin-right: 76px;
+        margin-top: 112px;
+    }
+    
+    .passInputsMargin{
+        margin-left: 76px;
+        margin-right: 76px;
+        margin-top: 115px;
+    }
+
+    input[type=tel] {
+        width: 738px;
+        padding: 0px;
+        padding-top: 50px;
+        display: inline-block;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 0.5px solid #b4b4b4;
+        color: #b4b4b4;
+        font-size: 60px;
+    }
+    
+    input[type=password] {
+        width: 738px;
+        padding: 0px; 
+        padding-top: 75px;
+        margin: 0px;
+        display: inline-block;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 0.5px solid #b4b4b4;
+        color: #b4b4b4;
+        font-size: 60px;
+    }
+    
+    .loginErrorBanner{
+        position: absolute; 
+        z-index: 2;      
+        width: 890px;
+        height: 110px;
+        background-color: #a31818;
+        color: #ffffff;
+        font-size: 21px;
+        top: 0px;
+        margin:0px;
+    
+    }
+    
+    .warning-icon {
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        margin: 0px;
+    }
+    
+    .loginErrorText{
+        position: absolute;
+        top: 32px;
+        left: 110px;
+        height: 60px;
+        font-family: 'Roboto';
+        font-size: 40px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.17;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff;
+        width: 700px;
+        max-width: 700px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .closeModalBanner {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        width: 60px;
+        height: 60px;
+    }
+  }   

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12329 2828 327.688 292">
+    <defs>
+        <style>
+            .cls-1,.cls-2{fill:none;stroke-miterlimit:10}.cls-2{stroke:#a31833;stroke-linecap:round;stroke-linejoin:round;stroke-width:8px}.cls-3,.cls-4{stroke:none}.cls-4{fill:#a31833}
+        </style>
+    </defs>
+    <g id="Warning_101" transform="translate(10810 1395)">
+        <g id="Path_3829" class="cls-1" data-name="Path 3829">
+            <path d="M1843.991 2388.949L1699.338 2642.7c-7.121 12.6 1.78 28.795 16.469 28.795h289.751c14.688 0 23.59-15.748 16.468-28.795l-144.653-253.756c-8.012-12.594-25.815-12.594-33.382.005z" class="cls-3" transform="translate(-177.838 -946.5)"/>
+            <path d="M2005.558 2663.5c3.953 0 7.365-1.928 9.36-5.29 2.106-3.55 2.138-7.913.158-11.543l-144.453-253.425c-2.321-3.65-6.005-5.742-10.108-5.742-4.017 0-7.54 2.03-9.573 5.41l-144.64 253.731c-2.005 3.548-1.95 7.813.147 11.408.957 1.639 3.783 5.45 9.358 5.45h289.75m0 8h-289.75c-14.689 0-23.59-16.195-16.469-28.794l144.653-253.756c3.784-6.3 10.126-9.45 16.524-9.45 6.398 0 12.852 3.15 16.858 9.45l144.653 253.756c7.122 13.047-1.78 28.795-16.468 28.795z" class="cls-4" transform="translate(-177.838 -946.5)"/>
+        </g>
+        <path id="Line_531" d="M0 0v102.133" class="cls-2" data-name="Line 531" transform="translate(1684.402 1528.834)"/>
+        <path id="Line_532" d="M0 0v8.099" class="cls-2" data-name="Line 532" transform="translate(1684.402 1668.759)"/>
+    </g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4878 -4804 300 300">
+    <defs>
+        <style>
+            .cls-1,.cls-2,.cls-4{fill:none}.cls-1,.cls-2{stroke:#505050;stroke-miterlimit:10;stroke-width:5px}.cls-2{stroke-linecap:round;stroke-linejoin:round}.cls-3{stroke:none}
+        </style>
+    </defs>
+    <g id="Payment_SFF" transform="translate(-5268 -5141)">
+        <g id="Go_To_Payment" transform="translate(478.926 401.856)">
+            <path id="Path_4482" d="M63.735 79.714V40.6a216.138 216.138 0 0 0-26.478 9.678c-9.407 5.091-8.6 15.589-10.215 24.594-2.687 14.922-2.014 30.511-9.542 44.222" class="cls-1" data-name="Path 4482" transform="translate(-17.5 13.029)"/>
+            <path id="Path_4483" d="M39.2 75.617A17.337 17.337 0 0 0 56.271 69.7" class="cls-1" data-name="Path 4483" transform="translate(-10.03 23.043)"/>
+            <path id="Path_4484" d="M37.1 170.324c14.141 1.21 29.164-13.847 33.871-28.627a43.231 43.231 0 0 0 3.36-16c-2.687-15.323-4.836-7.393 1.884-19.622 4.836-8.739 8.2-16.262 12.1-23.655 4.57-8.6 4.3-18.146 1.476-21.1-7.529-7.529-13.3 6.991-16.534 12.1a94.818 94.818 0 0 1-16.263 20.045V8.093A7.353 7.353 0 0 1 64.386.7h55.24a7.353 7.353 0 0 1 7.41 7.393v100a7.353 7.353 0 0 1-7.393 7.393H71.779" class="cls-1" data-name="Path 4484" transform="translate(-10.753 -.7)"/>
+            <path id="Path_4485" d="M64.8 96.315c1.884 4.972 7.795 10.351 13.44 6.182 6.855-5.091 1.748-8.6.809-12.365-.674-1.475-1.349-2.832-1.884-4.032" class="cls-1" data-name="Path 4485" transform="translate(-1.222 28.686)"/>
+            <path id="Path_4486" d="M74.1 86.1a21.073 21.073 0 0 0 2.687 4.033 7.919 7.919 0 0 0 8.739 1.884 7.783 7.783 0 0 0 3.631-5.917" class="cls-1" data-name="Path 4486" transform="translate(1.978 28.686)"/>
+            <path id="Line_766" d="M0 0v114.649" class="cls-1" data-name="Line 766" transform="translate(100.407 .136)"/>
+        </g>
+        <g id="Confirm_Email" transform="translate(390 337)">
+            <g id="SVGID_33_" class="cls-2">
+                <circle cx="150" cy="150" r="150" class="cls-3"/>
+                <circle cx="150" cy="150" r="147.5" class="cls-4"/>
+            </g>
+        </g>
+    </g>
+</svg>

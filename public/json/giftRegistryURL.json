@@ -1,0 +1,72 @@
+{
+    "response_code":0,
+    "response_text":"IM_SUCCESS",
+    "transactionId":"0085",
+    "cartItems":{
+       "items":[
+          {
+             "saleDAL":{
+ 
+             },
+             "itemNumber":"0000000000000043",
+             "pim_SKU_ID":"0000401023029077",
+             "itemDesc":"Xmas Decor                              ",
+             "style":"PINECO",
+             "color":"NO ",
+             "size":"NO SI",
+             "taxCode":"\u0000",
+             "itemPrice":7.5,
+             "salePrice":7.5,
+             "taxPercent":10.5,
+             "quantity":1,
+             "itemsPrice":7.5,
+             "totalPrice":8.29,
+             "itemsTax":0.79,
+             "itemTax":0.79,
+             "department":"002022",
+             "class":"000708",
+             "subClass":"708",
+             "itemType":"",
+             "priceType":"",
+             "currencyCode":"",
+             "unitOfMeasure":"",
+             "imgLink":"",
+             "presaleFlag":false,
+             "lineNumber":"1",
+             "itemStatus":"1",
+             "item_Flag_1":4,
+             "item_Flag_2":0,
+             "item_Flag_3":0,
+             "item_Misc_Flag":0,
+             "eventNumber":"",
+             "eventDescription":"",
+             "replenishQty":0,
+             "replenishDays":0,
+             "gift_reg":"942861757436",
+             "promisedDate":"      ",
+             "alterationID":"0000000000",
+             "salesId":"0",
+             "assistId":"209289",
+             "egcAccountNum":"00000000000000000000000000000000",
+             "print_GWGR_Msg":null,
+             "discounts":[
+ 
+             ],
+             "comment":[
+ 
+             ],
+             "subtranIndex":"\u0000",
+             "isAutoReplenish":false
+          }
+       ],
+       "associateDiscount":null,
+       "totalTax":0.79,
+       "subTotal":7.5,
+       "subTotalSend":0.0,
+       "subTotalTake":0.0,
+       "total":8.29
+    },
+    "totalTax":0.79,
+    "subTotal":7.5,
+    "total":8.29
+ }

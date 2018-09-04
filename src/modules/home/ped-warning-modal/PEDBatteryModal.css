@@ -1,0 +1,84 @@
+.ped-battery-modal-container{
+    width : 725px;
+    height : 575px;
+    box-shadow : 0 6px 35px 0 ;
+    border : solid 1px #bfbfbf;
+    padding : 0;
+}
+
+.ped-battery-modal{
+    display : flex;
+    flex-direction : column;
+}
+
+.ped-battery-modal-icon-area{
+    margin-top : 96px;
+    margin-left : 312px;
+}
+
+.ped-battery-modal-icon{
+    width: 101px;
+    height: 90px;
+}
+
+.ped-battery-modal-msg-area{
+    margin-top: 82px;
+    margin-left: 115px;
+
+}
+
+.ped-battery-modal-msg{
+    width: 535px;;
+    height: 102px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+}
+
+.ped-battery-modal-btn-area{
+    display : flex;
+    flex-direction : row;
+    margin-top : 92px;
+    margin-left: 188px;
+}
+
+.ped-battery-modal-no-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    margin-right: 40px;
+}
+
+.ped-battery-modal-yes-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 155px;
+    height: 60px;
+    border: solid 2px #613b8c;
+}
+
+.ped-battery-modal-btn-txt{
+    width: 33px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+}

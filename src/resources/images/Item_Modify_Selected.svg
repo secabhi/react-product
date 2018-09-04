@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 70.004">
+    <defs>
+        <style>
+            .cls-1{fill:#4b2b6f}.cls-2{fill:none;stroke:#fff;stroke-width:2px}
+        </style>
+    </defs>
+    <g id="Item_Modify_Selected" transform="translate(-713.19 -564.155)">
+        <path id="Path_2021_1_" d="M35.8 70.9a35 35 0 1 1 13.626-2.72A32 32 0 0 1 35.8 70.9z" class="cls-1" transform="translate(712.3 563.247)"/>
+        <path id="Path_4466" d="M19.4 19.3v15.823l21.167 21.272.691-.691L56.39 40.572 35.223 19.4z" class="cls-2" data-name="Path 4466" transform="translate(713.194 564.134)"/>
+        <circle id="Ellipse_560" cx="2.411" cy="2.411" r="2.411" class="cls-2" data-name="Ellipse 560" transform="translate(736.472 587.312)"/>
+    </g>
+</svg>

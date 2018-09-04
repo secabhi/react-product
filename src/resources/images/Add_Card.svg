@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81.227 81.5">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #613b8c;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="Add_Card" transform="translate(-1524.951 -332.158)">
+    <line id="Line_455" data-name="Line 455" class="cls-1" y1="1.026" x2="4.103" transform="translate(1543 367.369)"/>
+    <g id="Add_Card_Black" transform="translate(1525.701 332.908)">
+      <ellipse id="SVGID_35_" class="cls-1" cx="39.863" cy="40" rx="39.863" ry="40"/>
+      <path id="Path_3750" data-name="Path 3750" class="cls-1" d="M1124.8,316.4" transform="translate(-1086.783 -277.904)"/>
+      <path id="Path_3751" data-name="Path 3751" class="cls-1" d="M1124.8,316.4" transform="translate(-1086.783 -277.904)"/>
+      <path id="Path_3752" data-name="Path 3752" class="cls-1" d="M1136.634,332.221h-33.573a2.451,2.451,0,0,1-2.462-2.462v-19.9a2.451,2.451,0,0,1,2.462-2.462h33.573a2.451,2.451,0,0,1,2.462,2.462v19.9A2.5,2.5,0,0,1,1136.634,332.221Z" transform="translate(-1079.13 -275.058)"/>
+      <path id="Path_3753" data-name="Path 3753" class="cls-1" d="M1097.9,320.147l-5.128-19.761a2.209,2.209,0,0,1,1.573-2.667l32.957-8.547a2.209,2.209,0,0,1,2.667,1.573l2.735,10.667" transform="translate(-1076.635 -269.275)"/>
+      <line id="Line_453" data-name="Line 453" class="cls-1" x2="38.427" transform="translate(21.538 39.863)"/>
+      <line id="Line_454" data-name="Line 454" class="cls-1" y1="6.017" x2="24.547" transform="translate(30.085 26.325)"/>
+      <line id="Line_456" data-name="Line 456" class="cls-1" x2="11.829" transform="translate(25.504 48.615)"/>
+      <line id="Line_457" data-name="Line 457" class="cls-1" x2="11.829" transform="translate(25.504 52.513)"/>
+      <circle id="Ellipse_256" data-name="Ellipse 256" class="cls-1" cx="2.735" cy="2.735" r="2.735" transform="translate(45.06 48.205)"/>
+    </g>
+    <circle id="Ellipse_257" data-name="Ellipse 257" class="cls-1" cx="2.735" cy="2.735" r="2.735" transform="translate(1576.436 381.113)"/>
+  </g>
+</svg>

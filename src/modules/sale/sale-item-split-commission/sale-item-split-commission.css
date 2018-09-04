@@ -1,0 +1,248 @@
+/*----split commission SFF---*/
+@media only screen and (max-width: 1900px){ 
+    .split-commission{
+        max-height: 1294.5px;
+    }
+    .split-commission-style{
+        margin-top: 50px;
+        margin-left: 80px;
+        font-family: Roboto;
+        font-size: 60px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+         color: #505050;
+    }
+    .splitinputsfirst-sff{
+        margin-left: 91px;
+        
+        margin-top: 74px;
+        min-height: 90px;
+        max-height: 90px;
+    }
+    .splitinputssecond-sff{
+        margin-top: 100px;
+        margin-left: 91px;
+        min-height: 132px;
+        max-height: 132px;
+
+    }
+    
+    .split-commission-button-area-itemsplit-sff{
+        margin-top: 71px;
+        width: 1080px;
+        height: 240px;
+        background-color: #ffffff;
+        box-shadow: 0 -1px 6px 0 #d3d3d3;
+        display: flex;
+        display: flex;
+        flex-direction: row;
+     
+        align-items: center;
+        
+        
+    }
+  .split-commission-button-area-transmodify-sff{
+    margin-top: 524px;
+    width: 1080px;
+    height: 240px;
+    background-color: #ffffff;
+    
+    box-shadow: 0 -2px 15px 0 #656565;
+    display: flex;
+    display: flex;
+    flex-direction: row;
+ 
+    align-items: center;
+    
+    
+}
+
+
+    
+    .split-commission-cancel-btn{
+        width: 375px;
+        height: 112px;
+        border: solid 4px #612e9b;
+        display: flex;
+        flex-direction: row;
+        margin-left: 145px;
+        margin-right: 50px;
+    
+    }
+         
+      .split-commission-ok-btn{
+        width: 304px;
+        height: 120px;
+        opacity: 0.4;
+        background-color: #4b2b6f;
+       
+        opacity:0.4;
+    
+      }
+
+      .split-commission-cancel-btn-label{
+        flex: 1 1;
+        margin-right: 86px;
+        margin-top: 27px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #613b8c;
+      }
+      .split-commission-ok-btn-label{
+        margin-top: 33px;
+        font-family: Roboto;
+        font-size: 40px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: #ffffff;
+        margin-left: 121px;
+        background: #613b8c;
+        border: solid 2px #613b8c;
+        float: right;
+    
+      }
+      .close-icon-style{
+       
+        margin-left: 31px;
+        width: 47.3px;
+         height: 47.3px;
+      }
+      .cross-icon-style{
+          flex:1;
+       
+        margin-left: 24.7px;
+        margin-top: 31px;
+      }
+}
+
+/*--split commission modal LFF--*/
+@media only screen and (min-width: 1920px){
+.split-commission-modal {
+
+    height: 710px !important;
+    max-width: 725px !important;
+    width: 725px !important;
+    padding: 0px ! important;
+    margin-left: 115px;
+  }
+  
+
+  .split-commission-icon{
+    width: 120px;
+  height: 120px;
+  margin-top: 80px;
+  display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .split-commission-title{
+      margin-top: 25px;
+  
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+  }
+  .splitinputsfirst{
+    margin-left: 52.5px;
+    margin-right: 52.5px;
+    margin-top: 62px;
+    min-height: 100px;
+    max-height: 100px;
+  }
+  .splitinputssecond{
+    margin-left: 52.5px;
+    margin-right: 52.5px;
+    margin-top: 25px;
+    min-height: 100px;
+    max-height: 100px;
+  }
+
+  .split-commission-button-area{
+    display: flex;
+    flex-direction: row;
+    margin-top: 51px;
+    margin-left: 158px;
+    margin-bottom: 50px;
+    
+  }
+  .split-commission-cancel-btn{
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    display: flex;
+    flex-direction: row;
+   
+
+}
+  
+  .split-commission-ok-btn{
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    background-color: #4b2b6f;
+    margin-left: 40px;
+    opacity:0.4;
+
+  }
+  .button-disabler{
+      opacity:0.4
+  }
+
+  .split-commission-cancel-btn-label{
+    flex: 2;
+    margin-right: 23px;
+    margin-top: 14px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+  }
+  .split-commission-ok-btn-label{
+   
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    margin-left: 74px;
+  }
+  .close-icon-style{
+    width: 28px;
+    height: 28px;
+  }
+  .cross-icon-style{
+      flex:1;
+   
+    margin-left: 24.7px;
+    margin-top: 14px;
+  }
+}

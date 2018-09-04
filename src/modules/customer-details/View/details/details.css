@@ -1,0 +1,84 @@
+.details {
+  display: flex;
+  justify-content: space-around;
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1.29;
+  letter-spacing: 3px;
+  margin-bottom: 25px;
+ 
+}
+
+.details .locationInfo {
+  display: flex;  
+  justify-content: space-between;
+  width: 675px;
+}
+
+
+.details .state-zip {
+  display: flex;
+  justify-content: space-between;
+  width: 300px;
+}
+
+
+.details .contactInfo {
+  flex-direction: column;
+}
+
+.details .custdet-detail-label {
+  font-family: Roboto-Light;
+  font-size: 21px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.29;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #505050;
+}
+
+.details .custdet-detail-value {
+  width: 236px;
+  height: 60px;
+  font-family: Roboto-Medium;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.71;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #505050;
+  overflow: hidden;
+  text-overflow: ellipsis
+  
+}
+.details .edit-section {
+  margin-top: 4px;
+}
+
+.details .editicon {
+  width: 23.6px;
+  height: 22.3px;
+}
+
+.details .editCls {
+  background: #fff;
+  border: solid 2px #613b8c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4b2b6f;
+  width: 222px;
+  height: 60px;
+}
+
+.icon {
+  width: 81px;
+  height: 81px;
+  padding-top: 24.5px;
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54.933 48.526">
+    <defs>
+        <style>
+            .cls-1,.cls-2,.cls-3,.cls-4{fill:none;stroke:#505050}.cls-1,.cls-2,.cls-3{stroke-linecap:round;stroke-miterlimit:10}.cls-1,.cls-2{stroke-width:1.2px}.cls-2{stroke-linejoin:round}.cls-3,.cls-4{stroke-width:1.5px}
+        </style>
+    </defs>
+    <g id="AccountLookup_header" transform="translate(13484.25 840.25)">
+        <g id="Group_6763" data-name="Group 6763" transform="translate(-13828 -872)">
+            <path id="Line_753" d="M0 0h10.44" class="cls-1" data-name="Line 753" transform="translate(370.007 44.5)"/>
+            <path id="Line_754" d="M0 0h10.44" class="cls-1" data-name="Line 754" transform="translate(370.007 49.5)"/>
+            <g id="Group_6760" data-name="Group 6760" transform="translate(-911.281 -78.381)">
+                <path id="Path_1290_4_" d="M1872.8 1006.959c0 2.706-1.561 5.725-3.747 5.725-2.081 0-3.851-3.018-3.851-5.725a3.732 3.732 0 0 1 3.33-4.059h.521c2.185 0 3.747 1.249 3.747 4.059z" class="cls-2" transform="translate(-597.139 -882.019)"/>
+                <path id="Path_1291_4_" d="M1867.758 1011.9a2.385 2.385 0 0 1-1.457 2.394c-1.666.833-3.227.625-4.267 1.978a5.029 5.029 0 0 0-.833 3.227 1.128 1.128 0 0 0 .833 1.145 28.808 28.808 0 0 0 7.283.686" class="cls-2" transform="translate(-597.302 -881.651)"/>
+                <path id="Path_1292_4_" d="M1870.471 1011.9a2.384 2.384 0 0 0 1.457 2.394c1.666.833 3.227.625 4.267 1.978a5.028 5.028 0 0 1 .833 3.227 1.116 1.116 0 0 1-.937 1.145 34.1 34.1 0 0 1-7.239.683" class="cls-2" transform="translate(-596.996 -881.651)"/>
+            </g>
+            <g id="Group_6762" data-name="Group 6762" transform="rotate(-7 64.02 -112800.95)">
+                <path id="Line_757" d="M0 0l5.527 5.658" class="cls-3" data-name="Line 757" transform="translate(-13366.813 -729.889)"/>
+                <circle id="Ellipse_469" cx="10.393" cy="10.393" r="10.393" class="cls-3" data-name="Ellipse 469" transform="rotate(-44.03 -7607.548 16189.157)"/>
+            </g>
+        </g>
+        <path id="TWO" d="M30.4 38.2H6A5.164 5.164 0 0 1 .8 33V6A5.228 5.228 0 0 1 6 .8h33A5.228 5.228 0 0 1 44.2 6v17.8" class="cls-4" transform="translate(-13484.3 -840.3)"/>
+    </g>
+</svg>

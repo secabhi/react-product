@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 149.389 150">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #613b8c;
+      }
+
+      .cls-2, .cls-3, .cls-5 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+
+      .cls-2 {
+        stroke: #505050;
+      }
+
+      .cls-3, .cls-5 {
+        stroke: #fff;
+      }
+
+      .cls-3 {
+        stroke-linejoin: round;
+      }
+
+      .cls-4 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Product_Search_Purple_Fill" transform="translate(-3039.401 -769.508)">
+    <ellipse id="SVGID_44_" class="cls-1" cx="74.694" cy="75" rx="74.694" ry="75" transform="translate(3039.401 769.508)"/>
+    <path id="Path_3732" data-name="Path 3732" class="cls-2" d="M504.9,800.2" transform="translate(2633.346 55.415)"/>
+    <path id="Path_3733" data-name="Path 3733" class="cls-2" d="M489.6,817.3" transform="translate(2633.055 55.74)"/>
+    <line id="Line_434" data-name="Line 434" class="cls-3" y2="41.882" transform="translate(3083.219 818.625)"/>
+    <line id="Line_435" data-name="Line 435" class="cls-3" y2="41.882" transform="translate(3090.76 818.625)"/>
+    <line id="Line_436" data-name="Line 436" class="cls-3" y2="41.882" transform="translate(3098.199 818.625)"/>
+    <line id="Line_437" data-name="Line 437" class="cls-3" y2="41.882" transform="translate(3105.739 818.625)"/>
+    <line id="Line_438" data-name="Line 438" class="cls-3" y2="41.882" transform="translate(3143.239 818.625)"/>
+    <g id="Group_4937" data-name="Group 4937" transform="translate(3112.465 817.911)">
+      <g id="Group_4933" data-name="Group 4933" transform="translate(0)">
+        <path id="Path_3754" data-name="Path 3754" class="cls-4" d="M480.415,763.2a.8.8,0,0,0-.815.815v28.533l1.529-1.529v-27a.727.727,0,0,0-.713-.815Z" transform="translate(-479.6 -763.2)"/>
+      </g>
+      <g id="Group_4934" data-name="Group 4934" transform="translate(7.439)">
+        <path id="Path_3755" data-name="Path 3755" class="cls-4" d="M487.715,763.2a.8.8,0,0,0-.815.815v23.743c.51-.1,1.019-.306,1.529-.408V764.015c.1-.509-.2-.815-.713-.815Z" transform="translate(-486.9 -763.2)"/>
+      </g>
+      <g id="Group_4935" data-name="Group 4935" transform="translate(14.98)">
+        <path id="Path_3756" data-name="Path 3756" class="cls-4" d="M495.115,763.2a.8.8,0,0,0-.815.815v23.438a8.483,8.483,0,0,1,1.529.408V764.015a.678.678,0,0,0-.713-.815Z" transform="translate(-494.3 -763.2)"/>
+      </g>
+      <g id="Group_4936" data-name="Group 4936" transform="translate(22.52)">
+        <path id="Path_3757" data-name="Path 3757" class="cls-4" d="M502.515,763.2a.8.8,0,0,0-.815.815v27.208c.51.51,1.019,1.019,1.529,1.63V764.015a.727.727,0,0,0-.713-.815Z" transform="translate(-501.7 -763.2)"/>
+      </g>
+    </g>
+    <g id="Group_5072" data-name="Group 5072" transform="translate(3113.076 846.036)">
+      <ellipse id="SVGID_49_" class="cls-3" cx="11.107" cy="11.209" rx="11.107" ry="11.209" transform="translate(0 0)"/>
+      <line id="Line_613" data-name="Line 613" class="cls-5" x2="9.884" y2="9.477" transform="translate(18.852 19.463)"/>
+    </g>
+  </g>
+</svg>

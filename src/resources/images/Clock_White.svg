@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4428.5 -18378.5 21.186 21">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="Symbol_116_1" data-name="Symbol 116 – 1" transform="translate(2807 -19534)">
+    <path id="Path_1430" data-name="Path 1430" class="cls-1" d="M10.293,20A10,10,0,1,1,20.386,10,10.049,10.049,0,0,1,10.293,20Zm0-19.58A9.637,9.637,0,0,0,.626,10,9.668,9.668,0,0,0,19.96,10,9.637,9.637,0,0,0,10.293.42Z" transform="translate(1621.8 1156)"/>
+    <line id="Line_26" data-name="Line 26" class="cls-2" y1="7.08" transform="translate(1632.032 1158.92)"/>
+    <line id="Line_27" data-name="Line 27" class="cls-2" x2="7.438" transform="translate(1632.093 1166.1)"/>
+  </g>
+</svg>

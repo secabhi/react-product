@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81.727 81.618">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+        stroke-width: 1.5px;
+      }
+
+      .cls-1, .cls-3, .cls-4 {
+        stroke: #613b8c;
+      }
+
+      .cls-2 {
+        stroke: #010101;
+      }
+
+      .cls-3, .cls-4 {
+        stroke-linejoin: round;
+      }
+
+      .cls-4 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <g id="Browse" transform="translate(-2208.25 -459.394)">
+    <path id="Path_2021_4_" class="cls-1" d="M40.733,1012.561a39.914,39.914,0,1,1,15.67-3.112h0A41.629,41.629,0,0,1,40.733,1012.561Z" transform="translate(2208.3 -472.3)"/>
+    <path id="Path_486_4_" class="cls-2" d="M48.4,981.5" transform="translate(2211.794 -468.714)"/>
+    <path id="Path_3962" data-name="Path 3962" class="cls-3" d="M27.218,981.381H21.1V950.9H45.356v4.4" transform="translate(2209.794 -470.956)"/>
+    <path id="Path_3963" data-name="Path 3963" class="cls-3" d="M34.957,985.588H26.8V955H51.163v15.884" transform="translate(2210.212 -470.656)"/>
+    <circle id="Ellipse_1_2_" class="cls-1" cx="10.84" cy="10.84" r="10.84" transform="translate(2243.022 497.545)"/>
+    <line id="Line_611" data-name="Line 611" class="cls-4" x2="6.654" y2="6.547" transform="translate(2261.053 516.542)"/>
+    <path id="Path_3964" data-name="Path 3964" class="cls-1" d="M33.8,983.5" transform="translate(2210.725 -468.568)"/>
+    <path id="Path_3965" data-name="Path 3965" class="cls-1" d="M49.5,969.5" transform="translate(2211.875 -469.594)"/>
+  </g>
+</svg>

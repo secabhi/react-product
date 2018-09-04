@@ -1,0 +1,142 @@
+.reasonsDidNotSwipe-modal{
+    display: flex;
+    flex-direction: column;
+    padding: initial !important;
+    height: 575px;
+    width: 725px;
+
+}
+
+.reasonsDidNotSwipe-title-Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 722px;
+    height: 90px;
+    display: flex;
+
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.3);
+    background-color: #4b2b6f;
+    border: solid 1px #a87ed6;
+
+    /* border: 2px solid red; */
+}
+
+.reasonsDidNotSwipe-title-text{
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: .2;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff; 
+}
+
+.reasonsDidNotSwipe-list-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+}
+
+.reasonsDidNotSwipe-list{
+    list-style-type:none;
+
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+
+.container-items{
+    justify-content: center;
+    height: 50px;
+    width: 625px; 
+    margin-top: 10px;
+    padding-left: 15px;
+
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
+    background-color: #ffffff;
+    border: solid 2px #ededed;
+
+    /* border: 2px solid green; */
+
+}
+
+.container-items-selected{
+
+    justify-content: center;
+    height: 50px;
+    width: 625px; 
+    margin-top: 10px;
+    padding-left: 15px;
+
+    background: #4b2b6f;
+    color: #ffffff;
+}
+
+.reasonsDidNotSwipe-button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    margin-top: 67px;
+    /* border: 2px solid blue; */
+}
+
+.reasonsDidNotSwipe-button-closeIcon{
+    width: 28px;
+    height: 28px;
+    margin-right: 15px;
+    margin-left:17px;
+    
+}
+
+.reasonsDidNotSwipe-button-acceptButton{
+    width: 155px;
+    height: 60px;
+    margin-left: 50px;
+    border: solid 2px #613b8c;
+    background-color: #4b2b6f;
+
+    
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    
+    color: #ffffff;;
+}
+
+.reasonsDidNotSwipe-disabled{
+    opacity: 0.5;
+}
+
+.reasonsDidNotSwipe-button-cancelButton{
+    display: flex;
+    width: 179px;
+    height: 60px;
+    background-color: #ffffff;
+    border: solid 2px #613b8c;
+
+
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+}

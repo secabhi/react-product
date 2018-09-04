@@ -1,0 +1,30 @@
+<svg id="Post_Void" data-name="Post Void" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 31.4">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #505050;
+        stroke-miterlimit: 10;
+        stroke-width: 1.4px;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-linecap: round;
+      }
+
+      .cls-3 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Group_5059" data-name="Group 5059">
+    <path id="Path_3941" data-name="Path 3941" class="cls-1" d="M6.7,30.7l3.5-1.3L8.9,25.8"/>
+    <path id="Path_3942" data-name="Path 3942" class="cls-1" d="M10,29.3a14.88,14.88,0,1,1,10,.3"/>
+    <path id="Path_3943" data-name="Path 3943" class="cls-2" d="M15.5,30.4"/>
+    <path id="Path_3944" data-name="Path 3944" class="cls-2" d="M20.1,29.7"/>
+  </g>
+  <g id="Group_5060" data-name="Group 5060">
+    <line id="Line_597" data-name="Line 597" class="cls-3" x2="8.7" y2="8.8" transform="translate(11.2 11.3)"/>
+    <line id="Line_598" data-name="Line 598" class="cls-3" x1="8.7" y2="8.8" transform="translate(11.2 11.3)"/>
+  </g>
+</svg>

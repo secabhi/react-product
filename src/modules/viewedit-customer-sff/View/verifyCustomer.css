@@ -1,0 +1,219 @@
+.vercust-sale-container {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-x: hidden;
+    padding-left: 60px;
+    padding-right: 13px;
+    width: 801px;
+    height: 1309px;
+    overflow-y: scroll;
+}
+
+/* --------------- CURRENT ADDRESS ------------------ */
+
+.vercust-sale-current-address-content .fields2 {
+    width: 100%;
+}
+
+.vercust-sale-current-address-content .fields2 .field-sale-full {
+    width: 50%;
+}
+
+
+.vercust-sale-current-address-content .fields {
+    width: 100%;
+}
+
+.fields{
+        margin-top: 50px;
+        display: flex;
+}
+.fields .sale-verify-field1 {
+    width: 50%;
+}
+
+.field-sale-full {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.field-sale-full .field-title {
+    opacity: 0.69;
+    font-family: Roboto;
+    font-size: 40px;
+    height: 53px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #333333;
+}
+
+.field-sale-full .field-value {
+    font-family: Roboto;
+    font-size: 48px;
+    height: 63px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: 0;
+    text-align: left;
+    color: #505050;
+}
+
+.fields .field-title {
+    opacity: 0.69;
+    font-family: Roboto;
+    font-size: 40px;
+    height: 53px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #333333;
+}
+
+.fields .field-value {
+    font-family: Roboto;
+    font-size: 48px;
+    height: 63px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: 0;
+    text-align: left;
+    color: #505050;
+}
+
+.vercust-sale-current-address-content .fields .sale-verify-field1 {
+    width: 50%;
+    float: left;
+}
+
+.vercust-sale-current-address-title {
+    width: 249px;
+    height: 68px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    text-align: left;
+    color: #505050;
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+/* ----------------- CHANGED ADDRESS ------------------*/
+
+.vercust-sale-changed-address-content .fields2 {
+    width: 100%;
+}
+
+.vercust-sale-changed-address-content .fields2 .field-sale-full {
+    width: 50%;
+}
+
+
+.vercust-sale-changed-address-content .fields {
+    width: 100%;
+}
+
+
+
+.vercust-sale-changed-address-content .fields .sale-verify-field1 {
+    width: 50%;
+    float: left;
+}
+.vercust-sale-changed-address-title {
+    width: 249px;
+    height: 68px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    text-align: left;
+    color: #505050;
+    margin-top: 84px;
+    margin-bottom: 50px;
+}
+
+
+/* ---------------- BUTTON CONTAINER + DIVIDER ------------------*/
+
+.vercust-sale-container .vercust-sale-divider {
+    border: 0.5px solid #707070;
+    width: 800px;
+    height: 0px;
+    max-height: 0px;
+
+}
+
+
+.vercust-sale-button-container {
+    width: 920px;
+    height: 161px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-around;
+    padding-top: 39px;
+    position :fixed;
+    bottom:152px;
+}
+
+
+
+.vercust-sale-container .vercust-sale-return-button-label {
+
+}
+
+
+.vercust-sale-container .vercust-sale-confirm-button-icon {
+    flex: 1;
+    width: 27px;
+    height: 27px;
+    max-width: 27px;
+    max-height: 27px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 10px;
+}
+
+
+/*--------- CHANGED FIELD ---------------*/
+
+.vercust-sale-container .changed-field {
+    color: #d53560 ! important;
+}
+
+.vercust-sale-divider {
+    width: 800px;
+    height: 0;
+    border-top: solid 1px #707070;
+    margin-top: 75px;
+}
+
+/*---------------SCROLL------------------*/
+.flex-sale-ng-popup-body ::-webkit-scrollbar {
+    width: 6px;
+    /* border-radius: 5px; */
+    /* background-color: #d0d0d0; */
+}
+.flex-sale-ng-popup-body ::-webkit-scrollbar-track {
+    background: white;
+}
+
+.flex-sale-ng-popup-body ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #d0d0d0;
+}

@@ -1,0 +1,64 @@
+{
+    "response_code":0,
+    "response_text":"IM_SUCCESS",
+    "transactionId":"0056",
+    "cartItems":{
+       "items":[
+          {
+             "itemNumber":"0000000000000027",
+             "pim_SKU_ID":"0000401023029986",
+             "itemDesc":"Xmas Decor                              ",
+             "style":"GLD OX",
+             "color":"NO ",
+             "size":"NO SI",
+             "taxCode":"\u0000",
+             "itemPrice":0.9,
+             "salePrice":1,
+             "taxPercent":10.5,
+             "quantity":1,
+             "itemsPrice":0.9,
+             "totalPrice":0.99,
+             "itemsTax":0.09,
+             "itemTax":0.09,
+             "department":"002022",
+             "class":"000708",
+             "subClass":"0",
+             "itemType":"",
+             "priceType":"",
+             "currencyCode":"",
+             "unitOfMeasure":"",
+             "imgLink":"",
+             "presaleFlag":false,
+             "lineNumber":"1",
+             "itemStatus":"1",
+             "flag_1":0,
+             "eventNumber":"",
+             "eventDescription":"",
+             "replenishQty":0,
+             "replenishDays":0,
+             "gift_reg":"000000000000",
+             "salesId":"0",
+             "assistId":"209289",
+             "discounts":[
+                {
+                   "discounttype":"Transaction Discount",
+                   "discountValue":10,
+                   "newPrice":0.9,
+                   "oldPrice":1,
+                   "discountAmount":0.1
+                }
+             ],
+             "comment":[
+ 
+             ]
+          }],
+          "associateDiscount":null,
+          "totalTax":0.18,
+          "subTotal":1.8,
+          "total":1.98
+       },
+       "totalTax":0.18,
+       "subTotal":1.8,
+       "total":1.98
+    }
+ 

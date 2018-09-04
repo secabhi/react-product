@@ -1,0 +1,44 @@
+{
+  "salutation": "Ms",
+  "firstname": "Barbara",
+  "lastname":  "Jones",
+  "hasCards": true,
+  "circlelvl_completiondate":[{"one":"2015","two":"2016","three":"2017", "four":"","five":"", "six":"","president":"", "chairman":""}],
+  "currentlvl":"4",
+  "total_points": "6000",
+  "redeemed": "4000",
+  "numofPointCards": "2",
+  "numofPerkCards": "1",
+  "pointCardBalance": "$80",
+  "perkCardBalance": "$45",
+  "acctNum": "#7337",
+  "cin": "#8026",
+  "pointCards": [
+      {
+        "id": 1,
+        "cardNum": "8000-1000-2857-111",
+        "expDate": "7/27/18",
+        "initialBalance": "$55",
+        "currentBalance": "$35"
+      }
+    ,
+    
+      {
+        "id": 2,
+        "cardNum": "8000-1000-2857-4000",
+        "expDate": "5/24/18",
+        "initialBalance": "$75",
+        "currentBalance": "$45"
+      }
+    
+  ],
+  "perkCards": [
+      {
+        "id": 1,
+        "cardNum": "8000-1000-2857-2222",
+        "expDate": "5/26/18",
+        "initialBalance": "$85",
+        "currentBalance": "$45"
+      }
+  ]
+}

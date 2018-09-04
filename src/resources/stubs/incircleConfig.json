@@ -1,0 +1,78 @@
+{
+    "noCardMsg": "No cards available at this time",
+    "incircleStatusTip": "Tap a circle to view the benefits for each level",
+    "data": [
+        {
+            "id": 1,
+            "Level": "Circle 1",
+            "amount": "0-$999",
+            "nextLvl": "1000",
+            "desc1": "Two Points for every dollar charged on purchases.",
+            "desc2": "$100 point card for every 10,000 points earned.",
+            "desc3": "Members only events."
+        },
+        {
+            "id": 2,
+            "Level": "Circle 2",
+            "amount": "$1000-$2,499",
+            "nextLvl": "2500",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+            },
+        {
+            "id": 3,
+            "Level": "Circle 3",
+            "amount": "$2,500-$4,999",
+            "nextLvl": "5000",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+        },
+        {
+            "id": 4,
+            "Level": "Circle 4",
+            "amount": "$5,000-$9,999",
+            "nextLvl": "10000",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+        },
+        {
+            "id": 5,
+            "Level": "Circle 5",
+            "amount": "$10,000-$34,999",
+            "nextLvl": "35000",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+        },
+        {
+            "id": 6,
+            "Level": "Circle 6",
+            "amount": "$35,0000-$74,999",
+            "nextLvl": "75000",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+        },
+        {
+            "id": "P",
+            "Level": "Circle P",
+            "amount": ">$75,000",
+            "nextLvl": "600000",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+        },
+        {
+            "id": "C",
+            "Level": "Circle C",
+            "amount": ">$600,000",
+            "nextLvl": "600000",
+            "desc1":"Two Points for every dollar charged on purchases.",
+            "desc2":"$100 point card for every 10,000 points earned.",
+            "desc3":"Members only events."
+        }
+    ]
+}

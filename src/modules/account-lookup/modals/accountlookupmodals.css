@@ -1,0 +1,881 @@
+.cust-phone-modal-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.cust-phone-modal-account-lookup-label{
+    width: 278px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 223px;
+    margin-right: 224px;
+    margin-bottom: 50px;
+}
+.cust-phone-modal-OR-label
+{
+    width: 32px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b;
+    margin-top: 130px;
+    margin-left: 346px;
+    margin-right: 347px;
+    margin-bottom: 33px;
+}
+.cust-phone-modal-text-label
+{
+    width: 620px;
+    height: 0px;
+    margin-left: 50px;
+    margin-right: 55px;
+    margin-bottom: 29px;
+}
+.cust-phone-modal-third-party-label
+{
+    width: 264px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 230px;
+    margin-right: 231px;
+    margin-bottom: 57px;
+}
+.cust-phone-modal-third-party-label-inside {
+  width: 118px;
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal; 
+  text-align: center;
+  color: #ffffff;  
+  margin-left: 73px;
+  margin-right: 73px;
+  margin-top: 13px;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.cust-phone-modal-third-party-label-non-clientele {
+    width: 264px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 230px;
+    margin-right: 231px;
+    margin-bottom: 57px;
+    opacity:0.4;
+}
+.cust-phone-modal-btn{
+    display:flex;
+    margin-bottom:48px; 
+}
+.cust-phone-modal-btn-cancel
+{
+    width: 180px;
+    height: 60px;
+    display: flex;
+    border: solid 2px #613b8c;
+    margin-left: 165px;
+    margin-right: 39px;
+}
+.cust-phone-modal-btn-cancel-image{
+    width: 28px;
+    height: 28px;
+    margin-top: 16px;
+    margin-left: 21px;
+    }
+.cust-phone-modal-btn-cancel-label{
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 15px;
+    
+}
+.cust-phone-modal-btn-next{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    
+}
+.cust-phone-modal-btn-next-disable{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    opacity: 0.4;
+    
+}
+.cust-phone-modal-btn-next-label{
+    width: 62px;
+    height: 32px;
+    border: none;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    border-color: #4b2b6f;
+    background-color: #4b2b6f;
+    margin-left: 47px;
+    margin-right: 46px;
+    margin-top: 12px;
+}
+
+/* DL modal Css properties */
+.DL-modal-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.DL-modal-DL-label{
+    width: 174px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 275px;
+    margin-right: 276px;
+    margin-bottom: 50px;
+}
+.DL-modal-OR-label
+{
+    width: 32px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b;
+    margin-top: 130px;
+    margin-left: 346px;
+    margin-right: 347px;
+    margin-bottom: 33px;
+}
+.DL-modal-text-label
+{
+    width: 620px;
+    height: 0px;
+    margin-left: 50px;
+    margin-right: 55px;
+    margin-bottom: 29px;
+}
+.DL-modal-bypass-scan-label
+{
+    width: 264px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 230px;
+    margin-right: 231px;
+    margin-bottom: 57px;
+}
+.DL-modal-bypass-scan-label-inside {
+    width: 162px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: center;
+    color: #ffffff; 
+  margin-left: 51px;
+  margin-right: 51px;
+  margin-top: 13px;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+.DL-modal-btn{
+    display:flex;
+    margin-bottom:48px; 
+}
+.DL-modal-btn-cancel
+{
+    width: 180px;
+    height: 60px;
+    display: flex;
+    border: solid 2px #613b8c;
+    margin-left: 165px;
+    margin-right: 39px;
+}
+.DL-modal-btn-cancel-image{
+    width: 28px;
+    height: 28px;
+    margin-top: 16px;
+    margin-left: 21px;
+    }
+.DL-modal-btn-cancel-label{
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 15px;
+    
+}
+.DL-modal-btn-next{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    
+}
+.DL-modal-btn-next-label{
+    width: 62px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    margin-left: 47px;
+    margin-right: 46px;
+    margin-top: 15px;
+}
+
+/* Confirm Details modal Css properties */
+.confirm-details-modal-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.confirm-details-modal-confirm-details-label{
+    width: 262px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 232px;
+    margin-right: 231px;
+    margin-bottom: 48px;
+}
+.confirm-details-modal-confirm-details-second-label{
+    width: 309px;
+    height: 43.5px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 203px;
+    margin-right: 203px;
+    margin-bottom: 20px;
+}
+.confirm-details-modal-confirm-details-customer{
+    width: 372px;
+  height: 167.9px;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.5;
+  
+  text-align: center;
+  color: #333333;
+  color: var(--Gray11);
+  margin-left: 177px;
+  margin-right: 176px;
+  margin-bottom: 48px;
+}
+
+.confirm-details-modal-btn{
+    display:flex;
+    margin-bottom:48px; 
+}
+.confirm-details-modal-btn-cancel
+{
+    width: 155px;
+    height: 60.7px;
+    border: solid 2px #613b8c;
+    margin-left: 187px;
+    margin-right: 40px;
+}
+
+.confirm-details-modal-btn-cancel-label{
+    width: 33px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 61px;
+    
+}
+.confirm-details-modal-btn-next{
+    width: 155px;
+    height: 60.7px;
+    background-color: #4b2b6f;
+    
+}
+.confirm-details-modal-btn-next-label{
+    width: 44px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    background-color: #4b2b6f;
+    margin-left: 57px;
+    margin-right: 54px;
+    margin-top: 15px;
+}
+
+/* Bypass modal Css properties */
+.bypass-modal-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.bypass-modal-bypass-label{
+    width: 322px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 202px;
+    margin-right: 201px;
+    margin-bottom: 48px;
+}
+
+.bypass-modal-btn{
+    display:flex;
+    margin-bottom:48px; 
+}
+.bypass-modal-btn-cancel
+{
+    width: 180px;
+    height: 60px;
+    display: flex;
+    border: solid 2px #613b8c;
+    margin-left: 165px;
+    margin-right: 39px;
+}
+.bypass-modal-btn-cancel-image{
+    width: 28px;
+    height: 28px;
+    margin-top: 16px;
+    margin-left: 21px;
+    }
+.bypass-modal-btn-cancel-label{
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 15px;
+    
+}
+.bypass-modal-btn-next{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    
+}
+.bypass-modal-btn-next-label{
+    width: 62px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    margin-left: 47px;
+    margin-right: 46px;
+    margin-top: 15px;
+}
+.bypass-modal-dropdown
+{
+    width: 553px;
+    height: 0;
+    margin-bottom: 58px;
+    margin-left: 85px;
+    margin-right: 87px;
+    margin-bottom: 89px;
+
+}
+
+/* ALFSWarn modal Css properties */
+.ALFSWarn-modal-image{
+    width: 101px;
+    height: 90px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.ALFSWarn-modal-label{
+    width: 612px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 57px;
+    margin-right: 56px;
+    margin-bottom: 30px;
+}
+.ALFSWarn-modal-message{
+    width: 218px;
+    height: 53px;
+    font-family: Roboto;
+    font-size: 40px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 254px;
+    margin-right: 253px;
+    margin-bottom: 81px;
+}
+.ALFSWarn-modal-btn{
+    display:flex;
+    margin-bottom:48px; 
+}
+.ALFSWarn-modal-btn-cancel
+{
+    width: 180px;
+    height: 60px;
+    display: flex;
+    border: solid 2px #613b8c;
+    margin-left: 165px;
+    margin-right: 39px;
+}
+.ALFSWarn-modal-btn-cancel-image{
+    width: 28px;
+    height: 28px;
+    margin-top: 16px;
+    margin-left: 21px;
+    }
+.ALFSWarn-modal-btn-cancel-label{
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 15px;
+    
+}
+.ALFSWarn-modal-btn-next{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    
+}
+.ALFSWarn-modal-btn-next-label{
+    width: 62px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    margin-left: 47px;
+    margin-right: 46px;
+    margin-top: 15px;
+}
+
+/* carddetails modal Css properties */
+.carddetails-modal-image{
+    width: 101px;
+    height: 90px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 80px;
+}
+.carddetails-modal-label{
+    width: 584px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 71px;
+    margin-right: 70px;
+    margin-bottom: 32px;
+}
+.carddetails-modal-message{
+    width: 506px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 110px;
+    margin-right: 109px;
+    margin-bottom: 80px;
+}
+
+.carddetails-details-modal-btn{
+    display:flex;
+    margin-bottom:48px; 
+}
+.carddetails-details-modal-btn-cancel
+{
+    width: 155px;
+    height: 60.7px;
+    border: solid 2px #613b8c;
+    margin-left: 187px;
+    margin-right: 40px;
+}
+
+.carddetails-details-modal-btn-cancel-label{
+    width: 33px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 61px;
+    
+}
+.carddetails-details-modal-btn-next{
+    width: 155px;
+    height: 60.7px;
+    background-color: #4b2b6f;
+    
+}
+.carddetails-details-modal-btn-next-label{
+    width: 44px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    background-color: #4b2b6f;
+    margin-left: 57px;
+    margin-right: 54px;
+    margin-top: 15px;
+}
+
+/* choose option modals */
+.choose-option-modal-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.choose-option-modal-choose-option-label{
+    width: 252px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 237px;
+    margin-right: 236px;
+    margin-bottom: 45px;
+}
+.choose-option-modal-temp-acc-label{
+    width: 346px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 190px;
+    margin-right: 189px;
+    margin-bottom: 30px
+}
+.choose-option-modal-temp-acc-label-inside{
+    width: 251px;
+    height: 30px;
+    font-family: Roboto;
+    font-size: 23px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    margin-left: 48px;
+    margin-right: 47px;
+    margin-top: 14px;
+    display: inline-block;
+}
+
+.choose-option-modal-presale-label{
+    width: 346px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 190px;
+    margin-right: 189px;
+    margin-bottom: 30px
+}
+.choose-option-modal-presale-label-inside{
+    width: 100px;
+  height: 30px;
+  font-family: Roboto;
+  font-size: 23px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: center;
+  color: #ffffff;
+  margin-left: 123px;
+  margin-right: 123px;
+  margin-top: 14px;
+  display: inline-block;  
+}
+
+.choose-option-modal-new-acc-label{
+    width: 346px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin-left: 190px;
+    margin-right: 189px;
+    margin-bottom: 30px
+}
+.choose-option-modal-new-acc-label-inside{
+    width: 163px;
+  height: 30px;
+  font-family: Roboto;
+  font-size: 23px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #ffffff;
+  margin-left: 92px;
+  margin-right: 91px;
+  margin-top: 14px;
+  display: inline-block;  
+}
+
+/* print to register modal css properties */
+.print-regi-modal-image{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-top: 60px;
+    margin-left: 303px;
+    margin-right: 302px;
+    margin-bottom: 20px;
+}
+.print-regi-modal-account-lookup-label{
+    width: 278px;
+    height: 50px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: 223px;
+    margin-right: 224px;
+    margin-bottom: 40px;
+}
+
+.print-regi-modal-text-label
+{
+    width: 620px;
+    height: 0px;
+    margin-left: 50px;
+    margin-right: 55px;
+    
+}
+.print-regi-modal-btn{
+    display:flex;
+    margin-top: 120px;
+    margin-bottom:48px; 
+}
+.print-regi-modal-btn-cancel
+{
+    width: 180px;
+    height: 60px;
+    display: flex;
+    border: solid 2px #613b8c;
+    margin-left: 165px;
+    margin-right: 39px;
+}
+.print-regi-modal-btn-cancel-image{
+    width: 28px;
+    height: 28px;
+    margin-top: 16px;
+    margin-left: 21px;
+    }
+.print-regi-modal-btn-cancel-label{
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;    
+    text-align: left;
+    color: #613b8c;
+    margin-top: 16px;
+    margin-left: 15px;
+    
+}
+.print-regi-modal-btn-next{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    
+}
+.print-regi-modal-btn-next-disable{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    opacity: 0.4;
+    
+}
+.print-regi-modal-btn-next-label{
+    width: 62px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #ffffff;
+    border-color: #4b2b6f;
+    background-color: #4b2b6f;
+    margin-left: 47px;
+    margin-right: 46px;
+    margin-top: 12px;
+}
+
+.confirm-card-details-container
+{
+    margin-top: 267px;
+}
+.non-clientele-thirdparty-btn {
+    padding-top: 125px;
+}

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.04 31.459">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #505050;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.6px;
+      }
+
+      .cls-1, .cls-2 {
+        stroke: #505050;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke-miterlimit: 10;
+        stroke-width: 1.4px;
+      }
+    </style>
+  </defs>
+  <g id="Receipt" transform="translate(-1.979 -0.27)">
+    <path id="Path_2514" data-name="Path 2514" class="cls-1" d="M7,8.79H19.2"/>
+    <path id="Path_2519" data-name="Path 2519" class="cls-1" d="M22.67,8.79H24.9"/>
+    <path id="Path_2514-2" data-name="Path 2514-2" class="cls-1" d="M7,13.6H19.2"/>
+    <path id="Path_2519-2" data-name="Path 2519-2" class="cls-1" d="M22.67,13.6H24.9"/>
+    <path id="Path_2514-3" data-name="Path 2514-3" class="cls-1" d="M7,18.4H19.2"/>
+    <path id="Path_2519-3" data-name="Path 2519-3" class="cls-1" d="M22.67,18.4H24.9"/>
+    <path id="Path_2514-4" data-name="Path 2514-4" class="cls-1" d="M7,23.21H19.2"/>
+    <path id="Path_2519-4" data-name="Path 2519-4" class="cls-1" d="M22.67,23.21H24.9"/>
+    <path id="Path_3970" data-name="Path 3970" class="cls-2" d="M2.68,1.5V30.9c0,.04.42-.07.42-.07L7.53,28.3a.65.65,0,0,1,.19-.06.66.66,0,0,1,.18.1l3.64,2.54a.83.83,0,0,0,.25.12,1.22,1.22,0,0,0,.34-.16l3.65-2.53a.58.58,0,0,1,.18-.09.59.59,0,0,1,.18.1l3.72,2.51a.77.77,0,0,0,.25.13c.06,0,.19-.11.19-.11l3.75-2.51a.91.91,0,0,1,.22-.13.74.74,0,0,1,.27.1l4.3,2.45s.34.17.41.1.06-.54.06-.54v-29a1.11,1.11,0,0,0,0-.28c-.08-.08-.44.13-.44.13L24.62,3.55a1.51,1.51,0,0,1-.33.17A1,1,0,0,1,24,3.6L20.45,1.19a.94.94,0,0,0-.3-.15.8.8,0,0,0-.28.15L16.33,3.6,16,3.77l-.39-.23L12.15,1.17A1.08,1.08,0,0,0,11.83,1a1.08,1.08,0,0,0-.33.15L8,3.56l-.3.14-.4-.18L3.15,1.21s-.3-.16-.39-.08S2.68,1.5,2.68,1.5Z"/>
+  </g>
+</svg>

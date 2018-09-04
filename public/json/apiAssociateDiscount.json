@@ -1,0 +1,57 @@
+{
+    "response_code":0,
+    "response_text":"IM_SUCCESS",
+    "transactionId":"0005",
+    "cartItems":{
+       "items":[
+          {
+             "itemNumber":"0000401000448670",
+             "pim_SKU_ID":"0000401000448670",
+             "itemDesc":"Jackets                                 ",
+             "style":null,
+             "color":null,
+             "size":null,
+             "taxCode":"\u0000",
+             "itemPrice":565.6,
+             "salePrice":808,
+             "taxPercent":10.5,
+             "quantity":1,
+             "itemsPrice":565.6,
+             "totalPrice":624.99,
+             "itemsTax":59.39,
+             "itemTax":59.39,
+             "department":null,
+             "class":null,
+             "subClass":null,
+             "itemType":null,
+             "priceType":null,
+             "currencyCode":null,
+             "unitOfMeasure":null,
+             "imgLink":null,
+             "presaleFlag":false,
+             "lineNumber":"1",
+             "itemStatus":"1",
+             "eventNumber":null,
+             "eventDescription":null,
+             "replenishQty":0,
+             "replenishDays":0,
+             "comment":[
+ 
+             ],
+             "discounts":[
+                {
+                   "discounttype":"Associate Discount",
+                   "discountValue":"242.4",
+                   "newPrice":"565.6",
+                   "oldPrice":"808"
+                }
+             ]
+          }
+       ],
+       "associateDiscount":{
+          "amount":242.4,
+          "percentage":30,
+          "id":"00000123455"
+       }
+    }
+ }

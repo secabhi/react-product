@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.589 122">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #505050;
+        stroke-width: 2px;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-linecap: round;
+      }
+
+      .cls-1 {
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Confirm_Phone" transform="translate(-4008.701 -639.608)">
+    <ellipse id="SVGID_32_" class="cls-1" cx="59.795" cy="60" rx="59.795" ry="60" transform="translate(4009.701 640.608)"/>
+    <g id="Group_5029" data-name="Group 5029" transform="translate(4047.444 666.557)">
+      <path id="Path_3775" data-name="Path 3775" class="cls-2" d="M1148.151,803.382v13.744a7.091,7.091,0,0,1-7.077,7.077h-27.9a7.091,7.091,0,0,1-7.077-7.077V763.177a7.091,7.091,0,0,1,7.077-7.077h27.9a7.091,7.091,0,0,1,7.077,7.077v14.154" transform="translate(-1105.998 -756.1)"/>
+      <line id="Line_500" data-name="Line 500" class="cls-2" x1="42.154" transform="translate(0 10.564)"/>
+      <line id="Line_501" data-name="Line 501" class="cls-2" x1="42.154" transform="translate(0 57.436)"/>
+      <line id="Line_502" data-name="Line 502" class="cls-3" x2="13.128" transform="translate(10.051 5.231)"/>
+      <line id="Line_503" data-name="Line 503" class="cls-3" x2="3.077" transform="translate(27.179 5.231)"/>
+      <line id="Line_504" data-name="Line 504" class="cls-3" x2="13.128" transform="translate(14.564 62.462)"/>
+      <ellipse id="Ellipse_262" data-name="Ellipse 262" class="cls-2" cx="12.718" cy="12.718" rx="12.718" ry="12.718" transform="translate(31.59 21.641)"/>
+      <path id="Path_3776" data-name="Path 3776" class="cls-2" d="M1147.1,802" transform="translate(-1104.946 -754.923)"/>
+      <path id="Path_3777" data-name="Path 3777" class="cls-1" d="M1141.7,789.108l5.436,5.538,9.949-9.846" transform="translate(-1105.085 -755.364)"/>
+    </g>
+  </g>
+</svg>

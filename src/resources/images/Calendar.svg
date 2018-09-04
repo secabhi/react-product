@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3717 -6914 52 52">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke:#613b8c;stroke-linecap:round;stroke-miterlimit:10;stroke-width:2px}.cls-2{fill:#613b8c;font-size:29px;font-family:Helvetica}
+        </style>
+    </defs>
+    <g id="Calendar" transform="translate(-4933 -7674)">
+        <path id="Line_778" d="M0 0v10.104" class="cls-1" data-name="Line 778" transform="translate(1231.271 761)"/>
+        <path id="Line_779" d="M0 0v10.104" class="cls-1" data-name="Line 779" transform="translate(1252.417 761)"/>
+        <path id="Line_780" d="M0 0h50" class="cls-1" data-name="Line 780" transform="translate(1217 776.104)"/>
+        <path id="Path_5012" d="M39.333 5.9h6.25A5.38 5.38 0 0 1 51 11.317v34.062a5.38 5.38 0 0 1-5.417 5.421H6.417A5.516 5.516 0 0 1 1 45.379V11.317A5.38 5.38 0 0 1 6.417 5.9h5.937" class="cls-1" data-name="Path 5012" transform="translate(1216 760.204)"/>
+        <path id="Line_781" d="M0 0h15.417" class="cls-1" data-name="Line 781" transform="translate(1234.083 766.104)"/>
+        <text id="_31" class="cls-2" data-name="31" transform="translate(1226.846 801.249)">
+            <tspan x="0" y="0">31</tspan>
+        </text>
+    </g>
+</svg>

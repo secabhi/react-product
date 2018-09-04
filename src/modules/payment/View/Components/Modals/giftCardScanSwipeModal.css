@@ -1,0 +1,114 @@
+.scan-giftCard-modal{
+    height: 575px;
+    width: 725px;
+}
+
+.scan-giftCard-Container{
+    display: flex;
+    flex-direction: column;
+    height: 575px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.scan-giftCard-buttonContainer{
+    display: flex;
+    width: 400px;
+    margin-bottom: 25px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.scan-giftCard-acceptButton{
+    width: 155px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    background-color: #4b2b6f;
+
+    
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    
+    color: #ffffff;;
+}
+
+.giftCard-disabled{
+    opacity: 0.5;
+}
+
+.scan-giftCard-closeIcon{
+    width: 28px;
+    height: 28px;
+    margin-right: 15px;
+    margin-left:17px;
+}
+
+.scan-giftCard-cancelButton{
+    display: flex;
+    width: 179px;
+    height: 60px;
+    background-color: #ffffff;
+    border: solid 2px #613b8c;
+
+
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+}
+
+.scan-giftCard-icon{
+    height: 120px;
+    width: 120px;
+    margin-top: 80px;
+    
+}
+
+.scan-giftCard-label{
+    width: 340px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+
+}
+
+.giftCard-pin{
+    text-align: center;
+    margin-top: 25px;
+}
+
+.scan-giftCard-label-line2{
+    width: 32px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+
+.scan-giftCard-textfield{
+    margin-bottom: 40px;
+}
+

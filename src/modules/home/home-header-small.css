@@ -1,0 +1,275 @@
+@media only screen and (max-width: 1920px) and (min-width: 1920px) {
+  .headerMainCls {
+    z-index: 101;
+    position: relative;
+    top:0px;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    width: 1920px;
+    height: 100px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  }
+  .div-hamberger {
+    display: flex;
+    align-items: center;
+  }
+  .hamburger {
+    width: 38px;
+    padding-left: 50px;
+  }
+  .header-navLinks {
+    display: flex;
+    flex-direction: row;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #505050;
+    padding-left: 50px;
+  }
+  .suspendIconContainer {
+    margin: auto 0;
+    align-items: center;
+    display: flex;
+    padding-right: 41.5px;
+  }
+  .suspend-Icon {
+    width: 30px;
+    height: 29.3px;
+    padding-right: 15px;
+  }
+  .accountLookupIconContainer {
+    margin: auto 0;
+    align-items: center;
+    display: flex;
+    padding-right: 41.5px;
+  }
+  .accountLookup-Icon {
+    width: 36.8px;
+    height: 40.7px;
+    padding-right: 10px;
+    margin-top: 5px;
+  }
+
+  .voidIconContainer{
+    margin: auto 0;
+    align-items: center;
+    display: flex;
+  }
+  .void-Icon{
+    width: 33.5px;
+    height: 33.5px;
+    padding-right: 13px;
+  }
+  
+  .div-empty-space {
+    width: 1150px;
+  }
+
+  .header-right-container {
+    display: flex;
+    right: 0;
+    position: absolute;
+    height: inherit;
+  }
+
+  .div-battery-indicator {
+    display: flex;
+  }
+
+  .letter-P {
+    width: 9.1px;
+    height: inherit;
+    padding-right: 7.5px;
+    margin: auto 0;
+  }
+  .battery-indicator-1 {
+    width: 39.3px;
+    height: 19.8px;
+    margin-right: 20px;
+    margin: auto 0;
+  }
+  .battery-indicator-2 {
+    width: 39.3px;
+    height: 19.8px;
+    margin-right: 20px;
+    margin: auto 0;
+    padding-right: 50px;
+    padding-left: 20px;
+  }
+  .div-logged-in-text {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+  }
+  .div-exit {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 50px;
+  }
+
+  .logged-in-text {
+    width: 308px;
+    height: 28px;
+    margin-right: 53px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    align-self: center;
+    color: #333333;
+  }
+
+  .exit-button {
+    width: 42px;
+    height: 44px;
+  }
+  .exit-text {
+    width: 50px;
+    height: 28px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    color: #505050;
+    padding-left: 5px;
+  }
+}
+
+@media only screen and (max-width: 1080px) {
+  .cusdet-header {
+    width: 1920px;
+    height: 125px;
+  }
+  .headerMainCls {
+    z-index: 1;
+    position: relative;
+    top:0px;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    width: 1080px;
+    height: 125px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  }
+  .div-hamberger {
+    display: flex;
+    align-items: center;
+  }
+  .hamburger {
+    width: 68px;
+    padding-left: 40px;
+    height: fit-content;
+  }
+
+  .header-navLinks {
+    display: none;
+  }
+  .div-empty-space {
+    width: 1174.7px;
+  }
+
+  .header-right-container {
+    display: flex;
+    right: 0;
+    position: absolute;
+    height: inherit;
+    width: 86%;
+  }
+
+  .div-battery-indicator {
+    display: flex;
+  }
+
+  .letter-P {
+    width: 14.8px;
+    height: inherit;
+    margin: auto 0;
+    padding-right: 7.5px;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.18;
+    letter-spacing: 10px;
+    text-align: right;
+    color: #505050;
+    display: inline-table;
+  }
+  .battery-indicator-1 {
+    width: 63.7px;
+    height: 32.2px;
+    margin: auto 0;
+    margin-right: 20px;
+  }
+  .battery-indicator-2 {
+    width: 63.7px;
+    height: 32.2px;
+    margin: auto 0;
+    margin-right: 20px;
+  }
+  .div-logged-in-text-sff-home-header {
+    flex: 1;
+    flex-direction: row;
+    width: 100%;
+    display: none;
+  }
+  .div-exit-sff-home-header {
+    align-items: center;
+    width: 173px;
+    display: none;
+  }
+
+  .logged-in-text {
+    width: 348px;
+    height: 52px;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.18;
+    text-align: right;
+    color: #505050;
+    align-self: center;
+    width: 100%;
+  }
+
+  .exit-button {
+    width: 75px;
+    height: 78.1px;
+    right: 0;
+    position: absolute;
+    padding-right: 38px;
+  }
+  .exit-text {
+    width: 50px;
+    height: 28px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    color: #505050;
+    padding-left: 5px;
+  }
+}

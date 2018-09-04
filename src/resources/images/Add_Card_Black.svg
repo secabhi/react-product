@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.59 122">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #505050;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="Add_Card_Black" transform="translate(-1524.701 -331.908)">
+    <line id="Line_455" data-name="Line 455" class="cls-1" y1="1.538" x2="6.154" transform="translate(1551.65 384.6)"/>
+    <g id="Add_Card_Black-2" data-name="Add_Card_Black" transform="translate(1525.701 332.908)">
+      <ellipse id="SVGID_35_" class="cls-1" cx="59.795" cy="60" rx="59.795" ry="60"/>
+      <path id="Path_3750" data-name="Path 3750" class="cls-1" d="M1124.8,316.4" transform="translate(-1067.774 -258.656)"/>
+      <path id="Path_3751" data-name="Path 3751" class="cls-1" d="M1124.8,316.4" transform="translate(-1067.774 -258.656)"/>
+      <path id="Path_3752" data-name="Path 3752" class="cls-1" d="M1154.651,344.631h-50.359a3.677,3.677,0,0,1-3.692-3.692V311.092a3.677,3.677,0,0,1,3.692-3.692h50.359a3.677,3.677,0,0,1,3.692,3.692v29.846A3.743,3.743,0,0,1,1154.651,344.631Z" transform="translate(-1068.395 -258.887)"/>
+      <path id="Path_3753" data-name="Path 3753" class="cls-1" d="M1100.495,335.664l-7.692-29.641a3.313,3.313,0,0,1,2.359-4L1144.6,289.2a3.313,3.313,0,0,1,4,2.359l4.1,16" transform="translate(-1068.597 -259.356)"/>
+      <line id="Line_453" data-name="Line 453" class="cls-1" x2="57.641" transform="translate(32.308 59.795)"/>
+      <line id="Line_454" data-name="Line 454" class="cls-1" y1="9.026" x2="36.821" transform="translate(45.128 39.487)"/>
+      <line id="Line_456" data-name="Line 456" class="cls-1" x2="17.744" transform="translate(38.256 72.923)"/>
+      <line id="Line_457" data-name="Line 457" class="cls-1" x2="17.744" transform="translate(38.256 78.769)"/>
+      <circle id="Ellipse_256" data-name="Ellipse 256" class="cls-1" cx="4.103" cy="4.103" r="4.103" transform="translate(67.59 72.308)"/>
+    </g>
+    <circle id="Ellipse_257" data-name="Ellipse 257" class="cls-1" cx="4.103" cy="4.103" r="4.103" transform="translate(1601.804 405.216)"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+﻿{
+  "UpgradeRequest": {
+    "POSID": " MPOS-DEV10",
+    "APPID": "04",
+    "UpgradeType": "30",
+    "ClerkID": "03",
+    "ServerIP": "10.93.248.73",
+    "ServerPort": "15584"
+  }
+}

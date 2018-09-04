@@ -1,0 +1,477 @@
+/*....................Tab content..............*/
+
+.cusdet-incircle-tab-content .cardPage-content-left-part {
+  padding-top: 50px;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cusdet-incircle-tab-content .cardPage-content-right-part {
+  padding-top: 50px;
+  display: flex;
+  flex: 1;
+}
+
+.cusdet-incircle-tab-content .content-left-container {
+  padding-left: 50px;
+  height: 425px;
+  flex-direction: column;
+  flex: 1;
+}
+
+.cusdet-incircle-tab-content .cardPagecontent-row1 {
+  flex: 1;
+  flex-direction: column;
+  padding-left: 40px;
+}
+
+.backBtn {
+  width: 17px;
+  height: 34px;
+  float: left;
+  padding-top: 12px;
+  margin: 0px 40px 20px 0px;
+
+}
+
+.cusdet-incircle-tab-content .content-row2 {
+  flex-direction: column;
+  flex: 1;
+  padding-top: 87px;
+}
+
+.cardPagetabbed {
+  flex-direction: row;
+  padding-left: 62px;
+  padding-top: 69px;
+  flex: 1;
+}
+
+.cusdet-incircle-tab-content .content-left-lower {
+  padding-left: 46px;
+}
+
+.cusdet-incircle-tab-content .inCircle-header {
+  height: 58px;
+  font-family: Roboto;
+  font-size: 50px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.16;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}
+
+.cusdet-incircle-tab-content .inCircle-points {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding-top: 29px;
+}
+
+.cusdet-incircle-tab-content .point-text {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 38px;
+}
+
+.cusdet-incircle-tab-content .inCircle-point-label {
+  height: 28px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: right;
+  color: #000000;
+  padding-left: 11px;
+  vertical-align: middle;
+}
+.cusdet-incircle-tab-content .inCircle-point-value {
+  height: 47px;
+  font-family: Roboto;
+  font-size: 40px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: #525252;
+}
+
+
+.cusdet-incircle-tab-content .inCircle-cards-header {
+  height: 60px;
+  font-family: Roboto;
+  font-size: 50px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}
+
+.view-cards-container {
+  flex: 1;
+  flex-direction: row;
+}
+
+.cusdet-incircle-tab-content .view-cards-icon {
+  width: 80px;
+  max-width: 80px;
+  height: 80px;
+  padding-top: 12.4px;
+  padding-bottom: 12.4px;
+  vertical-align: middle;
+  padding-right: 11px;
+}
+
+.cusdet-incircle-tab-content .view-cards-label {
+  height: 30px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: left;
+  color: #592990;
+}
+
+.cusdet-incircle-tab-content .pointCard-container {
+  flex: 1;
+  flex-direction: column;
+}
+
+.hasCard-container {
+  flex-direction: row;
+  flex: 1;
+  padding-top: 45px;
+}
+
+.card-column {
+  flex-direction: column;
+  flex: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.pointCard-border {
+  height: 458px;
+  border-right: solid 1px #707070;
+}
+
+.cardPagepointCard-label {
+  padding-right: 81px;
+}
+
+.cardPageperkCard-label {
+  padding-right: 81px;
+}
+
+.cardPagepointCard-label-text {
+  height: 22.7px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.18;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  vertical-align: middle;
+}
+
+.cardPagepointCard-icon {
+  width: 38px;
+  height: 38px;
+  background-color: #070707;
+  border-radius: 50%;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 25px;
+}
+
+.totalpointcardBalance {
+  float: right;
+  padding-left: 99px;
+  height: 27.7px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.18;
+  text-align: right;
+  color: #000000;
+}
+
+.totalperkcardBalance {
+  float: right;
+  padding-left: 99px;
+  height: 29.4px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.18;
+  text-align: right;
+  color: #000000;
+}
+
+.cardPageperkCard-label-text {
+  height: 22.7px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.18;
+  letter-spacing: normal;
+  text-align: left;
+  color: #000000;
+  vertical-align: middle;
+}
+
+.cardPageperkCard-icon {
+  width: 38px;
+  height: 38px;
+  background-color: #070707;
+  border-radius: 50%;
+  vertical-align: middle;
+  display: inline-block;
+  margin-left: 32px;
+  opacity: 1;
+}
+
+.cardPage-pointCard-icon-text {
+  width:38px;
+  height: 31px;
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.96;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  display:inline-block;
+  padding-top: 7px;
+}
+
+.cardPage-perkCard-icon-text {
+  width:38px;
+  height: 31px;
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.96;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  display:inline-block;
+  padding-top: 7px;
+}
+
+.pointCards {
+  padding-top: 60px;
+  padding-right: 81px;
+  flex-direction: row;
+}
+
+.perkCards {
+  padding-top: 60px;
+  padding-right: 81px;
+}
+
+.cardColumnContainer {
+  display: flex;
+}
+
+.column1 .column2 {
+  float: left;
+}
+.column2 {
+  padding-left: 30.5px;
+  padding-top: 15px;
+  width: 100%;
+}
+
+.pointcardBorder {
+  width: 170px;
+  height: 105px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.4);
+  background-color: #ffffff;
+  border: solid 1px #8fac1a;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.perkcardBorder {
+  width: 170px;
+  height: 105px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.4);
+  background-color: #9ebe1d;
+  border: solid 1px #8fac1a;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.pointcardTitle {
+  width: 47px;
+  height: 45px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.99;
+  letter-spacing: normal;
+  text-align: left;
+  color: #9ebe1d;
+  padding-left: 11.6px;
+  padding-top: 7.5px;
+}
+
+.perkcardTitle {
+  width: 47px;
+  height: 45px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 900;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.99;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  padding-left: 11.6px;
+  padding-top: 7.5px;
+}
+
+.pointcardBalance {
+  height: 29px;
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #9ebe1d;
+  padding-right: 13.8px;
+  float: right;
+  padding-bottom: 11px;
+  padding-top: 12.4px;
+}
+
+.perkcardBalance {
+  height: 29px;
+  font-family: Roboto;
+  font-size: 25px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+  padding-right: 13.8px;
+  float: right;
+  padding-bottom: 11px;
+  padding-top: 12.4px;
+}
+
+.expireDate{
+  width: 180px;
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #525252;
+  padding-top: 17.6px;
+}
+
+.cardInfo {
+  width: 100%;
+  height: 105px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.15;
+  text-align: left;
+  color: #282828;
+}
+.initialBalanceLabel {
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #000000;
+}
+
+.currentBalanceLabel {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #d53560;
+}
+
+.initialBalance {
+  float: right;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #000000;
+}
+
+.currentBalance {
+  float: right;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  color: #d53560;
+}
+
+.acctInfo {
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  text-align: left;
+  color: #525252;
+  padding-top: 5.5px;
+}

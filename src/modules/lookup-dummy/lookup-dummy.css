@@ -1,0 +1,19 @@
+.dummyClass {
+  font-family: 'Roboto';
+  font-size: 100px;
+  text-align: center;
+  padding-top : 100px;
+}
+
+.goToCustomerDetails{
+  margin-top: 10px;
+  /* display: -ms-flexbox; */
+  display: flex;
+  float: right;
+  /* margin-right: 30px; */
+  flex-direction: row;
+  height: 20px;
+  width: 30px;
+
+}
+

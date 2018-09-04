@@ -1,0 +1,149 @@
+.giftcard-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.giftcard-header-arrow {
+    width: 14px;
+    height: 28px;
+    margin: 0 27px 0 50px;
+}
+
+.giftcard-header-divider {
+    max-width: 0px;
+    width: 0px;
+    height: 38px;
+    border: solid 1px #707070;
+    margin-right: 16px;
+}
+
+.giftcard-header-text {
+    width: 305px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    color: #51515b;
+}
+
+
+.giftcard-cancel {
+    width: 180px;
+    height: 54px;
+    border: solid 2px #613b8c;
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.giftcard-cancel-text {
+    width: 92px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #613b8c;
+    text-transform: uppercase;
+}
+
+.giftcard-next {
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin: 0 50px 0 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.giftcard-next-disabled {
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    margin: 0 50px 0 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.giftcard-next-text {
+    width: 62px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+.giftcard-clear-all-icon{
+    width: 28px;
+    height: 28px;
+    padding: 15px;
+}
+
+.giftcard-errorModal{
+    width: 725px;
+    height: 325px;
+}
+
+
+.giftcard-errorModal-container{
+    display: flex;
+    flex-direction: column;
+    height: 345px;
+    justify-content: center;
+    align-items: center;
+}
+
+.giftcard-errorModal-icon{
+    width: 101px;
+    height: 90px;
+    margin-top: 51px;
+}
+
+.giftcard-errorModal-text{
+    height: 100px;
+    margin-top: 42px;
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: center;
+    color: #070707;
+}
+
+.giftcard-errorModal-button{
+    width: 765px;
+    height: 54px;
+    background-color: #4b2b6f;
+    border: solid 1px #a87ed6;
+}
+
+.giftcard-errorModal-button-text{
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: lighter;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #ffffff;
+}

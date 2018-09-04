@@ -1,0 +1,371 @@
+
+
+/*....................Tab content..............*/
+
+.cusdet-tab-content .content-left-part {
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+}
+
+.cusdet-tab-content .non-member-content-right-part {
+  display: flex;
+  flex: 4;
+  margin-top: 86px;
+}
+
+.cusdet-tab-content .incirclenonmember-content-left-upper {
+  display: flex;
+  flex: 1;
+  padding-left: 184px;
+  flex-direction: column;
+}
+
+.cusdet-tab-content .content-row1 {
+  display: flex;
+  flex: 1;
+  flex-direction: row !important;
+}
+
+.cusdet-tab-content .content-row2 {
+  display: flex;
+  flex: 1;
+  flex-direction: row !important;
+}
+
+.cusdet-tab-content .content-row3 {
+  display: flex;
+  flex: 1;
+  flex-direction: row !important;
+}
+
+.cusdet-tab-content .content-row4 {
+  display: flex;
+  flex: 1;
+  flex-direction: row !important;
+}
+
+.cusdet-tab-content .content-left-lower {
+  flex: 1;
+  padding-left: 50px;
+}
+
+
+
+.spacer-section {
+  flex: 1;
+}
+
+/* INTEGRATE */
+
+.cusdet-tab-content .custdet-detail-label {
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.62;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+}
+
+.cusdet-tab-content .custdet-detail-value {
+  height: 62px;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+
+.cusdet-tab-content .edit-profile-button-label {
+  font-size: 21px;
+  margin-left: 15px;
+}
+
+
+/* ------------- TAB HEADER ------------------*/
+
+
+.incircle-tab-label.selected-tab-label:after {
+  width: 0px;
+  content: "";
+  box-shadow: 4px 4px 6px 0px #d9cce7;
+  display: inline-block;
+  padding: 15px;
+  -webkit-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  position: absolute;
+  top: 337px;
+  left: 945px;
+  background: white;
+}
+
+
+.circleIcon {
+  border:none;
+  background:none;
+  width: 53px;
+  /* margin-top: 80px !important; */
+  display: block;
+  margin-top: 4px !important;
+}
+
+.circleIconActive {
+  border:none;
+  background:none;
+  width: 71px;
+  /* margin-top: 80px !important; */
+  display: block;
+  margin-top: 4px !important;
+  margin-left: -8px !important;
+}
+
+.numberCircle {
+  position:absolute;
+  margin-top:-36px;
+  margin-left:-6px;
+  font-size:16px;
+  color: #6b4893;
+  font-family: Roboto;
+}
+
+.numberCircleLarge {
+  position:absolute;
+  margin-top:-50px;
+  margin-left:-9px;
+  font-size:24px;
+  color: white;
+  font-family: Roboto;
+}
+.numberCircleChair {
+  position:absolute;
+  margin-top:9px;
+  margin-left:-25px;
+  font-size:16px;
+  color: #6b4893;
+  font-family: Roboto;
+}
+.numberCircleChairLarge {
+  position:absolute;
+  margin-top:14px;
+  margin-left:-38px;
+  font-size:24px;
+  color:white;
+  font-family: Roboto;
+}
+.notMember {
+  width: 411px;
+  height: 32px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.19;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  margin-top: -15px;
+}
+
+
+.incircleLevels {
+  width: 368px;
+  height: 58px;
+  font-family: Roboto;
+  font-size: 50px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.16;
+  letter-spacing: normal;
+  text-align: left;
+  color: #505050;
+  margin-top: 28px;
+}
+
+.incircleHeadingStyle {
+  font-weight: 600;
+}
+
+
+.tapCircleText {
+  width: 500px;
+  height: 28px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #525252;
+  margin-top: 20px;
+}
+
+
+
+.circleText {
+  width: 187px;
+  height: 28px;
+  opacity: 0.93;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #613b8c;
+  position: absolute;
+  margin-top:-33px !important;
+  margin-left:37px;
+}
+
+.circleTextLarge {
+  width: 234px;
+  height: 35px;
+  opacity: 0.93;
+  font-family: Roboto;
+  font-size: 30px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #613b8c;
+  position: absolute;
+  margin-top:-50px !important;
+  margin-left:42px;
+}
+
+.circleTextChair {
+  width: 187px;
+  height: 28px;
+  opacity: 0.93;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #613b8c;
+  position: absolute;
+  margin-top:7px !important;
+  margin-left:13px;
+}
+
+.circleTextChairLarge {
+  width: 234px;
+  height: 35px;
+  opacity: 0.93;
+  font-family: Roboto;
+  font-size: 30px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #613b8c;
+  position: absolute;
+  margin-top:12px !important;
+  margin-left:12px;
+}
+
+.btn-group {
+  margin-top: 11px;
+}
+
+.displayInline {
+  display:inline-block;
+  vertical-align:top;
+}
+
+.rightCircleText {
+  width: 196px;
+  height: 69px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 59px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  margin-left: 17px;
+}
+
+.rightMoneyText {
+width: 152px;
+height: 36px;
+font-family: Roboto;
+font-size: 36px;
+font-weight: normal;
+font-style: normal;
+font-stretch: normal;
+line-height: 1.61;
+letter-spacing: normal;
+text-align: left;
+color: #592990;
+margin-left:24px;
+}
+
+.circle {
+  position: absolute;
+  width: 11.6px;
+  height: 26.4px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  margin-top:-49px;
+  margin-left: 21px;
+}
+
+.displayNone {
+  display: none;
+}
+
+.displayVis {
+  display: visible;
+  width: 737px;
+  height: 181px;
+  opacity: 0.7;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+}
+
+.btn:focus {
+  outline: none;
+}

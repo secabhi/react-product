@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5492.348 -3428.25 70.625 70.5">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-1 {
+        font-size: 24px;
+        font-family: HelveticaNeue-Bold, Helvetica Neue;
+        font-weight: 700;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 0.5px;
+      }
+
+      .cls-3 {
+        stroke-width: 0.75px;
+      }
+    </style>
+  </defs>
+  <g id="Symbol_135_1" data-name="Symbol 135 – 1" transform="translate(-6031 -3556)">
+    <text id="_3" data-name="3" class="cls-1" transform="translate(567.527 169.024)"><tspan x="0" y="0">3</tspan></text>
+    <g id="Group_3531" data-name="Group 3531" transform="translate(539.027 128)">
+      <path id="Path_2743" data-name="Path 2743" class="cls-2" d="M47.432,19.021A28.427,28.427,0,0,0,44.9,75.737c.909.065,1.818.13,2.727.13a28.427,28.427,0,0,0,2.6-56.717c-.974-.065-1.883-.13-2.792-.13Zm.13,57.433c-.909,0-1.818-.065-2.727-.13a28.977,28.977,0,0,1,2.6-57.824c.909,0,1.818.065,2.727.13a28.981,28.981,0,0,1-2.6,57.823Z" transform="translate(-6.521 -6.454)"/>
+      <path id="Path_2744" data-name="Path 2744" class="cls-2" d="M47.426.847A28.24,28.24,0,1,0,69.115,11.07,28.237,28.237,0,0,0,47.426.847Zm0,57.433a29.106,29.106,0,1,1,18.507-6.707,29.07,29.07,0,0,1-18.507,6.707Z" transform="translate(-6.453 0)"/>
+      <path id="Path_2745" data-name="Path 2745" class="cls-3" d="M29.221,5.507a28.13,28.13,0,1,0,28.052,28.13h0A28.225,28.225,0,0,0,29.221,5.507Zm0,57.433A29.27,29.27,0,1,1,58.442,33.7,29.25,29.25,0,0,1,29.221,62.94Z" transform="translate(0 -1.534)"/>
+    </g>
+  </g>
+</svg>

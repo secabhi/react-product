@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.589 122">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+        stroke: #505050;
+        stroke-width: 2px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        stroke-linecap: round;
+      }
+
+      .cls-1, .cls-2, .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Associate_Login" data-name="Associate Login" transform="translate(-4008.701 -1329.508)">
+    <path id="Path_3716" data-name="Path 3716" class="cls-1" d="M1145.793,1486.072c-2.256-2.769-4.923-3.487-7.795-4.307a21.97,21.97,0,0,1-4.513-1.641c-3.795-1.744-3.385-4.821-3.385-4.923" transform="translate(2942.062 -88.795)"/>
+    <path id="Path_3718" data-name="Path 3718" class="cls-1" d="M1126.905,1502.072a16.493,16.493,0,0,1-2.256,0c-10.461,0-16.205-1.231-18.564-1.846a4.548,4.548,0,0,1-3.385-4.41c0-2.359.41-6.974,2.667-9.744s4.923-3.487,7.795-4.307a21.97,21.97,0,0,0,4.513-1.641c3.795-1.744,3.385-4.821,3.385-4.923" transform="translate(2941.36 -88.795)"/>
+    <path id="Path_3719" data-name="Path 3719" class="cls-1" d="M1124.4,1501.405a16.493,16.493,0,0,0,2.256,0c2.564,0,4.923-.1,6.974-.205" transform="translate(2941.916 -88.128)"/>
+    <ellipse id="SVGID_27_" class="cls-2" cx="59.795" cy="60" rx="59.795" ry="60" transform="translate(4009.701 1330.508)"/>
+    <path id="Path_3791" data-name="Path 3791" class="cls-3" d="M1143.7,1491.7l3.9,4.41-3.9,4.41" transform="translate(2942.411 -88.372)"/>
+    <path id="Path_3792" data-name="Path 3792" class="cls-4" d="M1142.872,1485.8a10.469,10.469,0,1,0,0,20.923,10.462,10.462,0,0,0,0-20.923Z" transform="translate(2942.111 -88.523)"/>
+    <line id="Line_514" data-name="Line 514" class="cls-3" x1="8.923" transform="translate(4081.085 1407.739)"/>
+    <path id="Path_3866" data-name="Path 3866" class="cls-5" d="M1737.066,568.192c-6.45,0-11.466-8.743-11.466-16.339,0-7.166,4.443-11.753,11.466-11.753,6.88,0,10.893,4.443,10.893,11.753C1747.959,559.593,1743.516,568.192,1737.066,568.192Z" transform="translate(2330.563 819.644)"/>
+  </g>
+</svg>

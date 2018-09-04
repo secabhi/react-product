@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 83.11 73.521">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #a31818;
+        stroke-miterlimit: 10;
+        stroke-width: 3px;
+      }
+
+      .cls-2 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Warning" transform="translate(-3036.783 -470.808)">
+    <path id="Path_3829" data-name="Path 3829" class="cls-1" d="M1732.764,2381.782l-35.315,61.285a4.657,4.657,0,0,0,4.021,6.954h70.738a4.636,4.636,0,0,0,4.02-6.954l-35.315-61.285A4.779,4.779,0,0,0,1732.764,2381.782Z" transform="translate(1341.501 -1907.193)"/>
+    <line id="Line_531" data-name="Line 531" class="cls-2" y2="24.666" transform="translate(3078.719 495.453)"/>
+    <line id="Line_532" data-name="Line 532" class="cls-2" y2="1.956" transform="translate(3078.719 529.246)"/>
+  </g>
+</svg>

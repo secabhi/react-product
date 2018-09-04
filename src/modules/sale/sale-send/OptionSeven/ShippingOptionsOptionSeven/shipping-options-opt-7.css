@@ -1,0 +1,288 @@
+.shipping-options-container {
+    display: flex;
+    flex-direction: column;
+    width: 1920px;
+    height: 705px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+}
+
+.shipping-options-text {
+    height: 66px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    text-align: left;
+    color: #51515b;
+    margin: 50px 0 33px 93px;
+}
+
+.shipping-options-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 0 0 150px;
+    vertical-align: middle;
+}
+
+.shipping-options-list {
+    /* width: 50%; */
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b; 
+}
+
+.shipping-option {
+    display: block;
+    margin: 0 0 45px 40px; 
+    /* position: relative; */
+    /* padding-left: 70px;   */
+}
+
+.shipping-options-label {
+    /* vertical-align: text-bottom; */
+    margin-top: 8px;
+}
+
+/* .shipping-option input {
+    position: absolute;
+    opacity: 0;
+}
+
+
+.radio-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    background-color: #ffffff;
+    border: solid 2px #707070;
+    border-radius: 50%;
+}
+
+.shipping-option input:checked ~ .radio-button {
+    background-color: #ffffff;
+}
+
+.radio-button:after {
+    content: "";
+    position: absolute;
+    display: none; 
+}
+
+.shipping-option input:checked ~ .radio-button:after {
+    display: block;
+}
+
+.shipping-option .radio-button:after {
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: #4b2b6f;
+    border-radius: 50%;
+} */
+
+.shipping-options-price {
+    font-weight: 500;
+}
+
+.shipping-options-form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    /* justify-content: center; */
+}
+
+.shipping-form-label {
+    width: 250px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+
+.override-label {
+    margin-top: 70px;
+}
+
+/* RADIO BUTTON STYLING */
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #4b2b6f;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #4b2b6f;
+}
+
+/* END RADIO BUTTON STYLING */
+
+
+@media only screen and (max-width: 1080px) {
+
+    .shipping-options-container {
+        display: flex;
+        flex-direction: column;
+        width: 1080px;
+        height: 1920px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+    }
+
+    .shipping-options-text {
+        height: 66px;
+        font-family: Roboto;
+        font-size: 75px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        text-align: left;
+        color: #51515b;
+        margin: 50px 0 33px 93px;
+    }
+
+    .shipping-options-list {
+        width: auto;
+        height: 43px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.34;
+        letter-spacing: normal;
+        text-align: left;
+        color: #51515b; 
+        margin: 100px 0 0 0;
+    }
+
+    .shipping-option {
+        margin: 0 0 80px 43px; 
+        position: relative;
+        /* padding-left: 90px;   */
+    }
+
+    .shipping-options-label {
+        /* vertical-align: text-bottom; */
+        font-size: 44px;
+        color: #51515b;
+        margin-top: 15px;
+    }
+    
+    /* .shipping-option input {
+        position: absolute;
+        opacity: 0;
+    }
+    
+    .radio-button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 60px;
+        width: 60px;
+        background-color: #ffffff;
+        border: solid 5px #707070;
+        border-radius: 50%;
+    }
+    
+    .shipping-option input:checked ~ .radio-button {
+        background-color: #ffffff;
+    }
+    
+    .radio-button:after {
+        content: "";
+        position: absolute;
+        display: none; 
+    }
+    .shipping-option input:checked ~ .radio-button:after {
+        display: block;
+    }
+    .shipping-option .radio-button:after {
+       top: 10px;
+       left: 10px;
+       width: 40px;
+       height: 40px;
+       background-color: #4b2b6f;
+       border: solid 5px #4b2b6f;
+       border-radius: 50%;
+    } */
+
+    .shipping-options-form {
+        display: none;
+    }
+
+}

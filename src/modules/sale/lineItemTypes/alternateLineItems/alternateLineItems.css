@@ -1,0 +1,574 @@
+.item-index-extra-line-items{
+    width: 44px;
+    height: 100px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: solid 2px #ededed;
+    margin-right: 10px;
+}
+
+
+.item-extraDetail-container{
+    display: flex;
+    flex-flow: row wrap;
+     justify-content: space-between; 
+    align-items: center;
+    font-family: Roboto;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff; 
+}
+
+
+.saleContent-alterations-card-large{
+    /* border: 2px solid red; */
+    width: 1492px;
+    height: 100px;
+    
+}
+
+.item-info-card-title{
+    /* border: 2px solid green; */
+    display: flex;
+    height: 100px;
+    width: 196px;
+    font-size: 26px;
+    /* margin-left: 10px; */
+    align-items: center;
+
+}
+
+.item-info-card-description{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+    width: 305px;
+    margin-right: 10px;
+    margin-left: 8px;
+}
+
+.item-info-card-description-line1{
+    font-size: 24px;
+    padding-top: 13px;
+    width: 318px;
+    text-overflow: ellipsis;
+    /* border: 2px solid black; */
+    display:block;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.item-info-card-description-line2{
+    font-size: 24px;
+    width: 300px;
+    padding-bottom: 13px;
+    /* border: 2px solid black; */
+}
+
+.item-info-card-qty{
+     /* border: 2px solid orange;  */
+    display: flex;
+    align-items: center;
+    height: 100px;
+    /* width: 100px; */
+    margin-left: 10px;
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    color: #333333;    
+    margin-left: 11px;
+
+}
+
+.item-info-card-pricing{
+    /* border: 2px solid purple; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 268px;
+    height: 100px;
+    margin-right: 100px;
+    text-align: right;
+    font-size: 24px;
+
+}
+
+.item-info-card-pricing-line1{
+    font-size: 24px;
+    padding-top: 10px;
+    /* border: 2px solid blue; */
+}
+
+.item-info-card-pricing-line2{
+    font-size: 24px;
+    margin-right: 50px;
+    padding-bottom: 10px;
+    /* border: 2px solid red; */
+}
+.item-info-card-pricing-line2.taxlength1{
+    margin-left: 141px !important;
+}
+.item-info-card-pricing-line2.taxlength2{
+    margin-left: 133px !important;
+}
+.item-info-card-pricing-line2.taxlength3{
+    margin-left: 118px !important;
+}
+.item-info-card-pricing-line2.taxlength4{
+    margin-left: 105px !important;
+}
+.item-info-card-pricing-line2.taxlength5{
+    margin-left: 95px !important;
+}
+.tax-price-style
+{
+    text-align: right;
+    margin-right: 35px;  
+}
+.item-info-card-totals{
+    width: 129px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: Roboto;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    /* text-align: left; */
+    color: #333333;
+    /* border: 2px solid green; */
+}
+
+.item-info-card-totalPrice{
+    font-size: 26px;
+    padding-top: 10px;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.item-info-card-totalTax{
+    font-size: 26px;
+    padding-bottom: 10px;
+    text-align: right;
+    margin-right: 35px;
+
+}
+.item-info-card-totalTax.alter-item-tax-amt {
+    margin-left: 22px;
+}
+/* STYLES SPECIFIC TO ALTERATIONS */
+.selected {
+    background-color: rgba(168, 126, 214);
+}
+
+.alterations{
+    background-color: rgba(0, 133, 124, 0.15);
+}
+
+.alterations-container{
+    border: solid 1px rgba(0, 133, 124, 0.15); 
+}
+
+.alterations-title{
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    text-align: center;
+    color: #00857c;
+}
+
+.alterations-space{
+    width: 240px;
+}
+
+/* STYLES SPECIFIC TO DELIVERY FEE */
+.selected {
+    background-color: rgba(168, 126, 214);
+}
+
+.deliveryfee{
+    background-color: rgba(0, 133, 124, 0.15);
+}
+
+.deliveryFee-container{
+    border: solid 1px rgba(0, 133, 124, 0.15); 
+}
+
+.deliveryFee-title{
+    font-family: Roboto;
+    font-size: 28px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    text-align: center;
+    color: #00857c;
+}
+
+.deliveryFee-space{
+    width: 240px;
+}
+
+/* STYLES SPECIFIC TO GIFT WRAP */
+
+.giftwrap{
+   background-color: rgba(171, 129, 219, 0.15);
+}
+
+.giftWrap-container{
+    border: solid 1px rgba(97, 59, 140, 0.4) 
+}
+
+.giftWrap-title{
+    width: 110px;
+  height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    text-align: center;
+    color: #613b8c;
+    margin-left: 28px;
+}
+
+.giftWrap-space, .giftcard-space {
+    width: 353px;
+}
+
+/* STYLES SPECIFIC TO GIFT CARD */ 
+
+.giftcard-container {
+        width: 1492px;
+        height: 100px;
+        background-color: #ffffff;
+        background-color: var(--white);
+        border: solid 2px rgba(52, 152, 21, 0.4);
+}
+.giftcard-container-quantity{
+    width: 62px;
+    height: 30px;
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.51;
+    letter-spacing: 0.3px;
+    text-align: left;
+    color: #333333;
+    color: var(--Gray11);
+    margin-left: -5px;
+}
+.card-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: -168px;
+}
+.giftCardIndex {
+    background-color: rgba(52, 152, 21, 0.15);
+}
+.card-small-container {
+    width: 97px;
+    height: 67px;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.4);
+    background-color: #ffffff;
+    border: solid 1px #8fac1a;
+    margin-right: 25px;
+    display: flex;
+    flex-direction: column;
+}
+.card-info-small {
+    width: 50px;
+    height: 30px;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 900;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #9ebe1d;
+    margin: 5px 0 0 8px;
+    text-transform: uppercase;
+}
+.card-price-small {
+    max-width: 32px;
+    height: 25px;
+    font-family: Roboto;
+    font-size: 19px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.37;
+    letter-spacing: normal;
+    text-align: right;
+    color: #9ebe1d;
+    margin: 15px 0 0 50px;
+}
+.card-info-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: -137px;
+    
+}
+.card-info-title {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    text-align: left;
+    color: #333333;
+}
+.card-info-desc {
+    font-family: Roboto;
+    font-size: 30px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.3;
+    letter-spacing: normal;
+    text-align: left;
+    color: #333333;
+}
+.giftcard-priceline1{
+    height: 34px;
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    text-align: right;
+    color: #333333;
+    color: var(--Gray11);
+}
+.giftWrap-space{
+    width: 275px;
+    }
+
+    /**custom css for giftwrap message**/
+    .giftwrap-message {
+        font-family: Roboto;
+        font-size: 24px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        text-align: left;
+        color: #333333;
+        margin-bottom: -9px;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 318px;
+    }
+    .item-info-card-description-line2.wrap-message
+    {
+        padding-bottom: 0 !important;
+    }
+    .item-info-card-description-line1.wrap-message
+    {
+        padding-top: 0px !important;
+    }
+    .item-extraDetail-container.giftWrap-container.giftwrap-message-container {
+        height: 142px;
+    }
+    .item-extraDetail-container.giftWrap-container.giftwrap-message-container .item-index-extra-line-items.giftwrap{
+        height: 142px;
+    }
+    .giftwrap-message-container .giftWrap-space {
+        width: 203px;
+    }
+    .giftwrap-message-container .item-info-card-pricing
+    {
+        margin-right: 78px;
+    }
+    
+/*-----SMALL FORM FACTOR------*/
+
+@media only screen and (width:1080px){
+
+    .item-index-extra-line-items{
+        width: 44px;
+        height: 236px;
+        font-family: Roboto;
+        font-size: 38px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        text-align: left;
+        color: #333333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 2px #ededed;
+        margin-right: 10px;
+        margin-left: 45px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    .item-information-container-small{
+        display: flex;
+        flex-direction: column;
+        width: 700px;
+        margin-right: 30px;
+        /* border: 2px solid red; */
+    }
+
+    .item-info-card-description-container-small{
+        display: flex;
+
+    }
+
+    .item-info-card-pricing-container-small{
+        display: flex;
+    }
+
+    .saleContent-alterations-card-large{
+        /* border: 2px solid red; */
+        width: 1492px;
+        height: 100px;
+    }
+    
+
+    .item-info-card-title{
+        /* border: 2px solid green; */
+        display: flex;
+        height: 100px;
+        width: 196px;
+        font-size: 38px;
+        /* margin-left: 10px; */
+        align-items: center;
+        /* border: 2px solid green; */
+
+    }
+
+    .item-info-card-description{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+         /* border: 2px solid blue;   */
+        height: 100px;
+        width: 500px;
+    }
+
+    .item-info-card-description-line1{
+        font-size: 38px;
+        padding-top: initial;
+        /* border: 2px solid black;  */
+    }
+
+    .item-info-card-description-line2{
+        font-size: 38px;
+        padding-bottom: initial;
+        /* border: 2px solid black;  */
+    }
+
+    .item-info-card-qty{
+         /* border: 2px solid orange;   */
+        display: flex;
+        align-items: initial;
+        height: 100px;
+        /* width: 100px; */
+        margin-left: 90px;
+        padding-bottom: 10px;
+        font-family: Roboto;
+        font-size: 38px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.31;
+        color: #333333;
+    }
+
+    .item-info-card-pricing{
+        /* border: 2px solid purple; */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 450px;
+        height: 100px;
+        margin-right: initial;
+        text-align: right;
+    }
+
+    .item-info-card-pricing-line1{
+        font-size: 38px;
+        padding-top: 10px;
+        text-align: right;
+        /* padding-right: 50px; */
+          /* border: 2px solid blue;   */
+    }
+
+    .item-info-card-pricing-line2{
+        font-size: 38px;
+        margin-right: 50px;
+        padding-left: 20px;
+        padding-bottom: initial;
+        text-align: left;
+          /* border: 2px solid red;   */
+    }
+
+   
+
+    .item-info-card-totals{
+        width: 329px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-family: Roboto;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        /* text-align: left; */
+        color: #333333;
+         /* border: 2px solid green;  */
+    }
+
+    .item-info-card-totalPrice{
+        font-size: 38px;
+        padding-top: 10px;
+        padding-left: 5px;
+        font-weight: bold;
+        text-align: right;
+    }
+
+    .item-info-card-totalTax{
+        font-size: 38px;
+        padding-bottom: 10px;
+        text-align: right;
+
+    }
+
+    .alterations-space{
+        width: 0px;
+    }
+
+}

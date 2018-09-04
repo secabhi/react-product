@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.5 25.5">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #505050;
+        stroke-width: 1.5px;
+      }
+
+      .cls-1 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Text_Close" transform="translate(-0.05 -0.05)">
+    <g id="Group_5038" data-name="Group 5038" transform="translate(8.552 8.552)">
+      <line id="Line_563" data-name="Line 563" class="cls-1" x2="8.496" y2="8.496"/>
+      <line id="Line_564" data-name="Line 564" class="cls-1" x1="8.496" y2="8.496"/>
+    </g>
+    <circle id="Ellipse_415" data-name="Ellipse 415" class="cls-2" cx="12" cy="12" r="12" transform="translate(0.8 0.8)"/>
+  </g>
+</svg>

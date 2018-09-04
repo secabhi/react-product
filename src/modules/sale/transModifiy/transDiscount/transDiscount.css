@@ -1,0 +1,182 @@
+.modal-sff-flex {
+    display: flex;
+    padding: 0px !important;
+    height: 1460px !important;
+    width: 100% !important;
+    flex-direction: column;
+}
+
+.modal-sff-title {
+  font-size: 60px;
+  font-weight: 300;
+  font-style: normal;
+  margin-left: 80px;
+}
+
+.modal-sff-input {
+  width: 90% !important;
+  font-size: 48px !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  margin-left: 80px;
+}
+
+.modal-sff-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 240px;
+    margin-top: 710px;
+    border: solid 2px #969696;
+    box-shadow: 0 -2px 15px 0 #656565;
+    background-color: #ffffff;
+}
+
+.modal-sff-btn-cancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 375px;
+  height: 120px;
+  font-family: Roboto;
+  font-size: 44px;
+  font-weight: normal;
+  font-style: normal;
+  border: solid 4px #612e9b;
+
+}
+
+.modal-sff-btn-ok {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 304px;
+    height: 120px;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: normal;
+    font-style: normal;
+    color: white;
+    background-color: #4b2b6f;
+}
+
+.modal-sff-cancel-img {
+    width: 47.3px;
+    height: 47.3px;
+    object-fit: contain;
+}
+
+
+
+/* LFF ----------------------------------------------------------------------------------*/
+.modal-lff-flex {
+    display: flex;
+    padding: 0px !important;
+    height: 568px !important;
+    width: 725px !important;
+    margin: auto;
+    flex-direction: column;
+    align-items: center;
+}
+.modal-lff-extra-height-flex {
+    padding: 0px !important;
+    height: 702px !important;
+    width: 725px !important;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.modal-icon {
+    width: 120px;
+    height: 120px;
+}
+
+.modal-input-field {
+    font-size: 36px !important;
+    width: 90% !important;
+}
+
+.modal-title {
+    font-family: Roboto;
+    font-size: 32px;
+    margin-top: 15px;
+    font-weight: 300;
+}
+
+.modal-buttons-container-flex {
+    display: flex;
+    width: 50%;
+    height: 60px;
+    margin-top:60px;
+}
+
+.modal-cancel-btn-flex  {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    
+}
+
+.modal-cancel-img {
+  width: 27.6px;
+  height: 27.5px;
+  margin-left: 8px;
+  margin-top: 5px;
+}
+
+.modal-cancel-text {
+    font-family: Roboto;
+    font-size: 24px;
+    align-self: center;
+    color: #613b8c;
+    margin-left: -18px;
+}
+
+.modal-ok-btn-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 155px;
+  height: 60px;
+  background-color: #4b2b6f;
+  border: solid 2px #4b2b6f;
+  color: white;
+  font-size: 24px;
+  
+}
+
+.modal-label {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 300;
+  font-style: normal;
+  align-self: flex-start;
+  margin-left: 45px;
+}
+
+.hide-label {
+    visibility: hidden;
+}
+
+.show-label {
+    visibility: visible
+}
+
+.element-disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.trans_error_message {
+    color: #d53560;
+    font-size: 23px;
+    line-height: 0px;
+    text-align: right;
+}

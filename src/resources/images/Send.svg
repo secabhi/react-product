@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="9450.5 -769 72 72">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke-width: 2px;
+      }
+
+      .cls-1 {
+        stroke: #532d8c;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .cls-2 {
+        stroke: #613b8c;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Send" transform="translate(8739 -1680)">
+    <path id="Path_3997" data-name="Path 3997" class="cls-1" d="M1120.6,509.627,1155.12,495.1l-7.767,30.205-9.781-6.473-4.315,5.61-3.6-10.212Z" transform="translate(-393.1 436.686)"/>
+    <circle id="Ellipse_206" data-name="Ellipse 206" class="cls-2" cx="35" cy="35" r="35" transform="translate(712.5 912)"/>
+  </g>
+</svg>

@@ -1,0 +1,673 @@
+@media only screen and (max-width: 1920px) and (min-width: 1920px) {
+  /* battery indicators area */
+  .battery-indicator-area{
+    display: flex;
+    width:115.5px;
+    flex-direction: row;
+    margin-right: 49.7px;
+    height: 18px;
+  
+  }
+
+  .ped-battery-indicator{
+    width: 57.3px;
+    height: 18.7px;
+    margin-right: 2px;
+    background-image: url('../../../../resources/images/Battery_PED_Outline.svg');
+    background-repeat: no-repeat;
+  }
+
+  .device-battery-indicator{
+    width: 57.3px;
+    height: 18.7px;
+     background-image: url('../../../../resources/images/Battery_Outline.svg'); 
+    background-repeat: no-repeat;
+  }
+  
+  /* .ped-battery-color-area{ 
+    width: 24.5px;
+    height: 10.2px;
+    margin-left: 21px;
+    margin-top: 5.2px;
+    margin-bottom: .5px;
+  } */
+
+.commonheader-ped-battery-color-area{
+    width: 26.5px !important;
+    height: 10.2px !important;
+    margin-left: 22px !important;
+    margin-top: 5.4px !important;
+}
+  
+  .ped-battery-color-area-inner{
+    width:  100%;
+    height: 9.5px;
+    background-color: green;
+  }
+
+
+  .commonheader-device-battery-color-area{ 
+    width: 26.5px;
+    height: 10.2px;
+    margin-left: 21px;
+    margin-top: 5.3px;
+    margin-bottom: .5px;
+  }
+  
+
+  .device-battery-color-area{ 
+    width: 24.5px;
+    height: 10.2px;
+    margin-left: 6px;
+    margin-top: 5.2px;
+    margin-bottom: .5px;
+  }
+
+  .device-battery-color-area-inner{
+    width:  100%;
+    height: 9.5px;
+    background-color: green;
+  }
+  
+    .headerMainCls {
+      z-index: 1;
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      width: 1920px;
+      height: 100px;
+      background-color: #ffffff;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    }
+    .div-hamberger {
+      display: flex;
+      align-items: center;
+    }
+    .hamburger {
+      width: 38px;
+      padding-left: 50px;
+    }
+       
+    .header-navLinks {
+      display: flex;
+      flex-direction: row;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: normal;
+      text-align: left;
+      color: #505050;
+      padding-left: 50px;
+    }
+    .suspendIconContainer {
+      margin: auto 0;
+      align-items: center;
+      display: flex;
+      padding-right: 41.5px;
+    }
+    .suspend-Icon {
+      width: 38.4px !important;
+      height: 38.4px !important;
+      padding-right: 15px;
+      object-fit: contain;
+    }
+    .accountLookupIconContainer {
+      margin: auto 0;
+      align-items: center;
+      display: flex;
+      padding-right: 41.5px;
+    }
+    .accountLookup-Icon {
+      padding-right: 10px !important;
+      margin-top: 5px !important;
+      width: 54.6px !important;
+      height: 48.5px !important;
+      object-fit: contain;
+    }
+  
+    .voidIconContainer{
+      margin: auto 0;
+      align-items: center;
+      display: flex;
+    }
+    .void-Icon{
+      width: 40px !important;
+      height: 40px !important;
+      padding-right: 13px;
+    }
+    
+    .div-empty-space {
+      width: 1150px;
+    }
+  
+    .header-right-container {
+      display: flex;
+      right: 0;
+      position: absolute;
+      height: inherit;
+    }
+  
+    .div-battery-indicator {
+      display: flex;
+      margin-top:41px;
+      margin-right: 57px;
+    }
+  
+    .letter-P {
+      width: 9.1px;
+      height: inherit;
+      padding-right: 7.5px;
+      margin: auto 0;
+    }
+    .battery-indicator-1 {
+      width: 39.3px;
+      height: 19.8px;
+      margin-right: 20px;
+      margin: auto 0;
+    }
+    .battery-indicator-2 {
+      width: 39.3px;
+      height: 19.8px;
+      margin-right: 20px;
+      margin: auto 0;
+      padding-right: 50px;
+      padding-left: 20px;
+    }
+    .div-logged-in-text {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+    }
+    .div-exit {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      margin-right: 50px;
+    }
+  
+    .logged-in-text {
+      width: 308px;
+      height: 28px;
+      margin-right: 53px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      text-align: left;
+      align-self: center;
+      color: #333333;
+    }
+  
+    .exit-button {
+      width: 42px;
+      height: 44px;
+    }
+    .exit-text {
+      width: 50px;
+      height: 28px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.21;
+      color: #505050;
+      padding-left: 5px;
+    }
+
+    .suspendLabel {
+      width: 93px;
+      height: 28px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      text-align: left;
+      color: #505050;
+    }
+
+    .header-suspend-modal{
+      width: 725px;
+      height: 575px;
+    }
+
+    .header-suspend-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 575px;
+
+    }
+
+    .header-suspend-img-icon{
+      width: 150px;
+      height: 110px;
+      margin-top: 96px;
+      /* border: 2px solid red; */
+    }
+
+    .header-suspend-text{
+      width: 478px;
+      height: 102px;
+      margin-top: 87px;
+      font-family: Roboto;
+      font-size: 38px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.37;
+      letter-spacing: normal;
+      text-align: center;
+      color: #333333;
+      
+      /* border: 2px solid green; */
+    }
+
+    .header-suspend-buttons{
+      display: flex;
+      flex-direction: row;
+      width: 380px;
+      height: 60px;
+      margin-top: 87px;
+      /* border: 2px solid orange; */
+    }
+
+    .header-suspend-no-button{
+      display: flex;
+      height: 60px;
+      width: 155px;
+      margin-left: 10px;
+      color: #ffffff;
+      align-items: center;
+      justify-content: center;
+      border: solid 2px #613b8c;
+      /* border: 2px solid blue; */
+    }
+
+    .header-suspend-yes-button{
+      display: flex;
+      height: 60px;
+      width: 155px;
+      margin-left: 40px;
+      align-items: center;
+      justify-content: center;
+      background-color: #4b2b6f !important;
+      border: solid 2px #4b2b6f !important;
+      /* border: 2px solid red; */
+    }
+
+    .header-suspend-button-text{
+      top:0px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: normal;
+      text-align: left;
+      color: #ffffff;
+    }
+
+    .suspend-text-no{
+      color: #613b8c;
+    }
+  }
+
+  .header-hamburger-menu-modal {
+    position: fixed ! important;
+    left: -1px;
+    width: 500px;
+    top: -9px;
+    height: 1140px ! important;
+    padding: 0px ! important;
+  }
+
+  .header-hamburger-menu-modal-overlay {
+    background: rgba(0, 0, 0, 0) ! important;
+  }
+  .Gift-Card-Inquiry {
+    width: 267px;
+  height: 48px;
+  font-family: Roboto;
+  font-size: 36px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  padding-left:0px;
+  padding-top:66px;
+  color: #ffffff !important;
+  }
+ 
+  .Gift-Card-Inquiry:hover { 
+    font-weight: 800;
+}
+  .Unlock-Account {
+    width: 228px;
+    height: 48px;
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    padding-left:0px;
+    padding-top:66px;
+    color: #ffffff !important;
+  }
+
+  .hamburgerBackground{
+    width: 500px;
+  height: 100px;
+  background-color: #2f1748;
+  }
+  .hamburger-close-button-container {
+    position: fixed;
+    top: 40px;
+    left: 52px;
+    width:34px;
+  height: 34px;
+  border: solid 6px #ffffff;
+  border: solid 6px var(--white);
+  }
+  .hamburgerBackgroundMainContainer{
+    width: 500px;
+    height: 1040px;
+    background-color: #442962;
+    box-shadow: 10px 10px 40px 0 rgba(0, 0, 0, 0.77);
+  }
+  .hamburgerMainContainer{
+    width: 300px;
+    padding-left: 100px;
+  }
+  
+  .hamburger-close-button-image {
+    width: 25px;
+    height: 45px;
+    margin-top: -12px !important;
+  }
+
+  .suspend-noItem-modal {
+    width: 725px !important;
+    height: 400px !important;
+    box-shadow: 0 6px 35px 0 rgba(247, 47, 47, 0.6);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .suspend-noItem-img {
+    width: 101px;
+    height: 90px;
+    margin: 100px auto;
+  }
+
+  .suspend-noItem-msg {
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-top: -50px;
+  }
+
+  .suspend-noItem-btn {
+    width: 725px;
+    height: 60px;
+    background-color: #4b2b6f;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .suspend-noItem-txt {
+    width: 172px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.17;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 15px;
+  }
+  
+  @media only screen and (max-width: 1080px) {
+    .cusdet-header {
+      width: 1920px;
+      height: 130px;
+    }
+    .headerMainCls {
+      z-index: 1;
+      position: relative;
+      top:0px;
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      width: 1080px;
+      height: 130px;
+      background-color: #ffffff;
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    }
+    .div-hamberger {
+      display: flex;
+      align-items: center;
+    }
+    .hamburger {
+      width: 68px;
+      padding-left: 40px;
+      height: fit-content;
+    }
+  
+    .header-navLinks {
+      display: none;
+    }
+    .div-empty-space {
+      width: 1174.7px;
+    }
+  
+    .header-right-container {
+      display: flex;
+      right: 0;
+      position: absolute;
+      height: inherit;
+      width: 86%;
+    }
+  
+    .div-battery-indicator {
+      display: flex;
+    }
+  
+    .letter-P {
+      width: 14.8px;
+      height: inherit;
+      margin: auto 0;
+      padding-right: 7.5px;
+      font-family: Roboto;
+      font-size: 44px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.18;
+      letter-spacing: 10px;
+      text-align: right;
+      color: #505050;
+      display: inline-table;
+    }
+    .battery-indicator-1 {
+      width: 63.7px;
+      height: 32.2px;
+      margin: auto 0;
+      margin-right: 20px;
+    }
+    .battery-indicator-2 {
+      width: 63.7px;
+      height: 32.2px;
+      margin: auto 0;
+      margin-right: 20px;
+    }
+    .div-logged-in-text {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      width: 100%;
+    }
+    .div-exit {
+      display: flex;
+      align-items: center;
+      width: 173px;
+    }
+  
+    .logged-in-text {
+      width: 348px;
+      height: 52px;
+      font-family: Roboto;
+      font-size: 44px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.18;
+      text-align: right;
+      color: #505050;
+      align-self: center;
+      width: 100%;
+    }
+  
+    .exit-button {
+      width: 75px;
+      height: 78.1px;
+      right: 0;
+      position: absolute;
+      padding-right: 38px;
+    }
+    .exit-text {
+      width: 50px;
+      height: 28px;
+      font-family: Roboto;
+      font-size: 24px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.21;
+      color: #505050;
+      padding-left: 5px;
+    }
+
+    /*HEADER SUSPEND FUNCTIONALITY*/
+
+    .header-suspend-modal{
+      width: 890px;
+      height: 1200px;
+    }
+
+    .header-suspend-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 1200px;
+
+    }
+
+    .header-suspend-img-icon{
+      width: 328px;
+      height: 292px;
+      margin-top: 153px;
+      /* border: 2px solid red; */
+    }
+
+    .header-suspend-text{
+      width: 754px;
+      height: 151px;
+      margin-top: 200px;
+      font-family: Roboto;
+      font-size: 60px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.37;
+      letter-spacing: normal;
+      text-align: center;
+      color: #333333;
+      /* border: 2px solid green; */
+    }
+
+    .header-suspend-buttons{
+      display: flex;
+      flex-direction: row;
+      width: 700px;
+      height: 120px;
+      margin-top: 200px;
+      /* border: 2px solid orange; */
+    }
+
+    .header-suspend-no-button{
+      display: flex;
+      height: 120px;
+      width: 310px;
+      margin-left: 10px;
+      color: #ffffff;
+      align-items: center;
+      justify-content: center;
+      border: solid 4px #613b8c;
+      /* border: 2px solid blue; */
+    }
+
+    .header-suspend-yes-button{
+      display: flex;
+      height: 120px;
+      width: 310px;
+      margin-left: 40px;
+      align-items: center;
+      justify-content: center;
+      background-color: #4b2b6f !important;
+      border: solid 2px #4b2b6f !important;
+      /* border: 2px solid red; */
+    }
+
+    .header-suspend-button-text{
+      font-family: Roboto;
+      font-size: 44px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.33;
+      letter-spacing: normal;
+      text-align: left;
+      color: #ffffff;
+    }
+
+    .suspend-text-no{
+      color: #613b8c;
+    }
+  }
+  

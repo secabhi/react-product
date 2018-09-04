@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 79.893">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+        stroke: #613b8c;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        stroke-width: 1.5px;
+      }
+    </style>
+  </defs>
+  <g id="Sale_White_Filled" transform="translate(0 -0.061)">
+    <path id="Path_2021_1_" class="cls-1" d="M39.979,79.954a39.86,39.86,0,1,1,15.649-3.108h0A41.572,41.572,0,0,1,39.979,79.954Z" transform="translate(0 0)"/>
+    <g id="Group_5069" data-name="Group 5069" transform="translate(18.194 17.761)">
+      <path id="Path_3950" data-name="Path 3950" class="cls-2" d="M50.764,34.394,48.3,17.138s0-.322-.214-.429c-.107-.214-.429-.107-.429-.107H23.111s-.322,0-.429.107l-.214.429L17,54.223a.561.561,0,0,0,.107.536c.107.214.536.107.536.107h35.37s.429,0,.536-.107a1.434,1.434,0,0,0,.107-.536l-.965-6.431" transform="translate(-16.975 -16.575)"/>
+      <path id="Path_3951" data-name="Path 3951" class="cls-2" d="M40.948,21.1v4.609c-.107,2.358-.322,6.645-6.324,6.645S28.3,28.067,28.3,25.709V21.1" transform="translate(-16.162 -16.25)"/>
+      <path id="Path_3952" data-name="Path 3952" class="cls-2" d="M45.5,34.232,59.327,32.41s1.286-.322,1.715,0c.214.107.429,1.072.429,1.072l1.286,10.182a1.682,1.682,0,0,1-.107.965,2.575,2.575,0,0,1-1.072.214L46.786,46.665" transform="translate(-14.926 -15.448)"/>
+      <line id="Line_606" data-name="Line 606" class="cls-3" y1="1.608" x2="12.648" transform="translate(31.11 19.534)"/>
+      <line id="Line_607" data-name="Line 607" class="cls-3" y1="1.393" x2="11.469" transform="translate(31.324 21.999)"/>
+      <path id="Path_3953" data-name="Path 3953" class="cls-3" d="M57.681,41.945l-3,.429a1.023,1.023,0,0,1-1.179-.965h0a1.023,1.023,0,0,1,.965-1.179l3-.429a1.023,1.023,0,0,1,1.179.965h0A1.064,1.064,0,0,1,57.681,41.945Z" transform="translate(-14.353 -14.908)"/>
+      <path id="Path_3954" data-name="Path 3954" class="cls-2" d="M45.451,31.7l-2.251.214L45.236,49.6l2.787-.322" transform="translate(-15.091 -15.489)"/>
+    </g>
+  </g>
+</svg>

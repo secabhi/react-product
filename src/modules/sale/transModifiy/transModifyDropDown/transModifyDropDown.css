@@ -1,0 +1,59 @@
+.trans-discount-main-flex {
+    display: flex;
+    align-items: center;
+    
+}
+.trans-discount-disabled {
+    display: flex;
+    align-items: center;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.parent-title {
+    margin-left: 10px;
+}
+
+.parent-title-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    margin-left: 10px;
+}
+
+.trans-discount-img {
+    width: 120px;
+    height: 120px;
+}
+
+
+.trans-discount-child {
+    width: 420px;
+    margin: 47px;
+}
+
+.trans-discount-highlighted {
+    radius: .5;
+}
+
+.item-modify-click-style{
+    text-decoration: underline;
+    text-decoration-color: #4b2b6f;
+    color : #4b2b6f;
+}
+
+.trans-discount-img-disabled {
+    width: 70px;
+    height: 70px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* large form factor */
+@media only screen and (min-width: 1901px) {
+    .trans-discount-img {
+        width: 70px;
+        height: 70px;
+    }
+
+
+}

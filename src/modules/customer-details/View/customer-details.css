@@ -1,0 +1,276 @@
+.cusdet-container {
+  overflow: hidden;
+}
+
+.cusdet-sub-header {
+  width: 1920px;
+  height: 130px;
+  background-color: #4b2b6f;
+}
+
+.cusdet-tab-area {
+  width: 1920px;
+  height: 900px;
+}
+
+.cusdet-tab-header {
+  width: 1920px;
+  height: 116px;
+  background-color: #ffffff;
+}
+
+.cusdet-tab-content {
+  width: 1920px;
+  height: 754px;
+  display: flex;
+  flex-direction: row;
+}
+
+.cusdet-footer {
+  width: 1920px;
+  height: 70px;
+}
+
+/*....................Tab content..............*/
+
+.cusdet-tab-content .content-left-part {
+  padding-top: 27px !important;
+  display: flex;
+  flex-direction: column;
+  flex: 5;
+}
+
+.cusdet-tab-content .content-right-part {
+  display: flex;
+  flex: 1;
+}
+
+.cusdet-tab-content .content-left-lower {
+  padding-left: 50px;
+  height: 299px;
+}
+
+.cusdet-tab-content .addressline1-value {
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.29;
+  color: #505050;
+}
+
+.cusdet-tab-content .addressline2-value {
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.29;
+  color: #505050;
+  font-weight: bold;
+}
+
+.cusdet-tab-content .mobilephone-value {
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.71;
+  color: #505050;
+}
+
+.cusdet-tab-content .city-value {
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.71;
+  color: #505050;
+}
+
+.cusdet-tab-content .phone-value {
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.71;
+  color: #505050;
+}
+
+.cusdet-tab-content .email-txt {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 78px;
+  height: 62px;
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.29;
+  letter-spacing: 3px;
+  text-align: left;
+  color: #828282;
+}
+
+.cusdet-tab-content .email-value {
+  font-family: Roboto;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.71;
+  color: #505050;
+}
+
+.cusdet-tab-content .state-value {
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.71;
+  color: #505050;
+}
+
+.cusdet-tab-content .zip-value {
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1.71;
+  color: #505050;
+}
+
+/* INTEGRATE */
+/*------------CAROUSEL----------------*/
+ /* note that slick-prev slick-next our already class names that exist in slick.  */
+
+.slick-prev:before, .slick-next:before  {
+  content: '' !important;
+}
+
+.slick-prev {
+width: 25px !important;
+height: 47.9px !important;
+background-image: url('../../../resources/images/Arrow_Back.svg') !important;
+} 
+
+.slick-next {
+width: 25px !important;
+height: 47.9px !important;
+background-image: url('../../../resources/images/Arrow_Forward.svg') !important;
+right: -70px !important;
+} 
+
+ .down-arrow {
+width: 47.9px !important;
+height: 25px !important;
+margin: auto;
+margin-top: 8px;
+background-image: url('../../../resources/images/Arrow_Down.svg') !important;
+background-size: cover;
+background-repeat: no-repeat;
+}
+
+.up-arrow {
+width: 47.9px !important;
+height: 25px !important;
+margin: auto;
+margin-bottom: 35px;
+margin-top: 0.6px;
+margin-bottom: 25.4px;
+background-image: url('../../../resources/images/Arrow_Up.svg') !important;
+background-size: cover;
+background-repeat: no-repeat;
+} 
+
+.cusdet-tab-content .carouselSlide {
+  width: 167px !important;
+  height: 249px !important;
+  border : 1px solid black;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 18px;
+}
+
+.cusdet-tab-content .recommended-prod-carousel {
+  height: 100% !important;
+  width : 1420px !important;
+  max-height: 200px !important;
+  max-width: 1420px !important;
+  margin-left: 40px;
+}
+
+.cusdet-tab-content  .recommended-prod-carousel-header {
+  height: 28px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #505050;
+  margin-bottom: 25px;
+}
+
+.cusdet-tab-content .recommended-prod-carousel-header .see-all {
+    margin-left: 40px;
+}
+
+.cusdet-tab-content .content-left-last-shopped-section {
+  font-size: 22px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.23;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #505050;
+  margin-left: 25px;
+ 
+}
+
+.cusdet-tab-content .last-shopped-label {
+  font-family: Roboto;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+.cusdet-tab-content .purchase-history {
+  display: flex;
+  flex-direction: column;
+  padding-top: 39px;
+  height: 745px;
+}
+
+.cusdet-tab-content  .purchase-history-carousel-header {
+  width: 185px; 
+    height: 28px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  text-align: left;
+  color: #333333;
+  padding-left: 15px;
+  margin-bottom: 15px;
+  margin-top: -16px;
+}
+
+.cusdet-tab-content  .purchase-history-carousel {
+  height: 750px !important;
+  width : 1350px !important;
+  max-height: 750px !important;
+  max-width: 238px !important;  
+}
+
+/* ------------- TAB HEADER ------------------*/
+.cusdet-tab-header .profile-tab-label.selected-tab-label:after {
+  width: 0px;
+  content: "";
+  box-shadow: 4px 4px 6px 0px #d9cce7;
+  display: inline-block;
+  padding: 15px;
+  -webkit-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  position: absolute;
+  top: 335px;
+  left: 74px;
+  background: white;
+}

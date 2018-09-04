@@ -1,0 +1,8 @@
+{
+    "RESPONSE_CODE":0,
+    "RESPONSETEXT":"Success",
+    "Output":{
+       "response_code":"CS_SUCCESS",
+       "response_text":"Customer added/updated Successfully."
+    }
+ }

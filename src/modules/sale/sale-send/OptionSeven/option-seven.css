@@ -1,0 +1,431 @@
+.delivery-modal {
+    width: 725px !important;
+    height: 575px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important
+}
+
+.delivery-modal-icon, .invalid-store-modal-icon {
+    width: 120px;
+    height: 120px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 80px;
+    margin-bottom: 70px;
+}
+
+.delivery-modal-label, .invalid-store-modal-label {
+    width: 490px;
+    height: 102px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin: 0 auto;
+    margin-bottom: 80px;
+}
+
+.delivery-modal-button-container, .invalid-store-modal-button-container {
+    display: flex;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: center;
+}
+
+.delivery-modal-button-no {
+    height: 60px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 155px;
+    color: #613b8c;
+    border: solid 2px #613b8c;  
+    /* margin-left: 190px; */
+}
+
+.delivery-modal-button-yes {
+    height: 60px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 155px;
+    color: #fff;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    margin-left: 40px;
+}
+
+.invalid-store-modal {
+    width: 725px !important;
+    height: 325px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important
+}
+
+.invalid-store-modal-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    margin-top: 80px;
+    margin-bottom: 70px;
+}
+
+.invalid-store-modal-button {
+    width: 725px;
+    height: 54px;
+    background-color: #4b2b6f;
+    border: solid 1px #a87ed6;
+}
+.insufficientQunty{
+    width: 725px !important;
+    height: 575px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important
+}
+.insufficientQuntyModal{
+    width: 725px !important;
+    height: 710px !important;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+  background-color: #ffffff;
+  
+  border: solid 1px #bfbfbf;
+    margin: auto !important;
+    padding: 0 !important;
+}
+.insufficientQuntyImage{
+    width: 120px;
+    height: 120px;
+   /* border: solid 2px #505050;*/
+    margin-left: 303px;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.Insufficient-quantities-override {
+    width: 392px;
+    height: 102px;
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.37;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-left: 166px;
+    margin-bottom: 36px;
+  }
+
+.Code{
+    width: 400px;
+  height: 43px;
+  font-family: Roboto;
+  font-size: 32px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.94;
+  letter-spacing: normal;
+  text-align: center;
+  color: #333333;
+  margin-left: 162px;
+    margin-bottom: 15px;
+}
+.QTY {
+width: 60px;
+height: 43px;
+font-family: Roboto;
+font-size: 32px;
+font-weight: normal;
+font-style: normal;
+font-stretch: normal;
+line-height: 0.94;
+letter-spacing: normal;
+text-align: center;
+color: #333333;
+margin-left: 282px;
+margin-bottom: 15px;
+
+}
+.QTYValue{
+margin-left: 46px;
+}
+.PriceValue{
+    margin-left: 46px;
+    }
+.QtyPrice {
+    width: 90px;
+    height: 43px;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.94;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-left: 252px;
+    
+  }
+  .insufficientQuntyButtons{
+    display: flex;
+      margin-top:50px;
+  }
+  .insufficientQunty-modal-no-btn{
+    width: 155px;
+    height: 60px;
+    border: solid 2px #613b8c;
+    margin-left: 175px;
+    margin-right:50px;
+    align-items: center;
+    justify-content: center;
+    justify-content: center;
+    display: flex;
+  }
+  .insufficientQunty-modal-yes-btn{
+    width: 155px;
+    height: 60px;
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
+  .insufficientQunty-modal-no-btn-label{
+    width: 33px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+   
+  }
+  .insufficientQunty-modal-yes-btn-label{
+    width: 44px;
+    height: 32px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: white;
+    
+  }
+  
+/* SMALL FORM FACTOR */
+@media only screen and (max-width: 1080px) {
+    .insufficientQunty{
+        width: 890px !important;
+        height: 1200px !important;
+        box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+        background-color: #ffffff;
+        max-width: 890px !important;
+        border: solid 1px #bfbfbf;
+    }
+    .insufficientQuntyModal{
+        width: 890px !important;
+        height: 1200px !important;
+        
+    }
+    .insufficientQuntyImage{
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+       /* border: solid 2px #505050;*/
+        margin-left: 295px;
+        margin-top: 153px;
+        margin-bottom: 50px;
+    }
+    
+    .Insufficient-quantities-override {
+        width: 620px;
+        height: 161px;       
+        font-size: 60px;      
+        margin-left: 135px;
+        margin-bottom: 50px;
+      }
+    
+    .Code{
+        width: 550px;
+        height: 58px;
+        font-size: 44px;     
+        line-height: 0.68;    
+        margin-left: 170px;
+        margin-bottom: 25px;
+    }
+    .QTY {
+        width: 82px;
+        height: 58px;
+        font-size: 44px;   
+        line-height: 0.68;       
+        margin-left: 322px;
+        margin-bottom: 25px;
+    
+    }
+    .QTYValue{
+    margin-left: 80px;
+    }
+    .PriceValue{
+        margin-left: 80px;
+        }
+    .QtyPrice {
+        width: 124px;
+        height: 58px;
+        font-size: 44px;  
+        line-height: 0.68;       
+        margin-left: 280px;
+       
+      }
+      .insufficientQuntyButtons{
+        display: flex;
+          margin-top:57px;
+      }
+      .insufficientQunty-modal-no-btn{
+        width: 310px;
+        height: 120px;
+        border: solid 4px #612e9b;
+        margin-left: 95px;
+        margin-right:80px;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
+      .insufficientQunty-modal-yes-btn{
+        width: 310px;
+        height: 120px;
+        background-color: #4b2b6f;
+        border: solid 2px #4b2b6f;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+      }
+      .insufficientQunty-modal-no-btn-label{
+        width: 64px;
+        height: 60px;       
+        font-size: 46px;
+        line-height: 1.33;
+        text-align: left;
+        color: #613b8c;
+       
+      }
+      .insufficientQunty-modal-yes-btn-label{
+        width: 85px;
+        height: 62px;
+        font-family: Roboto;
+        font-size: 47px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        text-align: left;
+        color: white;
+        
+      }
+
+      .delivery-modal,
+      .invalid-store-modal,
+      .override-code-modal {
+        width: 890px !important;
+        height: 1200px !important;
+        max-width: 890 !important;
+        box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+        background-color: #ffffff;
+        border: solid 1px #bfbfbf;
+      }
+
+      .delivery-modal-icon, 
+      .invalid-store-modal-icon,
+      .override-code-icon {
+        width: 300px;
+        height: 300px;
+        display: block;
+        margin: 0 auto;
+        margin-top: 153px;
+        margin-bottom: 200px;
+    }
+    
+    .delivery-modal-label,
+    .invalid-store-modal-label,
+    .override-code-label {
+        width: 774px;
+        height: 161px;
+        font-family: Roboto;
+        font-size: 60px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.37;
+        letter-spacing: normal;
+        text-align: center;
+        color: #333333;
+        margin: 0 auto;
+        margin-bottom: 180px;
+    }
+
+    .override-code-textfield {
+        width: 700px;
+    }
+    
+    .delivery-modal-button-container, 
+    .invalid-store-modal-button-container,
+    .override-code-button-container {
+        display: flex;
+        text-transform: uppercase;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .delivery-modal-button-no,
+    .override-code-cancel {
+        height: 120px;
+        font-size: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 310px;
+        color: #613b8c;
+        border: solid 2px #613b8c;  
+        /* margin-left: 190px; */
+    }
+    
+    .delivery-modal-button-yes,
+    .override-code-yes {
+        height: 120px;
+        font-size: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 310px;
+        color: #fff;
+        background-color: #4b2b6f;
+        border: solid 2px #4b2b6f;
+        margin-left: 80px;
+    }
+}  

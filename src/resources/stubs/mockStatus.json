@@ -1,0 +1,13 @@
+{
+  "Output" : {
+    "rc" : 5,
+    "response_code" : "PW_NEEDSCHANGE",
+    "response_cp_code":"PW_SUCCESS",
+    "failedText":"Incorrect Login. Try again.",
+    "lockedOutText":"User PIN is locked out because of too many failed password attempts."
+  },
+  "RESPONSE_CODE" : 0,
+  "RESPONSETEXT" : "Success"
+}
+
+

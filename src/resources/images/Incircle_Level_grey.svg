@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #757575;
+        opacity: 0.595;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        fill: none;
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 0.5px;
+      }
+
+      .cls-3 {
+        stroke-width: 0.3px;
+      }
+
+      .cls-4 {
+        stroke-width: 0.4px;
+      }
+    </style>
+  </defs>
+  <g id="Incircle_Level_grey" transform="translate(-830 -580)">
+    <path id="Path_3187_2_" class="cls-1" d="M20,0A20,20,0,1,1,0,20,20.027,20.027,0,0,1,20,0Z" transform="translate(830 580)"/>
+    <circle id="Ellipse_416" data-name="Ellipse 416" class="cls-2" cx="12.488" cy="12.488" r="12.488" transform="translate(834.098 586.341)"/>
+    <circle id="Ellipse_417" data-name="Ellipse 417" class="cls-3" cx="12.488" cy="12.488" r="12.488" transform="translate(839.268 590.244)"/>
+    <circle id="Ellipse_418" data-name="Ellipse 418" class="cls-4" cx="12.488" cy="12.488" r="12.488" transform="translate(839.268 585.073)"/>
+  </g>
+</svg>

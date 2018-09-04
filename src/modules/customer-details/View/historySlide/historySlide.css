@@ -1,0 +1,69 @@
+.historySlide {
+    margin-bottom: 18px;
+    margin-left: 4px;
+    width: 230px;
+    height: 266px;
+    box-shadow: 0px 3px 13px 0 rgba(0, 0, 0, 0.25);
+    background-color: #ffffff;
+    background-color: var(--white);
+    border: solid 1px var(--Gray3)
+
+}
+
+.indicator {
+  position: absolute;
+  width: 0;
+	height: 0;
+}
+
+.purchase {
+  border-top: 30px solid teal;
+  border-right:30px solid transparent;
+}
+
+.refund {
+  border-top: 30px solid #a23652;
+  border-right: 30px solid transparent;
+}
+
+
+.image {
+  width: 127px;
+  height: 164px;
+  margin: auto;
+  margin-top: 7px;
+  margin-right: 40px;
+  padding: 10px;
+}
+
+.image-details {
+  width: 154px;
+  height: 47px;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.17;
+  letter-spacing: normal;
+  margin-left: 38px;
+  text-align: center;
+  margin-left: 38px;
+  margin-top: 7.7px;
+  margin-bottom: 7px; 
+}
+
+.brand {
+  font-weight: 500;
+}
+
+.descrip {
+  margin: auto;
+  overflow: hidden;
+  font-weight: 500;
+  max-height: 60px;
+  max-width: 150px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+}

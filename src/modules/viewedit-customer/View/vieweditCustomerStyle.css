@@ -1,0 +1,443 @@
+.viewedit-sub-header {
+  display: flex;
+  flex-direction: row;
+  color: #ffffff;
+  width: 1920px;
+  height: 130px;
+  background-color: #4b2b6f;
+  }
+.viewedit-back-arrow{
+    height: 40px;
+    width: 20px;
+    padding-top: 41px;
+    padding-bottom: 41px;
+    padding-left: 50.5px;
+  }
+
+.viewedit-sub-header .divider{
+    flex: 1;
+    max-width: 0px;
+    width: 0px;
+    height: 65.8px;
+    border: solid 1px #937aaf;
+    margin-top: 32.5px;
+    margin-bottom: 31.7px;
+    margin-left: 28.5px;
+    margin-right: 28.5px;
+ }
+ .viewedit-sub-header .customer-name-labels {
+  width: auto;
+  height: 58px;
+  font-family: Roboto;
+  font-size: 44px;
+  font-weight: 300;
+  margin-top: 36px;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.32;
+  text-align: left;
+  color: #ffffff;
+ }
+
+ .viewedit-sub-header .incircledetails{
+  display: flex;
+  flex-direction: row;
+  max-width: 550px;
+}  
+
+.viewedit-subheader-container{
+    height: 122px;
+    max-height: 122px;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    max-width: 1920px;
+    box-shadow: 0 1px 6px 0 #D9CCE7;
+	  border-bottom: 1px solid #613b8c;
+}  
+
+.viewedit-subheader-container .viewedit-customer-tab-header{
+    flex: 1;
+    padding-left: 50px;
+    width: 278.5px;
+    max-width: 278.5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.viewedit-sub-header .subheader-iconNum{
+  vertical-align: middle;
+  padding-top: 28.5px;
+  padding-bottom: 31.7px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 3;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+  left: 45px;
+  position: relative;
+}
+.viewedit-sub-header .incircle-description {
+  padding-top: 32.5px;
+  padding-bottom: 31.7px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.viewedit-sub-header .incircle-description-level {
+  flex: 1;
+  height: 28px;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  text-align: left;
+  color: #ffffff;
+  letter-spacing: 2px;
+}
+.viewedit-sub-header .incircle-description-points {
+  flex: 1;
+  height: 28px;
+  font-family: Roboto-Light;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.83;
+  text-align: left;
+  color: #ffffff;
+  padding-top: 13px;
+  letter-spacing: 2px;
+}
+
+.vieweditpoint-circleicon{
+    width: 81px;
+    height: 81px;
+    padding-top: 24.5px;
+}
+.viewedit-incircle-details{
+  display: flex;
+}
+.viewedit-int-customer-tab-header{
+  display: flex;
+}
+
+
+.viewedit-subheader-container .viewedit-customerint-label, .viewedit-subheader-container .viewedit-customer-label {
+  flex: 1;
+  height: 28px;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #505050;
+  padding-top: 46px;
+  padding-bottom: 38.4px;
+  padding-left: 20px;
+}
+
+
+
+.viewedit-subheader-container .viewedit-customer-tab-header .selected-tab-label:after {
+  width: 0px;
+  content: "";
+  box-shadow: 4px 4px 6px 0px #d9cce7;
+  display: inline-block;
+  padding: 15px;
+  -webkit-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  position: absolute;
+  top: 341px;
+  left: 74px;
+  background: white;
+}
+
+.viewedit-subheader-container .viewedit-int-customer-tab-header .selected-tab-label:after {
+  width: 0px;
+  content: "";
+  box-shadow: 4px 4px 6px 0px #d9cce7;
+  display: inline-block;
+  padding: 15px;
+  -webkit-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  position: absolute;
+  top: 341px;
+  left: 351px;
+  background: white;
+}
+
+
+.viewedit-subheader-container .viewedit-customer-icon{
+  flex: 1;
+    width: 80px;
+    max-width: 80px;
+    height: 80px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.viewedit-subheader-container .selected-tab-label{
+  width: 70px;
+  height: 32px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 500;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.13;
+  letter-spacing: normal;
+  text-align: left;
+  color: #613b8c;
+}
+.viewedit-form{
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.viewedit-firstrow{
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  width: 1920px;
+  margin-top: 55.5px;
+  margin-left: 30px;
+}
+.viewedit-firstrow .field1 {
+  flex: 1;
+  max-width: 101px;
+  width: 101px;
+}
+.viewedit-firstrow .field2 {
+  flex: 1;
+  margin-left: 50px;
+  max-width:402px;
+  width: 402px;
+}
+.viewedit-firstrow .field3 {
+  flex: 1;
+  margin-left: 50px;
+  max-width:554px;
+  width: 554px;
+}
+.viewedit-firstrow .field4 {
+  flex: 1;
+  margin-left: 50px;
+  max-width:553px;
+  width: 553px;
+}
+.viewedit-secondrow{
+  display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    padding-top: 56.5px;
+}
+
+.viewedit-secondrow .field1{
+  flex: 1;
+    margin-left: 30px;
+    max-width:553px;
+    width:553px;
+}
+.viewedit-secondrow .field2{
+    flex: 1;
+    margin-left: 45px;
+    max-width:554px;
+    width:554px;
+}
+.viewedit-secondrow .field3{
+  flex: 1;
+  margin-left: 45px;
+  max-width:554px;
+  width:554px;
+}
+
+.viewedit-thirdrow{
+  display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    padding-top: 56.5px;
+}
+.viewedit-thirdrow .field1{
+  flex: 1;
+    margin-left: 30px;
+    max-width:553px;
+    width:553px;
+}
+.viewedit-thirdrow .field2{
+  flex: 1;
+    margin-left: 45px;
+    display: flex;
+    max-width:440px;
+    width:151px;
+}
+.viewedit-thirdrow .field3{
+  flex: 1;
+    margin-left: 30px;
+    max-width:252px;
+    width:252px;
+}
+.viewedit-thirdrow .field4{
+  flex: 1;
+    margin-left: 160px;
+    max-width:553px;
+    width:553px;
+}
+
+.viewedit-fourthrow{
+  display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 1920px;
+    padding-top: 56.5px;
+}
+.viewedit-fourthrow .field1{
+  flex: 1;
+    margin-left: 30px;
+    max-width:553px;
+    width:553px;
+}
+.viewedit-fourthrow .field2 {
+  flex: 1;
+  margin-left: 50px;
+  max-width:252px;
+  width:252px;
+}
+.viewedit-addcard-button-section{
+  display: flex;
+    flex-direction: row;
+    height: 80px;
+    max-height: 80px;
+    width: 240px;
+    max-width: 240px;
+    padding-top: 72.2px;
+    padding-bottom: 23.3px;
+    margin-left: 25px;
+}
+.viewedit-addcard-button-section .viewedit-card-icon-section{
+    flex: 1;
+    max-width: 80px;
+}
+.viewedit-card-label-section{
+    flex: 1;
+    display: flex;
+    height: 80px;
+    max-height: 80px;
+}
+.view-label{
+  height: 37px;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: left;
+    color: #505050;
+    padding-top: 22px;
+    padding-bottom: 21px;
+    padding-left: 15.1px;
+}
+.viewedit-subfooter-container{
+  flex:1;
+    width: 1920px;
+    height: 110.3px;
+    max-height: 110.3px;
+    position: fixed;
+    bottom: 70px;
+    padding-left: 1350px;
+    padding-right: 80px;
+    display: flex;
+    flex-direction: row;
+}
+.viewedit-subfooter-container .view-edit-clear {
+  flex:1;
+  width: 225px;
+  height: 60px;
+  max-width: 225px;
+  border: solid 2px #612e9b;
+  display: flex;
+  flex-direction: row;
+}
+.viewedit-subfooter-container .view-save-button {
+  flex: 1;
+  width: 155px;
+  height: 60px;
+  max-width: 155px;
+  border: solid 2px #4b2b6f;
+  margin-left: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: #4b2b6f;
+}
+.viewedit-subfooter-container  .viewedit-clear-all-icon {
+    padding-left: 29px;
+    padding-top: 15px;
+    padding-bottom: 18.3px;
+    width: 27.5px;
+    height: 27.5px;
+}
+.viewedit-subfooter-container  .viewedit-dom-clear-all-label {
+  height: 28px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #612e9b;   
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 15px; 
+}
+.viewedit-subfooter-container   .viewedit-save-icon {
+  width: 37px;
+  padding-left: 20px;
+  padding-top: 18px;
+  padding-bottom: 18.3px;
+}
+.viewedit-subfooter-container   .viewedit-save-label {
+  height: 28px;
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.21;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 18px;
+  margin: 0 auto;
+
+}
+
+
+.display-none{
+  display:none;
+}
+
+.display-visible{
+  display:visible;
+}
+.addr-email-modal{
+  height:575px !important;
+}

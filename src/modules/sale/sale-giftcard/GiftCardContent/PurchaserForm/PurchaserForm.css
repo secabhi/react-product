@@ -1,0 +1,115 @@
+.purchaser-form-container {
+    display: flex;
+    flex-direction: column;
+    width: 1920px;
+    height: 705px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+    overflow-y: auto;
+}
+
+/** Target purchaser form only for gift card**/
+
+.gift-card{
+   height: 800px;
+   position: absolute;
+   display: flex;
+   flex-direction: column;
+   width: 1920px;
+   height: 820px;
+   background-color: #ffffff;
+   box-shadow: 0 1px 6px 0 #d3d3d3;
+   overflow-y: auto;
+}
+
+.gift-card .purchaser-form-container{
+    display: flex;
+    flex-direction: column;
+    width: 1920px;
+    height: auto;
+    background-color: #ffffff;
+    box-shadow:none;
+    overflow-y: hidden;
+}
+.gift-card .viewedit-firstrow{
+    margin-top: 30px;
+    width: 1800px
+} 
+.gift-card .viewedit-secondrow,
+.gift-card .viewedit-thirdrow,
+.gift-card .viewedit-fourthrow{
+    padding-top: 50px;
+    width: 1800px;
+}
+.gift-card .giftwrap-cancel, .gift-card .giftwrap-next{
+    display: inline-flex;
+    float: right;
+    margin-top: 85px;
+}
+
+
+/**Ends here**/
+
+.purchaser-form-subheader {
+    display: flex;
+    flex-direction: row;
+}
+.purchaser-form-label {
+    width: 233px;
+    height: 68px;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.31;
+    letter-spacing: normal;
+    text-align: left;
+    color: #51515b;
+    margin: 34px 0 0 80px;
+    flex: 1;
+}
+
+.purchaser-form-button {
+    width: 213px;
+    height: 60px;
+    border: solid 2px #612e9b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 29px 80px 0 0;
+}
+
+.intl-button {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: #612e9b;
+}
+
+.purchaser-form {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+
+
+/* ---------- SMALL FORM FACTOR ---------- */
+@media only screen and (max-width: 1080px) {
+    .purchaser-form-container {
+        width: 1080px;
+        height: 1095px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+        overflow: scroll;  
+        display: flex;
+        flex-direction: column;
+    }
+}

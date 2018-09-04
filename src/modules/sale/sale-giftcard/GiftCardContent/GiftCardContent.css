@@ -1,0 +1,25 @@
+.giftcard-content-container {
+    display: flex;
+    flex-direction: column;
+    width: 1920px;
+    height: 705px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 6px 0 #d3d3d3;
+    overflow-y: auto;
+}
+
+
+
+
+/* ---------- SMALL FORM FACTOR ---------- */
+@media only screen and (max-width: 1080px) {
+    .giftcard-content-container {
+        width: 1080px;
+        height: 1095px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 6px 0 #d3d3d3;
+        overflow: scroll;  
+        display: flex;
+        flex-direction: column;
+    }
+}

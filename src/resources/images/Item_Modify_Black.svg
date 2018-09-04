@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+    <defs>
+        <style>
+            .cls-1{fill:#505050}.cls-1,.cls-2{stroke:#505050}.cls-2,.cls-4{fill:none}.cls-2{stroke-miterlimit:10;stroke-width:2px}.cls-3{stroke:none}
+        </style>
+    </defs>
+    <g id="Item_Modify_Black" transform="translate(-901 -397)">
+        <path id="Path_4865" d="M1124.34 1250.7a.787.787 0 0 0-.74.74v24.9c0 .246 0 .493.247.493l31.808 32.055a2.99 2.99 0 0 0 4.439 0l21.452-21.7a3.671 3.671 0 0 0 .986-2.219 3.125 3.125 0 0 0-.986-2.219l-31.808-31.808c-.247-.247-.247-.247-.493-.247h-24.9q.37 0 0 0zm.986 1.48h23.918l31.562 31.562a1.358 1.358 0 0 1 .493 1.233c0 .493-.247.74-.493 1.233l-21.7 21.7a1.885 1.885 0 0 1-1.233.493c-.493 0-.74-.247-1.233-.493l-31.562-31.808v-23.92zm8.63 4.685a3.945 3.945 0 1 0 3.945 3.945 4.055 4.055 0 0 0-3.945-3.945zm0 1.726a2.219 2.219 0 1 1-2.219 2.219c-.247-1.233.74-2.219 2.219-2.219z" class="cls-1" data-name="Path 4865" transform="translate(-188.272 -820.16)"/>
+        <g id="Ellipse_471" class="cls-2" data-name="Ellipse 471" transform="translate(901 397)">
+            <circle cx="60" cy="60" r="60" class="cls-3"/>
+            <circle cx="60" cy="60" r="59" class="cls-4"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.589 122">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #505050;
+        stroke-width: 2px;
+      }
+
+      .cls-1 {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Session_Timeout" data-name="Session Timeout" transform="translate(-4008.701 -1100.908)">
+    <ellipse id="SVGID_28_" class="cls-1" cx="59.795" cy="60" rx="59.795" ry="60" transform="translate(4009.701 1101.908)"/>
+    <path id="Path_3864" data-name="Path 3864" class="cls-2" d="M1129.765,1258.82a6.046,6.046,0,0,1-4.308-1.744c-1.949-1.949-12.82-18.769-14.051-20.718a1.394,1.394,0,0,1,0-1.538,1.6,1.6,0,0,1,1.333-.821h0a2.415,2.415,0,0,1,.821.205c1.949,1.231,18.872,12.1,20.718,14.051a6.029,6.029,0,0,1,1.744,4.41,5.965,5.965,0,0,1-1.846,4.41,6.472,6.472,0,0,1-4.41,1.744Z" transform="translate(2941.577 -89.118)"/>
+    <path id="Path_3863" data-name="Path 3863" class="cls-2" d="M1128.454,1227.656s-.1-14.256,0-14.256a38.126,38.126,0,1,1-27.795,12" transform="translate(2941.042 -89.646)"/>
+  </g>
+</svg>

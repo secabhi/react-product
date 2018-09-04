@@ -1,0 +1,47 @@
+{
+  "GetCardBINRequest": {
+    "POSID": "005402",
+    "APPID": "402",
+    "CCTID": "402",
+    "HeaderMessage": "Insert or Swipe Card",
+    "LookUpFlag": "0",
+    "AllowKeyedEntry": "N",
+    "AllowManualFallback": "Y",
+    "EntrySource": "B",
+    "CardNumber": "",
+    "KI": " ",
+    "KIType": " ",
+    "TenderAmount": " ",
+    "PromptConfirmFlag": "1",
+    "ProcessingMode": "0",
+    "CardDataInfo": {
+      "CardDataSource": "6",
+      "EncryptionMode": "1",
+      "TrackData": " ",
+      "EMVDetailsData": " "
+    },
+    "ECOMMInfo": {
+      "MerchantIdentifier": " ",
+      "StoreId": " ",
+      "TerminalId": " ",
+      "CVV": " ",
+      "CardIdentifier": " "
+    },
+    "CustomerInfoValidation": {
+      "ValidateEmail": " ",
+      "ValidatePhoneNum": " ",
+      "ValidateZipCode": " ",
+      "Reserved1": " ",
+      "Reserved2": " "
+    },
+    "ClerkID": " ",
+    "AdditionalTags": {
+      "Tags": {
+        "Tag": {
+          "Key": " ",
+          "Value": " "
+        }
+      }
+    }
+  }
+}

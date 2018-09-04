@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="9577 -769 72 72">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #673991;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="Gift_Card" transform="translate(8870 -1803)">
+    <g id="Group_6669" data-name="Group 6669" transform="translate(708 1035)">
+      <circle id="Ellipse_567" data-name="Ellipse 567" class="cls-1" cx="35" cy="35" r="35"/>
+      <path id="Path_4474" data-name="Path 4474" class="cls-1" d="M42.23,25.1H51.7a1.534,1.534,0,0,1,1.5,1.5V45.841a1.534,1.534,0,0,1-1.5,1.5H19.3a1.534,1.534,0,0,1-1.5-1.5V26.6a1.534,1.534,0,0,1,1.5-1.5h1.3" transform="translate(-0.549 -0.57)"/>
+      <line id="Line_761" data-name="Line 761" class="cls-1" x2="2.293" transform="translate(34.801 24.53)"/>
+      <line id="Line_762" data-name="Line 762" class="cls-1" x2="2.293" transform="translate(24.63 24.53)"/>
+      <path id="Path_4475" data-name="Path 4475" class="cls-1" d="M29.276,28.079a57.929,57.929,0,0,1-5.883,1.2,15.64,15.64,0,0,1-2.194,0,33.493,33.493,0,0,1-.5-4.487,23.564,23.564,0,0,1,.5-4.188s2.194.2,2.991.4a43.708,43.708,0,0,1,4.288,1.4" transform="translate(-0.558 -0.557)"/>
+      <path id="Path_4476" data-name="Path 4476" class="cls-1" d="M37.215,28.982l-2.54,4.406L31.484,29.7h0l-3.291,3.689-2.31-4.222" transform="translate(-0.572 -0.581)"/>
+      <path id="Path_4477" data-name="Path 4477" class="cls-1" d="M34.6,22.495A42.017,42.017,0,0,1,38.985,21a24.992,24.992,0,0,1,2.692-.4s.4,3.291.5,4.188a28.891,28.891,0,0,1-.6,4.487,15.64,15.64,0,0,1-2.194,0c-1.5-.1-5.783-1.1-5.783-1.1" transform="translate(-0.594 -0.557)"/>
+      <circle id="Ellipse_568" data-name="Ellipse 568" class="cls-1" cx="3.889" cy="3.889" r="3.889" transform="translate(27.023 20.442)"/>
+      <line id="Line_763" data-name="Line 763" class="cls-1" x2="13.712" transform="translate(32.516 36.443)"/>
+      <line id="Line_764" data-name="Line 764" class="cls-1" x2="13.712" transform="translate(32.516 39.417)"/>
+      <line id="Line_765" data-name="Line 765" class="cls-1" x2="13.712" transform="translate(32.516 42.281)"/>
+      <path id="Path_4478" data-name="Path 4478" class="cls-1" d="M20.4,25.1" transform="translate(-0.557 -0.57)"/>
+      <path id="Path_4479" data-name="Path 4479" class="cls-1" d="M42.5,25.1" transform="translate(-0.62 -0.57)"/>
+    </g>
+  </g>
+</svg>

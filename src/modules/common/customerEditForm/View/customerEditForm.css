@@ -1,0 +1,14 @@
+.editForm-subheader-container{
+    display: flex;
+
+}
+
+.editForm-form-button {
+    width: 330px;
+    height: 60px;
+    border: solid 2px #612e9b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 50px 0 0; 
+}

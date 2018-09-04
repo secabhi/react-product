@@ -1,0 +1,47 @@
+.recommendSlide {
+  width: 254px;
+    height: 287px;
+    /* -webkit-box-shadow: -1px 6px 13px 2px rgba(4.25, 0, 101, 0.25); */
+    box-shadow: -1px 6px 13px 2px rgba(68, 68, 98, 0.25);
+    background-color: #ffffff;
+    background-color: var(--white);
+    border: solid 1px #ededed;
+    margin-bottom: 5px;
+    /* margin-top: 2px; */
+    margin-left: 10px;
+  }
+  
+  .recommendSlide .img {
+    width: 137px;
+    height: 166px;
+    margin: auto;
+    margin-top: 15px;
+  }
+
+  .recommendSlide .img-details {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: normal;
+    width: 200px;
+    height: 42px;
+    text-align: left;
+    margin: auto;
+    word-break: break-word;
+}
+
+.img-details .brand {
+  font-weight: 500;
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+ .reccomendSlide-descrip {
+  margin: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

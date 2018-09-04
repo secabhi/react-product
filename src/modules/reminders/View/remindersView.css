@@ -1,0 +1,56 @@
+.product-search{
+    margin-right:40px;
+}
+.reminderAreaLFF{
+    margin-left:108px;
+    margin-right:100px;
+    min-width:1718px;
+}
+.reminderDivLFF{
+    display: flex;
+    height: 79px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.42;
+    letter-spacing: normal;
+    text-align: left;
+    border-bottom: solid 1px #bfbfbf;
+    
+    
+}
+.reminderDivLFF div{
+    padding-top:23px;
+}
+.reminderDivLFFCol1{
+    width:292px;
+}
+.reminderDivLFFCol2{
+    width:245px;
+    overflow: hidden
+}
+  /* ------------- TAB HEADER ------------------*/
+ .reminder-tab-label.selected-tab-label:after {
+    width: 0px;
+    content: "";
+    box-shadow: 4px 4px 6px 0px #d9cce7;
+    display: inline-block;
+    padding: 15px;
+    -webkit-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+    position: absolute;
+    top: 335px;
+    left: 670px;
+    background: white;
+  }
+
+  .text_Alterations{
+      color:#00857c;
+  }
+
+  .text_Replenishment{
+      color:#707070;
+  }

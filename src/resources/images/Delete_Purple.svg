@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.517 28.788">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #613b8c;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+        stroke: #613b8c;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 1.5px;
+      }
+
+      .cls-3 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Delete_Purple" transform="translate(-2222.086 -657.218)">
+    <path id="Path_3123_1_" class="cls-1" d="M17.444,173.336h5.932c.831,0,1.305.356,1.305,1.068,0,.593-.475,1.068-1.305,1.068H5.105c-.831,0-1.305-.356-1.305-1.068s.475-1.068,1.305-1.068H10.8a3.587,3.587,0,0,1,3.322-2.136A4.248,4.248,0,0,1,17.444,173.336Z" transform="translate(2220.223 486.018)"/>
+    <line id="Line_601" data-name="Line 601" class="cls-2" x2="23.017" transform="translate(2222.836 664.574)"/>
+    <path id="Path_3947" data-name="Path 3947" class="cls-3" d="M4.7,177.4l3.085,20.644H20.361L23.446,177.4" transform="translate(2220.39 487.173)"/>
+    <line id="Line_602" data-name="Line 602" class="cls-2" x1="0.949" y1="20.644" transform="translate(2231.378 664.574)"/>
+    <line id="Line_603" data-name="Line 603" class="cls-2" y1="20.407" x2="1.068" transform="translate(2236.599 664.811)"/>
+  </g>
+</svg>

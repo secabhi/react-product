@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #613b8c;
+      }
+
+      .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+        stroke-width: 1.5px;
+      }
+
+      .cls-2 {
+        stroke: #505050;
+      }
+
+      .cls-2, .cls-3, .cls-5 {
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-3, .cls-4, .cls-5 {
+        stroke: #fff;
+      }
+
+      .cls-5 {
+        stroke-linejoin: round;
+      }
+    </style>
+  </defs>
+  <g id="Customer_Search_bttn" transform="translate(-589 -319)">
+    <ellipse id="Customer_Search_bttn-2" data-name="Customer_Search_bttn" class="cls-1" cx="75" cy="75" rx="75" ry="75" transform="translate(589 319)"/>
+    <path id="Path_3710" data-name="Path 3710" class="cls-2" d="M506.8,571.5" transform="translate(182.982 -166.393)"/>
+    <path id="Path_3711" data-name="Path 3711" class="cls-2" d="M491.4,588.7" transform="translate(182.689 -166.066)"/>
+    <g id="Group_5164" data-name="Group 5164" transform="translate(-466.954 -460)">
+      <g id="Group_4888" data-name="Group 4888" transform="translate(1102.219 816.561)">
+        <path id="Path_3712" data-name="Path 3712" class="cls-3" d="M506.068,570.151c-2.85-3.534-6.156-4.332-9.576-5.358a29.663,29.663,0,0,1-5.586-1.938c-4.674-2.166-4.1-5.928-4.1-6.156" transform="translate(-451.92 -523.738)"/>
+        <path id="Path_3714" data-name="Path 3714" class="cls-3" d="M486.181,590.087a23.758,23.758,0,0,1-2.85,0c-12.882,0-20.063-1.482-23.027-2.28a5.572,5.572,0,0,1-4.1-5.472c0-2.964.456-8.664,3.306-12.084s6.156-4.332,9.576-5.358a29.668,29.668,0,0,0,5.586-1.938c4.674-2.166,4.1-5.928,4.1-6.156" transform="translate(-456.2 -523.724)"/>
+        <path id="Path_3715" data-name="Path 3715" class="cls-3" d="M480.3,586.028a23.758,23.758,0,0,0,2.85,0c3.192,0,6.042-.114,8.55-.228" transform="translate(-452.827 -519.665)"/>
+        <path id="Path_3973" data-name="Path 3973" class="cls-4" d="M1875.027,574.957c-8,0-14.227-10.848-14.227-20.274,0-8.892,5.513-14.583,14.227-14.583,8.536,0,13.515,5.513,13.515,14.583C1888.543,564.287,1883.031,574.957,1875.027,574.957Z" transform="translate(-1846.446 -540.1)"/>
+      </g>
+      <g id="Group_4891" data-name="Group 4891" transform="translate(1137.558 861.378)">
+        <ellipse id="SVGID_49_" class="cls-5" cx="12.426" cy="12.54" rx="12.426" ry="12.54" transform="translate(0 0)"/>
+        <line id="Line_428" data-name="Line 428" class="cls-3" x2="9.12" y2="8.892" transform="translate(21.089 21.773)"/>
+      </g>
+    </g>
+  </g>
+</svg>

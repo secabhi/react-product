@@ -1,0 +1,18 @@
+{
+  "CloseTransactionRequest": {
+    "POSID": "005402",
+    "APPID": "402",
+    "CCTID": "402",
+    "CloseReasonCode": "No Reason",
+    "OrigAurusPayTicketNum": " ",
+    "InvoiceNumber": " ",
+    "TransactionDate": " ",
+    "TransactionTime": " ",
+    "ECOMMInfo": {
+      "MerchantIdentifier": " ",
+      "StoreId": " ",
+      "TerminalId": " "
+    },
+    "ClerkID": " "
+  }
+}

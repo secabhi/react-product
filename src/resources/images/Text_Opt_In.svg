@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.589 122">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #505050;
+        stroke-width: 2px;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-linecap: round;
+      }
+
+      .cls-1 {
+        stroke-linejoin: round;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Text_Opt_In" transform="translate(-4008.701 -862.808)">
+    <ellipse id="SVGID_31_" class="cls-1" cx="59.795" cy="60" rx="59.795" ry="60" transform="translate(4009.701 863.808)"/>
+    <path id="Path_3861" data-name="Path 3861" class="cls-2" d="M1148.151,1027.71v12.718a7.091,7.091,0,0,1-7.077,7.077h-27.9a7.091,7.091,0,0,1-7.077-7.077V986.377a7.091,7.091,0,0,1,7.077-7.077h27.9a7.091,7.091,0,0,1,7.077,7.077v17.846" transform="translate(2941.447 -89.544)"/>
+    <line id="Line_554" data-name="Line 554" class="cls-2" x1="42.154" transform="translate(4047.444 900.321)"/>
+    <line id="Line_560" data-name="Line 560" class="cls-2" x1="42.154" transform="translate(4047.444 947.193)"/>
+    <line id="Line_555" data-name="Line 555" class="cls-3" x2="13.128" transform="translate(4057.496 895.09)"/>
+    <line id="Line_556" data-name="Line 556" class="cls-3" x2="3.077" transform="translate(4074.624 895.09)"/>
+    <line id="Line_561" data-name="Line 561" class="cls-3" x2="13.128" transform="translate(4062.009 952.321)"/>
+    <path id="Path_3862" data-name="Path 3862" class="cls-2" d="M1147.1,1025.2" transform="translate(2942.498 -88.366)"/>
+    <path id="Path_3248_2_" class="cls-2" d="M1149.792,1019.6l1.949,2.974c.308.513.308,1.128-.205,1.333l-2.051.923a1.235,1.235,0,0,1-1.436-.615l-1.949-2.974Z" transform="translate(2942.473 -88.51)"/>
+    <path id="Path_3253_2_" class="cls-2" d="M1146.2,1009.608a1.925,1.925,0,0,1,.308-1.949L1154,1001.3l6.974,14.872-9.641,1.641a1.827,1.827,0,0,1-1.641-1.026Z" transform="translate(2942.471 -88.979)"/>
+    <path id="Path_3249_2_" class="cls-2" d="M1139.008,1015.854a3.518,3.518,0,0,1,1.744-4.718l3.179-1.436,4,8.513-3.179,1.436a3.518,3.518,0,0,1-4.718-1.744Z" transform="translate(2942.282 -88.764)"/>
+    <line id="Line_557" data-name="Line 557" class="cls-3" x1="2.051" y2="2.564" transform="translate(4102.316 909.859)"/>
+    <line id="Line_558" data-name="Line 558" class="cls-3" x1="2.974" y2="1.231" transform="translate(4105.803 915.705)"/>
+    <line id="Line_559" data-name="Line 559" class="cls-3" x1="3.282" transform="translate(4106.316 922.68)"/>
+  </g>
+</svg>

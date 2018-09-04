@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82 82">
+    <defs>
+        <style>
+            .cls-1,.cls-2{fill:none;stroke:#fff;stroke-width:2px}.cls-2{stroke-miterlimit:10}
+        </style>
+    </defs>
+    <g id="Add_to_Bag_bttn" transform="translate(-1461 -244)">
+        <path id="Path_6648" d="M40 0A40 40 0 1 1 0 40 40 40 0 0 1 40 0z" class="cls-1" data-name="Path 6648" transform="translate(1462 245)"/>
+        <g id="Group_9706" data-name="Group 9706" transform="translate(56.918 -28.567)">
+            <path id="Path_6599" d="M51.17 46.273l.924 6.118a1.357 1.357 0 0 1-.1.51c-.1.1-.513.1-.513.1H17.616s-.41.1-.513-.1a.531.531 0 0 1-.1-.51l5.233-35.28.205-.408c.1-.1.41-.1.41-.1h23.5s.308-.1.41.1c.205.1.205.408.205.408l2.36 16.417z" class="cls-2" data-name="Path 6599" transform="translate(1411.025 281.856)"/>
+            <path id="Path_6600" d="M12.108 0v4.385c-.1 2.243-.308 6.322-6.054 6.322S0 6.628 0 4.385V0" class="cls-2" data-name="Path 6600" transform="rotate(180 725.865 150.796)"/>
+        </g>
+    </g>
+</svg>

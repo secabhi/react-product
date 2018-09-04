@@ -1,0 +1,9 @@
+{  
+    "GetStatusRequest":{  
+       "POSID":"01",
+       "APPID":"04",
+       "CCTID":"06",
+       "StatusType":"3",
+       "ClerkID":"06"
+    }
+ }

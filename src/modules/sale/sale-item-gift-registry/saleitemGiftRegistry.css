@@ -1,0 +1,547 @@
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.sale-item-gift-registry-container {
+    padding: 0px !important;
+    height: 568px !important;
+    width: 725px !important;
+    margin: auto;
+    /* margin-top: -32px; */
+    display: flex;
+    flex-direction: column;
+}
+.sale-item-gift-registry-remove-container {
+    height: 575px !important;
+   
+}
+.sale-item-gift-registry-icon {
+    width: 120px;
+    height: 120px;
+    margin-top: 70px;
+    margin-left: 302px;
+}
+.sale-item-gift-registry-remove-icon {
+    width: 101px;
+    height: 90px;
+    margin-top: 96px;
+    margin-left: 312px;
+}
+.sale-item-gift-registry-label {
+    /* width: 123px;
+    height: 43px; */
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    margin-top: 25px;
+    text-align: center;
+    color: #333333;
+}
+
+.sale-item-gift-registry-remove-label {
+    /* width: 123px;
+    height: 43px; */
+    font-family: Roboto;
+    font-size: 38px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.34;
+    letter-spacing: normal;
+    margin-top: 106px;
+    text-align: center;
+    color: #333333;
+}
+
+.Cancel_Purple_SFF {
+    padding: 13px;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    float: left;
+}
+
+.sale-item-gift-registry-cancel {
+    position: fixed;
+    margin: 75px 0px 0px 160px;
+    width: 180px;
+    height: 60px;
+    border: solid 2px #613b8c;
+}
+
+.sale-item-gift-registry-cancel-btn {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 2px;
+    text-align: left;
+    color: #613b8c;
+    margin-top: 14px;
+}
+
+.sale-item-gift-registry-ok {
+    margin: 76px 160px 0px;
+    width: 180px;
+    height: 65px;
+    background: #613b8c;
+    border: solid 2px #613b8c;
+    float: right;
+    color: #fff;
+    font-size: 24px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+}
+
+.sale-item-gift-registry-ok:disabled {
+    border: 2px solid #a491b9;
+    background-color: #a491b9;
+    color: #fff;
+}
+
+.sale-item-gift-registry-error {
+    position: fixed;
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: right;
+    color: #d53560;
+    margin-left: 11%;
+    margin-top: 6px;
+}
+
+
+
+.sale-item-gift-registry-remove-cancel {
+    position: fixed;
+    margin: 120px 0px 0px 188px;
+    width: 155px;
+    height: 60px;
+    border: solid 2px #613b8c;
+}
+
+.sale-item-gift-registry-remove-cancel-btn {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: 4px;
+    text-align: center;
+    color: #613b8c;
+    margin-top: 14px;
+}
+
+.sale-item-gift-registry-remove-ok {
+    margin: 120px 160px 0px;
+    width:155px;
+    height: 60px;
+    background: #613b8c;
+    border: solid 2px #613b8c;
+    float: right;
+    color: #fff;
+    font-size: 24px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+}
+
+
+.sale-item-gift-registry-error {
+    position: fixed;
+    font-family: Roboto;
+    font-size: 26px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    text-align: right;
+    color: #d53560;
+    margin-left: 11%;
+    margin-top: 6px;
+}
+
+
+
+#sale-item-gift-registry-error{
+    display:none;
+}
+
+
+/*gift registry error popup styles */
+
+.gift-Registry-error-modal{
+    max-width: 890px !important;
+    width: 890px !important;
+    height: 1200px;
+    box-shadow: 0 6px 35px 0 rgba(0, 0, 0, 0.6);
+    background-color: #ffffff;
+    background-color: var(--white);
+    border: solid 1px #bfbfbf;
+}
+
+.gift-Registry-error-modal-image-width{
+    width: 327.7px;
+    height: 292px;
+    object-fit: contain;
+    margin-top: 153px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 209px;
+}
+
+.gift-Registry-error-label{
+    width: 612px;
+    height: 158px;
+    font-family: Roboto;
+    font-size: 60px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: center;
+    color: #333333;
+    margin-right:auto;
+    margin-left:auto;
+    margin-bottom: 183px;
+}
+
+.gift-Registry-error-btn-group{
+    display:flex;
+}
+
+.gift-Registry-error-no-btn{
+    width: 310px;
+    height: 120px;
+    border: solid 4px #613b8c;
+    margin-left: auto;
+    margin-right: 80px;
+}
+
+.gift-Registry-error-no-btn-label{
+    width: 61px;
+    height: 58px;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: left;
+    color: #613b8c;
+    margin-top: 33px;
+    margin-right: 129px;
+    margin-bottom: 33px;
+    margin-left: 120px;
+    display: block;
+
+}
+
+.gift-Registry-error-yes-btn{
+    width: 310px;
+    height: 120px;
+    border: solid 4px #613b8c;
+    background-color: #4b2b6f;
+    margin-right: auto;
+}
+.gift-Registry-error-yes-btn-label{
+    width: 80px;
+    height: 58px;
+    font-family: Roboto;
+    font-size: 44px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.32;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+    margin-top: 33px;
+    margin-right: 119px;
+    margin-bottom: 33px;
+    margin-left: 111px;
+    display: block;
+}
+.Email-dom{
+    width: 890px !important;
+    height: 1200px !important;
+    background-color: #ffffff;
+    border: solid 1px #bfbfbf;
+    margin:auto;
+    padding: 0px ;
+	max-width: 890px !important;
+}
+.Email-tab-header {
+    flex: 1;
+    width: 710px;
+    max-width: 710px;
+    display: flex;
+    flex-direction: row;
+}
+.Email-ID {
+	width: 200px;
+  height: 63px;
+  font-family: Roboto;
+  font-size: 48px;
+  margin-left:75px;
+  margin-right:641px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  letter-spacing: 2px;
+  text-align: left;
+  color: #333333;
+  margin-bottom:15px;
+}
+.email-button-area{
+    display: flex;
+    flex-direction: row;
+    font-size: 42px  !important;
+   margin-left: 95px !important;
+    margin-bottom: 85px !important;
+
+}
+.email-modal-no-btn{
+	
+	display: flex;
+    align-items: center;
+    justify-content: center;
+   width: 310px !important;
+   font-family: Roboto;
+    
+  height: 120px !important;
+    border: solid 2px #613b8c;
+    margin-right: 80px !important;
+    text-align: center;
+	 border: solid 4px #613b8c !important;
+}
+.email-modal-no-btn-label{
+	
+  
+  width: 61px !important;
+  height: 58px !important;
+  line-height: 1.32;
+  font-size: 44px !important;
+  color: #613b8c;
+  text-align: left;
+ 
+}
+.email-modal-yes-btn-label{
+	 width: 80px !important;
+  height: 58px !important;
+  line-height: 1.32;
+  font-size: 44px !important;
+  text-align: left;
+  color: #ffffff;
+ 
+}
+.email-modal-yes-btn{
+    display: flex;
+    align-items: center;
+	
+    justify-content: center;
+    width: 310px !important;
+  height: 120px !important;
+  
+    background-color: #4b2b6f;
+    border: solid 2px #4b2b6f;
+}
+.email-modal-label{
+	
+    margin-left: 203px;
+    color: #333333;
+    width: 484px;
+    height: 98px;
+    font-family: Roboto;
+    font-size: 74px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    margin-bottom: 60px;
+
+
+}
+.sale-item-gift-registry-buttons-lff {
+    margin-left: 175px !important;
+    display: flex;
+    margin-top: 70px;
+}
+
+.sale-item-gift-registry-buttons-lff .sale-item-gift-registry-cancel {
+    margin: 0;
+    margin-right: 40px !important;
+    position: initial;
+    margin-right: 40px;
+
+}
+.sale-item-gift-registry-ok:disabled
+{
+    margin: 0 !important;
+    width:155px !important;
+}
+.sale-item-gift-registry-ok
+{
+    margin: 0 !important;
+    width:155px !important;
+    
+}
+@media only screen and (width: 1080px) {
+    .trans-modify-buttons-sfff {
+        margin-top: 659px ! important;
+    }
+    .sff-registry
+    {
+        padding-left: 30px !important;
+    }
+    img.gift-registry-scan {
+        width: 98px !important;
+        height: 88px !important;
+        bottom: 0 !important;
+        top: 91px;
+    }
+    .sale-item-gift-registry-label {
+        width: 700px;
+        height: 79px;
+        font-family: Roboto;
+        margin-top: 0 !important;
+        font-size: 60px;
+        font-weight: 300;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        text-align: left;
+        color: #505050;
+    }
+    .sale-item-gift-registry-container {
+        padding: 50px !important;
+        height: auto !important;
+        width: auto !important;
+        margin: auto;
+        /* margin-top: -32px; */
+        display: flex;
+        flex-direction: column;
+    }
+    .Cancel_Purple_SFF {
+        padding: 13px;
+        width: 47.3px;
+        height: 47.3px;
+        -o-object-fit: contain;
+        object-fit: contain;
+        float: left;
+        margin-left: 44px;
+        margin-top: 25px;
+    }
+    .SaleitemDetails {
+        width: auto;
+        height: 316px;
+        box-shadow: 0 0 6px 0 #613b8c;
+        background-color: rgba(168, 126, 214, 0.02);
+        border: solid 5px #a87ed6;
+        display: flex;
+    }
+    .sale-item-gift-registry-canceldiv {
+        width: 375px;
+        height: 120px;
+        border: solid 4px #612e9b;
+        margin-left:10%;
+    }
+    .sale-item-gift-registry-cancel-btn {
+        width: 250px;
+        height: 58px;
+        font-family: Roboto;
+        font-size: 44px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        letter-spacing: normal;
+        /* text-align: left; */
+        color: #612e9b;
+        margin-top: 29px;
+        /* margin-left: 71px; */
+        float: right;
+    }
+    .sale-item-gift-registry-ok-btn {
+        width: 304px;
+        height: 129px;
+        background: #613b8c;
+        border: solid 2px #613b8c;
+        float: right;
+        color: #fff;
+        font-size: 52px;
+        font-family: Roboto;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.32;
+        margin-left: 50px;
+    }
+    .sale-item-gift-registry-ok-btn:disabled {
+        width: 304px;
+        height: 129px;
+        border: 2px solid #4b2b6f;
+        background-color: #4b2b6f;
+        color: #fff;
+        font-size: 44px;
+    }
+    .sale-item-gift-registry-buttons {
+        box-shadow: 0 -2px 15px 0 #656565;
+        background-color: #ffffff;
+        background-color: var(--white);
+        padding: 80px;
+        display: -ms-flexbox;
+        display: flex;
+        margin-top: 22%;
+        margin-left: -54px;
+        width: 100%;
+    }
+    .sale-item-gift-registry-error {
+        position: fixed;
+        font-family: Roboto;
+        font-size: 45px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        text-align: right;
+        color: #d53560;
+        margin-left: 13%;
+        margin-top: 20px;
+    }
+    #sale-item-gift-registry-error{
+        display:none;
+    }
+}
+.sale-sff-item-modify-container .item-index {
+    background-color: #a87ed6;
+    border: solid 2px #ededed;
+}
+img.gift-registry-scan {
+    width: 50px;
+    position: relative;
+    right: 62.3px;
+    float: right;
+    bottom: 69px;
+}

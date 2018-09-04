@@ -1,0 +1,188 @@
+/* Subheader */
+.cusdet-sub-header {
+  display: flex;
+  flex-direction: row;
+  color: #ffffff;
+  width: 1920px;
+  height: 130px;
+  background-color: #4b2b6f;
+}
+.cusdet-sub-header .back-button {
+  flex: 0.6;
+  width: 81.5px;
+  max-width: 81.5px;
+}
+
+.cusdet-sub-header .back-arrow {
+  width: 20px;
+  height: 40px;
+  padding-top: 45px;
+  padding-bottom: 45px;
+  padding-left: 51.5px;
+}
+
+.cusdet-sub-header .customer-name {
+  
+  max-width: 550px;
+}
+
+.cusdet-sub-header .customer-name-label {
+  padding-top: 39px;
+  padding-bottom: 39px;
+  height: 52px;
+  font-family: Roboto-Light;
+  font-size: 44px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.2;
+  text-align: left;
+  color: #ffffff;
+  max-width: 450px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cusdet-sub-header .divider {
+  flex: 1;
+  max-width: 0px;
+  width: 0px;
+  height: 65.8px;
+  border: solid 1px #937aaf;
+  margin-top: 32.5px;
+  margin-bottom: 31.7px;
+  margin-left: 28.5px;
+  margin-right: 28.5px;
+}
+
+.cusdet-sub-header .incircle-details {
+    display: flex;
+    flex-direction: row;
+    max-width: 550px;
+  }
+  
+  .cusdet-sub-header .subheader-iconNum {
+    vertical-align: middle;
+    padding-top: 28.5px;
+    padding-bottom: 31.7px;
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 3;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+    left: 45px;
+    position: relative;
+  }
+  
+  .cusdet-sub-header .subheader-circleStatusicon {
+    width: 81px;
+    height: 81px;
+    padding-top: 24.5px;
+  }
+  
+  .cusdet-sub-header .incircle-description {
+    padding-top: 32.5px;
+    padding-bottom: 31.7px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cusdet-sub-header .incircle-description-level {
+    flex: 1;
+    height: 28px;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.21;
+    text-align: left;
+    color: #ffffff;
+    letter-spacing: 2px;
+  }
+
+
+.cusdet-sub-header .incircle-description-points {
+  flex: 1;
+  height: 28px;
+  font-family: Roboto-Light;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.83;
+  text-align: left;
+  color: #ffffff;
+  padding-top: 8px;
+  letter-spacing: 2px;
+}
+
+.cusdet-sub-header .spacer-div {
+  flex: 0.8;
+}
+
+.cusdet-sub-header .product-search {
+  flex: 0.6;
+  max-width: 300px;
+  display: flex;
+  flex-direction: row;
+  padding-right:0;
+}
+
+.cusdet-sub-header .product-search-icon {
+  width: 80px;
+  height: 80px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.cusdet-sub-header .product-search-label {
+  max-width: 106px;
+  padding-top: 34px;
+  padding-bottom: 33px;
+  padding-left: 25px;
+  height: 63px;
+  font-family: Roboto-Light;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #ffffff;
+}
+
+.cusdet-sub-header .proceed-to-sale {
+  max-width: 300px;
+  display: flex;
+  flex-direction: row;
+  padding-right: 50px;
+}
+
+.cusdet-sub-header .proceed-to-sale-icon {
+  width: 80px;
+  height: 80px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.cusdet-sub-header .proceed-to-sale-label {
+  max-width: 106px;
+  padding-top: 34px;
+  padding-bottom: 33px;
+  padding-left: 25px;
+  height: 63px;
+  font-family: Roboto-Light;
+  font-size: 24px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33;
+  text-align: left;
+  color: #ffffff;
+}
