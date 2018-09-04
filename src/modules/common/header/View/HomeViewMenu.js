@@ -30,6 +30,7 @@ export default class HomeMenu extends Component {
     e.currentTarget.style.borderBottom = 'none',
     e.currentTarget.style.fontWeight = '300'
   }
+
   this.props.enableScanOrSwipe();
 }
   render() {
@@ -44,7 +45,7 @@ export default class HomeMenu extends Component {
             </div>
             <div className="hamburgerBackgroundMainContainer">
             <div className="hamburgerMainContainer">
-            <div className="Gift-Card-Inquiry" onClick={this.applyhover}>Gift Card Inquiry</div>
+            <div className="Gift-Card-Inquiry"  onClick={this.applyhover}>Gift Card Inquiry</div>
             </div>
             <div className="hamburgerMainContainer">
             <div className="Unlock-Account" onClick={this.applyhover}>Unlock Device</div>

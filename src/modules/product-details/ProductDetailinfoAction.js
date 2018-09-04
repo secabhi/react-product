@@ -38,7 +38,6 @@ export function productDetailInfoAction(searchitem, searchfields, successCallbac
                             payload: data.data
                         });
                     }
-                    successCallback();
                 });
             };
 

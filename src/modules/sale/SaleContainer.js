@@ -1337,7 +1337,7 @@ class SaleContainer extends Component {
       "ManualPrice": this.deptDetails.ManualPrice ? this.deptDetails.ManualPrice : ''
     });
 
-    this.setState({ modal_sku: false, modal_amount: false,PJnum:'',deptType:'' }); // dismisses modal after submitting sku
+    this.setState({ modal_sku: false, modal_amount: false }); // dismisses modal after submitting sku
 
   }
   /*Additemtocart if not item in the file**/

@@ -453,7 +453,7 @@ class Home extends Component {
 
   }
   cancelSelectPrintModal = () => {
-    this.setState({ modal_print_sendselect: false,modal_print_sendenter:false });
+    this.setState({ modal_print_sendselect: false });
 
   }
   onActiveInitial = () => {
@@ -692,7 +692,7 @@ class Home extends Component {
 
           <Modal classNames={{ modal: 'post-void-modal-container' }} open={(sku) => {
 
-          }} onClose={() => { this.onClosePostVoid() }} showCloseIcon={false}>
+          }} onClose={() => { this.onClosePostVoid() }} showCloseIcon={true}>
             <PostVoid
               //debugger
               isPrintReceipt={this.state.isPrintReceipt}
@@ -712,7 +712,7 @@ class Home extends Component {
         }
         {this.state.modal_print_send ?
 
-          <Modal classNames={{ modal: 'post-void-modal-container' }} open={this.state.modal_print_send} onClose={() => { }} showCloseIcon={false}>
+          <Modal classNames={{ modal: 'post-void-modal-container' }} open={this.state.modal_print_send} onClose={() => { }} showCloseIcon={true}>
             <PrintSend
               openPrintSendModal={this.openPrintSendModal}
               openenterTransPrint={this.openenterTransPrint}
@@ -797,8 +797,6 @@ class Home extends Component {
             <PrintSendEnter
               OpenErrorModal={this.OpenErrorModal}
               closeenterTransPrint={this.closeenterTransPrint}
-              OpenErrorModal={this.OpenErrorModal}
-              cancelSelectPrintModal={this.cancelSelectPrintModal}
               onClosePrintSend={this.onClosePrintSend}
               history={this.props.history}
             />

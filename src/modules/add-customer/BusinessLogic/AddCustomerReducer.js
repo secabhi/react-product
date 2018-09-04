@@ -19,8 +19,7 @@ const initialState = {
     lastName : '',
     bypassResp:'',
     getCardBinResp : '',
-    responseError: null,
-    isValid:true,
+    responseError: null
 };
 
 export function AddCustomerReducer(state = initialState, action) {
@@ -41,8 +40,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     storeClientNo: action.payload.storeClientNo,
                     addressSequence: action.payload.addressSequence,
                     mobileSequence: action.payload.mobileSequence,
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 };
                 break;
             }
@@ -60,8 +58,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     errors: [],
                     firstName : '',
                     lastName : '',
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 };
                 break;
             }
@@ -78,8 +75,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     }],
                     firstName : '',
                     lastName : '',
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 }
             }
 
@@ -96,8 +92,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 }],
                 firstName : '',
                 lastName : '',
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
 
@@ -115,8 +110,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     storeClientNo: action.payload.storeClientNo,
                     addressSequence: action.payload.addressSequence,
                     mobileSequence: action.payload.mobileSequence,
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 };
                 break;
             }
@@ -133,8 +127,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     }],
                     firstName : '',
                     lastName : '',
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 }
                 break;
             }
@@ -151,8 +144,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     }],
                     firstName : '',
                     lastName : '',
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 }
                 break;
         }
@@ -167,8 +159,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     errors: [],
                     firstName : '',
                     lastName : '',
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 };
                 break;
             }
@@ -183,8 +174,7 @@ export function AddCustomerReducer(state = initialState, action) {
                     }],
                     firstName : '',
                     lastName : '',
-                    responseError: null,
-                    isValid:true
+                    responseError: null
                 }
             }
 
@@ -196,8 +186,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 countryList: action.payload.CountryList,
                 firstName : '',
                 lastName : '',
-                responseError: null,
-                isValid:true
+                responseError: null
             };
             break;
 
@@ -213,8 +202,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 errors: [],
                 firstName : '',
                 lastName : '',
-                responseError: null,
-                isValid:true
+                responseError: null
             };
         }
 
@@ -223,8 +211,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 ...state,
                 firstName : action.payload.data.customerFirstName,
                 lastName : action.payload.data.customerLastName,
-                responseError: null,
-                isValid:true
+                responseError: null
             };
         }
 
@@ -233,8 +220,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 ...state,
                 getCardBinResp: action.payload,
                 bypassResp:'',
-                responseError: null,
-                isValid:true
+                responseError: null
                 
             }
         }
@@ -251,8 +237,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 addressValidationSuccessFlagInt: false,
                 bypassResp:'',
                 getCardBinResp :'',
-                responseError: null,
-                isValid:true
+                responseError: null
             }
         }
         break;
@@ -266,8 +251,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 invalidEmail:false,
                 addressValidationSuccessFlag: false,
                 addressValidationSuccessFlagInt: false,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
 
             }
         }
@@ -285,8 +269,7 @@ export function AddCustomerReducer(state = initialState, action) {
                 invalidEmail:false,
                 addressValidationSuccessFlag: false,
                 addressValidationSuccessFlagInt: false,
-                responseError: null,
-                isValid:true
+                responseError: null
 
             }
         }
@@ -294,24 +277,21 @@ export function AddCustomerReducer(state = initialState, action) {
         case ADD_CUST_DOM_MISSING_DETAILS : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
         break;
         case ADD_CUST_DOM_GENERAL_ERROR : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
         break;
         case 'ADD_CUST_DOM_DEFAULT' : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
         break;
@@ -319,79 +299,62 @@ export function AddCustomerReducer(state = initialState, action) {
         case ADD_CUST_INT_MISSING_DETAILS : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
         break;
         case ADD_CUST_INT_GENERAL_ERROR : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
         break;
         case 'ADD_CUST_INT_DEFAULT' : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
         case ADD_CUST_DOM_INVALIDASSOCIATE : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
 
         case ADD_CUST_DOM_FAI : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
 
         case ADD_CUST_DOM_INVALID_PHONE : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
 
         case ADD_CUST_INT_INVALID_PHONE : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
 
         case ADD_CUST_DOM_RECORD_NOT_ADDED : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
+                responseError: action.payload
             }
         }
 
         case ADD_CUST_INT_RECORD_NOT_ADDED : {
             return {
                 ...state,
-                responseError: action.payload,
-                isValid:true
-            }
-        }
-
-        case 'ADD_CUST_VALIDFAILURE':{
-            return {
-                ...state,
-                error_message: action.message,
-                isValid:false
+                responseError: action.payload
             }
         }
 

@@ -842,7 +842,7 @@
       align-items: center;
       display: flex;
     }
-    .customer-search-results-display-no-results-label-hide {
+    .customer-search-results-display-no-results-label {
       height: 70px;
       font-family: Roboto;
       font-size: 53px;
@@ -854,19 +854,6 @@
       text-align: center;
       color: #505050;
       display: none;
-    }
-    .customer-search-results-display-no-results-label-show {
-      height: 70px;
-      font-family: Roboto;
-      font-size: 53px;
-      font-weight: normal;
-      font-style: normal;
-      font-stretch: normal;
-      line-height: 1.32;
-      letter-spacing: 2px;
-      text-align: center;
-      color: #505050;
-      display: block;
     }
     .customer-search-results-display-header {
       display: flex;
@@ -1088,24 +1075,6 @@
       
       flex: 1;
     }
-
-
-
-.customer-search-result-panel-custid-remove{  
-   margin-right: 30px; 
-  width: 81px;
-  height: 32px;
-  font-family: Roboto;
-  font-size: 24px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  text-align: center;
-  color: #333333;
-  flex: 1;
-}
   
     .customer-search-result-panel-custid {
       width: 81px;

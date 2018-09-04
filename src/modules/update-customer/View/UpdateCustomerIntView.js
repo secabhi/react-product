@@ -56,7 +56,7 @@ export default class UpdateCustomerInternationalView extends Component {
             this.props.showPopup?
             <Popup text="Verify&nbsp;Update"
                     closePopup={this.props.togglePopup.bind(this)}>
-                    <VerifyCustomer
+                    <VerifyCustomer 
                     togglePopup = {this.props.togglePopup}
                     openModals = {this.props.openModals}
                     isValid = {this.props.isValid}

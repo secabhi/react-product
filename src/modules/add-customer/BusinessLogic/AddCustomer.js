@@ -32,8 +32,6 @@ import AddCardContext from "../../add-card/addCardContext/addCardContext"
 import {json2xml} from "../../common/helpers/helpers"
 import {getAurusResponse} from '../../payment/Controller/paymentActions'
 import {addCardDetailsToClientele} from "../../add-card/actions";
-import {showException} from '../../common/exceptionErrorModal/exceptionAction';
-
 const CONFIG_FILE = require('../../../resources/stubs/config.json');
 var clientConfig = CONFIG_FILE.clientConfig;
 
@@ -137,7 +135,6 @@ class AddCustomer extends Component {
 
     componentWillReceiveProps = nextProps => {
 
-    if(nextProps.addCustomer.isValid){
         console.log('Add Customer: componentWillReceiveProps', nextProps);
         if (nextProps.addCustomer.successModalFlag === true) {
             this.setState({ storeClientNo: nextProps.addCustomer.storeClientNo });
@@ -270,18 +267,11 @@ class AddCustomer extends Component {
             this.props.clearZipToCitySateDataActionInvoker();
         }
         // MIKE - testing for add cust form within in Send - can be removed if not working
-        if(nextProps.addCustomer.responseError !== null) {
-            this.setState({errorDescription: nextProps.addCustomer.responseError.response_text});
-            this.setState({errorThrown:true});
-        }
+        // if(nextProps.addCustomer.responseError !== null) {
+        //     this.setState({errorDescription: nextProps.addCustomer.responseError.response_text});
+        //     this.setState({errorThrown:true});
+        // }
 
-    }else{
-            this.props.showException({
-                showException:true,
-                error:{failedModule: 'Add Customer', failureReason: 'Unexpected Response', failureDescription:'Unable to resolve the response structure'}
-            })
-
-    }
 
     }
 
@@ -1212,7 +1202,7 @@ class AddCustomer extends Component {
             ...clientConfig,
             'CFirstName': this.state.fieldsInt['cust_fname'],
             'CLastName': this.state.fieldsInt['cust_lname'],
-            'Salutation': this.state.selectedSalutationInt,
+            'Salutation ': this.state.selectedSalutationInt,
             'Address_Ln1': this.state.fieldsInt['cust_addr1'],
             'Address_Ln2': this.state.fieldsInt['cust_addr2'],
             'City': this.state.fieldsInt['cust_city'],
@@ -1517,8 +1507,7 @@ function mapDispatchToProps(dispatch) {
         zipToCitySateActionInvoker: zipToCitySateAction,
         clearZipToCitySateDataActionInvoker: clearZipToCitySateDataAction,
 	startSpinner: startSpinner,
-     resetAddCustomer: resetAddCustomerPage,
-      showException:showException,
+	 resetAddCustomer: resetAddCustomerPage,
 	addCardDetailsToClienteleActionInvoker: addCardDetailsToClientele
     }, dispatch);
 }

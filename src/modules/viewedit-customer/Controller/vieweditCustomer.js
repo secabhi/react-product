@@ -21,7 +21,6 @@ import Modal from 'react-responsive-modal';
 import VerifyCustomerDomestic from '../../verify_customer/View/VerifyCustomerDomView';
 import { startSpinner } from '../../common/loading/spinnerAction';
 import { zipToCitySateAction, clearZipToCitySateDataAction } from '../../home/HomeAction.js'
-import {showException} from '../../common/exceptionErrorModal/exceptionAction';
 
 /* View Components import */
 import ViewEditCustomerView from '../View/vieweditCustomerView'
@@ -143,7 +142,6 @@ class ViewEditCustomer extends Component {
 
     }
     componentWillReceiveProps = nextProps => {
-    if(nextProps.viewEditCustomer.isValid ){
         
         console.log('Update Customer: componentWillReceiveProps', nextProps);
         if (nextProps.viewEditCustomer.successModalFlag === true && nextProps.viewEditCustomer.clienteleUpdateFlag === true) {
@@ -284,13 +282,6 @@ class ViewEditCustomer extends Component {
                 }
             }
             this.props.clearZipToCitySateDataActionInvoker();
-        }
-
-        }else{
-            this.props.showException({
-                showException:true,
-                error:{failedModule: 'View Edit Customer', failureReason: 'Unexpected Response', failureDescription:'Unable to resolve the response structure'}
-            })
         }
 
 
@@ -864,7 +855,6 @@ function mapDispatchToProps(dispatch) {
     //getStoreClientIdUpdateActionInvoker: getStoreClientIdUpdateAction,
     attachCustomerActionInvoker: attachCustomerAction,
     goToSalesPage: goToSalesPage, startSpinner: startSpinner, setClienteled: setClienteled, zipToCitySateActionInvoker: zipToCitySateAction,
-    showException : showException,
     clearZipToCitySateDataActionInvoker: clearZipToCitySateDataAction }, dispatch);
 }
 

@@ -13,7 +13,6 @@ import ReceiptIcon from '../../resources/images/Receipt_120.svg';
 import crossicon from '../../resources/images/Close_Bttn_Purple.svg';
 import TextField from 'material-ui/TextField/TextField';
 import scan from '../../resources/images/Scan_Item_Borderless.svg';
-import {showException} from '../common/exceptionErrorModal/exceptionAction'
 
  class PrintSendEnter extends Component {
    
@@ -28,31 +27,11 @@ import {showException} from '../common/exceptionErrorModal/exceptionAction'
         }
     }
     componentWillReceiveProps(nextProps) {
-        if(nextProps.PrintSendtransdetails.isValid)
-        { 
         if(nextProps.PrintSendtransdetails.detailsFetchSuccessFlag===true)
         {   
             this.props.history.push('/print-send-receipt');
             this.props.startSpinner(false);
         }
-        else if(nextProps.PrintSendtransdetails.dataFrom=='TRANS_DETAILS_FAIL' && nextProps.PrintSendtransdetails.detailsFetchSuccessFlag===false){
-            this.props.startSpinner(false);
-            this.props.cancelSelectPrintModal();
-            this.props.OpenErrorModal();
-        }
-    }
-    else{
-        if(nextProps.PrintSendtransdetails.error_message!='')
-            {
-       // alert('network error')
-            this.props.callErrorException(
-            {showException: true,
-            error:{failedModule:'Print/Send Get Transaction Details',
-            failureReason:'Unexpected Response',
-            failureDescription:nextProps.PrintSendgettransaction.error_message}})
-            }
-            this.props.clearIsvalidFlag();
-    }
     }
 
     handleKeyUp = (event) => {
@@ -175,7 +154,6 @@ function mapStateToProps({ PrintSendtransdetails,PrintSendgettransaction,login }
 
  function mapDispatchToProps(dispatch) {
     return bindActionCreators({ PrintSendTransInvoker: PrintSendDetailsTransaction,
-        callErrorException: (data)=> showException(data),
         startSpinner:startSpinner}, dispatch);
 }
 

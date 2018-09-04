@@ -112,11 +112,10 @@ import ErrorModal from '../../../../home/error-modal/errorModal';
                                 fullWidth={true}
                                 inputStyle={customStyle.textFieldInputStyle}
                                 refs="cust_fname"
-                                maxLength= {14}
                                 onChange={this.props.domesticProp
                                 .handleChange
                                 .bind(this, "cust_fname")}
-                                value={this.props.domesticProp.fields["cust_fname"].replace(/[^A-Z0-9.#&]+/ig, "")}
+                                value={this.props.domesticProp.fields["cust_fname"]}
                                 errorText={this.props.domesticProp.errors["cust_fname"]}
                                 errorStyle
                                 ={customStyle.errorStyle}
