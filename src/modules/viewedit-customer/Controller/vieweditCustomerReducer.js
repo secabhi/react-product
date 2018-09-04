@@ -11,6 +11,8 @@ const initialState = {
     countryList:[],
     storeClientNumber:"",
     errorModal:false,
+    error_message:'',
+    isValid:true
 };
 
 export function ViewEditCustomerReducer(state, action) {
@@ -27,7 +29,9 @@ export function ViewEditCustomerReducer(state, action) {
                 errors : [],
                 isCountryList : true,
                 isProfileData : false,
-                isUpdateSuccess : false
+                isUpdateSuccess : false,
+                error_message:'',
+                isValid:true
             };
         }
         case UPDATE_CUST_SUCCESS: {
@@ -38,7 +42,9 @@ export function ViewEditCustomerReducer(state, action) {
                 verifyEmailFlag: false,
                 clienteleUpdateFlag: action.payload.ClienteleUpdateFlag,
                 errors : [],
-                isUpdateSuccess : false
+                isUpdateSuccess : false,
+                error_message:'',
+                isValid:true
             };
         }
 
@@ -53,7 +59,9 @@ export function ViewEditCustomerReducer(state, action) {
                 profileData : action.payload,
                 isCountryList : false,
                 isProfileData : true,
-                isUpdateSuccess : false
+                isUpdateSuccess : false,
+                error_message:'',
+                isValid:true
             };
         }
 
@@ -68,7 +76,9 @@ export function ViewEditCustomerReducer(state, action) {
                 }],
                 isCountryList : false,
                 isProfileData : false,
-                isUpdateSuccess : false
+                isUpdateSuccess : false,
+                error_message:'',
+                isValid:true
             }
         }
 
@@ -76,6 +86,26 @@ export function ViewEditCustomerReducer(state, action) {
             return{
                 ...state,
                 errorModal:true,
+                error_message:'',
+                isValid:true
+            }
+        }
+
+        case 'VIEW_EDIT_CUST_VALIDFAILURE':{
+            return{
+                ...state,
+                successModalFlag : false,
+                addressValidationSuccessFlag : false,
+                verifyAddressFlag : false,
+                verifyEmailFlag : false,
+                invalidPhone : false,
+                isUpdateSuccess  :false, 
+                errors : [],
+                countryList:[],
+                storeClientNumber:"",
+                errorModal:false,
+                error_message: action.message,
+                isValid:false
             }
         }
         // case "STORE_CLIENT_REQ_SUCCESS":

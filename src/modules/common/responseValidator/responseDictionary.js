@@ -137,3 +137,8 @@ export const addCardResponseObj = {
     "response_code": "",
     "response_text": ""
 }
+
+export const viewEditCustomerResponseObj = {
+    "response_code": "",
+    "response_text": ""
+}

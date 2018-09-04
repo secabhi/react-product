@@ -891,7 +891,7 @@ input:focus {
     margin-top: 30.5px; 
     margin-left: 112px;
     color: #333333;
-    width: 492px;
+    width: 500px;
     height: 38px;
     font-family: Roboto;
     font-size: 32px;
@@ -1052,7 +1052,7 @@ input:focus {
     margin-right: 120px;
     width: 725px;
 
-    width: 487px;
+    width: 600px;
     height: 38px;
     font-family: Roboto;
     font-size: 32px;
@@ -1256,7 +1256,7 @@ input:focus {
 
 .add-domcust-fail-modal-message-text{
     display: flex;
-    width: 606px;
+    width: 579px;
     height: 235px;
     font-family: Roboto;
     font-size: 32px;
@@ -1283,8 +1283,8 @@ input:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 159px;
-    width: 222px;
+    margin-left: 142px;
+    width: 272px;
     height: 60px;
     border: solid 2px #613b8c;
     background-color: #613b8c;
@@ -1312,17 +1312,16 @@ input:focus {
 }
 
 .add-dom-cust-modal-backtoedit-btn-icon{
-    width: 23.6px;
-    height: 22.3px;
-    border: solid 1px #ffffff;
+    width: 28px;
+    height: 26.3px;
+    margin-top: 3px;
 }
-
 .add-dom-cust-modal-backtoedit-btn-label{
-    width: 163px;
+    width: 184px;
     height: 24px;
     
     font-family: Roboto;
-    font-size: 21px;
+    font-size: 24px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
@@ -1333,8 +1332,8 @@ input:focus {
 }
 
 .add-dom-cust-modal-bypass-btn-icon{
-    width: 16px;
-    height: 16px;
+    width: 26px;
+    height: 19.5px;
 }
 
 .add-dom-cust-modal-bypass-btn-label{
@@ -1342,7 +1341,7 @@ input:focus {
     height: 24px;
     padding-left: 3px;
     font-family: Roboto;
-    font-size: 21px;
+    font-size: 24px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;

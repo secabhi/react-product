@@ -382,6 +382,7 @@ export class ModifyPriceModal extends Component {
         var itemPrice = this.props.item.salePrice;
         var fieldValue = this.state.fieldValue;
         var validValueCheckFlag = false;
+        var invalidMkdNewPriceFlag = false;
         var discountedSalePrice = this.props.item.salePrice;
         if(this.props.item.discounts.length > 0) {
             discountedSalePrice = this.props.item.discounts[this.props.item.discounts.length-1].newPrice;
@@ -455,8 +456,11 @@ export class ModifyPriceModal extends Component {
             else {
                 showManagerModalFlag = false;
             }
-            if (fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue < this.props.item.itemsPrice) {
                 validValueCheckFlag = true;
+            }
+            else if(fieldValue == this.props.item.itemsPrice) {
+                invalidMkdNewPriceFlag = true;
             }
             else {
                 validValueCheckFlag = false;
@@ -509,8 +513,11 @@ export class ModifyPriceModal extends Component {
             else {
                 showManagerModalFlag = false;
             }
-            if (fieldValue <= this.props.item.itemPrice) {
+            if (fieldValue < this.props.item.itemsPrice) {
                 validValueCheckFlag = true;
+            }
+            else if(fieldValue == this.props.item.itemsPrice) {
+                invalidMkdNewPriceFlag = true;
             }
             else {
                 validValueCheckFlag = false;
@@ -529,7 +536,12 @@ export class ModifyPriceModal extends Component {
             }
         }
         else {
-            this.setState({ errorText: "Please enter a valid value" });
+            if(invalidMkdNewPriceFlag) {
+                this.setState({ errorText: "Discount not allowed" });
+            }
+            else {
+                this.setState({ errorText: "Please enter a valid value" });
+            }
         }
     }
 

@@ -98,8 +98,8 @@ export function productSearchAction(searchitem, searchfields, successCallback) {
                             payload: data.data
                         });
                         successCallback({failure:true});
-                        dispatch(startSpinner(false));
                     }
+                    // dispatch(startSpinner(false));
 
                 });
             };

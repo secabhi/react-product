@@ -66,12 +66,13 @@ export class AddCustomerIntView extends Component {
                             floatingLabelStyle={customStyle.textFieldFloatingLabelStyle}
                             style={customStyle.textFieldStyle}
                             fullWidth={true}
+                            maxLength= {14}
                             inputStyle={customStyle.textFieldInputStyle}
                             refs="cust_fname"
                             onChange={this.props.internationalProp
                             .handleChangeInt
                             .bind(this, "cust_fname")}
-                            value={this.props.internationalProp.fieldsInt["cust_fname"]}
+                            value={this.props.internationalProp.fieldsInt["cust_fname"].replace(/[^A-Z0-9.#&]+/ig, "")}
                             errorText={this.props.internationalProp.errorsInt["cust_fname"]}
                             errorStyle
                             ={customStyle.errorStyle}

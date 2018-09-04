@@ -46,6 +46,7 @@ class CustomerSearch extends Component {
     this.state = {
       searchItem: '',
       isClienteled: true,
+      resData:false,
       searchResult: [],
       maxLimit_modal: false,
       reduxResult: {},
@@ -95,6 +96,7 @@ class CustomerSearch extends Component {
 
         const list = nextProps.customerSearch.data.cusomerList;
         //const resultList = [];
+        this.setState({resData:false})
 
         this.setResults(list);
 
@@ -127,9 +129,12 @@ class CustomerSearch extends Component {
       // }
       else if (nextProps.customerSearch.dataFrom === "CS_CUSTNOTFOUND") {
         this.props.startSpinner(false);
-        document.getElementsByClassName('customer-search-results-display-no-results-label')[0].style.display = "block";
         var cusnotfoundarray=[];
         this.setResults(cusnotfoundarray);
+        this.setState({resData:true})
+        /* if(document.getElementsByClassName('customer-search-results-display-no-results-label').length > 0)
+          document.getElementsByClassName('customer-search-results-display-no-results-label')[0].style.display = "block"; */
+              
       }
 
     }
@@ -353,7 +358,7 @@ class CustomerSearch extends Component {
               (
                 <div>
                   <div className='customer-search-results-display-no-results'>
-                    <span className='customer-search-results-display-no-results-label'>No results found</span>
+                    <span className={(this.state.resData) ?'customer-search-results-display-no-results-label-show':'customer-search-results-display-no-results-label-hide'}>No results found</span>
                   </div>
                 </div>
               ) : null
@@ -808,16 +813,16 @@ class CustomerSearch extends Component {
             <div className='customer-search-result-panel-content'>
               <div className='customer-search-result-panel-content-clickable' onClick={() => this.navigateToViewEditCustomer(customer, customer.addresses[customerKeys[0]], customerKeys[0])}>
                 <div className={(customer.myClient === "Y") ?'customer-search-result-panel-custname-remove':'customer-search-result-panel-custname'} >{customer.lastName},&nbsp;{customer.firstName}&nbsp;{customer.salutation}</div>
-                <div className="customer-search-result-panel-phone" ><InputMask className="customer-search-result-phone" style={{ borderBottom: 'none' + '' }} mask="(999) 999-9999" maskChar="" value={customer.addresses[customerKeys[0]].phoneNumbers[0].phoneNumber} disabled /></div>
-                <div className="customer-search-result-panel-email" ><div className="customer-search-result-panel-email-inner email-ellipse">{customer.emailAddress}</div></div>
-                <div className="customer-search-result-panel-address" >
+                <div className='customer-search-result-panel-phone' ><InputMask className="customer-search-result-phone" style={{ borderBottom: 'none' + '' }} mask="(999) 999-9999" maskChar="" value={customer.addresses[customerKeys[0]].phoneNumbers[0].phoneNumber} disabled /></div>
+                <div  className='customer-search-result-panel-email' ><div className="customer-search-result-panel-email-inner email-ellipse">{customer.emailAddress}</div></div>
+                <div className='customer-search-result-panel-address' >
                   {customer.addresses[customerKeys[0]].addr1 !== "" ? customer.addresses[customerKeys[0]].addr1 + ", " : ""}
                   {customer.addresses[customerKeys[0]].addr2 !== "" ? customer.addresses[customerKeys[0]].addr2 + ", " : ""}
                   {customer.addresses[customerKeys[0]].city !== "" ? customer.addresses[customerKeys[0]].city + ", " : ""}
                   {customer.addresses[customerKeys[0]].state !== "" ? customer.addresses[customerKeys[0]].state : ""}
                   {customer.addresses[customerKeys[0]].zip !== "" ? customer.addresses[customerKeys[0]].zip : ""}
                 </div>
-                <div className='customer-search-result-panel-custid'>{customer.clientNumber}</div>
+                <div className={(customer.myClient === "Y") ?'customer-search-result-panel-custid-remove':'customer-search-result-panel-custid'}>{customer.clientNumber}</div>
               </div>
               <span className='customer-search-result-panel-accordion-btn'>
                 {((customerKeys.length > 1 || customerKeys.length === null) && (window.innerWidth > 1900)) ?

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import imageNotFound from '../../../../resources/images/Image_placeholder.svg';
+
 export default class ProductDetailsImages extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +65,7 @@ export default class ProductDetailsImages extends Component {
           }
         </div>
         <div className="thumbnail-full-image">
-          <img src={this.props.navFromCustDetails ? product.mainImageUrl: imageList.zoomAlt ?imageList.zoomAlt[this.state.currentImage]:null}/>
+          <img src={this.props.navFromCustDetails ? product.mainImageUrl: imageList.zoomAlt ?imageList.zoomAlt[this.state.currentImage]:imageNotFound}/>
         </div>
       </div>
     );

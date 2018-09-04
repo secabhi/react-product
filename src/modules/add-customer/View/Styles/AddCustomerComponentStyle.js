@@ -7,7 +7,7 @@ export const customStyle= {
         fontStyle: 'normal',
         fontStretch: 'normal',
         overflow: 'hidden',
-        textOverflow: 'initial',
+        textOverflow: 'ellipsis',
         whiteSpace: 'nowrap',
         lineHeight: '1.19',
         letterSpacing: '2px',
@@ -65,7 +65,8 @@ textFieldInputStyle : {
         letterSpacing: '2px',
         textAlign: 'left',
         color: '#505050',
-        paddingLeft: '13px'
+        paddingLeft: '13px',
+        textOverflow:'ellipsis'
     },
 
 errorStyle : {

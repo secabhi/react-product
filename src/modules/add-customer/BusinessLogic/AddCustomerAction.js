@@ -11,6 +11,8 @@ import {CS_SUCCESS ,CS_INVALIDEMAIL ,CS_MISSINGDETAILS ,CS_GENERALERROR ,CS_INVA
         ,ADD_CUST_INT_INVALID_PHONE,ADD_CUST_INT_RECORD_NOT_ADDED,ADD_CUST_INT_ADDR_BAD_REPLY
         ,ADD_CUST_INT_DEFAULT,ADD_CUST_COUNTRY_LIST_RETRIEVED, ADD_CUST_INT_COUNTRY_CODE_MISSING, CS_INVALIDASSOCIATE, ADD_CUST_DOM_INVALIDASSOCIATE, ADD_CUST_DOM_FAI, CS_FAI} from './constants';
 
+import {viewEditCustomerResponseObj} from '../../common/responseValidator/responseDictionary'
+import {responseValidation} from '../../common/responseValidator/responseValidation'
 const clientConfig =  require('../../../resources/stubs/config.json').clientConfig;
 
 
@@ -30,12 +32,18 @@ export function addCustomerAction(addCustDomData) {
       
      
     const request = callPostWebService(URL,params);
+    var validate = {
+        isValid:false,
+        message:''
+    }
 
     return (dispatch) => {
         request.then(({
                 data
             }) => {
             
+            validate = responseValidation(data, viewEditCustomerResponseObj)
+                if(validate.isValid){
                 console.log('data',data.response_text);
                 switch (data.response_text) {
 
@@ -180,6 +188,14 @@ export function addCustomerAction(addCustDomData) {
                     //         dispatch(startSpinner(false));
                     //         break;
                     //     }
+                }
+                }else{
+                    var errorMessage = validate.message
+                    dispatch({
+                        type: "ADD_CUST_VALIDFAILURE",
+                        payload: {},
+                        message: errorMessage
+                    })
                 }
             })
             .catch(error => {

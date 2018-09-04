@@ -4,6 +4,8 @@ import { startSpinner } from '../../common/loading/spinnerAction';
 
 import { CS_SUCCESS, CS_GENERALERROR, CS_INVALIDEMAIL, CS_CUSTNOTFOUND, CS_MISSINGDETAILS, CS_INVALIDASSOCIATE, CS_FAI, CS_INVALIDZIP, CS_RECORDNOTUPDATED, CS_COUNTRYCODEMISSING, UPDATE_CUST_SUCCESS, UPDATE_CUST_GENERAL_ERROR, UPDATE_CUST_MISSING_DETAILS, UPDATE_CUST_RECORD_NOT_UPDATED, VIEW_EDIT_CUST_FAILURE, VIEW_EDIT_CUST_INVALID_EMAIL } from '../../common/constants/type';
 
+import {viewEditCustomerResponseObj} from '../../common/responseValidator/responseDictionary.js';
+import {responseValidation} from '../../common/responseValidator/responseValidation.js';
 
 const env = require('../../../settings/env.js');
 const path = env.PATH;
@@ -15,10 +17,19 @@ export function viewCustomerAction(updateCustDomData) {
      const apiAddressUpdate = path+'apiAddressAdd.json';
 
     const request = env.ENV_MODE=='dev1'?callPostWebService(URL, updateCustDomData):callGetWebService(apiAddressUpdate, {});
+
+    var validate = {
+        isValid : false,
+        message : ''
+    }
+
     return (dispatch) => {
         request.then(({
                 data
             }) => {
+
+                validate = responseValidation(data, viewEditCustomerResponseObj)
+            if(validate.isValid){
                 switch (data.response_text) {
 
                     case CS_SUCCESS:
@@ -116,6 +127,14 @@ export function viewCustomerAction(updateCustDomData) {
                             break;
                         }
                 }
+            }else{
+                var errorMessage = validate.message
+                dispatch({
+                    type: 'VIEW_EDIT_CUST_VALIDFAILURE',
+                    payload: {},
+                    message: errorMessage
+                })
+            }
             })
             .catch(error => {
                 dispatch({

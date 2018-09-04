@@ -4,6 +4,7 @@ import Modal from 'react-responsive-modal';
 import { bindActionCreators } from 'redux';
 import { startSpinner } from '../../../../modules/common/loading/spinnerAction';
 import { connect } from 'react-redux';
+import Slider from 'react-slick'
 
 
 import AddtoBag from "../../../../resources/images/Add_to_Bag.svg";
@@ -13,6 +14,28 @@ import { productRowAction } from '../../ProductRowAction';
 import { productDetailInfoAction } from '../../ProductDetailinfoAction';
 
 import { pluck, map, each } from 'underscore';
+
+const PrevArrow = (props) => {
+  const {onClick} = props;
+  return (
+    <div
+      className="slick-prev"
+      onClick={onClick}
+    >
+    </div>
+  );
+}
+
+const NextArrow = (props) => {
+  const {onClick} = props;
+  return (
+    <div
+      className="slick-next"
+      onClick={onClick}
+    >
+    </div>
+  );
+}
 
 const PurchaseDetailRows = (props) => {
     const {product, prodDetails} = props;
@@ -35,12 +58,34 @@ const PurchaseDetailRows = (props) => {
 
   const ProductDetailsDefault = (props) => {
     const {product, colorDisplayArr, sizeDisplayArr, currentStoreStock} = props; 
+    const disabledStyle = 0.4;
+    let carouselSettingsColors = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        vertical: false,
+        arrows: true,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />
+      };
    
          return([
           <div className="rows-size-desc">
             <div className="rows-size-title">Size : {product.sizeDesc}</div>
             {map(sizeDisplayArr, (item, i) => {
-              return <div key={i} className="rows-size-alt" onClick={() => { props.updateSelectionSize(item) }}>{item.sizeDesc.split('(')[0]}</div>
+              return <div key={i} 
+                className="rows-size-alt" 
+                onClick={() => { props.updateSelectionSize(item, i) }}
+                style={{  
+                    'opacity': item.disabled ? disabledStyle : null,
+                    'backgroundColor': item.selected ? '#4b2b6f' : null ,
+                    'color': item.selected ? '#ffffff' : '#000000'
+                    }}
+                >
+                {item.sizeDesc.split('(')[0]}
+                </div>
             })}
             <div className="rows-size-alt-selected-size-guide">
               <a href="">Size Guide</a>
@@ -48,13 +93,19 @@ const PurchaseDetailRows = (props) => {
           </div>,
             <div className="rows-color">
             <div className="rows-color-title">Color : {product.colorDesc}</div>
+            <Slider {...carouselSettingsColors}>
             <div className="rows-color-inner">
               {map(colorDisplayArr, (item, i) => {
-                return <div key={i} className="rows-color-inner-circle" onClick={() => { props.updateSelectionColor(item) }}
-                  style={{ 'background': item.colorDesc }} />
+                return <div key={i} className="rows-color-inner-circle" onClick={() => { props.updateSelectionColor(item, i) }}
+                  style={{ 
+                    'backgroundImage': `url(${item.swatchImageUrl})`, 
+                    'opacity': item.disabled ? disabledStyle : null,
+                    'border': item.selected?  '6px solid #4b2b6f' : null
+                    }} />
               })}
             </div>
-            <div className="rows-other">Not Available</div>
+            </Slider>
+            {/* <div className="rows-other">Not Available</div> */}
           </div>, 
           
           <div className="rows-checkout">
@@ -126,7 +177,7 @@ class ProductDetailsRows extends Component {
             }
           </div>
           <div className="rows-main-content-price">
-            <strong>{product.currencyCode === "USD"?"$ ":null}{product.salePrice}</strong>
+            <strong>{product.currencyCode === "USD"?"$ ":null}{product.salePrice? product.salePrice:"Price not available."}</strong>
             <span className="span-text">{product.currencyCode === "USD" && product.price != product.salePrice?"$ ":null}{product.price == product.salePrice? null:product.price}</span>
             {/* <span className="span-text-green">25% off</span>
             <span className="span-text-green">Promo</span>

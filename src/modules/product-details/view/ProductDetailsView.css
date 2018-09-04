@@ -335,7 +335,7 @@
 }
 
 .rows-color-inner-circle {
-  background: #ce4f4f;
+  /* background: #ce4f4f; */
   border: 6px solid white;
   border-radius: 50%;
   height: 30px;
@@ -345,6 +345,13 @@
   box-shadow: 0 0 0 2px #051919;
   display: inline-block;
   margin-left: 20px;
+}
+
+.rows-color-inner-circle-img{
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  position: relative;
 }
 
 .rows-color-inner:first-child{
@@ -522,8 +529,21 @@
 
 .checkAvailModal-availList-container{
   height: 746px;
-  border: 2px solid orange;
+  /* border: 2px solid orange; */
   overflow: scroll;
+}
+
+.slick-prev {
+width: 25px !important;
+height: 47.9px !important;
+background-image: url('../../../resources/images/Arrow_Back.svg') !important;
+} 
+
+.slick-next {
+width: 25px !important;
+height: 47.9px !important;
+background-image: url('../../../resources/images/Arrow_Forward.svg') !important;
+right: -70px !important;
 }
 
 .checkAvailModal-storeList{

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
+import Modal from 'react-responsive-modal'
 
 import Header from '../common/header/header';
 import Footer from '../common/footer/footer';
@@ -12,6 +13,8 @@ import { productDetailInfoAction } from './ProductDetailinfoAction';
 import { productSearchAction } from '../product-search/ProductSearchAction';
 import { startSpinner } from '../../modules/common/loading/spinnerAction';
 import {changeItemPurchasedFlag} from '../customer-details/CustomerDetailsActions';
+
+import {warningIcon} from '../../resources/images/Warning.svg'
 
 const clientConfig = require('../../resources/stubs/config.json');
 
@@ -29,7 +32,13 @@ class ProductDetails extends Component {
       product: this.props.products[this.productId],
       colorDisplayArr:[],
       sizeDisplayArr:[],
+      currentSelectedSize: '',
+      currentSelectedColor:'',
+      errorPresent: false,
+      errorDescription: '',
+
     }
+
     
     if(this.props.customerDetails.itemPurchased == true) {
       let purchasedItem = this.getPurchasedItemDetails();
@@ -58,6 +67,10 @@ class ProductDetails extends Component {
     }
 
     this.product = this.props.customerDetails.itemPurchased == true ? this.prodDetails[this.productId] : this.props.products[this.productId];
+    this.prevSizeIndex = null;
+    this.prevColorIndex = null;
+    this.uniqueColorsOriginal = [];
+    this.uniqueSizesOriginal = [];
   }
 
   componentDidMount(){
@@ -65,55 +78,44 @@ class ProductDetails extends Component {
       let pimStyleId = this.state.product.pimstyleId;
       let pimskuId = this.state.product.pimskuId;
       //let pimStyleId = 1713023;
-      // this.props.startSpinner(true);
+      this.props.startSpinner(true);
       this.props.productSearhActionInvoker("filter_set", { pimStyleId }, () => {
         //this.props.history.push("/product-details/"+pimskuId);
       });
 
       this.props.productDetailInfoInvoker("get_info", { pimskuId }, () => {
-        //this.props.history.push("/product-details/"+pimskuId);
+        this.props.startSpinner(false);
       });
 
       console.log("shiv pimsku cmd", pimskuId)
-      this.props.getPriceAction('930924', pimskuId, () => {
+
+      //SHIV: CHANGE TO PIN FROM REDUX (HARDCODING FOR DEV PURPOSES)
+      // this.props.getPriceAction('930924', pimskuId, () => {
+      //   this.props.startSpinner(false);
         
-      });
+      // });
       
     }
 
 
   }
 
-  apiCallOnClick = (pimSkuIdFromClick) =>{
-    //let pimStyleId = this.state.product.pimstyleId;
-    let pimskuId = pimSkuIdFromClick;
-    //let pimStyleId = 1713023;
-    // this.props.startSpinner(true);
-    // this.props.productSearhActionInvoker("filter_set", { pimStyleId }, () => {
-    //   //this.props.history.push("/product-details/"+pimskuId);
-    // });
-
-    this.props.productDetailInfoInvoker("get_info", { pimskuId }, () => {
-      //this.props.history.push("/product-details/"+pimskuId);
-    });
-
-    this.props.getPriceAction((this.props.login.userpin, pimskuId), () => {
-      
-    });
-  }
 
   componentDidUpdate(prevProps, prevState) {
     if(this.props.customerDetails.itemPurchased == false) {
       console.log('SHIV PREVPROPS', prevProps)
       console.log('SHIV this.PROPS', this.props)
   
-      if(prevProps.storeList.length != this.props.storeList.length){
-        this.props.storeList.map((store, index)=>{
-          // console.log("Shiv configStore:", store)
+      if(prevProps.storeList.storeList.length != this.props.storeList.storeList.length && this.props.storeList.error === false){
+        this.props.storeList.storeList.map((store, index)=>{
+          console.log("Shiv configStore:", store)
           if(store.storeId == parseInt(clientConfig.clientConfig.Store, 10)){
             this.setState({currentStore:store})
           }
         });
+      }else if(prevProps.storeList.error != this.props.storeList.error && this.props.storeList.error === true){
+        this.setState({errorDescription: "Storelist could not be retrieved."})
+        this.handleErrorPopup();
       }
   
       if(prevProps.productRow != this.props.productRow){
@@ -130,28 +132,55 @@ class ProductDetails extends Component {
     }
   }
 
+  handleErrorPopup = () =>{
+    if(this.state.errorPresent){
+      this.setState({errorPresent:false, errorDescription:''});
+    }else{
+      this.setState({errorPresent:true})
+    }
+  }
+
+  apiCallOnClick = (pimSkuIdFromClick) =>{
+    //let pimStyleId = this.state.product.pimstyleId;
+    let pimskuId = pimSkuIdFromClick;
+    this.productId = pimskuId;
+    //let pimStyleId = 1713023;
+    this.props.purchHistProdDetail("pimsku_search", { pimskuId }, () => {
+      //this.props.history.push("/product-details/"+pimskuId);
+      // this.props.getPriceAction('930924', pimskuId, () => {
+      //   this.props.startSpinner(false);
+      // });
+    });
+
+    this.props.productDetailInfoInvoker("get_info", { pimskuId }, () => {
+      this.props.startSpinner(false);
+    });
+      
+  }
+
   //sort arrays for sizes and colors to only show unique values
   sortDisplayArrays = () =>{
 
     let uniqueSizes = [];
     let uniqueColors = [];
+    
 
     this.props.productRow.map((item, index) => {
       let uniqueSizeObj = {
         sizeDesc : item.sizeDesc,
         sizeCd : item.sizeCd,
         colorCd: item.colorCd,
-        pimskuId: item.pimskuId,
-        disabled: false
+        selected:false,
+        disabled: true
       }
 
       let uniqueColorObj = {
         colorDesc : item.colorDesc,
         colorCd : item.colorCd,
         sizeCd: item.sizeCd,
-        pimskuId: item.pimskuId,
-        colorSwatch: item.swatchImageUrl,
-        disabled: false
+        swatchImageUrl: item.swatchImageUrl,
+        selected:false,
+        disabled: true
       }
 
       uniqueSizes.push(uniqueSizeObj);
@@ -165,14 +194,28 @@ class ProductDetails extends Component {
       return a.colorCd - b.colorCd;
     });
 
+    this.uniqueColorsOriginal = uniqueColors;
+    this.uniqueSizesOriginal = uniqueSizes;
+
     this.setState({
       colorDisplayArr:uniqueColors,
       sizeDisplayArr: uniqueSizes
+    }, ()=>{
     });
+
+    let initialSizeIndex = this.uniqueSizesOriginal.map( (obj) => {return obj.sizeCd}).indexOf(this.product.sizeCd)
+
+    let initialColorIndex = this.uniqueColorsOriginal.map( (obj) => {return obj.colorCd}).indexOf(this.product.colorCd)
+    
+    console.log("SHIV TEST", this.uniqueColorsOriginal.map( (obj) => {return obj.colorCd}).indexOf(this.product.colorCd));
+
+    this.updateSelectionSize(this.product, initialSizeIndex);
+    this.updateSelectionColor(this.product, initialColorIndex);
 
     console.log("SHIV SORTED:", uniqueSizes);
     console.log("SHIV SORTED:", uniqueColors);
     console.log("SHIV UNSORTED:", this.props.productRow);
+
   }
 
   //remove duplicated from array based on propery passed and return unique array of objects
@@ -183,33 +226,127 @@ class ProductDetails extends Component {
   }
 
   //update selection when user clicks on different size or colors.
-  updateSelectionSize = (item) => {
-   console.log("SHIV SELECTED ITEM:", item);
-   let testArr = [];
+  updateSelectionSize = (item, index) => {
+    console.log("SHIV SELECTED ITEM:", item);
+    let testArr = [];
+    let alteredColorArr = [];
+    let alteredSizeArr = [];
 
+    alteredSizeArr = this.uniqueSizesOriginal.slice();
+    alteredColorArr = this.uniqueColorsOriginal.slice();
+    
+    alteredSizeArr[index].selected = true;
+
+    if(this.prevSizeIndex != null){
+      alteredSizeArr[this.prevSizeIndex].selected = false;
+    }
+
+    //returns array of objects that are available for current selected size
     this.props.productRow.forEach(function(element) {
-      console.log("SHIV SELECTED element:", element);
+      // console.log("SHIV SELECTED element:", element);
+      
       if(item.sizeCd === element.sizeCd){
-        element.disabled = true;
         testArr.push(element);
       }
     }, this);
+    
+    for(var i = 0; i < alteredColorArr.length; i++){
+      alteredColorArr[i].disabled = true;
+      for(var j = 0; j < testArr.length; j++){
+        if(alteredColorArr[i].colorCd == testArr[j].colorCd){
+          alteredColorArr[i].disabled = false;
+        }
+      }
+    }
+
+    console.log("SHIV alteredColorArr", alteredColorArr)
+    
+
+    this.setState({
+      sizeDisplayArr: alteredSizeArr,
+      colorDisplayArr:alteredColorArr,
+      currentSelectedSize : item.sizeCd,
+    },
+    ()=>{
+        if(this.state.currentSelectedSize != '' && this.state.currentSelectedColor != '' && this.prevSizeIndex !== null){
+        this.props.productRow.map((item, index) => {
+          console.log("shiv calling api", this.prevSizeIndex)
+          if(item.sizeCd === this.state.currentSelectedSize && item.colorCd === this.state.currentSelectedColor){
+            this.apiCallOnClick(item.pimskuId);
+          }
+        }, this)
+      }else if(this.prevSizeIndex !== null){
+        console.log("SHIV PIMSKU FOR API CALL:", testArr[0].pimskuId)
+        // this.apiCallOnClick(testArr[0].pimskuId);
+      }
+      this.prevSizeIndex = index;
+    }
+  );
+  
+
     console.log("SHIV SELECTED AR", testArr)
   }
 
-  updateSelectionColor = (item) => {
-   console.log("SHIV SELECTED ITEM:", item);
-   let testArr = [];
+  //update selection when user clicks on different size or colors.
+  updateSelectionColor = (item, index) => {
+    console.log("SHIV SELECTED ITEM:", index);
+    let selectedColorArr = [];
 
+    let alteredColorArr = [];
+    let alteredSizeArr = [];
+
+    alteredSizeArr = this.uniqueSizesOriginal.slice();
+    alteredColorArr = this.uniqueColorsOriginal.slice();
+
+    alteredColorArr[index].selected = true;
+
+    if(this.prevColorIndex != null){
+      alteredColorArr[this.prevColorIndex].selected = false;
+    }
+
+    //returns array of objects that are available for current selected size
     this.props.productRow.forEach(function(element) {
-      console.log("SHIV SELECTED element:", element);
+      // console.log("SHIV SELECTED element:", element);
+      
       if(item.colorCd === element.colorCd){
-        element.disabled = true;
-        testArr.push(element);
+        selectedColorArr.push(element);
       }
     }, this);
-    console.log("SHIV SELECTED AR", testArr)
-   
+    
+    for(var i = 0; i < alteredSizeArr.length; i++){
+      alteredSizeArr[i].disabled = true;
+      for(var j = 0; j < selectedColorArr.length; j++){
+        if(alteredSizeArr[i].sizeCd == selectedColorArr[j].sizeCd){
+          alteredSizeArr[i].disabled = false;
+        }
+      }
+    }
+
+    console.log("SHIV alteredSizeArr", alteredSizeArr)
+    
+    this.setState({
+      sizeDisplayArr: alteredSizeArr,
+      colorDisplayArr:alteredColorArr,
+      currentSelectedColor : item.colorCd
+    },
+    ()=>{
+        if(this.state.currentSelectedSize != '' && this.state.currentSelectedColor != '' && this.prevColorIndex !== null){
+        this.props.productRow.map((item, index) => {
+          console.log("shiv calling color api", this.prevColorIndex)
+          if(item.sizeCd === this.state.currentSelectedSize && item.colorCd === this.state.currentSelectedColor){
+            this.apiCallOnClick(item.pimskuId);
+          }
+        }, this)
+      }else if(this.prevColorIndex !== null){
+        // console.log("SHIV PIMSKU FOR API CALL:", testArr[0].pimskuId)
+        // this.apiCallOnClick(testArr[0].pimskuId);
+      }
+      this.prevColorIndex = index;
+    });
+
+    
+
+    console.log("SHIV SELECTED AR", selectedColorArr)   
   }
 
   componentWillUnmount() {
@@ -227,10 +364,10 @@ class ProductDetails extends Component {
 
   render() {
 
-    console.log("shiv storelist", this.props.storeList);
+    // console.log("shiv storelist", this.props.storeList);
     // console.log("SHIV SORTED:", this.state.sizeColorArr);
     // console.log("SHIV SORTED REDUX?:", this.props.productRow);
-    console.log("shiv product update", this.state.product)
+    // console.log("shiv product update", this.state.product)
     return(
       <div>
         <Header history={this.props.history} prodDetailInfo={this.props.productDetailInfoInvoker}></Header>
@@ -238,7 +375,7 @@ class ProductDetails extends Component {
           <ProductDetailsView 
             product={this.product}
             currentStore={this.state.currentStore}
-            storeList={this.props.storeList}
+            storeList={this.props.storeList.storeList}
             onGoBack={this.goBack.bind(this)}
             colorDisplayArr={this.state.colorDisplayArr}
             sizeDisplayArr={this.state.sizeDisplayArr}
@@ -251,6 +388,21 @@ class ProductDetails extends Component {
           />
         }
         <Footer hideTransactionId={true}></Footer>
+
+        <Modal open={this.state.errorPresent} little classNames={{ modal: 'sale-errorModal' }} onClose={() => { }}
+          little showCloseIcon={false}>
+          <div className='sale-errorModal-container'>
+            <div><img className='sale-errorModal-icon' src={warningIcon} /></div>
+            <div className="sale-errorModal-text">{this.state.errorDescription}</div>
+            <button className="sale-errorModal-button" onClick={() => { 
+                this.handleErrorPopup()
+                  {/* this.props.clearForProduct('CLEAR_ERROR');   */}
+                }}>
+              <div className="sale-errorModal-button-text">CLOSE</div>
+            </button>
+          </div>
+
+        </Modal>
       </div>
     );
   }

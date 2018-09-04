@@ -30,6 +30,7 @@ class UpdateCustomerInternational extends Component {
         this.state = {
             showPopup: false,
             salutation: '',
+            selectedSalutation: '',
             currentAddress: {},
             failModal1: false,
             failedToUpdateModal: false,
@@ -378,6 +379,18 @@ class UpdateCustomerInternational extends Component {
         });
     }
 
+    handleSalutationChange = (event, index, value) => {
+        console.log(value);
+        let fields = this.state.changedAddress;
+        fields['update_int_salutation'] = value;    
+        let errors = this.state.errors;    
+        errors['update_int_salutation'] = "";
+        this.setState({
+            selectedSalutation: value, changedAddress: fields, errors: errors
+        });
+    }
+
+
     /**functions for validate customer popup */
 
     togglePopup=()=> {
@@ -594,7 +607,7 @@ class UpdateCustomerInternational extends Component {
         return (
             <UpdateCustomerInternationalView
             history = {this.props.history}
-            salutationChange = {this.salutationChange}
+            handleSalutationChange = {this.handleSalutationChange}
             countryList = {this.state.countryList}
             selectedSalutation = {this.state.selectedSalutation}
             selectedSalutationInt = {this.props.selectedSalutationInt}

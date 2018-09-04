@@ -6,7 +6,6 @@ import { PRODUCT_FILTER_SEARCH_ITEM_SUCCESS, PRODUCT_FILTER_SEARCH_ITEM_FAIL, GP
 
 
 const CONFIG_FILE_ADD = require('../../resources/stubs/config.json');
-const URL_SKU = CONFIG_FILE_ADD.cxp.getProductSearchSKU;
 const APP_KEY = CONFIG_FILE_ADD.cxp.AppKey;
 const FILTER_URL_SKU = CONFIG_FILE_ADD.cxp.getProductFilterSKU; 
 
@@ -29,7 +28,6 @@ export function productRowAction(searchitem, searchfields, successCallback) {
                 });
             
             return (dispatch) => {
-                // dispatch(startSpinner(true));
                 filterSetrequest.then(({ data }) => {
                     console.log("SHIV PRODUCT DATA",data)
                     if (data.data.totalCount > 0) {
@@ -44,6 +42,7 @@ export function productRowAction(searchitem, searchfields, successCallback) {
                             payload: data.data
                         });
                     }
+                    successCallback();
                 });
             };
 
@@ -52,7 +51,7 @@ export function productRowAction(searchitem, searchfields, successCallback) {
     }
 }
 
-export function getPriceAction(userpin,pimSKU) {
+export function getPriceAction(userpin,pimSKU, successCallback) {
     const CONFIG_FILE = require('../../resources/stubs/config.json');
     var URL = CONFIG_FILE.getPriceURL;
     console.log("SHIV URL", pimSKU)
@@ -73,7 +72,7 @@ export function getPriceAction(userpin,pimSKU) {
                             type: GET_PRICE_SUCCESS,
                             payload: data
                         });
-                        dispatch(startSpinner(false));
+                        successCallback();
 
                     default:
 
